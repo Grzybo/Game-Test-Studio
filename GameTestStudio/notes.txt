@@ -1,0 +1,10 @@
+
+
+aktualne funkcje:
+logowanie sie na dwa konta, user i admin 
+admin ma dostep do admin page, user nie  
+
+
+
+DATA PRIVIDER! (?)
+
