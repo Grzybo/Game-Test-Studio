@@ -7,8 +7,16 @@
  
 <body >
    <jsp:include page="_menu.jsp" />
+    <div class = "content">
     
-   <h2>Howdy, ${loginedUsername}...!</h2>
+   <h2>Hello, ${loginedUsername}!</h2> 
    
+   <label>Choose Project: </label> <!-- mozna przeniesc select blizej lewej aby bylo rowno z form -->
+	<select id="form" name="projectList" >
+	  <option value="fifa22">FIFA 22</option>
+	  <option value="fifa21">FIFA 21</option>
+	</select>
+	
+   </div>
 </body>
 </html>

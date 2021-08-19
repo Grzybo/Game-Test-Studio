@@ -5,12 +5,13 @@
 <title>Game Test Studio - Login</title>
 </head>
  
-<body  >
- 
+<body>
     <jsp:include page="_menu.jsp" />
+	 <div class = "content">
+    	 
  
  
-    <h2>Game Test Studio - Login Application</h2>
+    <h2>Login</h2>
     <s:actionerror />
  
     <s:form action="/login" method="post"> 
@@ -23,6 +24,7 @@
     Admin: admin, admin123
     <br>
  	Normal user: user, user123 
+ 	</div>
 </body>
  
 </html>

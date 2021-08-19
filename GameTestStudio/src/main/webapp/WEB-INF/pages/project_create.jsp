@@ -5,9 +5,14 @@
 	<head>
 		<title>Game Test Studio - Create Project</title>
 	</head>
-	<body  >
+	<body>
     	<jsp:include page="_menu.jsp" />
+	 <div class = "content">
+    	
     	<h2>Create Project</h2>
+				
+				
+				
 				
 		<s:actionerror />
     	<s:form action="/createProject" > 
@@ -22,5 +27,6 @@
         	
     		<s:submit class= "button" method="execute" key="Create Project"/>
     	</s:form>
+	</div>
 	</body>
 </html> 

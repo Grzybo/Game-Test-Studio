@@ -12,7 +12,7 @@ import com.opensymphony.xwork2.ActionSupport;
 @Action(value = "login", //
         results = { //
                 @Result(name = "showForm", location = "/WEB-INF/pages/login.jsp"), //
-                @Result(name = "loginError", location = "/WEB-INF/pages/login.jsp"), //
+                @Result(name = "loginError", location = "/WEB-INF/pages/hello.jsp"), //
                 // loginSuccess: Redirect to /userInfo
                 @Result(name = "loginSuccess", type="redirect", location= "/userInfo"), 
                 @Result(name = "admin", type="redirect", location= "/admin_page") //
@@ -50,7 +50,8 @@ public class LoginAction extends ActionSupport {
              
             // Store userName in session
             session.setAttribute("loginedUsername", this.username);
-             
+            session.setAttribute("userProject", "FIFA 22");
+            
             return "loginSuccess";
         }
         // Invalid username or password
