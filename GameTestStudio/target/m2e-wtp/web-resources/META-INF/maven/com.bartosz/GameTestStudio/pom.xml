@@ -42,7 +42,6 @@
 	    <version>1.2</version>
 	</dependency> 
 	
-	<!-- http://mvnrepository.com/artifact/javax.servlet.jsp/jsp-api -->
         <dependency>
             <groupId>javax.servlet.jsp</groupId>
             <artifactId>jsp-api</artifactId>
@@ -50,14 +49,12 @@
             <scope>provided</scope>
         </dependency> 
         
-        <!-- https://mvnrepository.com/artifact/org.apache.struts/struts2-core -->
 		<dependency>
 		    <groupId>org.apache.struts</groupId>
 		    <artifactId>struts2-core</artifactId>
 		    <version>2.5.26</version>
 		</dependency>
         
-        <!-- https://mvnrepository.com/artifact/org.apache.struts/struts2-convention-plugin -->
 		<dependency>
 		    <groupId>org.apache.struts</groupId>
 		    <artifactId>struts2-convention-plugin</artifactId>
@@ -69,16 +66,24 @@
 		    <artifactId>log4j-api</artifactId>
 		    <version>2.14.1</version>
   		</dependency>
+		
 		<dependency>
 		  <groupId>org.apache.logging.log4j</groupId>
 		  <artifactId>log4j-core</artifactId>
 		  <version>2.14.1</version>
 		</dependency>
+		
 		<dependency>
             <groupId>org.passay</groupId>
             <artifactId>passay</artifactId>
 	    <version>1.2.0</version>
-        </dependency>  
+        </dependency>
+        
+        <dependency>
+    		<groupId>com.sun.mail</groupId>
+    		<artifactId>javax.mail</artifactId>
+    		<version>1.6.2</version>
+		</dependency>  
   
   </dependencies>
 

@@ -2,7 +2,14 @@ package com.bartosz.gameteststudio.action;
  
 import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
 
+import javax.mail.Message;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -24,7 +31,24 @@ public class AccountCreateAction  extends ActionSupport {
   
     private static final long serialVersionUID = 1L;
  
-    private String firstName, lastName, email, password;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String password;
+    private String from = "gameteststudiomail@gmail.com";
+    private String emailPassword = "Pa$$word1!"; 
+    private String body;
+    private String role;
+	
+
+	static Properties properties = new Properties();
+    static {
+	       properties.put("mail.smtp.host", "smtp.gmail.com");
+	       properties.put("mail.smtp.socketFactory.port", "465");
+	       properties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+	       properties.put("mail.smtp.auth", "true");
+	       properties.put("mail.smtp.port", "465");
+    }
     
     @Override
     public String execute() {
@@ -36,7 +60,14 @@ public class AccountCreateAction  extends ActionSupport {
             
             this.password = generateRandomPassword();
             session.setAttribute("generatedPassword", this.password);
-    		return "account_create";
+            
+            body = "Hello " + this.firstName + " " + this.lastName + 
+        			", your password to Game Test Studio is: " + this.password + " \nYour Role is: " + role; 
+            
+            System.out.print(this.body);
+            SendMail();
+            
+            return "account_create";
     	}
     	else {
     		
@@ -50,8 +81,46 @@ public class AccountCreateAction  extends ActionSupport {
     	 
     }
     
+   
+    
+    public String generateRandomPassword() {
+
+    	List<CharacterRule> rules = Arrays.asList(new CharacterRule(EnglishCharacterData.UpperCase, 1),
+													new CharacterRule(EnglishCharacterData.LowerCase, 1), 
+													new CharacterRule(EnglishCharacterData.Digit, 1));
+
+		PasswordGenerator generator = new PasswordGenerator();
+		return generator.generatePassword(8, rules);
+	} 
+    
+    public void SendMail() {
+    	
+    	String ret = SUCCESS; 
+    	
+        try {
+           Session emailSession = Session.getDefaultInstance(properties, new javax.mail.Authenticator() {
+                 protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(from, emailPassword);
+                 }
+              }
+           );
+
+           Message message = new MimeMessage(emailSession);
+           message.setFrom(new InternetAddress(from));
+           message.setRecipients(Message.RecipientType.TO, 
+              InternetAddress.parse(this.email));
+           message.setSubject("Game Test Studio Password!");
+           message.setText(body);
+           Transport.send(message);
+        } catch(Exception e) {
+           ret = ERROR;
+           e.printStackTrace();
+        }
+        System.out.print(ret);
+    } 
+    
     public String getFirstName() {return firstName;}
- 
+    
     public void setFirstName(String firstName) {
         if(firstName == "") firstName = null;
         else this.firstName = firstName;
@@ -71,13 +140,71 @@ public class AccountCreateAction  extends ActionSupport {
         else this.email = email;
     } 
     
-    public String generateRandomPassword() {
+    public String getPassword() {return password;}
+    
+    public void setPassword(String password) {
+    	if(password == "") password = null;
+        else this.password = password;
+    }
 
-    	List<CharacterRule> rules = Arrays.asList(new CharacterRule(EnglishCharacterData.UpperCase, 1),
-													new CharacterRule(EnglishCharacterData.LowerCase, 1), 
-													new CharacterRule(EnglishCharacterData.Digit, 1));
 
-		PasswordGenerator generator = new PasswordGenerator();
-		return generator.generatePassword(8, rules);
+
+	public String getFrom() {
+		return from;
 	}
-}
+
+
+
+	public void setFrom(String from) {
+		this.from = from;
+	}
+
+
+
+	public String getEmailPassword() {
+		return emailPassword;
+	}
+
+
+
+	public void setEmailPassword(String emailPassword) {
+		this.emailPassword = emailPassword;
+	}
+
+
+
+	public String getBody() {
+		return body;
+	}
+
+
+
+	public void setBody(String body) {
+		this.body = body;
+	}
+
+
+
+	public static Properties getProperties() {
+		return properties;
+	}
+
+
+
+	public static void setProperties(Properties properties) {
+		AccountCreateAction.properties = properties;
+	}
+
+	 public String getRole() {
+			return role;
+		}
+	
+	
+	
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+} 
+
+
