@@ -32,7 +32,7 @@
     </style>
  
 
-	<a class="button" href="${pageContext.request.contextPath}/project">Project</a> 
+	<a class="button" href="${pageContext.request.contextPath}/projects">Project</a> 
 	|
 	<a class="button" href="${pageContext.request.contextPath}/contact">Contact</a> 
 	|

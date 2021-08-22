@@ -62,9 +62,8 @@ public class AccountCreateAction  extends ActionSupport {
             session.setAttribute("generatedPassword", this.password);
             
             body = "Hello " + this.firstName + " " + this.lastName + 
-        			", your password to Game Test Studio is: " + this.password + " \nYour Role is: " + role; 
+        			", your password to Game Test Studio is: " + this.password + " \nYour Role is: " + this.role; 
             
-            System.out.print(this.body);
             SendMail();
             
             return "account_create";

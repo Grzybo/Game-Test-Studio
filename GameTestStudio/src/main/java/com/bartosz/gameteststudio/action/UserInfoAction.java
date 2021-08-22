@@ -1,5 +1,10 @@
 package com.bartosz.gameteststudio.action;
  
+import com.bartosz.gameteststudio.dictionary.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
  
@@ -12,12 +17,27 @@ import com.opensymphony.xwork2.ActionSupport;
 )
 public class UserInfoAction  extends ActionSupport {
   
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L; 
+    
+    private String project;
  
     @Override
     public String execute() {
          
-        return "userInfoPage";
+	 HttpServletRequest request = ServletActionContext.getRequest();
+	 HttpSession session = request.getSession(); 
+	 session.setAttribute("userProject", ProjectsDictionary.getName(project));
+    	
+	 return "userInfoPage";
+	 
     }
-     
+
+	public String getProject() {
+		return project;
+	}
+
+	public void setProject(String project) {
+		this.project = project;
+	}
+    
 }
