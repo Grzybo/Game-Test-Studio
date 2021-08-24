@@ -31,7 +31,7 @@
 	        </tr>
 	    	<tr >	
 		   		<s:form class = "left" id = "form">
-			   		<label>Role: </label> <!-- mozna przeniesc select blizej lewej aby bylo rowno z form -->
+			   		<label>Role: </label> 
 					<select id="form" name="roleslist" >
 					  <option value="tester">Tester</option>
 					  <option value="testerManager">Test Manager</option>
@@ -69,6 +69,15 @@
 			   			</tr>	
 		    		</table> 
 	    		</th>  		
+	    	 </tr>
+	    	 <tr>
+	    	 	<s:form id = "form">
+	    	 	<label>Projects:</label> <br> 
+						<select multiple>
+  							<option value="a">FIFA 22</option>
+						  	<option value="b">FIFA 21</option>
+						</select>
+				</s:form>
 	    	 </tr>
 	    	 <tr>    	 
 		   		<s:submit class= "button"  method="execute" key="Update Account" form = "form"/>
