@@ -11,7 +11,7 @@
 	 	
 	 		<h2>Edit Test</h2>
 	 		<div class = "content">
-	 		<s:form id="serch">
+	 			<s:form id="serch">
     				<s:textfield name="searchTitle" key="Find Test by Title:" size="80%"/>
     				<s:submit class= "button" method="execute" key="Search"/>
     			</s:form>

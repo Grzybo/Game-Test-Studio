@@ -23,8 +23,6 @@
         	<s:textfield name="testers_numbers" key="Testers Number" size="20" type="number" />
         	<s:textfield name="estimate_time" key="Estimated Time (hours)" size="20" type="number" />
         	<s:textfield name="work_time" key="Work Time" size="20" type="number" /> 
-        	<s:textfield name="state" key="State" size="20"  /> 
-        	
     		<s:submit class= "button" method="execute" key="Create Project"/>
     	</s:form>
 	</div>
