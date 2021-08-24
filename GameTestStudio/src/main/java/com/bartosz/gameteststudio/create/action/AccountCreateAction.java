@@ -1,4 +1,4 @@
-package com.bartosz.gameteststudio.action;
+package com.bartosz.gameteststudio.create.action;
  
 import java.util.Arrays;
 import java.util.List;
@@ -24,7 +24,7 @@ import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "createAccount", //
 results = { //
-        @Result(name = "account_create", location = "/WEB-INF/pages/account_create.jsp")
+        @Result(name = "account_create", location = "/WEB-INF/pages/create_pages/createAccount.jsp")
 } //
 )
 public class AccountCreateAction  extends ActionSupport {

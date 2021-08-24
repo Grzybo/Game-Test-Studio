@@ -6,10 +6,10 @@
 		<title>Game Test Studio - Manage Project</title>
 	</head>
 	<body>
-    	<jsp:include page="_menu.jsp" />
-	 <div class = "content">
+    	<jsp:include page="../_menu.jsp" />
     	
     	<h2>Manage Project</h2> 
+	 <div class = "content">
     	
     	<s:form id="projectSerch">
     		<s:textfield name="searchTitle" key="Find Project by Title:" size="20"/>

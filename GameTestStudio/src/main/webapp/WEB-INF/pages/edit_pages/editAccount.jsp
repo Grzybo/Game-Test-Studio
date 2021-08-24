@@ -6,10 +6,10 @@
 		<title>Game Test Studio - Create Account</title>
 	</head>
 	<body> 
-    	<jsp:include page="_menu.jsp" />
-	 <div class = "content" style="width:35%;">
+    	<jsp:include page="../_menu.jsp" />
     	
     	<h2>Manage Account</h2>
+	 <div class = "content">
     	
     	<table style="width:100%">
     		<tr>

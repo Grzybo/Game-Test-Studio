@@ -6,10 +6,10 @@
 		<title>Game Test Studio - Create Project</title>
 	</head>
 	<body>
-    	<jsp:include page="_menu.jsp" />
-	 <div class = "content">
+    	<jsp:include page="../_menu.jsp" />
     	
     	<h2>Create Project</h2>
+	 <div class = "content">
 				
 				
 				

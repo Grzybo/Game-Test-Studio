@@ -1,23 +1,23 @@
-package com.bartosz.gameteststudio.action;
+package com.bartosz.gameteststudio.edit.action;
  
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
  
 import com.opensymphony.xwork2.ActionSupport;
  
-@Action(value = "createProject", //
+@Action(value = "editAccount", //
 results = { //
-        @Result(name = "project_create", location = "/WEB-INF/pages/project_create.jsp")
+        @Result(name = "editAccount", location = "/WEB-INF/pages/edit_pages/editAccount.jsp")
 } //
 )
-public class ProjectCreateAction  extends ActionSupport {
+public class AccountEditAction  extends ActionSupport {
   
     private static final long serialVersionUID = 1L;
  
     @Override
     public String execute() {
           
-    	return "project_create";
+    	return "editAccount";
     }
     
 }

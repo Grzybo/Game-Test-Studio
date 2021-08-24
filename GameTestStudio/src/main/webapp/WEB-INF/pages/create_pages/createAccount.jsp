@@ -5,11 +5,11 @@
 		<title>Game Test Studio - Create Account</title>
 	</head>
 	<body> 
-    	<jsp:include page="_menu.jsp" />
-	 <div class = "content" >
+    	<jsp:include page="../_menu.jsp" />
+	 
     	
     	<h2>Create Account</h2> 
-    	
+    	<div class = "content" >
     	<s:actionerror />
     	<s:form action="/createAccount" id = "form"  method="post"> 
         	<s:textfield name="firstName" key="First Name" size="20" />

@@ -8,8 +8,9 @@
 	</head>
 	<body>
 			<jsp:include page="_menu.jsp" />
-		<div class = "content">
-			<h2>Project: ${userProject}</h2> 
+		
+			<h2>Project: ${userProject}</h2>
+			<div class = "content"> 
 			<table style="width:100%">
 	    		<tr>
 			    	<th>
@@ -20,6 +21,17 @@
 	    			</th>
 	    			<th>
 			    		<a class="button" href="${pageContext.request.contextPath}/createArea">Create new Area</a>
+	    			</th>
+				</tr>
+				<tr>
+					<th>
+			    		<a class="button" href="${pageContext.request.contextPath}/editBug">Modify Bug</a>
+	    			</th>
+	    			<th>
+			    		<a class="button" href="${pageContext.request.contextPath}/editTest">Modify Test</a>
+	    			</th>
+	    			<th>
+			    		<a class="button" href="${pageContext.request.contextPath}/editArea">Modify Area</a>
 	    			</th>
 				</tr>
 			</table>

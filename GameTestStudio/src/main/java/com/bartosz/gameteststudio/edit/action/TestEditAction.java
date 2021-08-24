@@ -1,23 +1,23 @@
-package com.bartosz.gameteststudio.action;
+package com.bartosz.gameteststudio.edit.action;
  
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
  
 import com.opensymphony.xwork2.ActionSupport;
  
-@Action(value = "createArea", //
+@Action(value = "editTest", //
 results = { //
-        @Result(name = "createArea", location = "/WEB-INF/pages/createArea.jsp")
+        @Result(name = "editTest", location = "/WEB-INF/pages/edit_pages/editTest.jsp")
 } //
 )
-public class AreaCreateAction  extends ActionSupport {
+public class TestEditAction  extends ActionSupport {
   
     private static final long serialVersionUID = 1L;
  
     @Override
     public String execute() {
           
-        return "createArea";
+    	return "editTest";
     }
     
 }

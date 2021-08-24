@@ -1,0 +1,29 @@
+
+.button {
+       display: inline-block;
+       padding: 10px 20px;
+       text-align: center;
+       text-decoration: none;
+       color: #ffffff;
+       background-color: #33ccff;
+       border-radius: 6px;
+       outline: none;}
+       
+      .center {
+      	text-align: center;} 
+.user {
+	color: #33ccff;}
+      body {
+      	font-family: Verdana, sans-serif;
+			text-align: center;}
+.content {
+	width:35%;
+	height: auto;
+	margin: auto;
+	background: white;
+	padding: 10px;
+	border-style: groove;
+	border-color: #33ccff;}
+.left{
+	text-align: left;}
+textarea { resize: vertical; }

@@ -7,11 +7,12 @@
  
 <body>
     <jsp:include page="_menu.jsp" />
-	 <div class = "content">
+	 
     	 
  
  
     <h2>Login</h2>
+    <div class = "content">
     <s:actionerror />
  
     <s:form action="/login" method="post"> 

@@ -1,45 +1,47 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 
-<html>
-	<style>
+<style>
  		.button {
-        display: inline-block;
-        padding: 10px 20px;
-        text-align: center;
-        text-decoration: none;
-        color: #ffffff;
-        background-color: #33ccff;
-        border-radius: 6px;
-        outline: none;
-        }
+	        display: inline-block;
+	        padding: 10px 20px;
+	        text-align: center;
+	        text-decoration: none;
+	        color: #ffffff;
+	        background-color: #33ccff;
+	        border-radius: 6px;
+	        outline: none;}
+	        
         .center {
-  		text-align: center;
-  		
-		} 
+        	text-align: center;} 
 		.user {
-		color: #33ccff;
-        }
+			color: #33ccff;}
         body {
-  		font-family: Verdana, sans-serif;
-		}
+        	font-family: Verdana, sans-serif;
+  			text-align: center;}
 		.content {
-		  max-width: 500px;
-		  margin: auto;
-		  background: white;
-		  padding: 10px;
-		  border-style: groove;
-			border-color: #33ccff;
-		}
+			width:35%;
+			height: auto;
+			margin: auto;
+			background: white;
+			padding: 10px;
+			border-style: groove;
+			border-color: #33ccff;}
+		.left{
+			text-align: left;}
+		textarea { resize: vertical; }
     </style>
+
+<html>
+	
 	
 	<head>
 		<title>Game Test Studio Welcome Page </title>
 	</head>
-	<body >
-	    <div class = "content">
+	<body>
     	
     	<h2>Welcome in Game Test Studio! </h2>
+	    <div class = "content">
     	<h4>Please login:</h4>
     	
     	<s:actionerror />
@@ -52,8 +54,7 @@
 	       <br>
     Admin: admin, admin123
     <br>
- 	Normal user: user, user123 
-	    
+ 	Normal user: user, user123   
 	</div>
 	</body>
 </html>

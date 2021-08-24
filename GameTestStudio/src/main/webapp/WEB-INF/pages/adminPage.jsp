@@ -4,9 +4,9 @@
 	</head>
 	<body>
     	<jsp:include page="_menu.jsp" />
-	 <div class = "content">
     	
     	<h2>Admin Page</h2>
+	 <div class = "content">
 				
 		<a class="button" href="${pageContext.request.contextPath}/createAccount">Create new Account</a>
 		<a class="button" href="${pageContext.request.contextPath}/editAccount">Manage existing Account</a>

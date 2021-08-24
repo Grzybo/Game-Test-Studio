@@ -39,7 +39,7 @@
 	|
 	<a class="button" href="${pageContext.request.contextPath}/userInfo">User Page</a>
 	|
-	<a class="button" href="${pageContext.request.contextPath}/admin_page">Admin Page</a>
+	<a class="button" href="${pageContext.request.contextPath}/adminPage">Admin Page</a>
 	|
 	<a class="button" href="${pageContext.request.contextPath}/logout">Logout</a>
 	| 

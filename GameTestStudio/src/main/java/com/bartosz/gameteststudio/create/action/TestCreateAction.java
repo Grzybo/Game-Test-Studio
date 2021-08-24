@@ -1,4 +1,4 @@
-package com.bartosz.gameteststudio.action;
+package com.bartosz.gameteststudio.create.action;
  
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
@@ -7,7 +7,7 @@ import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "createTest", //
 results = { //
-        @Result(name = "createTest", location = "/WEB-INF/pages/createTest.jsp")
+        @Result(name = "createTest", location = "/WEB-INF/pages/create_pages/createTest.jsp")
 } //
 )
 public class TestCreateAction  extends ActionSupport {

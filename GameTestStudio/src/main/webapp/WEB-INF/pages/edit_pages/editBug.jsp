@@ -4,13 +4,21 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Create Test</title>
+		<title>Edit Bug</title>
 	</head>
 	<body>
-		<jsp:include page="_menu.jsp" />
-	 	<div class = "content">
-	 		<h2>New Test</h2>
+		<jsp:include page="../_menu.jsp" />
+	 	
+	 		<h2>Edit Bug</h2>
 	 		
+	 		<div class = "content">
+	 		<s:form id="serch">
+    				<s:textfield name="searchTitle" key="Find Bug by Title:" size="80%"/>
+    				<s:submit class= "button" method="execute" key="Search"/>
+    			</s:form>
+	 		</div>
+	 		<br>
+	 		<div class = "content">
 	 		<table style="width:100%">
 	 			<tr>
 	 				<s:form id="newBug" action="/createBug" >
@@ -44,7 +52,10 @@
 				</tr>
 				<br>
 				<tr>
-					<s:textarea name="description" key="Test Scenario" rows="4" cols="61" maxwidth="61" id="newBug"/> <br>
+					<s:textarea name="description" key="Description" rows="4" cols="61" maxwidth="61" id="newBug"/> <br>
+					<br>
+					<s:textarea name="reproSteps" key="Repro Steps" rows="4" cols="61" maxwidth="61" id="newBug"/>
+					<br>
 				</tr>
 				<br>
 				<tr>
@@ -73,11 +84,8 @@
 				<br>
 				<tr>
 					<s:form id="newBug">
-						<label>Estimated Test Time: </label>
-							<input type="number" size="10%">
-						<a> </a>
-						<label>Test Time: </label>
-							<input type="number" size="10%" disabled>
+				 		<label for="myfile">Select a file:</label>
+						<input type="file" id="myfile" name="myfile" multiple> 
 					</s:form>
 				</tr>
 				<br>
@@ -89,30 +97,33 @@
 	  						<option>1.4567 Alfa</option>
   						</select>
   						<a> </a>
-						<label>Result: </label> 
-						<select id="newBug" name="priority" >	
-							<option>Positive</option>
-							<option>Negative</option>
-							<option>Blocked</option>
-						</select>
+  						<label>Issue Type: </label>
+						<select name="issueType">
+	  						<option>Crash</option>
+	  						<option>Graphical</option>
+	  						<option>Placeholder</option>
+	  						<option>Content</option>
+  						</select>
 					</s:form>
 				</tr>
 				<br>
 				<tr>
 					<s:form id="newBug">
-						<label>Start Date: </label>
-							<input type="date">
+  						<label>Minimum Kit Number: </label>
+							<input type="number" size="10%">
 						<a> </a>
-						<label>End Date: </label>
-							<input type="date">
-					</s:form>
-				</tr>
-				<br>
-				<tr>
-					<s:form id="newBug">
-						<label>Testers Number: </label>
-							<input type="number" size="10%" disabled>
-					</s:form>
+						<label>Repro Rate: </label>
+						<select name="reproRate">
+	  						<option>100%</option>
+	  						<option>80%</option>
+	  						<option>75%</option>
+	  						<option>60%</option>
+	  						<option>50%</option>
+	  						<option>40%</option>
+	  						<option>25%</option>
+	  						<option>20%</option>
+  						</select>
+					</s:form> 
 				</tr>
 				<br>
 

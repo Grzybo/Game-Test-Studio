@@ -15,7 +15,7 @@ import com.opensymphony.xwork2.ActionSupport;
                 @Result(name = "loginError", location = "/WEB-INF/pages/hello.jsp"), //
                 // loginSuccess: Redirect to /userInfo
                 @Result(name = "loginSuccess", type="redirect", location= "/userInfo"), 
-                @Result(name = "admin", type="redirect", location= "/admin_page") //
+                @Result(name = "admin", type="redirect", location= "/adminPage") //
         } //
 )
 public class LoginAction extends ActionSupport {
