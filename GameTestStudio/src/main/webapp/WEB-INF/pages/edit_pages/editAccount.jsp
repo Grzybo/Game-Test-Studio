@@ -10,14 +10,18 @@
     	
     	<h2>Manage Account</h2>
 	 <div class = "content">
-    	
+    	<s:form id="projectSerch">
+    				<s:textfield name="searchTitle" key="Find User by Email:" size="50%"/>
+    				<s:submit class= "button" method="execute" key="Search"/>
+    				</s:form>
+   	</div>
+   	<br>
+    	 <div class = "content">
     	<table style="width:100%">
     		<tr>
 		    	<th>
-		    	<s:form id="projectSerch">
-    				<s:textfield name="searchTitle" key="Find User by Email:" size="20"/>
-    				<s:submit class= "button" method="execute" key="Search"/>
-    			</s:form>
+		    	
+    			
 		    	<s:form action="/createAccount" id = "form"  > 
 		        	<s:textfield name="firstName" key="First Name" size="20" />
 		        	<s:textfield name="lastName" key="Last Name" size="20"  />

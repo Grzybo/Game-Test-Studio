@@ -30,6 +30,14 @@
 		.left{
 			text-align: left;}
 		textarea { resize: vertical; }
+		#checkboxes ul {
+		  margin: 0;
+		  list-style: none;
+		  float: center;
+		}
+		#checkboxes label {
+ 		 float: center;
+		}
     </style>
  
 

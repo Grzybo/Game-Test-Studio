@@ -68,13 +68,13 @@
 	  						<option value="fifa21">Stadiums</option>
   						</select>
   						<a> </a>
-  						<label> Platform: </label> <!-- trzeba przeniesc select blizej lewej aby bylo rowno z form -->
-						<select name="project">
-	  						<option>PS5</option>
-	  						<option>PS4</option>
-	  						<option>Xbox ONE</option>
-	  						<option>Xbox SeriesX</option>
-  						</select>
+  						<br><br>
+						<label>Platforms:</label> <br> 
+						<select multiple>
+  							<option value="a">PS5</option>
+						  	<option value="b">Xbox Series X</option>
+							<option value="c">Xbox ONE</option>
+						</select>
 					</s:form>
 				</tr>
 				<br>
