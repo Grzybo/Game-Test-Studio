@@ -11,10 +11,14 @@
     	
     	<h2>Manage Project</h2> 
     	
-    	<label class = "left">Find Project: </label>
-		<input type="text">
+    	<s:form id="projectSerch">
+    		<s:textfield name="searchTitle" key="Find Project by Title:" size="20"/>
+    		<s:submit class= "button" method="execute" key="Search"/>
+    	</s:form>
+    	
+		
     	<s:actionerror />
-    	<s:form action="/createProject" > 
+    	<s:form action="/createProject"  id="projectEdit"> 
         	<s:textfield name="title" key="Title" size="81" />
         	<s:textarea name="description" key="Description" rows="4" cols="61"/>
         	<s:textfield name="startDate" key="Start Date"  type="date" size="20"/>

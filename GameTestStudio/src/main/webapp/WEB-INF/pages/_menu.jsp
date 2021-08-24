@@ -29,6 +29,7 @@
 			border-color: #33ccff;}
 		.left{
 			text-align: left;}
+		textarea { resize: vertical; }
     </style>
  
 

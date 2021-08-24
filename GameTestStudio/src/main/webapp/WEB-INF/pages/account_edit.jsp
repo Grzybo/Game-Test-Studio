@@ -14,8 +14,10 @@
     	<table style="width:100%">
     		<tr>
 		    	<th>
-		    	<label class = "left">Find Account: </label>
-		    	<input type="text">
+		    	<s:form id="projectSerch">
+    				<s:textfield name="searchTitle" key="Find User by Email:" size="20"/>
+    				<s:submit class= "button" method="execute" key="Search"/>
+    			</s:form>
 		    	<s:form action="/createAccount" id = "form"  > 
 		        	<s:textfield name="firstName" key="First Name" size="20" />
 		        	<s:textfield name="lastName" key="Last Name" size="20"  />
