@@ -1,12 +1,17 @@
 package com.bartosz.gameteststudio.action;
  
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
- 
+
+import com.bartosz.gameteststudio.db.User;
+import com.bartosz.gameteststudio.db.UserRepository;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "adminPage", 
@@ -22,9 +27,10 @@ public class AdminPageAction  extends ActionSupport {
   
     private static final long serialVersionUID = 1L;
  
+    	
     @Override
     public String execute() {
-          	
+       		
     	HttpServletRequest request = ServletActionContext.getRequest();
         HttpSession session = request.getSession();
         
@@ -32,7 +38,9 @@ public class AdminPageAction  extends ActionSupport {
         	return "login";
         }
     	
-    	if(session.getAttribute("loginedUsername").equals("admin")){	
+        User user = UserRepository.findByEmail(session.getAttribute("loginedEmail").toString());
+        
+    	if(user.isAdmin()){	
     		return "admin";
     	}
     	return "login";

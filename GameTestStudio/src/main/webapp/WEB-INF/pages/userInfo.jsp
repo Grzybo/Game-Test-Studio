@@ -27,8 +27,10 @@
         <s:password name="oldPassword" key="Actual Password" size="20" />
         <s:password name="newPassword1" key="New Password" size="20" />
         <s:password name="newPassword2" key="New Password" size="20" />
-        <s:submit class= "button"  method="execute" key="Update Password" align="center" />
+        <s:submit class= "button"  method="changePassword" key="Update Password" align="center" />
     </s:form>
+    
+    <s:actionerror />
 	
    </div>
 </body>

@@ -17,17 +17,18 @@
         	<s:textfield name="email" key="E-Mail" size="20" />
         
     		
-   		<label>Role:</label> <!-- mozna przeniesc select blizej lewej aby bylo rowno z form -->
-		<select id="roles" name="role" form="form" >
-		  <option value="Tester">Tester</option>
-		  <option value="Test Manager">Test Manager</option>
-		  <option value="Developer">Developer</option>
-		  <option value="Developer Manager">Developer Manager</option>
-		</select>
-		    		
+   		<s:select label="Roles"
+       		name="role"
+       		headerKey="-1" 
+       		list="rolesList"
+
+		/>
+		
    		<s:submit class= "button"  method="execute" key="Create Account" form = "form"/>
     	</s:form>
     	
 	</div>
 	</body>
-</html>
+</html> 
+
+

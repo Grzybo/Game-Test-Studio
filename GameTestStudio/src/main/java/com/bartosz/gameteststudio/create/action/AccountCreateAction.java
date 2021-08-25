@@ -1,5 +1,6 @@
 package com.bartosz.gameteststudio.create.action;
  
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
@@ -20,6 +21,10 @@ import org.passay.CharacterRule;
 import org.passay.EnglishCharacterData;
 import org.passay.PasswordGenerator;
 
+import com.bartosz.gameteststudio.db.*;
+import com.bartosz.gameteststudio.dictionary.RolesDictionary;
+import com.bartosz.gameteststudio.db.RoleRespository;
+import com.bartosz.gameteststudio.db.User;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "createAccount", //
@@ -39,7 +44,8 @@ public class AccountCreateAction  extends ActionSupport {
     private String emailPassword = "Pa$$word1!"; 
     private String body;
     private String role;
-	
+    private List<String> rolesList;
+
 
 	static Properties properties = new Properties();
     static {
@@ -53,13 +59,19 @@ public class AccountCreateAction  extends ActionSupport {
     @Override
     public String execute() {
           
+    	rolesList = new ArrayList<String>();
+    	rolesList = RolesDictionary.keys(); 
     	
     	if(this.firstName != null && this.lastName != null && this.email != null ) {
+    		
     		HttpServletRequest request = ServletActionContext.getRequest();
             HttpSession session = request.getSession(); 
             
             this.password = generateRandomPassword();
             session.setAttribute("generatedPassword", this.password);
+            
+            User user = new User(firstName, lastName, email, password, RoleRespository.findByName(role));
+            UserRepository.save(user);
             
             body = "Hello " + this.firstName + " " + this.lastName + 
         			", your password to Game Test Studio is: " + this.password + " \nYour Role is: " + this.role; 
@@ -202,6 +214,14 @@ public class AccountCreateAction  extends ActionSupport {
 	
 	public void setRole(String role) {
 		this.role = role;
+	}
+	
+	public List<String> getRolesList() {
+		return rolesList;
+	}
+
+	public void setRolesList(List<String> rolesList) {
+		this.rolesList = rolesList;
 	}
 
 } 
