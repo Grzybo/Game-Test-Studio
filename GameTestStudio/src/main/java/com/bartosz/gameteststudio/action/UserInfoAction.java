@@ -2,7 +2,10 @@ package com.bartosz.gameteststudio.action;
  
 import com.bartosz.gameteststudio.db.User;
 import com.bartosz.gameteststudio.db.UserRepository;
-import com.bartosz.gameteststudio.dictionary.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -25,30 +28,31 @@ public class UserInfoAction  extends ActionSupport {
     private String oldPassword;
     private String newPassword1; 
     private String newPassword2; 
+    private List<String> projectsList;
  
     @Override
     public String execute() {
-         
-	 HttpServletRequest request = ServletActionContext.getRequest();
-	 HttpSession session = request.getSession(); 
-	 session.setAttribute("userProject", ProjectsDictionary.getName(project)); 
-	 
-	 if(oldPassword != null && newPassword1 != null && newPassword2 != null) {
-		 
-        User user = UserRepository.findByEmail(session.getAttribute("loginedEmail").toString());
-        
-        if(user.getPassword().equals(oldPassword)) {
-        	if(newPassword1.equals(newPassword2)) {
-        		UserRepository.changePassword(user, newPassword1);
-        		addActionError("Password changed successfully.");
-        	}
-        	else addActionError("New Passwords do not match.");
-        }
-        else addActionError("Actual Password is not correct.");
-	 }
-	 
-	 return "userInfoPage";
-	 
+    	
+    	projectsList = new ArrayList<String>();
+    	HttpServletRequest request = ServletActionContext.getRequest();
+    	HttpSession session = request.getSession(); 
+  
+    	User user = UserRepository.findByEmail(session.getAttribute("loginedEmail").toString()); 
+    	projectsList = user.ProjectsToStringList();
+    	
+    	session.setAttribute("userProject", project); 
+    	
+		 if(oldPassword != null && newPassword1 != null && newPassword2 != null) { 
+	        if(user.getPassword().equals(oldPassword)) {
+	        	if(newPassword1.equals(newPassword2)) {
+	        		UserRepository.changePassword(user, newPassword1);
+	        		addActionError("Password changed successfully.");
+	        	}
+	        	else addActionError("New Passwords do not match.");
+	        }
+	        else addActionError("Actual Password is not correct.");
+		 }
+		 return "userInfoPage";
     }  
 
 	public String getProject() {
@@ -81,6 +85,14 @@ public class UserInfoAction  extends ActionSupport {
 
 	public void setNewPassword2(String newPassword2) {
 		this.newPassword2 = newPassword2;
+	}
+
+	public List<String> getProjectsList() {
+		return projectsList;
+	}
+
+	public void setProjectsList(List<String> projectsList) {
+		this.projectsList = projectsList;
 	} 
 	
     

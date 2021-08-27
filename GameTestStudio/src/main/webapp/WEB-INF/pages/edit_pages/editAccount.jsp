@@ -11,7 +11,7 @@
     	<h2>Manage Account</h2>
 	 <div class = "content">
     	<s:form id="projectSerch">
-    				<s:textfield name="searchTitle" key="Find User by Email:" size="50%"/>
+    				<s:textfield name="searchEmail" key="Find User by Email" size="50%"/>
     				<s:submit class= "button" method="execute" key="Search"/>
     				</s:form>
    	</div>
@@ -30,15 +30,10 @@
 	        	</th>
 	        </tr>
 	    	<tr >	
-		   		<s:form class = "left" id = "form">
-			   		<label>Role: </label> 
-					<select id="form" name="roleslist" >
-					  <option value="tester">Tester</option>
-					  <option value="testerManager">Test Manager</option>
-					  <option value="dev">Developer</option>
-					  <option value="devManager">Developer Manager</option>
-					</select>
-				</s:form>
+		   		<s:select label="Roles"
+       				name="role"
+       				headerKey="-1" 
+       				list="rolesList"/>
 			 </tr>
 			 <tr>
 			 	<th>
@@ -71,13 +66,9 @@
 	    		</th>  		
 	    	 </tr>
 	    	 <tr>
-	    	 	<s:form id = "form">
-	    	 	<label>Projects:</label> <br> 
-						<select multiple>
-  							<option value="a">FIFA 22</option>
-						  	<option value="b">FIFA 21</option>
-						</select>
-				</s:form>
+	    	 	<s:checkboxlist key="Projects" 
+      				name="userProjects" 
+      				list="projectsList" />
 	    	 </tr>
 	    	 <tr>    	 
 		   		<s:submit class= "button"  method="execute" key="Update Account" form = "form"/>

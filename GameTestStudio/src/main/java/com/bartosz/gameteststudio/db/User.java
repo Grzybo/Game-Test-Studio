@@ -1,13 +1,18 @@
 package com.bartosz.gameteststudio.db;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -21,7 +26,7 @@ public class User implements Serializable {
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	@Column(name = "id", unique = true)
-	private int id;
+	private Long id;
 	
 	@ManyToOne
 	@JoinColumn(name="fk_roles_id", nullable = false)
@@ -38,15 +43,23 @@ public class User implements Serializable {
 	
 	@Column(name = "password", nullable = false)
 	private String password; 
+	
+	@ManyToMany (fetch = FetchType.EAGER) //(cascade = { CascadeType.ALL })
+    @JoinTable(
+        name = "PROJECTS_USERS", 
+        joinColumns = { @JoinColumn(name = "FK_USERS_ID") }, 
+        inverseJoinColumns = { @JoinColumn(name = "FK_PROJECTS_ID") })
+    private List<Project> projects;
 		
 	public User() {}
 	
-	public User(String firstName, String lastName, String email, String password, Role role) {
+	public User(String firstName, String lastName, String email, String password, Role role, List<Project> projects) {
 		this.firstName = firstName; 
 		this.lastName = lastName; 
 		this.email = email; 
 		this.password = password;
 		this.role = role;
+		this.projects = projects;
 	}
 	
 	@Override
@@ -54,6 +67,36 @@ public class User implements Serializable {
 		return " " + this.firstName + " " + this.lastName + " " + this.email;
 	}
 	
+	public List<String> ProjectsToStringList(){
+		List<String> list = new ArrayList<String>();
+		for(Project project : projects) {list.add(project.getTitle());}
+		return list;
+	}
+	
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public List<Project> getProjects() {
+		return projects;
+	}
+
+	public void setProjects(List<Project> projects) {
+		this.projects = projects;
+	}
+
 	public String NametoString() {
 		return "" + this.firstName + " " + this.lastName;
 	}

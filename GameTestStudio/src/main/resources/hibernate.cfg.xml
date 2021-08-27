@@ -15,5 +15,7 @@
         <property name="hbm2ddl.auto">none</property>
         <mapping class="com.bartosz.gameteststudio.db.User"></mapping>
         <mapping class="com.bartosz.gameteststudio.db.Role"></mapping>
+        <mapping class="com.bartosz.gameteststudio.db.Project"></mapping>
+        <mapping class="com.bartosz.gameteststudio.db.State"></mapping>
     </session-factory>
 </hibernate-configuration>

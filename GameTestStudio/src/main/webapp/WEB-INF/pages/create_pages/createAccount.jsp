@@ -14,16 +14,14 @@
     	<s:form action="/createAccount" id = "form"  method="post"> 
         	<s:textfield name="firstName" key="First Name" size="20" />
         	<s:textfield name="lastName" key="Last Name" size="20" />
-        	<s:textfield name="email" key="E-Mail" size="20" />
-        
-    		
+        	<s:textfield name="email" key="E-Mail" size="20" />	
    		<s:select label="Roles"
        		name="role"
        		headerKey="-1" 
-       		list="rolesList"
-
-		/>
-		
+       		list="rolesList"/>
+      	<s:checkboxlist key="Projects" 
+      		name="userProjects" 
+      		list="projectsList" />
    		<s:submit class= "button"  method="execute" key="Create Account" form = "form"/>
     	</s:form>
     	
