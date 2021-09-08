@@ -41,4 +41,13 @@ public abstract class UserRepository {
 		session.getTransaction().commit();
 		//session.close();
 	}
+	
+	public static void updateUser(User oldUser, User newUser) {
+		final Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		oldUser.setAllFields(newUser);
+		session.update(oldUser);
+		session.getTransaction().commit();
+		//session.close();
+	}
 }

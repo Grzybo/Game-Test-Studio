@@ -2,16 +2,11 @@ package com.bartosz.gameteststudio.create.action;
  
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
 import com.bartosz.gameteststudio.db.Project;
 import com.bartosz.gameteststudio.db.ProjectRepository;
-import com.bartosz.gameteststudio.db.State;
 import com.bartosz.gameteststudio.db.StateRepository;
 import com.opensymphony.xwork2.ActionSupport;
  

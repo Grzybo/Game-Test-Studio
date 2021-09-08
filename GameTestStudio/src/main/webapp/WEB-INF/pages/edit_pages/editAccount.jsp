@@ -20,9 +20,7 @@
     	<table style="width:100%">
     		<tr>
 		    	<th>
-		    	
-    			
-		    	<s:form action="/createAccount" id = "form"  > 
+		    	<s:form action="/editAccount" id = "form"  > 
 		        	<s:textfield name="firstName" key="First Name" size="20" />
 		        	<s:textfield name="lastName" key="Last Name" size="20"  />
 		        	<s:textfield name="email" key="E-Mail" size="20" />

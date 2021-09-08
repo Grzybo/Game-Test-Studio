@@ -71,6 +71,16 @@ public class User implements Serializable {
 		List<String> list = new ArrayList<String>();
 		for(Project project : projects) {list.add(project.getTitle());}
 		return list;
+	} 
+	
+	
+	public void setAllFields(User user) {
+		setFirstName(user.getFirstName());
+		setLastName(user.getLastName());
+		setEmail(user.getEmail());
+		setPassword(user.getPassword());
+		setRole(user.getRole());
+		setProjects(user.getProjects());
 	}
 	
 	public String getFirstName() {

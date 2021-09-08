@@ -17,8 +17,9 @@
 						<s:textfield name="title" key="Title" size="95%"/>
 					</s:form>
 				</tr>
-				<br>
+				<br>	
 				<tr>
+				
 					<s:form id="newBug">
 						<label> Project: </label> <!-- trzeba przeniesc select blizej lewej aby bylo rowno z form -->
 						<select name="project">

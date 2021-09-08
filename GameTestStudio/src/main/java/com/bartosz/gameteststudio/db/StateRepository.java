@@ -3,8 +3,6 @@ package com.bartosz.gameteststudio.db;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
-import com.bartosz.gameteststudio.dictionary.ProjectsDictionary;
-
 public abstract class StateRepository {
 
 	public static void save(State state) {

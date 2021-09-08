@@ -7,11 +7,14 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
 import com.bartosz.gameteststudio.db.Project;
+import com.bartosz.gameteststudio.db.Role;
 import com.bartosz.gameteststudio.db.User;
 import com.bartosz.gameteststudio.db.UserRepository;
 import com.bartosz.gameteststudio.dictionary.ProjectsDictionary;
 import com.bartosz.gameteststudio.dictionary.RolesDictionary;
+import com.bartosz.gameteststudio.db.RoleRespository;
 import com.opensymphony.xwork2.ActionSupport;
+import com.bartosz.gameteststudio.utils.Tools;
  
 @Action(value = "editAccount", //
 results = { //
@@ -29,12 +32,16 @@ public class AccountEditAction  extends ActionSupport {
     private String searchEmail;
     private String firstName;
     private String lastName;
+    private String email; 
+    private boolean flag;
     
-    @Override
+  
+	@Override
     public String execute() {
           
     	rolesList =  new ArrayList<String>();
     	projectsList = new ArrayList<String>();
+    	flag = false;
     	
     	rolesList = RolesDictionary.keys();     	
     	projectsList = ProjectsDictionary.keys(); 
@@ -44,10 +51,20 @@ public class AccountEditAction  extends ActionSupport {
     		firstName = user.getFirstName();
     		lastName = user.getLastName();
     		role = user.getRole().getName();
+    		email = user.getEmail();
     		userProjects = user.ProjectsToStringList();
+    		flag = true;
+    	}
+    	
+    	if(flag) {
+    		System.out.print(" update ");
+    		User user = UserRepository.findByEmail(searchEmail);
+    		System.out.print(user.getFirstName());
+    		//UserRepository.updateUser(user, new User(firstName, lastName, email, user.getPassword(), RoleRespository.findByName(role), Tools.toProjectsList(userProjects)));
     	}
     	return "editAccount";
     }
+	
 
 	public String getLastName() {
 		return lastName;
@@ -105,6 +122,13 @@ public class AccountEditAction  extends ActionSupport {
 		this.firstName = firstName;
 	}
     
-    
+	  public String getEmail() {
+			return email;
+		}
+	
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
     
 }
