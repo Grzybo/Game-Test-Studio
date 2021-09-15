@@ -7,7 +7,7 @@
 		<title>Create Test</title>
 	</head>
 	<body>
-		<jsp:include page="../_menu.jsp" />
+		<jsp:include page="../_userMenu.jsp" />
 	 		<h2>New Test</h2>
 	 	<div class = "content">
 	 		

@@ -22,12 +22,36 @@ public class User {
 		this.projects = projects;
 	}
 	
+	public User(String firstName, String lastName, String email, String password, Role role, List<Project> projects) {
+		this.firstName = firstName; 
+		this.lastName = lastName; 
+		this.email = email; 
+		this.password = password;
+		this.role = role;
+		this.projects = projects;
+	} 
+	
+	public User() {}
+	
+	
 	
 	@Override
 	public String toString() {
 		return " " + this.firstName + " " + this.lastName + " " + this.email;
-	}
-
+	} 
+	
+	public boolean isAdmin() 
+	{
+		if(this.role.getName() == "Administrator") return true;
+		else return false;
+	} 
+	
+	public String getDisplayName() {
+		return this.firstName + " " + this.lastName;
+	} 
+	
+	
+//---------------------------------------------------------------------------------------------------------------------------
 
 	public Long getId() {
 		return id;

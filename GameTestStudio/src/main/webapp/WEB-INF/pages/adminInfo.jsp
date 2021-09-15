@@ -6,7 +6,7 @@
 </head>
  
 <body>
-   <jsp:include page="_userMenu.jsp" />
-   <jsp:include page="_profileInfo.jsp" />
+   <jsp:include page="_adminMenu.jsp" />
+    <jsp:include page="_profileInfo.jsp" />
 </body>
 </html>

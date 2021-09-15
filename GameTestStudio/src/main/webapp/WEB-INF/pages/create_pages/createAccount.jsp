@@ -5,7 +5,7 @@
 		<title>Game Test Studio - Create Account</title>
 	</head>
 	<body> 
-    	<jsp:include page="../_menu.jsp" />
+    	<jsp:include page="../_userMenu.jsp" />
 	 
     	
     	<h2>Create Account</h2> 

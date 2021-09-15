@@ -1,4 +1,3 @@
-
 .button {
        display: inline-block;
        padding: 10px 20px;
@@ -27,3 +26,31 @@
 .left{
 	text-align: left;}
 textarea { resize: vertical; }
+#checkboxes ul {
+  margin: 0;
+  list-style: none;
+  float: center;
+}
+#checkboxes label {
+	 float: center;
+	 }
+.adminBtn {
+		background-color: #f44336;
+		display: inline-block;
+       padding: 10px 20px;
+       text-align: center;
+       text-decoration: none;
+       color: #ffffff;
+       border-radius: 6px;
+       outline: none;
+       }
+.userBtn {
+		background-color: #4CAF50;
+		display: inline-block;
+       padding: 10px 20px;
+       text-align: center;
+       text-decoration: none;
+       color: #ffffff;
+       border-radius: 6px;
+       outline: none;
+       }  

@@ -7,7 +7,7 @@
 		<title>Edit Test</title>
 	</head>
 	<body>
-		<jsp:include page="../_menu.jsp" />
+		<jsp:include page="../_userMenu.jsp" />
 	 	
 	 		<h2>Edit Test</h2>
 	 		<div class = "content">

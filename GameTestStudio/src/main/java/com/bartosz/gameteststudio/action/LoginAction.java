@@ -6,7 +6,9 @@ import javax.servlet.http.HttpSession;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
- 
+
+import com.bartosz.gameteststudio.dp.User;
+import com.bartosz.gameteststudio.dp.UserFabric;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "login", //
@@ -21,21 +23,55 @@ import com.opensymphony.xwork2.ActionSupport;
 public class LoginAction extends ActionSupport {
  
     private static final long serialVersionUID = 7299264265184515893L;
-    private String username;
+    private String email;
     private String password;
+    private String ret;
  
-    public LoginAction() {
- 
-    } 
  
     @Override
     public String execute() {
-        if (this.username == null && this.password == null) {
+        
+    	if (this.email == null && this.password == null) {
             return "showForm";
-        } 
+        }
+    	
         HttpServletRequest request = ServletActionContext.getRequest();
         HttpSession session = request.getSession();
-         
+        
+        User user = new User();
+        
+        try {
+        	user = UserFabric.getUserByEmail(email);  
+        	
+        	System.out.print(user.toString());
+        	
+        	if(user.getPassword().equals(this.password)) {
+        		session.setAttribute("loginedUsername", user.getDisplayName());
+        		session.setAttribute("loginedEmail", this.getEmail());
+        		
+        		if(user.isAdmin()) {
+        			session.setAttribute("admin", "admin");
+        			ret = "admin";
+            	}
+            	else ret = "loginSuccess";
+        	}
+        	else {
+        		addActionError("Wrong Password.");
+            	ret = "loginError";
+        	}
+        	
+        	
+        }
+        catch(Exception e) {
+        	addActionError("Login Failed.");
+        	ret = "loginError";
+        } 
+        
+        return ret;
+        
+        /*
+        
+        
         // Valid username and password  - admin     
         if ("admin".equals(this.username) && 
         		"admin123".equals(this.password)) {
@@ -63,14 +99,15 @@ public class LoginAction extends ActionSupport {
  
             return "loginError";
         }
+        */
     }
  
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
  
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String email) {
+        this.email = email;
     }
  
     public String getPassword() {

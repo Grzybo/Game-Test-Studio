@@ -6,7 +6,8 @@ import javax.servlet.http.HttpSession;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
- 
+
+import com.bartosz.gameteststudio.dp.UserFabric;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "adminPage", 
@@ -21,6 +22,7 @@ import com.opensymphony.xwork2.ActionSupport;
 public class AdminPageAction  extends ActionSupport {
   
     private static final long serialVersionUID = 1L;
+    
  
     @Override
     public String execute() {
@@ -28,14 +30,14 @@ public class AdminPageAction  extends ActionSupport {
     	HttpServletRequest request = ServletActionContext.getRequest();
         HttpSession session = request.getSession();
         
+        
         if(session.getAttribute("loginedUsername") == null ){
         	return "login";
         }
     	
-    	if(session.getAttribute("loginedUsername").equals("admin")){	
+    	if(UserFabric.getUserByEmail(session.getAttribute("loginedEmail").toString()).isAdmin()){	
     		return "admin";
     	}
     	return "login";
     }
-    
 }

@@ -7,7 +7,7 @@
 		<title>Create Area</title>
 	</head>
 	<body>
-		<jsp:include page="../_menu.jsp" />
+		<jsp:include page="../_userMenu.jsp" />
 	 		<h2>New Area</h2>
 	 		
 	 	<div class = "content">

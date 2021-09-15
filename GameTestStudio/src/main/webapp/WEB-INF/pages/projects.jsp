@@ -7,10 +7,22 @@
 		<title>Projects</title>
 	</head>
 	<body>
-			<jsp:include page="_menu.jsp" />
+			<jsp:include page="_userMenu.jsp" />
 		
 			<h2>Project: ${userProject}</h2>
 			<div class = "content"> 
+			
+			 <s:form id = "projectForm" action="/userInfo" method="post">
+			   <label>Choose Project: </label> <!-- trzeba przeniesc select blizej lewej aby bylo rowno z form -->
+				<select id="projectForm" name="project" form = "projectForm">
+				  <option value="fifa22" selected>FIFA 22 </option>
+				  <option value="fifa21">FIFA 21</option>
+				</select>
+				<s:submit class= "button"  method="execute" key="Select Project" align="center" /> 
+				 </s:form>
+				<br>
+			
+			
 			<table style="width:100%">
 	    		<tr>
 			    	<th>

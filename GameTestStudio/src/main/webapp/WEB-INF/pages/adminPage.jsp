@@ -1,13 +1,16 @@
 <html>
 	<head>
 		<title>Game Test Studio - Admin Page</title>
+		<script>
+
+		</script>
 	</head>
 	<body>
-    	<jsp:include page="_menu.jsp" />
     	
+    	<jsp:include page="_adminMenu.jsp" />
+
     	<h2>Admin Page</h2>
-	 <div class = "content">
-				
+	 <div class = "content">				
 		<a class="button" href="${pageContext.request.contextPath}/createAccount">Create new Account</a>
 		<a class="button" href="${pageContext.request.contextPath}/editAccount">Manage existing Account</a>
 		<br><br>

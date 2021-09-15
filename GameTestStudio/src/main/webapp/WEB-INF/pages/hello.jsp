@@ -39,22 +39,10 @@
 		<title>Game Test Studio Welcome Page </title>
 	</head>
 	<body>
-    	
     	<h2>Welcome in Game Test Studio! </h2>
-	    <div class = "content">
-    	<h4>Please login:</h4>
     	
-    	<s:actionerror />
- 
-	    <s:form class = "form" action="/login" method="post"> 
-	        <s:textfield name="username" key="label.username" size="20" />
-	        <s:password name="password" key="label.password" size="20" />
-	        <s:submit class= "button"  method="execute" key="label.login" align="center" />
-	    </s:form>  
-	       <br>
-    Admin: admin, admin123
-    <br>
- 	Normal user: user, user123   
-	</div>
+    	<jsp:include page="_login.jsp" />
+    	
+	    
 	</body>
 </html>

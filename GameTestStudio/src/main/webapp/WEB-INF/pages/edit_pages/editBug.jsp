@@ -7,7 +7,7 @@
 		<title>Edit Bug</title>
 	</head>
 	<body>
-		<jsp:include page="../_menu.jsp" />
+		<jsp:include page="../_userMenu.jsp" />
 	 	
 	 		<h2>Edit Bug</h2>
 	 		
