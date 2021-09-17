@@ -13,8 +13,6 @@
 	| 
 	<a class ="user" >Logged as: ${loginedUsername} </a>
 	|
-	<a class ="user" >Project: ${userProject} </a> 
-	|
-	<a class ="userBtn">User</a>
+	<a class ="userBtn">${userRole}</a>
 	
 	<br><hr> 

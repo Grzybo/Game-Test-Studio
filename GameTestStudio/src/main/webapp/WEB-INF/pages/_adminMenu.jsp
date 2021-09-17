@@ -13,7 +13,7 @@
 	| 
 	<a class ="user" >Logged as: ${loginedUsername} </a>
 	| 
-	<a class="adminBtn">Admin</a>
+	<a class="adminBtn">${userRole}</a>
 
 	
 	<br><hr> 

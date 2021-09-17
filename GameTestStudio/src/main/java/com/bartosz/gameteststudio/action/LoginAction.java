@@ -35,19 +35,17 @@ public class LoginAction extends ActionSupport {
             return "showForm";
         }
     	
-        HttpServletRequest request = ServletActionContext.getRequest();
-        HttpSession session = request.getSession();
+        HttpSession session = ServletActionContext.getRequest().getSession();
         
         User user = new User();
         
         try {
         	user = UserFabric.getUserByEmail(email);  
         	
-        	System.out.print(user.toString());
-        	
         	if(user.getPassword().equals(this.password)) {
         		session.setAttribute("loginedUsername", user.getDisplayName());
         		session.setAttribute("loginedEmail", this.getEmail());
+        		session.setAttribute("userRole", user.getRole().getName());
         		
         		if(user.isAdmin()) {
         			session.setAttribute("admin", "admin");
@@ -100,7 +98,8 @@ public class LoginAction extends ActionSupport {
             return "loginError";
         }
         */
-    }
+    } 
+    
  
     public String getEmail() {
         return email;

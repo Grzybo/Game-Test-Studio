@@ -18,7 +18,8 @@
     </s:form>
     Admin: admin@admin.com, admin
     <br>
- 	Normal user: hp@griffindor.uk, hogwart 
+ 	Normal user: donald@disney.com, disney123 
+ 	 
  	</div>
 </body>
 </html>

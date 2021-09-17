@@ -1,5 +1,6 @@
 package com.bartosz.gameteststudio.action;
  
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
  
@@ -16,8 +17,10 @@ public class LogoutAction  extends ActionSupport {
  
     @Override
     public String execute() {
-          
-    	return "logout";
+        
+    	System.out.print(ServletActionContext.getRequest().getSession().getAttribute("loginedEmail").toString());
+    	ServletActionContext.getRequest().getSession().setAttribute("loginedEmail", "");
+    	System.out.print(ServletActionContext.getRequest().getSession().getAttribute("loginedEmail"));
+    	return "logout"; 
     }
-    
 }

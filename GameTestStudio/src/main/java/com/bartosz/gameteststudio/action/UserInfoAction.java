@@ -2,6 +2,7 @@ package com.bartosz.gameteststudio.action;
  
 import com.bartosz.gameteststudio.dp.User;
 import com.bartosz.gameteststudio.dp.UserFabric;
+import com.bartosz.gameteststudio.utils.Utils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -15,7 +16,8 @@ import com.opensymphony.xwork2.ActionSupport;
 @Action(value = "userInfo", //
 		results = { //
         @Result(name = "userInfoPage", location = "/WEB-INF/pages/userInfo.jsp"), 
-        @Result(name = "adminInfoPage", location = "/WEB-INF/pages/adminInfo.jsp")
+        @Result(name = "adminInfoPage", location = "/WEB-INF/pages/adminInfo.jsp"),
+        @Result(name = "logout", location = "/WEB-INF/pages/hello.jsp")
 } //
 )
 public class UserInfoAction  extends ActionSupport {
@@ -33,6 +35,9 @@ public class UserInfoAction  extends ActionSupport {
     @Override
     public String execute() {
 
+	if(Utils.isNotLogged()) {System.out.print(" NOT LOGGED ");  return "logout"; }
+    	
+	System.out.print(" LOGGED! ");
 	HttpServletRequest request = ServletActionContext.getRequest();
 	HttpSession session = request.getSession();  
 	

@@ -9,19 +9,25 @@
 	<body>
 			<jsp:include page="_userMenu.jsp" />
 		
-			<h2>Project: ${userProject}</h2>
-			<div class = "content"> 
+			<h2>Project: ${userProject}</h2> 
 			
-			 <s:form id = "projectForm" action="/userInfo" method="post">
-			   <label>Choose Project: </label> <!-- trzeba przeniesc select blizej lewej aby bylo rowno z form -->
-				<select id="projectForm" name="project" form = "projectForm">
-				  <option value="fifa22" selected>FIFA 22 </option>
-				  <option value="fifa21">FIFA 21</option>
-				</select>
+			<div class = "chooseProjectContent" > 
+			
+			 <s:form id = "projectForm" action="/projects" method="post">	
+				<s:select label="Projects"
+       				name="selectedProject"
+       				list="projectsList"/>
 				<s:submit class= "button"  method="execute" key="Select Project" align="center" /> 
 				 </s:form>
+				</div>
 				<br>
-			
+				<div class = "projectContent"> 
+			<div class="container themed-container">
+				   asdasd
+				    <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"></rect><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
+
+				
+			</div>
 			
 			<table style="width:100%">
 	    		<tr>
@@ -47,14 +53,10 @@
 	    			</th>
 				</tr>
 			</table>
+		</div> 
+		<div class="content">
+			
 		</div>
 		<br>
-		<div class="content">
-			<s:form id="search" >
-				<label>Search:</label> 
-				<input type="text" size=95%>
-				<s:submit class= "button"  method="execute" key="Search" form = "search"/>
-			</s:form>
-		</div>
 	</body>
 </html>

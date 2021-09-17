@@ -1,5 +1,6 @@
 package com.bartosz.gameteststudio.dp;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class User { 
@@ -50,6 +51,16 @@ public class User {
 		return this.firstName + " " + this.lastName;
 	} 
 	
+	public List<String> getProjectsList(){
+		
+		List<String> list = new ArrayList<String>();
+		
+		for(Project p : this.projects) {
+			list.add(p.getTitle());
+		}
+		
+		return list;
+	}
 	
 //---------------------------------------------------------------------------------------------------------------------------
 
