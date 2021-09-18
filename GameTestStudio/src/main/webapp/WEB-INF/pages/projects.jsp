@@ -13,22 +13,21 @@
 			
 			<div class = "chooseProjectContent" > 
 			
-			 <s:form id = "projectForm" action="/projects" method="post">	
-				<s:select label="Projects"
-       				name="selectedProject"
-       				list="projectsList"/>
-				<s:submit class= "button"  method="execute" key="Select Project" align="center" /> 
-				 </s:form>
-				</div>
-				<br>
-				<div class = "projectContent"> 
+		 		<s:form id = "projectForm" action="/projects" method="post">	
+					<s:select label="Projects"
+	       				name="selectedProject"
+	       				list="projectsList"/>
+					<s:submit class= "button"  method="execute" key="Select Project" align="center" /> 
+			 	</s:form>
+			</div>
+			<br>
+			<div class = "projectContent"> 
 				<s:iterator value="areasList">
-  				<div class="container themed-container">
-				   	<a class="button" href="${pageContext.request.contextPath}/editArea"><s:property/></a>
-				    
-				</div> 
+ 						<div class="container themed-container">
+			   			<a class="button" href="${pageContext.request.contextPath}/editArea"><s:property/></a> 
+					</div> 
 				</s:iterator> 
-				</div>
+			</div>
 			
 			
 			
