@@ -14,7 +14,9 @@
 	color: #33ccff;}
       body {
       	font-family: Verdana, sans-serif;
-			text-align: center;}
+			}
+			.menu{text-align: center;} 
+			h2{text-align: center;}
 .content {
 	width:35%;
 	height: auto;

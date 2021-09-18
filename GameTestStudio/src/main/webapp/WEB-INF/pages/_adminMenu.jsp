@@ -4,7 +4,7 @@
  	<head>
     	<style><%@include file="/WEB-INF/index.css"%></style>
 	</head>
- 
+ <div class="menu">
 	<a class="button" href="${pageContext.request.contextPath}/adminPage">Admin Page</a>
 	|
 	<a class="button" href="${pageContext.request.contextPath}/userInfo">Profile</a>
@@ -15,5 +15,5 @@
 	| 
 	<a class="adminBtn">${userRole}</a>
 
-	
+	</div>
 	<br><hr> 

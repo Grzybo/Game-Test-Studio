@@ -12,9 +12,9 @@ public abstract class AreaFabric {
 			//public Area(String title, String description, Project project, int estimatedTime, Date startDate, Date endDate,int testersNumber, int workTime, State state, Priority priority)
 			put("Stadiums", new Area("Stadiums", "New Stadiums...", ProjectFabric.getProject("FIFA 22"), 100, null, null, 30, 6, 
 										StateFabric.getState("Active"), PriorityFabric.getPriority("Important")));
-			put("Stadiums", new Area("Goalkeepers", "New Goalkeepers Models...", ProjectFabric.getProject("FIFA 22"), 150, null, null, 60, 40, 
+			put("Goalkeepers", new Area("Goalkeepers", "New Goalkeepers Models...", ProjectFabric.getProject("FIFA 22"), 150, null, null, 60, 40, 
 										StateFabric.getState("Active"), PriorityFabric.getPriority("Critical")));
-			put("Stadiums", new Area("Players", "New Players Models...", ProjectFabric.getProject("NBA2K 22"), 550, null, null, 50, 100, 
+			put("Players", new Area("Players", "New Players Models...", ProjectFabric.getProject("NBA2K 22"), 550, null, null, 50, 100, 
 										StateFabric.getState("Active"), PriorityFabric.getPriority("Very Important")));
 		}
 	};	
