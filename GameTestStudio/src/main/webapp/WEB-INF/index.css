@@ -1,22 +1,22 @@
 .button {
-       display: inline-block;
-       padding: 10px 20px;
-       text-align: center;
-       text-decoration: none;
-       color: #ffffff;
-       background-color: #33ccff;
-       border-radius: 6px;
-       outline: none;}
-       
-      .center {
-      	text-align: center;} 
+	display: inline-block;
+	padding: 10px 20px;
+	text-align: center;
+	text-decoration: none;
+	color: #ffffff;
+	background-color: #33ccff;
+	border-radius: 6px;
+	outline: none;}   
+.center {
+	text-align: center;} 
 .user {
 	color: #33ccff;}
-      body {
-      	font-family: Verdana, sans-serif;
-			}
-			.menu{text-align: center;} 
-			h2{text-align: center;}
+body {
+	font-family: Verdana, sans-serif;}
+.menu{
+	text-align: center;} 
+h2 {
+	text-align: center;}
 .content {
 	width:35%;
 	height: auto;
@@ -24,68 +24,63 @@
 	background: white;
 	padding: 10px;
 	border-style: groove;
-	border-color: #33ccff;
-	
-	}
+	border-color: #33ccff;}
 .chooseProjectContent{
 	width:9%;
 	height: auto;
 	margin: auto;
 	background: white;
-	padding: 10px;
-	
-}	
+	padding: 10px;}	
 .projectContent {
-	width:55%;
 	height: auto;
 	margin: auto;
 	background: white;
 	padding: 10px;
 	border-style: groove;
 	border-color: #33ccff;}
+.table{
+	text-align: left;
+	width:75%;
+	height: auto;
+	margin: auto;
+	background: white;
+	padding: 10px;}
 .left{
 	text-align: left;}
-textarea { resize: vertical; }
+textarea {
+	resize: vertical; }
 #checkboxes ul {
-  margin: 0;
-  list-style: none;
-  float: center;
-}
+	margin: 0;
+	list-style: none;
+	float: center;}
 #checkboxes label {
-	 float: center;
-	 }
+	 float: center;}
 .adminBtn {
-		background-color: #f44336;
-		display: inline-block;
-       padding: 10px 20px;
-       text-align: center;
-       text-decoration: none;
-       color: #ffffff;
-       border-radius: 6px;
-       outline: none;
-       }
+	background-color: #f44336;
+	display: inline-block;
+	padding: 10px 20px;
+	text-align: center;
+	text-decoration: none;
+	color: #ffffff;
+	border-radius: 6px;
+	outline: none;}
 .userBtn {
-		background-color: #4CAF50;
-		display: inline-block;
-       padding: 10px 20px;
-       text-align: center;
-       text-decoration: none;
-       color: #ffffff;
-       border-radius: 6px;
-       outline: none;
-       }  
-       
-       .themed-grid-col {
+	background-color: #4CAF50;
+	display: inline-block;
+	padding: 10px 20px;
+	text-align: center;
+	text-decoration: none;
+	color: #ffffff;
+	border-radius: 6px;
+	outline: none;}  
+.themed-grid-col {
   padding-top: .75rem;
   padding-bottom: .75rem;
   background-color: rgba(86, 61, 124, .15);
-  border: 1px solid rgba(86, 61, 124, .2);
-}
-
+  border: 1px solid rgba(86, 61, 124, .2);}
 .themed-container {
   padding: .75rem;
   margin-bottom: 1.5rem;
   background-color: rgba(0, 123, 255, .15);
-  border: 1px solid rgba(0, 123, 255, .2);
-}
+  border: 1px solid rgba(0, 123, 255, .2);}
        

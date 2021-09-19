@@ -12,7 +12,7 @@
    <h2>Hello, ${loginedUsername}!</h2> 
 	<s:form action="/userInfo" method="post">
         <s:label>Change Profile Data:</s:label>
-		<s:textfield name="firstName" key="First Name" size="50%" placeholder="Leave empty, if not changing" />
+		<s:textfield name="firstName" key="First Name" width="500%" placeholder="Leave empty, if not changing" />
        	<s:textfield name="lastName" key="Last Name" size="50%" placeholder="Leave empty, if not changing" /> 
         <s:password name="oldPassword" key="Actual Password" size="50%" />
         <s:password name="newPassword1" key="New Password" size="50%" />

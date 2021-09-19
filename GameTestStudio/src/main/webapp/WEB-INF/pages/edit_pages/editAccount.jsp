@@ -6,7 +6,7 @@
 		<title>Game Test Studio - Create Account</title>
 	</head>
 	<body> 
-    	<jsp:include page="../_userMenu.jsp" />
+    	<jsp:include page="../_adminMenu.jsp" />
     	
     	<h2>Manage Account</h2>
 	 <div class = "content">

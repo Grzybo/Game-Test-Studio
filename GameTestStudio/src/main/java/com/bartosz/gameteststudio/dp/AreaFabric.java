@@ -27,7 +27,12 @@ public abstract class AreaFabric {
 		return map.get(name);
     } 
 	
-	public static void addProject(String name, Area area) {
+	public static void addArea(String name, Area area) {
 		map.put(name, area);
-	} 
+	}
+	
+	public static void updateArea(Area OldArea, Area NewArea) {
+		map.remove(OldArea.getTitle());
+		addArea(NewArea.getTitle(), NewArea);
+    }	
 }

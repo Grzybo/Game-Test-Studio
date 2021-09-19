@@ -7,34 +7,55 @@
 		<title>Projects</title>
 	</head>
 	<body>
-			<jsp:include page="_userMenu.jsp" />
+		<jsp:include page="_userMenu.jsp" />
+		<h2>Project: ${userProject}</h2> 
 		
-			<h2>Project: ${userProject}</h2> 
-			
-			<div class = "chooseProjectContent" > 
-			
-		 		<s:form id = "projectForm" action="/projects" method="post">	
-					<s:select label="Projects"
-	       				name="selectedProject"
-	       				list="projectsList"/>
-					<s:submit class= "button"  method="execute" key="Select Project" align="center" /> 
-			 	</s:form>
-			</div>
-			<br>
-			<div class = "projectContent"> 
-				<s:iterator value="areasList">
- 						<div class="container themed-container">
-			   			<a class="button" href="${pageContext.request.contextPath}/editArea"><s:property/></a> 
+		<div class="table">
+		<table style="width:100%">
+			<tr>
+				<th style="width:70%" >
+					<div class = "projectContent"> 
+						<s:iterator value="areasList">
+							<div class="container themed-container">
+		   						<a class="button" href="${pageContext.request.contextPath}/editArea"><s:property/></a> 
+							</div> 
+						</s:iterator>
 					</div> 
-				</s:iterator> 
-			</div>
+				</th> 
+				<th>
+					<div class = "projectContent" > 
+						<s:form id = "projectForm" action="/projects" method="post">	
+							<s:select label="Project"
+		     					name="selectedProject"
+		     					list="projectsList"/>
+	     					<br>
+	     					<s:select label="Item"
+		     					name="selectedItem"
+		     					list="itemsList"/>
+	     					
+							
+							
+							
+							
+							<s:submit class= "button"  method="execute" key="Apply Changes" align="center" /> 
+		 				</s:form>
+					</div> 
+				</th>
+			</tr>
+		</table> 
+		</div>
+		<br>
+		
+		
+	</body>
+</html>
 			
 			
 			
 			
 			
 			
-<!-- 			
+<!-- 	---------------------------------------------------------------------------------------------------------------------------------------		
 			
 			<table style="width:100%">
 	    		<tr>
@@ -63,5 +84,3 @@
 		</div> 
 -->
 
-	</body>
-</html>

@@ -6,7 +6,7 @@
 		<title>Game Test Studio - Manage Project</title>
 	</head>
 	<body>
-    	<jsp:include page="../_userMenu.jsp" />
+    	<jsp:include page="../_adminMenu.jsp"/>
     	
     	<h2>Manage Project</h2>
     	
