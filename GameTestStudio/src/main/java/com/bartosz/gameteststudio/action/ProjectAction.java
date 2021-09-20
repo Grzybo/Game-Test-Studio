@@ -12,6 +12,7 @@ import org.apache.struts2.convention.annotation.Result;
 
 import com.bartosz.gameteststudio.dp.AreaFabric;
 import com.bartosz.gameteststudio.dp.Project;
+import com.bartosz.gameteststudio.dp.TestFabric;
 import com.bartosz.gameteststudio.dp.User;
 import com.bartosz.gameteststudio.dp.UserFabric;
 import com.opensymphony.xwork2.ActionSupport;
@@ -32,16 +33,19 @@ public class ProjectAction  extends ActionSupport {
 	private List<String> itemsList = Arrays.asList("Area", "Test", "Bug");
 	private String selectedItem; 
 	
-	private List<String> areasList;
+	private List<String> elementsList;
 	
 	private List<Project> userProjectsList;
+	
+	private String selectedArea;
+	
+	HttpSession session = ServletActionContext.getRequest().getSession();
 	
 	 @Override
 	    public String execute() {
 		
-		areasList = new ArrayList<String>();
+		elementsList = new ArrayList<String>();
 		
-		HttpSession session = ServletActionContext.getRequest().getSession();
 		 User user = UserFabric.getUserByEmail(session.getAttribute("loginedEmail").toString());
 		
 		userProjectsList = user.getProjects();
@@ -50,18 +54,64 @@ public class ProjectAction  extends ActionSupport {
 		if(selectedProject == null) selectedProject = projectsList.get(0);
 		session.setAttribute("userProject", selectedProject); 
 		
-		if(selectedItem == null) selectedItem = itemsList.get(0);
+		if(selectedItem == null) selectedItem = itemsList.get(0); 
 		
-		for (String area : AreaFabric.keys()) {
-			if(AreaFabric.getArea(area).getProject().getTitle().equals(selectedProject)) {
-				areasList.add(area);
-			} 
-		}  
 		
-		//selectedItem = "Bug";
-		   
+		
+		switch(selectedItem) {
+		  case "Area":
+			  for (String el : AreaFabric.keys()) {
+					if(AreaFabric.getArea(el).getProject().getTitle().equals(selectedProject)) {
+						elementsList.add(el);
+					}
+				}
+			  System.out.print(selectedItem);
+		    break;
+		  case "Test":
+			  for (String el : TestFabric.keys()) {
+					if(TestFabric.get(el).getArea().getProject().getTitle().equals(selectedProject)) {
+						elementsList.add(el);
+					}
+				}
+			  System.out.print(selectedItem);
+		    break;
+		  case "Bug":
+			  System.out.print(selectedItem);
+		  default:
+		}
+
+
 		return "projects";
 	 }
+
+
+	public HttpSession getSession() {
+		return session;
+	}
+
+
+	public void setSession(HttpSession session) {
+		this.session = session;
+	}
+
+	public List<String> getElementsList() {
+		return elementsList;
+	}
+
+
+	public void setElementsList(List<String> elementsList) {
+		this.elementsList = elementsList;
+	}
+
+
+	public String getSelectedArea() {
+		return selectedArea;
+	}
+
+
+	public void setSelectedArea(String selectedArea) {
+		this.selectedArea = selectedArea;
+	}
 
 
 	public List<String> getItemsList() {
@@ -94,14 +144,6 @@ public class ProjectAction  extends ActionSupport {
 	}
 
 
-	public List<String> getAreasList() {
-		return areasList;
-	}
-
-
-	public void setAreasList(List<String> areasList) {
-		this.areasList = areasList;
-	}
 
 
 	public List<String> getProjectsList() {

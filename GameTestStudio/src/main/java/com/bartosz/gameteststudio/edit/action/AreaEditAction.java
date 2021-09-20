@@ -58,34 +58,36 @@ public class AreaEditAction  extends ActionSupport {
     	Area area = AreaFabric.getArea("Players");
     	Area newArea = new Area();
     	
-    	//System.out.print(area.getTitle());
+    	//System.out.print(this.description);
     	
-    	if(this.title == null) {
+    	
+    	
     		
-    	this.title = area.getTitle();
+    		this.title = area.getTitle();
       
-    	this.project = area.getProject().getTitle();
+    		this.project = area.getProject().getTitle();
         	
-        	 this.priority = area.getPriority().getName();
+        	this.priority = area.getPriority().getName();
         	
         	this.state = area.getState().getName();
         	
         	this.description = area.getDescription();
 
-        	 this.estimatedTime = area.getEstimatedTime(); 
+        	this.estimatedTime = area.getEstimatedTime(); 
         	
         	this.startDate = area.getStartDate();
-      
-        	 this.endDate = area.getEndDate(); 
-        	
+        	this.endDate = area.getEndDate(); 
         	this.testersNumber = area.getTestersNumber(); 
-        	
         	this.workTime = area.getWorkTime();
         	
-    	}
+    	
+    	
+    	//System.out.print(this.description);
+    	/*
     	else {
     	 	
-        	 newArea.setTitle(title);
+        	
+    		newArea.setTitle(title);
         	
         	newArea.setProject(ProjectFabric.getProject(project));
         	
@@ -95,15 +97,16 @@ public class AreaEditAction  extends ActionSupport {
         	
         	 newArea.setDescription(description);
         	
-        	 newArea.setEstimatedTime(estimatedTime);
+        	 //newArea.setEstimatedTime(estimatedTime);
         	
         	 //newArea.setStartDate(startDate);
         	
         	 //newArea.setEndDate(endDate);
         	
-        	 newArea.setTestersNumber(testersNumber);
+        	 //newArea.setTestersNumber(testersNumber);
         	
-        	 newArea.setWorkTime(workTime);
+        	 //newArea.setWorkTime(workTime); 
+        	 
     	    	
     	}
     	
@@ -136,7 +139,9 @@ public class AreaEditAction  extends ActionSupport {
     		//	PriorityFabric.getPriority(priority));
     	
     	
-    	AreaFabric.updateArea(area, newArea);
+    	//AreaFabric.updateArea(area, newArea);
+    	
+    	//System.out.print(" edit ");
     	
     	return "editArea";
     }

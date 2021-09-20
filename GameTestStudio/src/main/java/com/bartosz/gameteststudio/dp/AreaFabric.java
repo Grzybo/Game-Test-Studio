@@ -31,8 +31,15 @@ public abstract class AreaFabric {
 		map.put(name, area);
 	}
 	
+	/*
 	public static void updateArea(Area OldArea, Area NewArea) {
 		map.remove(OldArea.getTitle());
 		addArea(NewArea.getTitle(), NewArea);
+    }
+	*/
+	
+	public static void updateArea(Area area) {
+		map.remove(area.getTitle());
+		addArea(area.getTitle(), area);
     }	
 }

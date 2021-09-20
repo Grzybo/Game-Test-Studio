@@ -15,9 +15,12 @@
 			<tr>
 				<th style="width:70%" >
 					<div class = "projectContent"> 
-						<s:iterator value="areasList">
+						<s:iterator value="elementsList">
 							<div class="container themed-container">
-		   						<a class="button" href="${pageContext.request.contextPath}/editArea"><s:property/></a> 
+		   						<a class="button" 
+		   							href="${pageContext.request.contextPath}/editArea">
+		   							<s:property /> <!--  DODAC połaczenie do konkretnego elementu -->
+		   						</a> 
 							</div> 
 						</s:iterator>
 					</div> 
@@ -32,11 +35,7 @@
 	     					<s:select label="Item"
 		     					name="selectedItem"
 		     					list="itemsList"/>
-	     					
-							
-							
-							
-							
+
 							<s:submit class= "button"  method="execute" key="Apply Changes" align="center" /> 
 		 				</s:form>
 					</div> 
@@ -45,6 +44,7 @@
 		</table> 
 		</div>
 		<br>
+
 		
 		
 	</body>
