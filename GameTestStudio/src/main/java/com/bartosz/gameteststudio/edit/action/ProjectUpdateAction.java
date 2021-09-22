@@ -7,12 +7,12 @@ import com.bartosz.gameteststudio.dp.Project;
 import com.bartosz.gameteststudio.dp.ProjectFabric;
 import com.opensymphony.xwork2.ActionSupport;
  
-@Action(value = "editProject", //
+@Action(value = "updateProject", //
 results = { //
-        @Result(name = "editProject", location = "/WEB-INF/pages/edit_pages/editProject.jsp")
+        @Result(name = "updateProject", location = "/WEB-INF/pages/edit_pages/editProject.jsp")
 } //
 )
-public class ProjectEditAction  extends ActionSupport {
+public class ProjectUpdateAction  extends ActionSupport {
   
     private static final long serialVersionUID = 1L;
  
@@ -28,17 +28,27 @@ public class ProjectEditAction  extends ActionSupport {
     public String execute() {
           
     	
-    	if (searchTitle != null) {
-    		Project project = ProjectFabric.getProject(searchTitle); 
-    		title = project.getTitle(); 
-    		description = project.getDescription();
-    	    testers_numbers = project.getTestersNumber();
-    	    estimate_time = project.getEstimatedTime();
-    	    work_time = project.getEstimatedTime();
+    	
+    	
+    	if (title != null) {
     		
+    		Project project = new Project();
+        	
+        	//project.setTitle(title);
+        	project.setDescription(description);
+        	project.setTestersNumber(testers_numbers);
+        	project.setEstimatedTime(estimate_time);
+        	project.setWorkTime(work_time); 
+        	
+        	ProjectFabric.update(project, project);
+        	
+        	addActionError("Project Updated.");
+    	}
+    	else {
+    		addActionError("Title cannot be empty.");
     	}
     	
-    	return "editProject";
+    	return "updateProject";
     }
 
 	public String getSearchTitle() {

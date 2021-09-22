@@ -8,14 +8,26 @@
 	</head>
 	<body>
 		<jsp:include page="_userMenu.jsp" />
-		<h2>Project: ${userProject}</h2> 
+		
+		<s:set var="isAssigned" value="assignedToMe"/>
+		<s:if test="%{#isAssigned==false}">
+			<h2>Project: ${userProject}</h2>	
+		</s:if>
+		<s:if test="%{#isAssigned==true}">
+			<h2>Items Assigned To: ${loginedUsername}</h2>	
+		</s:if>
+		 
 		
 		<div class="table">
 		<table style="width:100%">
 			<tr>
 				<th style="width:70%" >
 					<div class = "projectContent"> 
-						<s:iterator value="elementsList">
+						
+						<s:set var="item" value="selectedItem"/>
+
+						<s:if test="%{#item=='Area'}">
+							<s:iterator value="elementsList">
 							<div class="container themed-container">
 		   						<a class="button" 
 		   							href="${pageContext.request.contextPath}/editArea">
@@ -23,11 +35,38 @@
 		   						</a> 
 							</div> 
 						</s:iterator>
+						</s:if>
+						<s:elseif test="%{#item=='Test'}">
+						    <s:iterator value="elementsList">
+							<div class="container themed-container">
+		   						<a class="button" 
+		   							href="${pageContext.request.contextPath}/editTest">
+		   							<s:property /> <!--  DODAC połaczenie do konkretnego elementu -->
+		   						</a> 
+							</div> 
+						</s:iterator>
+						</s:elseif>
+						<s:elseif test="%{#item=='Bug'}">
+						    <s:iterator value="elementsList">
+							<div class="container themed-container">
+		   						<a class="button" 
+		   							href="${pageContext.request.contextPath}/editBug">
+		   							<s:property /> <!--  DODAC połaczenie do konkretnego elementu -->
+		   						</a> 
+							</div> 
+						</s:iterator>
+						</s:elseif>
+						
+
+						
+						
+						
 					</div> 
 				</th> 
 				<th>
 					<div class = "projectContent" > 
 						<s:form id = "projectForm" action="/projects" method="post">	
+							<s:checkbox name="assignedToMe" label="All elements assigned to Me"/>
 							<s:select label="Project"
 		     					name="selectedProject"
 		     					list="projectsList"/>

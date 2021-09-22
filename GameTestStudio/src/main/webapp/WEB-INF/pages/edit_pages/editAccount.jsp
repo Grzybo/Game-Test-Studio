@@ -10,38 +10,38 @@
     	
     	<h2>Manage Account</h2>
 	 <div class = "content">
-    	<s:form id="projectSerch">
-    				<s:textfield name="searchTitle" key="Find User by Email:" size="50%"/>
+    	<s:form id="projectSerch" action="/editAccount">
+    				<s:textfield  class="text" name="searchEmail" key="Find User by Email" size="100%"/>
     				<s:submit class= "button" method="execute" key="Search"/>
     				</s:form>
    	</div>
    	<br>
-    	 <div class = "content">
-    	<table style="width:100%">
-    		<tr>
-		    	<th>
-		    	
-    			
-		    	<s:form action="/createAccount" id = "form"  > 
-		        	<s:textfield name="firstName" key="First Name" size="20" />
-		        	<s:textfield name="lastName" key="Last Name" size="20"  />
-		        	<s:textfield name="email" key="E-Mail" size="20" />
-	        	</s:form>
-	        	</th>
-	        </tr>
-	    	<tr >	
-		   		<s:form class = "left" id = "form">
-			   		<label>Role: </label> 
-					<select id="form" name="roleslist" >
-					  <option value="tester">Tester</option>
-					  <option value="testerManager">Test Manager</option>
-					  <option value="dev">Developer</option>
-					  <option value="devManager">Developer Manager</option>
-					</select>
-				</s:form>
-			 </tr>
-			 <tr>
-			 	<th>
+    	 <div class = "content" >
+    	<s:actionerror />
+    	<s:form action="/updateAccount" id = "form"  method="post"> 
+        	<s:textfield class="text" name="firstName" key="First Name" size="100%" />
+        	<s:textfield class="text" name="lastName" key="Last Name" size="100%" />
+        	<s:textfield class="text" name="email" key="E-Mail" size="100%" />
+        
+    		
+   		<s:select label="Role"
+	     					name="role"
+	     					list="rolesList"/>
+		<s:checkboxlist label="Project" list="projectsList" 
+	 						name="projects" />    		
+		    		
+		    		
+   		<s:submit class= "button"  method="execute" key="Update Account" form = "form"/>
+    	</s:form>
+
+    	
+    	
+	</div>			
+	</body>
+</html> 
+
+
+<!--   
 			 		<table style="width:100%">
 			    		<tr>
 			    			<th style="width:25%">Project</th>
@@ -67,24 +67,4 @@
 			   				<th><input type="checkbox" id="form" name="testPermisions" value="modify" > Modify </th>
 			   				<th><input type="checkbox" id="form" name="bugPermisions" value="modify" > Modify </th>
 			   			</tr>	
-		    		</table> 
-	    		</th>  		
-	    	 </tr>
-	    	 <tr>
-	    	 	<s:form id = "form">
-	    	 	<label>Projects:</label> <br> 
-						<select multiple>
-  							<option value="a">FIFA 22</option>
-						  	<option value="b">FIFA 21</option>
-						</select>
-				</s:form>
-	    	 </tr>
-	    	 <tr>    	 
-		   		<s:submit class= "button"  method="execute" key="Update Account" form = "form"/>
-	    	 </tr>
-    	</table>
-    	
-    	
-	</div>			
-	</body>
-</html>
+		    		</table>  -->

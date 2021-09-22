@@ -1,5 +1,6 @@
 package com.bartosz.gameteststudio.create.action;
  
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
@@ -20,6 +21,12 @@ import org.passay.CharacterRule;
 import org.passay.EnglishCharacterData;
 import org.passay.PasswordGenerator;
 
+import com.bartosz.gameteststudio.dp.Project;
+import com.bartosz.gameteststudio.dp.ProjectFabric;
+import com.bartosz.gameteststudio.dp.Role;
+import com.bartosz.gameteststudio.dp.RoleFabric;
+import com.bartosz.gameteststudio.dp.User;
+import com.bartosz.gameteststudio.dp.UserFabric;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "createAccount", //
@@ -35,12 +42,19 @@ public class AccountCreateAction  extends ActionSupport {
     private String lastName;
     private String email;
     private String password;
-    private String from = "gameteststudiomail@gmail.com";
-    private String emailPassword = "Pa$$word1!"; 
-    private String body;
     private String role;
+    private String projects;
+    private List<String> rolesList = RoleFabric.keys();
+    private List<String>  projectsList = ProjectFabric.keys();
+    private List<Project> pL = new ArrayList<Project>();
+    
+    
+   // private String from = "gameteststudiomail@gmail.com";
+    //private String emailPassword = "Pa$$word1!"; 
+   //private String body;
+    //private String role;
 	
-
+    /*
 	static Properties properties = new Properties();
     static {
 	       properties.put("mail.smtp.host", "smtp.gmail.com");
@@ -49,13 +63,15 @@ public class AccountCreateAction  extends ActionSupport {
 	       properties.put("mail.smtp.auth", "true");
 	       properties.put("mail.smtp.port", "465");
     }
-    
+    */
     @Override
     public String execute() {
           
     	
     	if(this.firstName != null && this.lastName != null && this.email != null ) {
-    		HttpServletRequest request = ServletActionContext.getRequest();
+    		
+    		/*
+    		 * HttpServletRequest request = ServletActionContext.getRequest();
             HttpSession session = request.getSession(); 
             
             this.password = generateRandomPassword();
@@ -65,16 +81,31 @@ public class AccountCreateAction  extends ActionSupport {
         			", your password to Game Test Studio is: " + this.password + " \nYour Role is: " + this.role; 
             
             SendMail();
+            */ 
+    		
+    		for(String p : projects.split(", ") ) {
+    			pL.add(ProjectFabric.getProject(p));
+    			System.out.print(p);
+    		}
+    		
+    		User user = new User(firstName, lastName, email, "password", RoleFabric.get(role), pL);
+    		UserFabric.addUser(user);
             
+    		//System.out.print(projects.split(", "));
+    		
+    		addActionError("Account created.");
+    		
             return "account_create";
     	}
     	else {
-    		
+    		/*
     		HttpServletRequest request = ServletActionContext.getRequest();
             HttpSession session = request.getSession(); 
             
             session.setAttribute("generatedPassword", null); 
-           
+           */
+    		addActionError("Fill all fields.");
+    		
             return "account_create";
     	}
     	 
@@ -92,6 +123,7 @@ public class AccountCreateAction  extends ActionSupport {
 		return generator.generatePassword(8, rules);
 	} 
     
+    /*
     public void SendMail() {
     	
     	String ret = SUCCESS; 
@@ -117,7 +149,7 @@ public class AccountCreateAction  extends ActionSupport {
         }
         System.out.print(ret);
     } 
-    
+    */
     public String getFirstName() {return firstName;}
     
     public void setFirstName(String firstName) {
@@ -148,53 +180,46 @@ public class AccountCreateAction  extends ActionSupport {
 
 
 
-	public String getFrom() {
-		return from;
+	
+
+
+	public String getProjects() {
+		return projects;
 	}
 
 
 
-	public void setFrom(String from) {
-		this.from = from;
+	public void setProjects(String projects) {
+		this.projects = projects;
 	}
 
 
 
-	public String getEmailPassword() {
-		return emailPassword;
+	public List<String> getRolesList() {
+		return rolesList;
 	}
 
 
 
-	public void setEmailPassword(String emailPassword) {
-		this.emailPassword = emailPassword;
+	public void setRolesList(List<String> rolesList) {
+		this.rolesList = rolesList;
 	}
 
 
 
-	public String getBody() {
-		return body;
+	public List<String> getProjectsList() {
+		return projectsList;
 	}
 
 
 
-	public void setBody(String body) {
-		this.body = body;
+	public void setProjectsList(List<String> projectsList) {
+		this.projectsList = projectsList;
 	}
 
 
 
-	public static Properties getProperties() {
-		return properties;
-	}
-
-
-
-	public static void setProperties(Properties properties) {
-		AccountCreateAction.properties = properties;
-	}
-
-	 public String getRole() {
+	public String getRole() {
 			return role;
 		}
 	

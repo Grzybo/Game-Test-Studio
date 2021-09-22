@@ -24,7 +24,7 @@ public abstract class RoleFabric {
 		return map.keySet().stream().sorted().collect(Collectors.toList());
 	}
 	
-	public static Role getRoleName(String name) {
+	public static Role get(String name) {
         return map.get(name);
     } 
 	

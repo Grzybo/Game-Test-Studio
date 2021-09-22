@@ -3,6 +3,7 @@
 <html>
 <head>
 <title>Game Test Studio - Profile</title>
+<style><%@include file="/WEB-INF/index.css"%></style>
 </head>
  
 <body>

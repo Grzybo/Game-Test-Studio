@@ -10,11 +10,119 @@ public class Bug {
 		private User user; 
 		private String description;
 		private String reproSteps;
-
-		
-		
 		private State state; 
 		private Priority priority;
 		private List<Platform> platforms;
 		private Version version;
+		private Area area;
+		private int minKitNumber;
+		
+		public Bug() {}
+		
+		public Bug(String title, User user, String description, String reproSteps,
+				State state, Priority priority,
+				List<Platform> platforms,  Version version, int minKitNumber, Area area) {
+			this.title = title;
+			this.user = user;
+			this.description = description;
+			this.reproSteps = reproSteps;
+			this.state = state;
+			this.priority = priority;
+			this.platforms = platforms;
+			this.version = version;
+			this.minKitNumber = minKitNumber;
+			this.area = area;
+		}
+
+		
+		
+		public Area getArea() {
+			return area;
+		}
+
+		public void setArea(Area area) {
+			this.area = area;
+		}
+
+		@Override
+		public String toString() {
+			return "Bug [title=" + title + "]";
+		}
+
+		public String getTitle() {
+			return title;
+		}
+
+		public void setTitle(String title) {
+			this.title = title;
+		}
+
+		public User getUser() {
+			return user;
+		}
+
+		public void setUser(User user) {
+			this.user = user;
+		}
+
+		public String getDescription() {
+			return description;
+		}
+
+		public void setDescription(String description) {
+			this.description = description;
+		}
+
+		public String getReproSteps() {
+			return reproSteps;
+		}
+
+		public void setReproSteps(String reproSteps) {
+			this.reproSteps = reproSteps;
+		}
+
+		public State getState() {
+			return state;
+		}
+
+		public void setState(State state) {
+			this.state = state;
+		}
+
+		public Priority getPriority() {
+			return priority;
+		}
+
+		public void setPriority(Priority priority) {
+			this.priority = priority;
+		}
+
+		public List<Platform> getPlatforms() {
+			return platforms;
+		}
+
+		public void setPlatforms(List<Platform> platforms) {
+			this.platforms = platforms;
+		}
+
+
+		public Version getVersion() {
+			return version;
+		}
+
+		public void setVersion(Version version) {
+			this.version = version;
+		}
+
+		public int getMinKitNumber() {
+			return minKitNumber;
+		}
+
+		public void setMinKitNumber(int minKitNumber) {
+			this.minKitNumber = minKitNumber;
+		}  
+		
+		
+		
+		
 }

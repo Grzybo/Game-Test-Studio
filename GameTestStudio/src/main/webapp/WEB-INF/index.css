@@ -18,7 +18,7 @@ body {
 h2 {
 	text-align: center;}
 .content {
-	width:35%;
+	width:40%;
 	height: auto;
 	margin: auto;
 	background: white;
@@ -82,5 +82,12 @@ textarea {
   padding: .75rem;
   margin-bottom: 1.5rem;
   background-color: rgba(0, 123, 255, .15);
-  border: 1px solid rgba(0, 123, 255, .2);}
+  border: 1px solid rgba(0, 123, 255, .2);} 
+  
+textarea, .text{
+	resize: vertical;
+ 	width: 100%;
+}  
+
+  
        

@@ -1,10 +1,11 @@
 
-
-aktualne funkcje:
-logowanie sie na dwa konta, user i admin 
-admin ma dostep do admin page, user nie  
+class="text" size="100%" -> responsywny text field/area itd 
 
 
-
-DATA PRIVIDER! (?)
-
+DO zrobienia: 
+- wiecej filtrów w projects 
+- poprawic miejsce filtrów w projects 
+- funkcjonalność create/edit account
+- funkcjonalność create/edit project
+- brak pojedynczych pol w itemach (np file w bug itd) 
+- pozwolenia

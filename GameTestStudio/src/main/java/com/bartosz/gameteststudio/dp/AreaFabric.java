@@ -16,6 +16,8 @@ public abstract class AreaFabric {
 										StateFabric.getState("Active"), PriorityFabric.getPriority("Critical")));
 			put("Players", new Area("Players", "New Players Models...", ProjectFabric.getProject("NBA2K 22"), 550, null, null, 50, 100, 
 										StateFabric.getState("Active"), PriorityFabric.getPriority("Very Important")));
+			put("Teams", new Area("Teams", "New Teams...", ProjectFabric.getProject("NBA2K 22"), 550, null, null, 50, 100, 
+					StateFabric.getState("Active"), PriorityFabric.getPriority("Very Important")));
 		}
 	};	
 	

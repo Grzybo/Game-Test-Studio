@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+    	<style><%@include file="/WEB-INF/index.css"%></style>
 </head>
 <body>
 	 <h2>Login</h2>
@@ -12,8 +13,8 @@
     <s:actionerror />
  
     <s:form action="/login" method="post"> 
-        <s:textfield name="email" key="Email" size="20" />
-        <s:password name="password" key="label.password" size="20" />
+        <s:textfield class="text" name="email" key="Email"  />
+        <s:password class="text" name="password" key="label.password" size="100%"/>
         <s:submit class= "button"  method="execute" key="label.login" align="center" />
     </s:form>
     Admin: admin@admin.com, admin

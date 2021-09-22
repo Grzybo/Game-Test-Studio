@@ -12,18 +12,17 @@
     	<div class = "content" >
     	<s:actionerror />
     	<s:form action="/createAccount" id = "form"  method="post"> 
-        	<s:textfield name="firstName" key="First Name" size="20" />
-        	<s:textfield name="lastName" key="Last Name" size="20" />
-        	<s:textfield name="email" key="E-Mail" size="20" />
+        	<s:textfield class="text" name="firstName" key="First Name" size="100%" />
+        	<s:textfield class="text" name="lastName" key="Last Name" size="100%" />
+        	<s:textfield class="text" name="email" key="E-Mail" size="100%" />
         
     		
-   		<label>Role:</label> <!-- mozna przeniesc select blizej lewej aby bylo rowno z form -->
-		<select id="roles" name="role" form="form" >
-		  <option value="Tester">Tester</option>
-		  <option value="Test Manager">Test Manager</option>
-		  <option value="Developer">Developer</option>
-		  <option value="Developer Manager">Developer Manager</option>
-		</select>
+   		<s:select label="Role"
+	     					name="role"
+	     					list="rolesList"/>
+		<s:checkboxlist label="Project" list="projectsList" 
+	 						name="projects" />    		
+		    		
 		    		
    		<s:submit class= "button"  method="execute" key="Create Account" form = "form"/>
     	</s:form>

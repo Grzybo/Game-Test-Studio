@@ -2,6 +2,8 @@ package com.bartosz.gameteststudio.dp;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public abstract class UserFabric {
 
@@ -11,14 +13,19 @@ public abstract class UserFabric {
 		private static final long serialVersionUID = 1L;
 
 		{			
-			put("hp@griffindor.uk", new User((long)1, "Harry", "Potter", "hp@griffindor.uk", "hogwart", RoleFabric.getRoleName("Developer"), Arrays.asList(ProjectFabric.getProject("FIFA 22"))));
-			put("donald@disney.com", new User((long)2, "Donald", "Duck", "donald@disney.com", "disney123", RoleFabric.getRoleName("Tester"), Arrays.asList(ProjectFabric.getProject("NBA2K 22"),
-																																								ProjectFabric.getProject("FIFA 22")))); 
-			put("admin@admin.com", new User((long)1, "Admin", "Administrator", "admin@admin.com", "admin", RoleFabric.getRoleName("Administrator"), null));
+			put("admin@admin.com", new User((long)1, "Admin", "Administrator", "admin@admin.com", "admin", RoleFabric.get("Administrator"), null));
+			put("hp@griffindor.uk", new User((long)1, "Harry", "Potter", "hp@griffindor.uk", "hogwart", RoleFabric.get("Developer"), Arrays.asList(ProjectFabric.getProject("FIFA 22"))));
+			put("donald@disney.com", new User((long)2, "Donald", "Duck", "donald@disney.com", "disney123", RoleFabric.get("Tester"), Arrays.asList(ProjectFabric.getProject("NBA2K 22"),
+																																					ProjectFabric.getProject("FIFA 22")))); 
+			put("ryszard.ochodzki@mis.pl", new User((long)1, "Ryszard", "Ochodzki", "ryszard.ochodzki@mis.pl", "mis123", RoleFabric.get("Tester"), Arrays.asList(ProjectFabric.getProject("NBA2K 22"))));
 		}
 	};	
 	
-		public static User getUserByEmail(String email) {
+	public static List<String> keys() {
+		return map.keySet().stream().sorted().collect(Collectors.toList());
+	}	
+	
+	public static User getUserByEmail(String email) {
 	        return map.get(email);
 	    }
 		

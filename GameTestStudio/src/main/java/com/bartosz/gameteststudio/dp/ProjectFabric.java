@@ -29,4 +29,8 @@ public abstract class ProjectFabric {
 	public static void addProject(String name, Project project) {
 		map.put(name, project);
 	} 
+	public static void update(Project old, Project newP) {
+		map.remove(old.getTitle());
+		addProject(newP.getTitle(), newP);
+	}
 }

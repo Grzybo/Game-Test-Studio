@@ -23,6 +23,10 @@ public abstract class TestFabric {
 															UserFabric.getUserByEmail("donald@disney.com"),
 															"Remamber to read all scenario before starting the test.....", AreaFabric.getArea("Players"), 
 															null, 6, null, null, 3, 0, StateFabric.getState("New"), PriorityFabric.getPriority("Important"), null, null));
+			put("Teams - New - Toronto Raptors", new Test("Teams - New - Toronto Raptors",
+															UserFabric.getUserByEmail("donald@disney.com"),
+															"Remamber to read all scenario before starting the test.....", AreaFabric.getArea("Teams"), 
+															null, 6, null, null, 3, 0, StateFabric.getState("New"), PriorityFabric.getPriority("Important"), null, null));
 		}
 	};	
 	
@@ -45,7 +49,7 @@ public abstract class TestFabric {
     }
 	*/
 	
-	public static void updateArea(Test test) {
+	public static void update(Test test) {
 		map.remove(test.getTitle());
 		add(test.getTitle(), test);
     }	

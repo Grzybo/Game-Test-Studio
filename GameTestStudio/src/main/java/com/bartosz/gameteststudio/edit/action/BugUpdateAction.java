@@ -21,12 +21,12 @@ import com.bartosz.gameteststudio.dp.StateFabric;
 import com.bartosz.gameteststudio.dp.UserFabric;
 import com.opensymphony.xwork2.ActionSupport;
  
-@Action(value = "editBug", //
+@Action(value = "updateBug", //
 results = { //
-        @Result(name = "editBug", location = "/WEB-INF/pages/edit_pages/editBug.jsp")
+        @Result(name = "update", location = "/WEB-INF/pages/edit_pages/editBug.jsp")
 } //
 )
-public class BugEditAction  extends ActionSupport {
+public class BugUpdateAction  extends ActionSupport {
   
     private static final long serialVersionUID = 1L;
  
@@ -78,21 +78,20 @@ public class BugEditAction  extends ActionSupport {
     	
     	Bug bug = BugFabric.get("Players - Marcin Gortat - Player is not available in Quick Match Mode");
     	
-    	title = bug.getTitle(); 
-    	account = bug.getUser().getEmail();
-    	priority = bug.getPriority().getName();
-    	state = bug.getState().getName(); 
-    	description = bug.getDescription(); 
-    	reproSteps = bug.getReproSteps();
-    	area = bug.getArea().getTitle(); 
-    	// platoform 
-    	//build = test.getVersion().getType().getName(); 
-    	//version = test.getVersion().getName();
-    	//result = test.getResult().getName(); 
+    	
+    	
+    	//bug.setTitle(title);
+    	bug.setUser(UserFabric.getUserByEmail(account));
+    	bug.setPriority(PriorityFabric.getPriority(priority));
+    	bug.setState(StateFabric.getState(state));
+    	bug.setDescription(description);
+    	bug.setArea(AreaFabric.getArea(area));
+    	bug.setReproSteps(reproSteps);
     	
     	
     	
-    	return "editBug";
+    	
+    	return "update";
     }
 
 

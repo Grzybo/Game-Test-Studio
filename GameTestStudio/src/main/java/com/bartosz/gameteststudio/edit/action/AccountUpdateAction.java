@@ -13,12 +13,12 @@ import com.bartosz.gameteststudio.dp.User;
 import com.bartosz.gameteststudio.dp.UserFabric;
 import com.opensymphony.xwork2.ActionSupport;
  
-@Action(value = "editAccount", //
+@Action(value = "updateAccount", //
 results = { //
         @Result(name = "editAccount", location = "/WEB-INF/pages/edit_pages/editAccount.jsp")
 } //
 )
-public class AccountEditAction  extends ActionSupport {
+public class AccountUpdateAction  extends ActionSupport {
   
     private static final long serialVersionUID = 1L;
  
@@ -36,16 +36,14 @@ public class AccountEditAction  extends ActionSupport {
     @Override
     public String execute() {
           
-    	if(searchEmail != null) {
-    		User user = UserFabric.getUserByEmail(searchEmail); 
-    		
-    		firstName = user.getFirstName(); 
-    		lastName = user.getLastName(); 
-    		email = user.getEmail(); 
-    		role = user.getRole().getName();
-    	}
+    	User user = new User(); 
     	
+    	user.setFirstName(firstName);
+    	user.setLastName(lastName);
+    	user.setEmail(email);
+    	user.setRole(RoleFabric.get(role));
     	
+    	UserFabric.updateUser(user);
     	return "editAccount";
     }
 

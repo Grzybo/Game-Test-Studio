@@ -2,30 +2,38 @@ package com.bartosz.gameteststudio.dp;
 
 public class Version {
 
-	private String number; 
+	private Double  number; 
 	private BuildType type;  
 		
 
 	public Version() {}
 	
-	public Version(String name, BuildType type) {
+	public Version(Double  name, BuildType type) {
 		this.number = name;
 		this.type = type;
+	}
+
+	@Override
+	public String toString() {
+		return type + ": " + number;
 	}
 
 	public BuildType getType() {
 		return type;
 	}
 	
+	
+	
+	
 	public void setType(BuildType type) {
 		this.type = type;
 	}
 
-	public String getName() {
+	public Double  getName() {
 		return number;
 	}
 
-	public void setName(String name) {
+	public void setName(Double  name) {
 		this.number = name;
 	} 
 }

@@ -11,11 +11,11 @@ public class Test {
 	private String description; 
 	private Area area; 
 	private Result result; 
-	private int estimatedTime; 
+	private Integer estimatedTime; 
 	private Date startDate;
 	private Date endDate;
-	private int testersNumber;
-	private int workTime;
+	private Integer testersNumber;
+	private Integer workTime;
 	private State state; 
 	private Priority priority;
 	private List<Platform> platforms;
@@ -24,7 +24,7 @@ public class Test {
 	public Test() {}
 
 	public Test(String title, User user, String description, com.bartosz.gameteststudio.dp.Area area, Result result,
-			int estimatedTime, Date startDate, Date endDate, int testersNumber, int workTime, State state,
+			Integer estimatedTime, Date startDate, Date endDate, Integer testersNumber, Integer workTime, State state,
 			Priority priority, List<Platform> platforms, Version version) {
 		this.title = title;
 		this.user = user;

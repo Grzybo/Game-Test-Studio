@@ -13,6 +13,7 @@ import org.apache.struts2.convention.annotation.Result;
 import com.bartosz.gameteststudio.dp.AreaFabric;
 import com.bartosz.gameteststudio.dp.Project;
 import com.bartosz.gameteststudio.dp.TestFabric;
+import com.bartosz.gameteststudio.dp.BugFabric;
 import com.bartosz.gameteststudio.dp.User;
 import com.bartosz.gameteststudio.dp.UserFabric;
 import com.opensymphony.xwork2.ActionSupport;
@@ -29,15 +30,12 @@ public class ProjectAction  extends ActionSupport {
 	
 	private List<String> projectsList;
 	private String selectedProject; 
-	
 	private List<String> itemsList = Arrays.asList("Area", "Test", "Bug");
 	private String selectedItem; 
-	
 	private List<String> elementsList;
-	
 	private List<Project> userProjectsList;
-	
 	private String selectedArea;
+	private boolean assignedToMe;
 	
 	HttpSession session = ServletActionContext.getRequest().getSession();
 	
@@ -45,6 +43,7 @@ public class ProjectAction  extends ActionSupport {
 	    public String execute() {
 		
 		elementsList = new ArrayList<String>();
+		
 		
 		 User user = UserFabric.getUserByEmail(session.getAttribute("loginedEmail").toString());
 		
@@ -57,32 +56,64 @@ public class ProjectAction  extends ActionSupport {
 		if(selectedItem == null) selectedItem = itemsList.get(0); 
 		
 		
-		
-		switch(selectedItem) {
-		  case "Area":
-			  for (String el : AreaFabric.keys()) {
-					if(AreaFabric.getArea(el).getProject().getTitle().equals(selectedProject)) {
-						elementsList.add(el);
-					}
+		if(assignedToMe) {
+			for (String el : TestFabric.keys()) {
+				if(TestFabric.get(el).getUser().getEmail().equals(user.getEmail())) {
+					elementsList.add("[Test]: "+ el);
 				}
-			  System.out.print(selectedItem);
-		    break;
-		  case "Test":
-			  for (String el : TestFabric.keys()) {
-					if(TestFabric.get(el).getArea().getProject().getTitle().equals(selectedProject)) {
-						elementsList.add(el);
-					}
+				// loop for bugs
+			}
+			for (String el : BugFabric.keys()) {
+				if(BugFabric.get(el).getUser().getEmail().equals(user.getEmail())) {
+					elementsList.add("[Bug]: "+ el);
 				}
-			  System.out.print(selectedItem);
-		    break;
-		  case "Bug":
-			  System.out.print(selectedItem);
-		  default:
+			}
 		}
+		else {
+			switch(selectedItem) {
+			  case "Area":
+				  for (String el : AreaFabric.keys()) {
+						if(AreaFabric.getArea(el).getProject().getTitle().equals(selectedProject)) {
+							elementsList.add("[" + selectedItem + "]: " + el);
+						}
+					}
+			
+			    break;
+			  case "Test":
+				  for (String el : TestFabric.keys()) {
+						if(TestFabric.get(el).getArea().getProject().getTitle().equals(selectedProject)) {
+							elementsList.add("[" + selectedItem + "]: " + el);
+						}
+					}
+				  
+			    break;
+			  case "Bug":
+				  for (String el : BugFabric.keys()) {
+						if(BugFabric.get(el).getArea().getProject().getTitle().equals(selectedProject)) {
+							elementsList.add("[Bug]: "+ el);
+						}
+					}
+			  default:
+			}
+		}
+		
+		
+		
+		
 
 
 		return "projects";
 	 }
+
+
+	public boolean isAssignedToMe() {
+		return assignedToMe;
+	}
+
+
+	public void setAssignedToMe(boolean assignedToMe) {
+		this.assignedToMe = assignedToMe;
+	}
 
 
 	public HttpSession getSession() {
