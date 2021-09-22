@@ -19,7 +19,7 @@
 		 
 		
 		<div class="table">
-		<table style="width:100%">
+		<table style="width:100%" >
 			<tr>
 				<th style="width:70%" >
 					<div class = "projectContent"> 
@@ -64,7 +64,7 @@
 					</div> 
 				</th> 
 				<th>
-					<div class = "projectContent" > 
+					<div class = "projectContentFilters" > 
 						<s:form id = "projectForm" action="/projects" method="post">	
 							<s:checkbox name="assignedToMe" label="All elements assigned to Me"/>
 							<s:select label="Project"
@@ -74,8 +74,13 @@
 	     					<s:select label="Item"
 		     					name="selectedItem"
 		     					list="itemsList"/>
+		     					
+	     					<s:select label="State"
+		     					name="state"
+		     					list="statesList"/>
 
-							<s:submit class= "button"  method="execute" key="Apply Changes" align="center" /> 
+							<s:submit class= "button"  method="execute" 
+									key="Apply Changes" align="center" /> 
 		 				</s:form>
 					</div> 
 				</th>

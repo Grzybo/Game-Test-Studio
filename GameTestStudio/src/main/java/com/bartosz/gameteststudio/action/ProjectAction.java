@@ -12,6 +12,7 @@ import org.apache.struts2.convention.annotation.Result;
 
 import com.bartosz.gameteststudio.dp.AreaFabric;
 import com.bartosz.gameteststudio.dp.Project;
+import com.bartosz.gameteststudio.dp.StateFabric;
 import com.bartosz.gameteststudio.dp.TestFabric;
 import com.bartosz.gameteststudio.dp.BugFabric;
 import com.bartosz.gameteststudio.dp.User;
@@ -37,11 +38,16 @@ public class ProjectAction  extends ActionSupport {
 	private String selectedArea;
 	private boolean assignedToMe;
 	
+	private String state; 
+	private List<String> statesList = StateFabric.keys();
+	
 	HttpSession session = ServletActionContext.getRequest().getSession();
 	
 	 @Override
 	    public String execute() {
-		
+		 
+		statesList.add("Any"); 
+		 
 		elementsList = new ArrayList<String>();
 		
 		
@@ -53,7 +59,7 @@ public class ProjectAction  extends ActionSupport {
 		if(selectedProject == null) selectedProject = projectsList.get(0);
 		session.setAttribute("userProject", selectedProject); 
 		
-		if(selectedItem == null) selectedItem = itemsList.get(0); 
+		if(selectedItem == null) selectedItem = itemsList.get(0);
 		
 		
 		if(assignedToMe) {
@@ -98,12 +104,65 @@ public class ProjectAction  extends ActionSupport {
 		}
 		
 		
+		if (state == null) state = "Any";
+		else {
+			
+			/*
+			System.out.print(state);
+			switch(selectedItem) {
+			  case "Area":
+				  for (String el : elementsList) {
+						if(!AreaFabric.getArea(el).getState().getName().equals(state)){
+							elementsList.remove(el);
+						}
+					}
+			    break;
+			  case "Test":
+				  for (String el : elementsList) {
+					  if(!TestFabric.get(el).getState().getName().equals(state)){
+							elementsList.remove(el);
+						}
+					}
+				  
+			    break;
+			  case "Bug":
+				  for (String el : elementsList) {
+					  if(!BugFabric.get(el).getState().getName().equals(state)){
+							elementsList.remove(el);
+						}
+					}
+			  default:
+			}
+			*/
+		}
+		
+		
 		
 		
 
 
 		return "projects";
 	 }
+
+
+	public String getState() {
+		return state;
+	}
+
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+
+	public List<String> getStatesList() {
+		return statesList;
+	}
+
+
+	public void setStatesList(List<String> statesList) {
+		this.statesList = statesList;
+	}
 
 
 	public boolean isAssignedToMe() {

@@ -25,6 +25,15 @@ h2 {
 	padding: 10px;
 	border-style: groove;
 	border-color: #33ccff;}
+.adminContent {
+	text-align: center;
+	width:40%;
+	height: auto;
+	margin: auto;
+	background: white;
+	padding: 10px;
+	border-style: groove;
+	border-color: #33ccff;}
 .chooseProjectContent{
 	width:9%;
 	height: auto;
@@ -32,6 +41,15 @@ h2 {
 	background: white;
 	padding: 10px;}	
 .projectContent {
+	height: auto;
+	margin: auto;
+	background: white;
+	padding: 10px;
+	border-style: groove;
+	border-color: #33ccff;}
+.projectContentFilters{
+	
+	vertical-align: text-top;
 	height: auto;
 	margin: auto;
 	background: white;

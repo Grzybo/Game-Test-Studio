@@ -3,9 +3,15 @@ class="text" size="100%" -> responsywny text field/area itd
 
 
 DO zrobienia: 
+- NIE MA WEJSCIA DO KONKRETNEGO ITEMA Z PROJECTS
 - wiecej filtrów w projects 
 - poprawic miejsce filtrów w projects 
-- funkcjonalność create/edit account
-- funkcjonalność create/edit project
 - brak pojedynczych pol w itemach (np file w bug itd) 
-- pozwolenia
+- pozwolenia (permissions)
+- checkboxy projects w kazdym itemie sa nie funkcjonalne 
+- walidacja po cofnieciu się z przegladarki 
+- daty nie działaja 
+- integracja wersjii 
+- do admin page: 
+	dodawanie platform 
+	dodawanie versjii/ build type
