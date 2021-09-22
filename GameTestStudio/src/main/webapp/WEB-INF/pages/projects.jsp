@@ -16,7 +16,12 @@
 		<s:if test="%{#isAssigned==true}">
 			<h2>Items Assigned To: ${loginedUsername}</h2>	
 		</s:if>
-		 
+		
+		<div class="table">
+			<a class="button" href="${pageContext.request.contextPath}/createBug">New Bug</a>
+			<a class="button" href="${pageContext.request.contextPath}/createTest">New Test</a>
+			<a class="button" href="${pageContext.request.contextPath}/createArea">New Area</a>
+		</div> 
 		
 		<div class="table">
 		<table style="width:100%" >

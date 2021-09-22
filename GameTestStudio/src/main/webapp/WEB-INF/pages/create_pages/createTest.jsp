@@ -8,116 +8,67 @@
 	</head>
 	<body>
 		<jsp:include page="../_userMenu.jsp" />
-	 		<h2>New Test</h2>
+	 		<h2>New Test in ${userProject} </h2>
 	 	<div class = "content">
-	 		
-	 		<table style="width:100%">
-	 			<tr>
-	 				<s:form id="newBug" action="/createBug" >
-						<s:textfield name="title" key="Title" size="95%"/>
-					</s:form>
-				</tr>
-				<br>
-				<tr>
-					<s:form id="newBug">
-						<label>Assigned Account: </label> 
-							<select id="newBug" name="assignedAccount" >	
-								<option>Donald Duck</option>
-								<option> Mickey Mouse</option>
-							</select>
-							<a> </a>
-							<label>Priority: </label> 
-							<select id="newBug" name="priority" >	
-								<option>Critical</option>
-								<option>Important</option>
-								<option>Very Important</option>
-								<option>Normal</option>
-							</select>
-							<a> </a>
-							<label>State: </label> 
-							<select id="newBug" name="priority" >	
-								<option>New</option>
-								<option>Active</option>
-								<option>Closed</option>
-							</select>
-					</s:form>	
-				</tr>
-				<br>
-				<tr>
-					<s:textarea name="description" key="Test Scenario" rows="4" cols="61" maxwidth="61" id="newBug"/> <br>
-				</tr>
-				<br>
-				<tr>
-					<s:form id="newBug">
-					<label> Project: </label> <!-- trzeba przeniesc select blizej lewej aby bylo rowno z form -->
-						<select name="project">
-	  						<option value="fifa22" selected>FIFA 22 </option>
-	  						<option value="fifa21">FIFA 21</option>
-  						</select>
-  						<a> </a>
-  						<label> Area: </label> <!-- trzeba przeniesc select blizej lewej aby bylo rowno z form -->
-						<select name="project">
-	  						<option value="fifa22" selected>GoalKeepers </option>
-	  						<option value="fifa21">Stadiums</option>
-  						</select>
-  						<a> </a>
-  						<br><br>
-						<label>Platforms:</label> <br> 
-						<select multiple>
-  							<option value="a">PS5</option>
-						  	<option value="b">Xbox Series X</option>
-							<option value="c">Xbox ONE</option>
-						</select>
-					</s:form>
-				</tr>
-				<br>
-				<tr>
-					<s:form id="newBug">
-						<label>Estimated Test Time: </label>
-							<input type="number" size="10%">
-						<a> </a>
-						<label>Test Time: </label>
-							<input type="number" size="10%" disabled>
-					</s:form>
-				</tr>
-				<br>
-				<tr>
-					<s:form id="newBug">
-					<label>Version: </label>
-						<select name="version">
-	  						<option>0.0123 Beta</option>
-	  						<option>1.4567 Alfa</option>
-  						</select>
-  						<a> </a>
-						<label>Result: </label> 
-						<select id="newBug" name="priority" >	
-							<option>Positive</option>
-							<option>Negative</option>
-							<option>Blocked</option>
-						</select>
-					</s:form>
-				</tr>
-				<br>
-				<tr>
-					<s:form id="newBug">
-						<label>Start Date: </label>
-							<input type="date">
-						<a> </a>
-						<label>End Date: </label>
-							<input type="date">
-					</s:form>
-				</tr>
-				<br>
-				<tr>
-					<s:form id="newBug">
-						<label>Testers Number: </label>
-							<input type="number" size="10%" disabled>
-					</s:form>
-				</tr>
-				<br>
-
-				<s:submit class= "button"  method="execute" key="Create" form = "search"/>			
- 			</table>
+		 		
+		 		<s:form id="editTest" action="/createTest" >
+		 		<table style="width:100%">
+		 			<tr>
+						<s:textfield class="text" name="title" key="Title" size="100%"/>
+					</tr>
+					<tr>
+						<s:select label="Assigned"
+		     					name="account"
+		     					list="accountList"/>
+						<s:select label="Priority"
+		     					name="priority"
+		     					list="priorityList"/>
+		     			<s:select label="State"
+		     					name="state"
+		     					list="stateList"/>				
+					</tr>
+					<tr>
+						<s:textarea name="description" key="Test Scenario" rows="4" 
+							cols="61"  id="newBug"/> <br>
+					</tr>
+					<tr>
+						<s:select label="Area"
+	    					name="area"
+	    					list="areaList"/>		
+						<s:checkboxlist label="Platform" list="platformList" 
+	 						name="platform" />
+					</tr>
+					<tr>
+						<s:textfield class="text" size="100%" name="estimatedTime" label="Estimated Test Time" 
+											type="number"/>
+						<s:textfield  class="text" size="100%" name="workTime" 
+							label="Test Time" type="number" />
+					</tr>
+					<tr>
+						<s:select label="Build Type"
+		     					name="build"
+		     					list="buildList"/>
+	   					<s:textfield class="text" name="version" 
+	   						key="Version"  size="100%" type="number"/>
+						<s:select label="Result"
+		     					name="result"
+		     					list="resultList"/>
+					</tr>
+					<tr>
+						<s:textfield  class="text" size="100%" name="startDate" 
+									label="Start Date" type="date"/>
+						<s:textfield class="text" size="100%" name="endDate" label="End Date" 
+							type="date"/>
+					</tr>
+					<tr>
+						<s:textfield class="text" size="100%" label="Testers Number" name="testersNumber" 
+										type="number"  />
+					</tr>
+						<s:submit class= "button"  method="execute" key="Submit" form = "editTest"/>
+	 			</table>
+	 			</s:form>	
+	 			<a class="button" href="${pageContext.request.contextPath}/projects">Cancel</a>
+	 			<s:actionerror /> 
 	 	</div>
 	</body>
 </html>

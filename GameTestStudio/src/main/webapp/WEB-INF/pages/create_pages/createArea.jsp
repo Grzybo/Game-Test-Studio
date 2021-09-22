@@ -8,81 +8,65 @@
 	</head>
 	<body>
 		<jsp:include page="../_userMenu.jsp" />
-	 		<h2>New Area</h2>
+	 		<h2>New Area in ${userProject}</h2>
 	 		
-	 	<div class = "content">
+	 	<div class = "content">	
+	 		<s:form id="editArea" action="/createArea" method="post">
+	 		
 	 		<table style="width:100%">
-	 			<tr>
-	 				<s:form id="newBug" action="/createBug" >
-						<s:textfield name="title" key="Title" size="95%"/>
-					</s:form>
-				</tr>
-				<br>
-				<tr>
-					<s:form id="newBug">
-						<label> Project: </label> <!-- trzeba przeniesc select blizej lewej aby bylo rowno z form -->
-						<select name="project">
-	  						<option value="fifa22" selected>FIFA 22 </option>
-	  						<option value="fifa21">FIFA 21</option>
-  						</select>
-  						<a> </a>
-						<label>Priority: </label> 
-						<select id="newBug" name="priority" >	
-							<option>Critical</option>
-							<option>Important</option>
-							<option>Very Important</option>
-							<option>Normal</option>
-						</select>
-						<a> </a>
-						<label>State: </label> 
-						<select id="newBug" name="priority" >	
-							<option>New</option>
-							<option>Active</option>
-							<option>Closed</option>
-						</select>
-					</s:form>	
-				</tr>
-				<br>
-				<tr>
-					<s:textarea name="description" key="Test Scenario" rows="4" cols="61" maxwidth="61" id="newBug"/> <br>
-				</tr>
-				<br>
-				<tr>
-					<s:form id="newBug">
+	 			
+					<s:textfield class="text" name="title" key="Title" size="100%"/>
+				
+		
+					<s:select disabled="true" label="Project"
+		     					name="project"
+		     					list="projectsList"/>
 
-					</s:form>
-				</tr>
-				<br>
+						<s:select label="Priority"
+		     					name="priority"
+		     					list="priorityList"/>
+						
+						<s:select label="State"
+		     					name="state"
+		     					list="stateList"/>
+		
 				<tr>
-					<s:form id="newBug">
-						<label>Estimated Test Time: </label>
-							<input type="number" size="10%">
+						<s:textarea class="text" name="description" key="Description" 
+									rows="4" cols="61" size="100%" 
+									id="newBug"/> 
+				</tr>
+				<tr>
+					
+							<s:textfield class="text" size="100%" name="estimatedTime" label="Estimated Test Time" 
+											type="number"/>
 						<a> </a>
-						<label>Test Time: </label>
-							<input type="number" size="10%">
-					</s:form>
+							<s:textfield  class="text" size="100%" name="workTime" 
+								label="Test Time" type="number" />
+					
 				</tr>
-				<br>
 				<tr>
-					<s:form id="newBug">
-						<label>Start Date: </label>
-							<input type="date">
+					
+							<s:textfield  class="text" size="100%" name="startDate" 
+								label="Start Date" type="date"/>
 						<a> </a>
-						<label>End Date: </label>
-							<input type="date">
-					</s:form>
+							<s:textfield class="text" size="100%" name="endDate" label="End Date" 
+								type="date"/>
+					
 				</tr>
-				<br>
 				<tr>
-					<s:form id="newBug">
-						<label>Testers Number: </label>
-							<input type="number" size="10%" disabled>
-					</s:form>
+					
+							<s:textfield class="text" size="100%" label="Testers Number" name="testersNumber" 
+											type="number"  />
+					
 				</tr>
-				<br>
 
-				<s:submit class= "button"  method="execute" key="Create" form = "search"/>			
+					<s:submit class= "button"  method="execute" key="Submit" form="editArea"/>
+
+
  			</table>
+ 			</s:form>
+ 			<a class="button" href="${pageContext.request.contextPath}/projects">Cancel</a> 
+ 			<s:actionerror />
 	 	</div>
 	</body>
 </html><%@ page language="java" contentType="text/html; charset=UTF-8"
