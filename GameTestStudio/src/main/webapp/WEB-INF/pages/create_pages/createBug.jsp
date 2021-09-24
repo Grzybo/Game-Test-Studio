@@ -11,6 +11,7 @@
 	 		<h2>New Bug in ${userProject}</h2>
 	 		
 	 	<div class = "content">
+	 		<s:actionerror />
 	 		<s:form id="bug" action="/createBug" >
 	 		<table style="width:100%">
 	 			<tr>
@@ -64,7 +65,7 @@
  			</table>
  			</s:form>
  			<a class="button" href="${pageContext.request.contextPath}/projects">Cancel</a>
-	 		<s:actionerror />
+	 		
 	 	</div>
 	 	
 	</body>

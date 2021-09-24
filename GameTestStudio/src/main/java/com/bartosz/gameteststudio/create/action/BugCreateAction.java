@@ -60,6 +60,8 @@ public class BugCreateAction  extends ActionSupport {
           
     	HttpSession session = ServletActionContext.getRequest().getSession();
     	
+    	
+    	
     	for (String el : UserFabric.keys()) {
     		if(UserFabric.getUserByEmail(el).getProjects() != null) {
     			if(UserFabric.getUserByEmail(el).getProjectsList().
@@ -75,6 +77,7 @@ public class BugCreateAction  extends ActionSupport {
 				areaList.add(el);
 			}
 		}
+    	
     	
     	if(title != null) {
     		Bug bug = new Bug();

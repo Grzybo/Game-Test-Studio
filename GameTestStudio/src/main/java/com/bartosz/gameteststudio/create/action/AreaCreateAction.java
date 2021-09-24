@@ -1,5 +1,6 @@
 package com.bartosz.gameteststudio.create.action;
  
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -54,6 +55,13 @@ public class AreaCreateAction  extends ActionSupport {
     	
     	//Area area = AreaFabric.getArea(session.getAttribute("selectedArea").toString()); 
     	
+    	Calendar cal = Calendar.getInstance();
+		//set date to january 31, 2010
+		cal.set(2010, 0, 31);
+		Date newDate = cal.getTime();
+	
+		//endDate = newDate;
+    	//System.out.print(title.toString());
     	
     	if(title != null) {
     		Area area = new Area();
@@ -67,7 +75,7 @@ public class AreaCreateAction  extends ActionSupport {
         	area.setEndDate(this.endDate);
         	area.setTestersNumber(this.testersNumber);
         	area.setWorkTime(this.workTime); 
-            	 
+        	//System.out.print(endDate.toString());
         	AreaFabric.addArea(title, area);
         	
         	addActionError("Area created!");

@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
+<%@ taglib prefix="sx" uri="/struts-dojo-tags" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -38,32 +39,27 @@
 				</tr>
 				<tr>
 					
-							<s:textfield class="text" size="100%" name="estimatedTime" label="Estimated Test Time" 
-											type="number"/>
-						<a> </a>
-							<s:textfield  class="text" size="100%" name="workTime" 
-								label="Test Time" type="number" />
+					<s:textfield class="text" size="100%" name="estimatedTime" label="Estimated Test Time" 
+									type="number"/>
+					<s:textfield  class="text" size="100%" name="workTime" 
+						label="Test Time" type="number" />
 					
 				</tr>
 				<tr>
 					
-							<s:textfield  class="text" size="100%" name="startDate" 
-								label="Start Date" type="date"/>
-						<a> </a>
-							<s:textfield class="text" size="100%" name="endDate" label="End Date" 
-								type="date"/>
+					<sx:datetimepicker name="startDate" label="Format (dd-MMM-yyyy)" 
+						displayFormat="dd-MMM-yyyy"  />
 					
+					<s:textfield  class="text" size="100%" name="asd" 
+						label="Start Date" type="date"/>
+					<s:textfield class="text" size="100%" name="endDate" label="End Date" 
+						type="date"/>
 				</tr>
 				<tr>
-					
-							<s:textfield class="text" size="100%" label="Testers Number" name="testersNumber" 
-											type="number"  />
-					
+					<s:textfield class="text" size="100%" label="Testers Number" name="testersNumber" 
+									type="number"  />
 				</tr>
-
 					<s:submit class= "button"  method="execute" key="Submit" form="editArea"/>
-
-
  			</table>
  			</s:form>
  			<a class="button" href="${pageContext.request.contextPath}/projects">Cancel</a> 

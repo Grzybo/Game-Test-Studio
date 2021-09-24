@@ -47,8 +47,8 @@
 				<tr>
 					
 							<s:textfield  class="text" size="100%" name="startDate" 
-								label="Start Date" type="date"/>
-						<a> </a>
+								label="Start Date" type="date"></s:textfield>
+						
 							<s:textfield class="text" size="100%" name="endDate" label="End Date" 
 								type="date"/>
 					
