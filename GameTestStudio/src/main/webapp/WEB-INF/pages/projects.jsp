@@ -15,7 +15,7 @@
 			<h2>Project: ${userProject}</h2>	
 		</s:if>
 		<s:if test="%{#isAssigned==true}">
-			<h2>Items Assigned To: ${loginedUsername}</h2>	
+			<h2>Items Assigned To: ${loginedUsername} in ${userProject}</h2>	
 		</s:if>
 		
 		<div class="center">
@@ -30,7 +30,9 @@
 				<td style="width:70%"  valign="top" >
 					<div class = "projectContent"> 
 						
-						<s:set var="item" value="selectedItem"/>
+						<s:set var="item" value="selectedItem"/> 
+						<s:set var="map" value="areaMap"/>
+						
 
 						<s:if test="%{#item=='Area'}">
 							<s:iterator value="elementsList">
@@ -70,22 +72,62 @@
 						
 						
 					</div> 
+					
+					
+					<!--  <div class = "projectContent"> 
+					   <s:iterator value="areaMap"  var="mapList" status="status">
+						 <table>
+						   
+						   	<s:property value="key"></s:property>
+						   	<s:property value="item"></s:property>
+						   	<s:property value="%{#item[title]}"></s:property>
+						   	
+						   	
+						   <s:iterator  value="mapList" var="item" status="rowstatus">
+						     <tr>
+						        <div class="container themed-container">
+							        <a class="button">
+							        	<s:property ></s:property>
+							        </a>
+						        </div> 
+						     </tr>
+						   </s:iterator>
+						 </table>
+						</s:iterator>
+						</div>  -->
+					
+					
+					
 				</td> 
 				<td  valign="top">
 					<div class = "projectContentFilters" > 
 						<s:form id = "projectForm" action="/projects" method="post">	
+							<s:set var="item" value="selectedItem"/> 
+							
 							<s:checkbox label="All items assigned to Me" name="assignedToMe" />
+							
 							<s:select label="Project"
 		     					name="selectedProject"
 		     					list="projectsList"/>
-	     					<br>
+
 	     					<s:select label="Item"
 		     					name="selectedItem"
 		     					list="itemsList"/>
 		     					
+	     					<s:if test="%{#item!='Area'}">
+								<s:select label="Area"
+		     						name="selectedArea"
+		     						list="areaList"/>
+							</s:if>
+	     					
 	     					<s:select label="State"
 		     					name="state"
 		     					list="statesList"/>
+		     					
+	     					<s:select label="Priority"
+		     					name="priority"
+		     					list="prioritiesList"/> 
+		     					
 
 							<s:submit class= "button"  method="execute" 
 									key="Apply Changes" align="center" /> 

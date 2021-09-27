@@ -38,6 +38,7 @@ public abstract class BugFabric {
 								StateFabric.getState("New"),
 								PriorityFabric.getPriority("Important"), null, null, 1,
 								AreaFabric.getArea("Players")));
+			
 			put("Teams - Toronto Raptors - Team Logo is not implemented in the game", 
 					new Bug("Teams - Toronto Raptors - Team Logo is not implemented in the game", 
 								UserFabric.getUserByEmail("donald@disney.com"),

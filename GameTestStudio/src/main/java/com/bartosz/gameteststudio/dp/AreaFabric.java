@@ -16,9 +16,9 @@ public abstract class AreaFabric {
 			put("Goalkeepers", new Area("Goalkeepers", "New Goalkeepers Models...", ProjectFabric.getProject("FIFA 22"), 150, null, null, 60, 40, 
 										StateFabric.getState("Active"), PriorityFabric.getPriority("Critical")));
 			put("Players", new Area("Players", "New Players Models...", ProjectFabric.getProject("NBA2K 22"), 550, new Date(1000, 9, 9), new Date(2010, 9, 9), 50, 100, 
-										StateFabric.getState("Active"), PriorityFabric.getPriority("Very Important")));
+										StateFabric.getState("New"), PriorityFabric.getPriority("Very Important")));
 			put("Teams", new Area("Teams", "New Teams...", ProjectFabric.getProject("NBA2K 22"), 550, null, null, 50, 100, 
-										StateFabric.getState("Active"), PriorityFabric.getPriority("Very Important")));
+										StateFabric.getState("Closed"), PriorityFabric.getPriority("Very Important")));
 		}
 	};	
 	
@@ -44,5 +44,14 @@ public abstract class AreaFabric {
 	public static void updateArea(Area area) {
 		map.remove(area.getTitle());
 		addArea(area.getTitle(), area);
-    }	
+    }
+
+	public static HashMap<String, Area> getMap() {
+		return map;
+	}
+
+	public static void setMap(HashMap<String, Area> map) {
+		AreaFabric.map = map;
+	} 
+	
 }
