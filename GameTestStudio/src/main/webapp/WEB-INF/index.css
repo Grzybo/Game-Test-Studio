@@ -92,6 +92,7 @@ textarea {
 	color: #ffffff;
 	border-radius: 6px;
 	outline: none;}
+
 .userBtn {
 	background-color: #4CAF50;
 	display: inline-block;
@@ -101,11 +102,13 @@ textarea {
 	color: #ffffff;
 	border-radius: 6px;
 	outline: none;}  
+
 .themed-grid-col {
   padding-top: .75rem;
   padding-bottom: .75rem;
   background-color: rgba(86, 61, 124, .15);
   border: 1px solid rgba(86, 61, 124, .2);}
+
 .themed-container {
   padding: .75rem;
   margin-bottom: 1.5rem;
@@ -116,5 +119,11 @@ textarea, .text{
 	resize: vertical;
  	width: 100%;
 }  
- 
+
+.disabledDiv {
+    pointer-events: none;
+    opacity: 0.5;
+  	background: #CCC;
+} 
+
        

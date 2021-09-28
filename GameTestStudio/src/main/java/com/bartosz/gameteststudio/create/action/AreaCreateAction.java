@@ -66,15 +66,15 @@ public class AreaCreateAction  extends ActionSupport {
     	if(title != null) {
     		Area area = new Area();
         	area.setTitle(this.title);
-        	area.setProject(ProjectFabric.getProject(session.getAttribute("userProject").toString()));
-        	area.setPriority(PriorityFabric.getPriority(this.priority));
-        	area.setState(StateFabric.getState(state));
         	area.setDescription(this.description);
+        	area.setProject(ProjectFabric.getProject(session.getAttribute("userProject").toString()));
         	area.setEstimatedTime(this.estimatedTime);
-        	area.setStartDate(this.startDate);
-        	area.setEndDate(this.endDate);
         	area.setTestersNumber(this.testersNumber);
         	area.setWorkTime(this.workTime); 
+        	area.setState(StateFabric.getState(state));
+        	area.setPriority(PriorityFabric.getPriority(this.priority));
+        	area.setStartDate(this.startDate);
+        	area.setEndDate(this.endDate);
         	//System.out.print(endDate.toString());
         	AreaFabric.addArea(title, area);
         	

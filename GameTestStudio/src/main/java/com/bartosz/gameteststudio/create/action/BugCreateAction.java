@@ -11,14 +11,17 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
 import com.bartosz.gameteststudio.dp.AreaFabric;
+import com.bartosz.gameteststudio.dp.Attachment;
 import com.bartosz.gameteststudio.dp.Bug;
 import com.bartosz.gameteststudio.dp.BugFabric;
 import com.bartosz.gameteststudio.dp.BuildTypeFabric;
+import com.bartosz.gameteststudio.dp.Platform;
 import com.bartosz.gameteststudio.dp.PlatformFabric;
 import com.bartosz.gameteststudio.dp.PriorityFabric;
 import com.bartosz.gameteststudio.dp.ResultFabric;
 import com.bartosz.gameteststudio.dp.StateFabric;
 import com.bartosz.gameteststudio.dp.UserFabric;
+import com.bartosz.gameteststudio.dp.Version;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "createBug", //
@@ -38,7 +41,10 @@ public class BugCreateAction  extends ActionSupport {
     private String reproSteps;
     private String area;
     private String platform;
-    //file
+   
+    private List<String> selectedPlatforms = new ArrayList();
+    private List<Platform> selectedPlatformsList;
+    
     private String build;
 	private Double version;
 	private int minKitNumber;
@@ -46,6 +52,9 @@ public class BugCreateAction  extends ActionSupport {
 	private File fileUpload;
 	private String fileUploadContentType;
 	private String fileUploadFileName;
+	
+	private Attachment att;
+	private Version ver; 
     
     private List<String> priorityList = PriorityFabric.keys();
 	private List<String> stateList = StateFabric.keys();
@@ -78,20 +87,28 @@ public class BugCreateAction  extends ActionSupport {
 			}
 		}
     	
+    	if(!selectedPlatforms.isEmpty()) {
+    		for (String pl : selectedPlatforms) {
+        		selectedPlatformsList.add(PlatformFabric.getPlatform(pl));
+    		}
+        	
+    	}
+    	
     	
     	if(title != null) {
     		Bug bug = new Bug();
         	
         	bug.setTitle(title);
         	bug.setUser(UserFabric.getUserByEmail(account));
-        	bug.setPriority(PriorityFabric.getPriority(priority));
-        	bug.setState(StateFabric.getState(state));
         	bug.setDescription(description);
+        	bug.setReproSteps(reproSteps);
+        	bug.setState(StateFabric.getState(state));
+        	bug.setPriority(PriorityFabric.getPriority(priority));
+        	bug.setPlatforms(selectedPlatformsList);
+        	bug.setVersion(new Version(version, BuildTypeFabric.get(build)));
         	bug.setArea(AreaFabric.getArea(area));
-        	bug.setReproSteps(reproSteps); 
-        	
-        	
-        	System.out.print(bug.getTitle());
+        	bug.setAttachment(att);
+          	
         	BugFabric.add(bug.getTitle(), bug);
         	
         	addActionError("Bug created!");
@@ -102,7 +119,33 @@ public class BugCreateAction  extends ActionSupport {
     	
     	
     	return "createBug";
-    }
+    } 
+    
+    
+    
+    
+    
+    
+
+	public List<String> getList() {
+		return selectedPlatforms;
+	}
+
+
+
+
+
+
+
+	public void setList(List<String> list) {
+		this.selectedPlatforms = list;
+	}
+
+
+
+
+
+
 
 	public String getTitle() {
 		return title;

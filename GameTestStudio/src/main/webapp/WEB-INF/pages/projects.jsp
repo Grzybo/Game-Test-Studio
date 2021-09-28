@@ -6,6 +6,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Projects</title>
+		<style><%@include file="/WEB-INF/index.css"%></style>
 	</head>
 	<body>
 		<jsp:include page="_userMenu.jsp" />
@@ -28,109 +29,118 @@
 		<table style="width:100%" >
 			<tr>
 				<td style="width:70%"  valign="top" >
+					
 					<div class = "projectContent"> 
-						
-						<s:set var="item" value="selectedItem"/> 
-						<s:set var="map" value="areaMap"/>
-						
-
-						<s:if test="%{#item=='Area'}">
-							<s:iterator value="elementsList">
+						<s:iterator value="elementsObjList" var="el">
 							<div class="container themed-container" >
-		   						<a class="button" 
-		   							href="${pageContext.request.contextPath}/editArea">
-		   							<s:property /> <!--  DODAC połaczenie do konkretnego elementu -->
+		   						<s:set var="item" value="selectedItem"/> 
+		   						<s:if test="%{#item=='Area'}">
+		   							<a class="button" 
+		   								href="${pageContext.request.contextPath}/editArea">
+		   									[${el['class'].simpleName}] :
+			   								<s:property value="#el.title" /> | 
+								  			<s:property value="#el.state.name" /> |
+								  			<s:property value="#el.priority.name" /> 
+								  			<s:property value="#el.user.email" />  
 		   						</a> 
+		   						</s:if>
+		   						<s:elseif test="%{#item=='Test'}">
+		   							<a class="button" 
+		   								href="${pageContext.request.contextPath}/editTest">
+		   									[${el['class'].simpleName}] : 
+			   								<s:property value="#el.title" /> | 
+								  			<s:property value="#el.state.name" /> |
+								  			<s:property value="#el.priority.name" /> |
+								  			<s:property value="#el.user.email" /> 
+		   							</a> 
+		   						</s:elseif>
+		   						<s:elseif test="%{#item=='Bug'}">
+		   							<a class="button" 
+		   								href="${pageContext.request.contextPath}/editBug">
+		   									[${el['class'].simpleName}] :
+			   								<s:property value="#el.title" /> | 
+								  			<s:property value="#el.state.name" /> |
+								  			<s:property value="#el.priority.name" /> | 
+								  			<s:property value="#el.user.email" /> 
+		   							</a> 
+		   						</s:elseif>
 							</div> 
 						</s:iterator>
-						</s:if>
-						
-						
-						<s:elseif test="%{#item=='Test'}">
-						    <s:iterator value="elementsList">
-							<div class="container themed-container">
-		   						<a class="button" 
-		   							href="${pageContext.request.contextPath}/editTest">
-		   							<s:property /> <!--  DODAC połaczenie do konkretnego elementu -->
-		   						</a> 
-							</div> 
-						</s:iterator>
-						</s:elseif>
-						<s:elseif test="%{#item=='Bug'}">
-						    <s:iterator value="elementsList">
-							<div class="container themed-container">
-		   						<a class="button" 
-		   							href="${pageContext.request.contextPath}/editBug">
-		   							<s:property /> <!--  DODAC połaczenie do konkretnego elementu -->
-		   						</a> 
-							</div> 
-						</s:iterator>
-						</s:elseif>
+						</div>
+						<br>
 						
 
-						
-						
-						
-					</div> 
-					
-					
-					<!--  <div class = "projectContent"> 
-					   <s:iterator value="areaMap"  var="mapList" status="status">
-						 <table>
-						   
-						   	<s:property value="key"></s:property>
-						   	<s:property value="item"></s:property>
-						   	<s:property value="%{#item[title]}"></s:property>
-						   	
-						   	
-						   <s:iterator  value="mapList" var="item" status="rowstatus">
-						     <tr>
-						        <div class="container themed-container">
-							        <a class="button">
-							        	<s:property ></s:property>
-							        </a>
-						        </div> 
-						     </tr>
-						   </s:iterator>
-						 </table>
-						</s:iterator>
-						</div>  -->
-					
-					
 					
 				</td> 
 				<td  valign="top">
 					<div class = "projectContentFilters" > 
 						<s:form id = "projectForm" action="/projects" method="post">	
-							<s:set var="item" value="selectedItem"/> 
 							
-							<s:checkbox label="All items assigned to Me" name="assignedToMe" />
 							
-							<s:select label="Project"
-		     					name="selectedProject"
-		     					list="projectsList"/>
+							
 
-	     					<s:select label="Item"
-		     					name="selectedItem"
-		     					list="itemsList"/>
-		     					
-	     					<s:if test="%{#item!='Area'}">
-								<s:select label="Area"
-		     						name="selectedArea"
-		     						list="areaList"/>
-							</s:if>
-	     					
-	     					<s:select label="State"
-		     					name="state"
-		     					list="statesList"/>
-		     					
-	     					<s:select label="Priority"
-		     					name="priority"
-		     					list="prioritiesList"/> 
-		     					
+								<s:set var="toMe" value="assignedToMe"/> 
+								<s:if test="%{#toMe== true }">
+									<s:select label="Project" 
+				     					name="selectedProject"
+				     					list="projectsList"/>
+	
+			     					<s:select label="Item" disabled="true"
+				     					name="selectedItem"
+				     					list="itemsList"/>
+				     					
+			     					<s:if test="%{#item!='Area'}"> 
+										<s:select label="Area" disabled="true"
+				     						name="selectedArea"
+				     						list="areaList"/>
+									</s:if>
+			     					
+			     					<s:select label="Assigned To" disabled="true"
+				     					name="assigned"
+				     					list="usersList"/>
+			     					
+			     					<s:select label="State" disabled="true"
+				     					name="state"
+				     					list="statesList"/>
+				     					
+			     					<s:select label="Priority" disabled="true"
+				     					name="priority"
+				     					list="prioritiesList"/>
+								</s:if>
+								<s:else>
+									<s:select label="Project" 
+				     					name="selectedProject"
+				     					list="projectsList"/>
+	
+			     					<s:select label="Item"
+				     					name="selectedItem"
+				     					list="itemsList"/>
+				     					
+			     					<s:if test="%{#item!='Area'}">
+										<s:select label="Area"
+				     						name="selectedArea"
+				     						list="areaList"/>
+									</s:if>
+			     					
+			     					<s:select label="Assigned To"
+				     					name="assigned"
+				     					list="usersList"/>
+			     					
+			     					<s:select label="State"
+				     					name="state"
+				     					list="statesList"/>
+				     					
+			     					<s:select label="Priority"
+				     					name="priority"
+				     					list="prioritiesList"/>
+								</s:else>
+								
+								
+		     				<s:checkbox label="All items assigned to Me" name="assignedToMe" />	
 
 							<s:submit class= "button"  method="execute" 
-									key="Apply Changes" align="center" /> 
+									key="Apply Changes" align="center" />
+
 		 				</s:form>
 					</div> 
 				</td>

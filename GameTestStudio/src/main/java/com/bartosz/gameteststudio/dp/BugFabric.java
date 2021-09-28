@@ -1,5 +1,6 @@
 package com.bartosz.gameteststudio.dp;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,7 +22,8 @@ public abstract class BugFabric {
 								+ "    4. Go to stadium settings. \r\n"
 								+ "    5. Observe lack of stadium: \"Stadion im. Marszałka J.Piłsudskiego w Radomiu.",
 								StateFabric.getState("New"),
-								PriorityFabric.getPriority("Important"), null, null, 1, 
+								PriorityFabric.getPriority("Important"), Arrays.asList(PlatformFabric.getPlatform("PC"), PlatformFabric.getPlatform("PlayStation 4")), 
+								new Version(1.23, BuildTypeFabric.get("Alpha")), 1, 
 								AreaFabric.getArea("Stadiums")));
 			
 			put("Players - Marcin Gortat - Player is not available in Quick Match Mode", 
@@ -36,7 +38,9 @@ public abstract class BugFabric {
 								+ "    4. Go to players settings. \r\n"
 								+ "    5. Observe lack of player.",
 								StateFabric.getState("New"),
-								PriorityFabric.getPriority("Important"), null, null, 1,
+								PriorityFabric.getPriority("Important"), Arrays.asList(PlatformFabric.getPlatform("Xbox Series X"), 
+										PlatformFabric.getPlatform("Xbox Series S")),
+								new Version(1.23, BuildTypeFabric.get("Alpha")), 1,
 								AreaFabric.getArea("Players")));
 			
 			put("Teams - Toronto Raptors - Team Logo is not implemented in the game", 
@@ -51,7 +55,10 @@ public abstract class BugFabric {
 								+ "    4. Go to players settings. \r\n"
 								+ "    5. Observe lack of player.",
 								StateFabric.getState("New"),
-								PriorityFabric.getPriority("Important"), null, null, 1,
+								PriorityFabric.getPriority("Important"), 
+								Arrays.asList(PlatformFabric.getPlatform("Xbox One"), 
+										PlatformFabric.getPlatform("Xbox One X")), 
+								new Version(1.23, BuildTypeFabric.get("Alpha")), 1,
 								AreaFabric.getArea("Teams")));
 			
 		}

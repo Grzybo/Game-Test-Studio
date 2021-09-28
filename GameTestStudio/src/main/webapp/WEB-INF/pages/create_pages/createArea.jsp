@@ -65,9 +65,12 @@
 
  			</table>
  			</s:form>
- 			<a class="button" href="${pageContext.request.contextPath}/projects">Cancel</a> 
+ 			
  			<s:actionerror />
 	 	</div>
+	 	<div class="center">
+		<a class="button" href="${pageContext.request.contextPath}/projects"> Cancel</a>
+		</div> 	
 	</body>
 </html><%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>

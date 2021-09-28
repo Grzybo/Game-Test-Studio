@@ -30,6 +30,9 @@
         	<s:textfield class="text" name="work_time" key="Work Time" size="100%" type="number" /> 
     		<s:submit class= "button" method="execute" key="Update Project"/>
     	</s:form>
-	</div>			
+	</div>		
+	<div class="center">
+		<a class="button" href="${pageContext.request.contextPath}/adminPage"> Cancel</a>
+	</div> 	
 	</body>
 </html>

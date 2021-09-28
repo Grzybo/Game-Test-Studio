@@ -12,6 +12,7 @@ import org.apache.struts2.convention.annotation.Result;
 
 import com.bartosz.gameteststudio.dp.AreaFabric;
 import com.bartosz.gameteststudio.dp.BuildTypeFabric;
+import com.bartosz.gameteststudio.dp.Platform;
 import com.bartosz.gameteststudio.dp.PlatformFabric;
 import com.bartosz.gameteststudio.dp.PriorityFabric;
 import com.bartosz.gameteststudio.dp.ResultFabric;
@@ -19,6 +20,7 @@ import com.bartosz.gameteststudio.dp.StateFabric;
 import com.bartosz.gameteststudio.dp.Test;
 import com.bartosz.gameteststudio.dp.TestFabric;
 import com.bartosz.gameteststudio.dp.UserFabric;
+import com.bartosz.gameteststudio.dp.Version;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "createTest", //
@@ -45,6 +47,8 @@ public class TestCreateAction  extends ActionSupport {
 	private String result;
 	private String build;
 	private Double version;
+	private List<Platform> selectedPlatformsList = new ArrayList();
+	private List<String> selectedPlatforms = new ArrayList();
 	
     
     private List<String> priorityList = PriorityFabric.keys();
@@ -77,18 +81,29 @@ public class TestCreateAction  extends ActionSupport {
 			}
 		}
     	
+    	if(!selectedPlatforms.isEmpty()) {
+    		for (String pl : selectedPlatforms) {
+        		selectedPlatformsList.add(PlatformFabric.getPlatform(pl));
+    		}
+        	
+    	}
+    	
     	if (title != null) {
     		Test test = TestFabric.get("Players - New - Marcin Gortat");
         	
     		test.setTitle(title);
         	test.setUser(UserFabric.getUserByEmail(account));
-        	test.setPriority(PriorityFabric.getPriority(priority));
-        	test.setState(StateFabric.getState(state));
         	test.setDescription(description);
         	test.setArea(AreaFabric.getArea(area));
+        	test.setResult(ResultFabric.get(result));
         	test.setEstimatedTime(estimatedTime);
-        	test.setWorkTime(workTime);
+        	//dates
         	test.setTestersNumber(testersNumber); 
+        	test.setWorkTime(workTime);
+        	test.setState(StateFabric.getState(state));
+        	test.setPriority(PriorityFabric.getPriority(priority)); 
+        	test.setPlatforms(selectedPlatformsList);
+        	test.setVersion(new Version(version, BuildTypeFabric.get(build)));
         	
         	TestFabric.add(test.getTitle(), test);
         	addActionError("Test created!");
@@ -135,6 +150,16 @@ public class TestCreateAction  extends ActionSupport {
 	}
 
 
+	public List<String> getSelectedPlatforms() {
+		return selectedPlatforms;
+	}
+
+
+	public void setSelectedPlatforms(List<String> selectedPlatforms) {
+		this.selectedPlatforms = selectedPlatforms;
+	}
+
+
 	public void setState(String state) {
 		this.state = state;
 	}
@@ -147,6 +172,16 @@ public class TestCreateAction  extends ActionSupport {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+
+	public List<Platform> getSelectedPlatformsList() {
+		return selectedPlatformsList;
+	}
+
+
+	public void setSelectedPlatformsList(List<Platform> selectedPlatformsList) {
+		this.selectedPlatformsList = selectedPlatformsList;
 	}
 
 

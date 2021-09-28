@@ -1,5 +1,6 @@
 package com.bartosz.gameteststudio.dp;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -12,21 +13,34 @@ public abstract class TestFabric {
 		{
 
 			put("Stadiums - New - Radomiak - Model and Functionality", new Test("Stadiums - New - Radomiak - Model and Functionality", 
-																				UserFabric.getUserByEmail("donald@disney.com"),
+																				UserFabric.getUserByEmail("hp@griffindor.uk"),
 																				"Remamber to read all scenario before starting the test.....", AreaFabric.getArea("Stadiums"), 
-																				null, 6, null, null, 3, 0, StateFabric.getState("New"), PriorityFabric.getPriority("Important"), null, null));
+																				ResultFabric.get("Positive"), 6, null, null, 3, 0, StateFabric.getState("New"), PriorityFabric.getPriority("Important"), 
+																				Arrays.asList(PlatformFabric.getPlatform("Xbox One"), 
+																						PlatformFabric.getPlatform("Xbox One X")),
+																				new Version(1.23, BuildTypeFabric.get("Alpha"))));
+			
 			put("Stadiums - New - Legia - Model and Functionality", new Test("Stadiums - New - Legia - Model and Functionality", 
-																				UserFabric.getUserByEmail("donald@disney.com"),
+																				UserFabric.getUserByEmail("hp@griffindor.uk"),
 																				"Remamber to read all scenario before starting the test.....", AreaFabric.getArea("Stadiums"), 
-																				null, 6, null, null, 3, 0, StateFabric.getState("New"), PriorityFabric.getPriority("Important"), null, null));
+																				ResultFabric.get("Positive"), 6, null, null, 3, 0, StateFabric.getState("New"), PriorityFabric.getPriority("Important"), 
+																				Arrays.asList(PlatformFabric.getPlatform("Xbox One"), 
+																						PlatformFabric.getPlatform("Xbox One X")), 
+																				new Version(1.23, BuildTypeFabric.get("Alpha"))));
 			put("Players - New - Marcin Gortat", new Test("Players - New - Marcin Gortat",
 															UserFabric.getUserByEmail("donald@disney.com"),
 															"Remamber to read all scenario before starting the test.....", AreaFabric.getArea("Players"), 
-															null, 6, null, null, 3, 0, StateFabric.getState("New"), PriorityFabric.getPriority("Important"), null, null));
+															ResultFabric.get("Positive"), 6, null, null, 3, 0, StateFabric.getState("New"), PriorityFabric.getPriority("Important"), 
+															Arrays.asList(PlatformFabric.getPlatform("Xbox One"), 
+																	PlatformFabric.getPlatform("Xbox One X")), 
+															new Version(1.23, BuildTypeFabric.get("Alpha"))));
 			put("Teams - New - Toronto Raptors", new Test("Teams - New - Toronto Raptors",
 															UserFabric.getUserByEmail("donald@disney.com"),
 															"Remamber to read all scenario before starting the test.....", AreaFabric.getArea("Teams"), 
-															null, 6, null, null, 3, 0, StateFabric.getState("New"), PriorityFabric.getPriority("Important"), null, null));
+															ResultFabric.get("Positive"), 6, null, null, 3, 0, StateFabric.getState("New"), PriorityFabric.getPriority("Important"), 
+															Arrays.asList(PlatformFabric.getPlatform("Xbox One"), 
+																	PlatformFabric.getPlatform("Xbox One X")), 
+															new Version(1.23, BuildTypeFabric.get("Alpha"))));
 		}
 	};	
 	

@@ -8,8 +8,8 @@ public class Version {
 
 	public Version() {}
 	
-	public Version(Double  name, BuildType type) {
-		this.number = name;
+	public Version(Double  number, BuildType type) {
+		this.number = number;
 		this.type = type;
 	}
 

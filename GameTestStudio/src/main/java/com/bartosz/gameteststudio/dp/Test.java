@@ -1,5 +1,6 @@
 package com.bartosz.gameteststudio.dp;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -43,7 +44,15 @@ public class Test {
 	}
 
 
-
+	public List<String> getPlatformList(){
+		List<String> list = new ArrayList();
+		for (Platform pl : platforms) {
+			list.add(pl.getName());
+		}
+		return list;
+	}
+	
+	
 	public String getTitle() {
 		return title;
 	}

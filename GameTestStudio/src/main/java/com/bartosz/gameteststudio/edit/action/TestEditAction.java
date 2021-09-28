@@ -45,10 +45,28 @@ public class TestEditAction  extends ActionSupport {
 	private String result;
 	private String build;
 	private Double version;
-	
+	private List<String> platforms;
 	
     
-    private List<String> priorityList = PriorityFabric.keys();
+    public List<String> getPlatforms() {
+		return platforms;
+	}
+
+
+
+	public void setPlatforms(List<String> platforms) {
+		this.platforms = platforms;
+	}
+
+
+
+	public void setVersion(Double version) {
+		this.version = version;
+	}
+
+
+
+	private List<String> priorityList = PriorityFabric.keys();
 	private List<String> stateList = StateFabric.keys();
 	private List<String> areaList = new ArrayList();
 	private List<String> platformList = PlatformFabric.keys();
@@ -82,17 +100,18 @@ public class TestEditAction  extends ActionSupport {
     	
     	title = test.getTitle(); 
     	account = test.getUser().getEmail();
-    	priority = test.getPriority().getName();
-    	state = test.getState().getName(); 
     	description = test.getDescription(); 
     	area = test.getArea().getTitle(); 
-    	// platoform 
+    	result = test.getResult().getName(); 
     	estimatedTime = test.getEstimatedTime(); 
-    	workTime = test.getWorkTime();
-    	//build = test.getVersion().getType().getName(); 
-    	//version = test.getVersion().getName();
-    	//result = test.getResult().getName(); 
+    	// daty
     	testersNumber = test.getTestersNumber();
+    	workTime = test.getWorkTime();
+    	state = test.getState().getName(); 
+    	priority = test.getPriority().getName();
+    	platforms = test.getPlatformList();
+    	version = test.getVersion().getName();
+    	build = test.getVersion().getType().getName();
     	
     	return "editTest";
     }

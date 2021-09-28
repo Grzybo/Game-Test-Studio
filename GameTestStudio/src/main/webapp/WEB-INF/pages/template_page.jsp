@@ -3,32 +3,36 @@
 
 <html>
 	<head>
-		<title>Game Test Studio - Create Project</title>
+		<title>Game Test Studio - Title</title>
 	</head>
 	<body>
-    	<jsp:include page="../_adminMenu.jsp" />
+    	<!-- INCLUDE MENU -->
     	
-    	<h2>Create Project</h2>
-	 <div class = "content">
-				
-				
-				
-				
+    	<h2>Title</h2>
+    	
+    	<div class = "content">
+	    	<s:form id="projectSerch" action="/editProject">
+	    		<s:textfield class="text" name="searchTitle" key="Find Project by Title" size="100%"/>
+	    		<s:submit class= "button" method="execute" key="Search"/>
+	    	</s:form>
+    	</div>
+		<br>
+		 <div class = "content">
+
 		<s:actionerror />
-    	<s:form action="/createProject" > 
-        	<s:textfield class="text" name="title" key="Title" size="100%" />
+    	<s:form action="/updateProject" > 
+        	<s:textfield class="text" name="title" key="Title" size="100%" disabled="true"/>
         	<s:textarea class="text" name="description" key="Description" rows="4" cols="61" size="100%" />
         	<s:textfield class="text" name="startDate" key="Start Date"  type="date" size="100%"/>
         	<s:textfield class="text" name="endDate" key="End Date"  type="date" size="100%"/>
         	<s:textfield class="text" name="testers_numbers" key="Testers Number" size="100%" type="number" />
         	<s:textfield class="text" name="estimate_time" key="Estimated Time (hours)" size="100%" type="number" />
         	<s:textfield class="text" name="work_time" key="Work Time" size="100%" type="number" /> 
-    		<s:submit class= "button" method="execute" key="Create Project"/>
+    		<s:submit class= "button" method="execute" key="Update Project"/>
     	</s:form>
-	</div>
+	</div>		
 	<div class="center">
 		<a class="button" href="${pageContext.request.contextPath}/adminPage"> Cancel</a>
-	</div> 
-	
+	</div> 	
 	</body>
-</html> 
+</html>

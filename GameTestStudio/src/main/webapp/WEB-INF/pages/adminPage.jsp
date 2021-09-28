@@ -10,12 +10,62 @@
     	<jsp:include page="_adminMenu.jsp" />
 
     	<h2>Admin Page</h2>
-	 <div class = "adminContent">				
-		<a class="button" href="${pageContext.request.contextPath}/createAccount">Create new Account</a>
-		<a class="button" href="${pageContext.request.contextPath}/editAccount">Manage existing Account</a>
-		<br><br>
-		<a class="button" href="${pageContext.request.contextPath}/createProject">Create new Project</a>
-		<a class="button" href="${pageContext.request.contextPath}/editProject">Manage existing Project</a>
-	</div>
+	 
+	 <div class="content">
+			<table style="width:100%" >
+				<tr>
+					<th>Accounts</th>
+					<th>Projects</th>
+					<th>Platforms</th>
+				</tr>
+				<tr>
+					<th>
+						<a
+						 	class="button" 
+							href="${pageContext.request.contextPath}/createAccount">
+							Create
+						</a>
+					</th>
+					<th>
+						<a
+						 	class="button" 
+							href="${pageContext.request.contextPath}/createProject">
+							Create
+						</a>
+					</th>
+					<th>
+						<a
+						 	class="button" 
+							href="${pageContext.request.contextPath}/cratePlatforms"> <!-- apleceholdrer -->
+							Create
+						</a>
+					</th>
+				</tr>
+				<tr>
+					<th>
+						<a
+						 	class="button" 
+							href="${pageContext.request.contextPath}/editAccount">
+							Edit
+						</a>
+					</th>
+					<th>
+						<a
+						 	class="button" 
+							href="${pageContext.request.contextPath}/editProject">
+							Edit
+						</a>
+					</th>
+					<th>
+						<a
+						 	class="button" 
+							href="${pageContext.request.contextPath}/editPlatforms"> <!-- apleceholdrer -->
+							Edit
+						</a>
+					</th>
+				</tr>
+			</table>
+		 </div>
+	 
 	</body>
 </html>

@@ -67,7 +67,10 @@
 						<s:submit class= "button"  method="execute" key="Submit" form = "editTest"/>
 	 			</table>
 	 			</s:form>	
-	 			<a class="button" href="${pageContext.request.contextPath}/projects">Cancel</a> 
+	 			
 	 	</div>
+	 	<div class="center">
+		<a class="button" href="${pageContext.request.contextPath}/projects"> Cancel</a>
+		</div> 	
 	</body>
 </html>

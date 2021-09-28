@@ -1,5 +1,6 @@
 package com.bartosz.gameteststudio.dp;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -16,6 +17,7 @@ public class Bug {
 		private Version version;
 		private Area area;
 		private int minKitNumber;
+		private Attachment attachment;  
 		
 		public Bug() {}
 		
@@ -49,6 +51,14 @@ public class Bug {
 			return "Bug [title=" + title + "]";
 		}
 
+		public List<String> getPlatformList(){
+			List<String> list = new ArrayList();
+			for (Platform pl : platforms) {
+				list.add(pl.getName());
+			}
+			return list;
+		}
+		
 		public String getTitle() {
 			return title;
 		}
@@ -120,6 +130,14 @@ public class Bug {
 
 		public void setMinKitNumber(int minKitNumber) {
 			this.minKitNumber = minKitNumber;
+		}
+
+		public Attachment getAttachment() {
+			return attachment;
+		}
+
+		public void setAttachment(Attachment attachment) {
+			this.attachment = attachment;
 		}  
 		
 		

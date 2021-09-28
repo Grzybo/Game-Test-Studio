@@ -16,6 +16,7 @@ public class Area {
 	private State state; 
 	private Priority priority;
 	
+	
 	public Area() {}
 	
 	public Area(String title, String description, Project project, Integer estimatedTime, Date startDate, Date endDate,

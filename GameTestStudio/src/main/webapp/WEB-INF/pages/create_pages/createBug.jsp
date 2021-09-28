@@ -12,7 +12,7 @@
 	 		
 	 	<div class = "content">
 	 		<s:actionerror />
-	 		<s:form id="bug" action="/createBug" >
+	 		<s:form id="bug" action="/createBug" enctype="multipart/form-data">
 	 		<table style="width:100%">
 	 			<tr>
 					<s:textfield class="text" name="title" key="Title" size="100%"/>
@@ -39,8 +39,8 @@
 					<s:select label="Area"
 	    					name="area"
 	    					list="areaList"/>		
-					<s:checkboxlist label="Platform" list="platformList" 
-	 						name="platform" />
+					<s:checkboxlist label="Platforms" list="platformList" 
+	 						name="selectedPlatforms" />
 				</tr>
 				<tr>
 					<s:file name="fileUpload" label="Select a File to upload" 
@@ -64,9 +64,12 @@
 				<s:submit class= "button"  method="execute" key="Submit" form = "bug"/>			
  			</table>
  			</s:form>
- 			<a class="button" href="${pageContext.request.contextPath}/projects">Cancel</a>
+ 			
 	 		
 	 	</div>
+	 	<div class="center">
+		<a class="button" href="${pageContext.request.contextPath}/projects"> Cancel</a>
+		</div> 		
 	 	
 	</body>
 </html>

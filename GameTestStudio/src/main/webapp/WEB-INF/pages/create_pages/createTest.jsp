@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
+<%@ taglib prefix="sx" uri="/struts-dojo-tags" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -36,7 +37,7 @@
 	    					name="area"
 	    					list="areaList"/>		
 						<s:checkboxlist label="Platform" list="platformList" 
-	 						name="platform" />
+	 						name="selectedPlatforms" />
 					</tr>
 					<tr>
 						<s:textfield class="text" size="100%" name="estimatedTime" label="Estimated Test Time" 
@@ -55,6 +56,7 @@
 		     					list="resultList"/>
 					</tr>
 					<tr>
+						
 						<s:textfield  class="text" size="100%" name="startDate" 
 									label="Start Date" type="date"/>
 						<s:textfield class="text" size="100%" name="endDate" label="End Date" 
@@ -67,8 +69,11 @@
 						<s:submit class= "button"  method="execute" key="Submit" form = "editTest"/>
 	 			</table>
 	 			</s:form>	
-	 			<a class="button" href="${pageContext.request.contextPath}/projects">Cancel</a>
+
 	 			<s:actionerror /> 
 	 	</div>
+	 	<div class="center">
+		<a class="button" href="${pageContext.request.contextPath}/projects"> Cancel</a>
+		</div> 	
 	</body>
 </html>

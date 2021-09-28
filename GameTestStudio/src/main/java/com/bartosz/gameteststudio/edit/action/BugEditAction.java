@@ -38,6 +38,7 @@ public class BugEditAction  extends ActionSupport {
     private String reproSteps;
     private String area;
     private String platform;
+    private List<String> platforms;
     //file
     private String build;
 	private Double version;
@@ -80,23 +81,33 @@ public class BugEditAction  extends ActionSupport {
     	
     	title = bug.getTitle(); 
     	account = bug.getUser().getEmail();
-    	priority = bug.getPriority().getName();
-    	state = bug.getState().getName(); 
     	description = bug.getDescription(); 
     	reproSteps = bug.getReproSteps();
+    	state = bug.getState().getName(); 
+    	priority = bug.getPriority().getName();
+    	platforms = bug.getPlatformList();
+    	version = bug.getVersion().getName();
+    	build = bug.getVersion().getType().getName();
     	area = bug.getArea().getTitle(); 
-    	// platoform 
-    	//build = test.getVersion().getType().getName(); 
-    	//version = test.getVersion().getName();
-    	//result = test.getResult().getName(); 
-    	
-    	
+    	//fileUpload = bug.getAttachment().getFile();
+    	//fileUploadContentType = bug.getAttachment().getFileType();
+    	//fileUploadFileName = bug.getAttachment().getFileName();
     	
     	return "editBug";
     }
 
 
-    public File getFileUpload() {
+    public List<String> getPlatforms() {
+		return platforms;
+	}
+
+
+	public void setPlatforms(List<String> platforms) {
+		this.platforms = platforms;
+	}
+
+
+	public File getFileUpload() {
 		return fileUpload;
 	}
 
