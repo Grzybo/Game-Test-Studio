@@ -1,4 +1,4 @@
-package com.bartosz.gameteststudio.create.action;
+package com.bartosz.gameteststudio.action;
  
 import java.util.ArrayList;
 import java.util.List;
@@ -10,46 +10,32 @@ import com.bartosz.gameteststudio.dp.Platform;
 import com.bartosz.gameteststudio.dp.PlatformFabric;
 import com.opensymphony.xwork2.ActionSupport;
  
-@Action(value = "editPlatforms", //
+@Action(value = "deletePlatforms", //
 results = { //
         @Result(name = "cratePlatforms", location = "/WEB-INF/pages/edit_pages/editPlatforms.jsp")
 } //
 )
 
-public class PlatformCreateAction  extends ActionSupport {
+public class PlatformsDeleteAction  extends ActionSupport {
   
 
 	private static final long serialVersionUID = 1L; 
 	
-	private String platformName;
 	private List<String> platformList = PlatformFabric.keys();
 	private List<String> selectedPlatforms = new ArrayList();
 
 	@Override
     public String execute() {
           
-    	if(platformName != null) {
-    		if(!PlatformFabric.keys().contains(platformName)){
-    			PlatformFabric.add(platformName, new Platform(platformName));
-    			addActionError("Platform created!");
-    		}
-    		else addActionError("Platform already exists!");
+    	if(!selectedPlatforms.isEmpty()) {
+    		PlatformFabric.remove(selectedPlatforms);
     	}	
-		
-            return "cratePlatforms";
+            
+    		return "cratePlatforms";
     	}
 
 	
 	
-	
-	public String getPlatformName() {
-		return platformName;
-	}
-
-	public void setPlatformName(String platformName) {
-		this.platformName = platformName;
-	}
-
 
 
 

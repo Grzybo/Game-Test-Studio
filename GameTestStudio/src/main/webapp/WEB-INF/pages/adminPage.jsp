@@ -34,11 +34,7 @@
 						</a>
 					</th>
 					<th>
-						<a
-						 	class="button" 
-							href="${pageContext.request.contextPath}/cratePlatforms"> <!-- apleceholdrer -->
-							Create
-						</a>
+
 					</th>
 				</tr>
 				<tr>

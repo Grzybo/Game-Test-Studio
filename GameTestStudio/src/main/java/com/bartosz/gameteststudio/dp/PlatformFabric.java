@@ -28,5 +28,15 @@ public abstract class PlatformFabric {
 	
 	public static Platform getPlatform(String name) {
         return map.get(name);
-    } 
+    }  
+	
+	public static void add(String name, Platform platform) {
+		map.put(name, platform);
+	} 
+	
+	public static void remove(List<String> list) {
+		for(String platform : list) {
+			map.remove(platform);
+		}
+	}
 }
