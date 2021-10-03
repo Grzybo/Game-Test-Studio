@@ -30,6 +30,8 @@ public class TestEditAction  extends ActionSupport {
   
     private static final long serialVersionUID = 1L;
  
+    private String itemID;
+    
     private String title;
     private String account;
     private String priority; 
@@ -68,9 +70,9 @@ public class TestEditAction  extends ActionSupport {
 
 	private List<String> priorityList = PriorityFabric.keys();
 	private List<String> stateList = StateFabric.keys();
-	private List<String> areaList = new ArrayList();
+	private List<String> areaList = new ArrayList<String>();
 	private List<String> platformList = PlatformFabric.keys();
-	private List<String> accountList = new ArrayList();
+	private List<String> accountList = new ArrayList<String>();
 	private List<String> resultList = ResultFabric.keys();
 	private List<String> buildList = BuildTypeFabric.keys();
 	
@@ -96,7 +98,7 @@ public class TestEditAction  extends ActionSupport {
 			}
 		}
     	
-    	Test test = TestFabric.get("Players - New - Marcin Gortat");
+    	Test test = TestFabric.getById(Long.parseLong(itemID));
     	
     	title = test.getTitle(); 
     	account = test.getUser().getEmail();
@@ -121,6 +123,9 @@ public class TestEditAction  extends ActionSupport {
 	public String getAccount() {
 		return account;
 	}
+
+
+
 
 
 
@@ -378,6 +383,18 @@ public class TestEditAction  extends ActionSupport {
 
 	public void setAccountList(List<String> accountList) {
 		this.accountList = accountList;
+	}
+
+
+
+	public String getItemID() {
+		return itemID;
+	}
+
+
+
+	public void setItemID(String itemID) {
+		this.itemID = itemID;
 	}
     
 }

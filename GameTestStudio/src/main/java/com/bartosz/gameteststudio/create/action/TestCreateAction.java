@@ -47,15 +47,15 @@ public class TestCreateAction  extends ActionSupport {
 	private String result;
 	private String build;
 	private Double version;
-	private List<Platform> selectedPlatformsList = new ArrayList();
-	private List<String> selectedPlatforms = new ArrayList();
+	private List<Platform> selectedPlatformsList = new ArrayList<Platform>();
+	private List<String> selectedPlatforms = new ArrayList<String>();
 	
     
     private List<String> priorityList = PriorityFabric.keys();
 	private List<String> stateList = StateFabric.keys();
-	private List<String> areaList = new ArrayList();
+	private List<String> areaList = new ArrayList<String>();
 	private List<String> platformList = PlatformFabric.keys();
-	private List<String> accountList = new ArrayList();
+	private List<String> accountList = new ArrayList<String>();
 	private List<String> resultList = ResultFabric.keys();
 	private List<String> buildList = BuildTypeFabric.keys();
 	

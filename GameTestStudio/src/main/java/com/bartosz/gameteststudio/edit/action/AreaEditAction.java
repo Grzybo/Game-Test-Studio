@@ -11,11 +11,7 @@ import org.apache.struts2.convention.annotation.Result;
 
 import com.bartosz.gameteststudio.dp.Area;
 import com.bartosz.gameteststudio.dp.AreaFabric;
-import com.bartosz.gameteststudio.dp.Priority;
 import com.bartosz.gameteststudio.dp.PriorityFabric;
-import com.bartosz.gameteststudio.dp.Project;
-import com.bartosz.gameteststudio.dp.ProjectFabric;
-import com.bartosz.gameteststudio.dp.State;
 import com.bartosz.gameteststudio.dp.StateFabric;
 import com.bartosz.gameteststudio.dp.User;
 import com.bartosz.gameteststudio.dp.UserFabric;
@@ -30,6 +26,7 @@ public class AreaEditAction  extends ActionSupport {
   
     private static final long serialVersionUID = 1L;
     
+    private String itemID;
     private String title; 
     private String project; 
     private String priority; 
@@ -54,101 +51,42 @@ public class AreaEditAction  extends ActionSupport {
     	
     	projectsList = user.getProjectsList(); 
     	
-    	//Area area = AreaFabric.getArea(session.getAttribute("selectedArea").toString()); 
-    	Area area = AreaFabric.getArea("Players");
-    	Area newArea = new Area();
     	
-    	//System.out.print(this.description);
+    	Area area = AreaFabric.getAreaById(Long.parseLong(itemID));
     	
-    	
-    	
-    		
-    		this.title = area.getTitle();
-      
-    		this.project = area.getProject().getTitle();
-        	
-        	this.priority = area.getPriority().getName();
-        	
-        	this.state = area.getState().getName();
-        	
-        	this.description = area.getDescription();
-
-        	this.estimatedTime = area.getEstimatedTime(); 
-        	
-        	this.startDate = area.getStartDate();
-        	this.endDate = area.getEndDate(); 
-        	this.testersNumber = area.getTestersNumber(); 
-        	this.workTime = area.getWorkTime();
-        	
-    	
-    	
-    	//System.out.print(this.description);
-    	/*
-    	else {
-    	 	
-        	
-    		newArea.setTitle(title);
-        	
-        	newArea.setProject(ProjectFabric.getProject(project));
-        	
-        	newArea.setPriority(PriorityFabric.getPriority(priority));
-        	
-        	newArea.setState(StateFabric.getState(state));
-        	
-        	 newArea.setDescription(description);
-        	
-        	 //newArea.setEstimatedTime(estimatedTime);
-        	
-        	 //newArea.setStartDate(startDate);
-        	
-        	 //newArea.setEndDate(endDate);
-        	
-        	 //newArea.setTestersNumber(testersNumber);
-        	
-        	 //newArea.setWorkTime(workTime); 
-        	 
-    	    	
-    	}
-    	
-    	/*
-    	if(this.title == null) {this.title = area.getTitle();}
-    	else newArea.setTitle(title);
-    	if(this.project == null) this.project = area.getProject().getTitle();
-    	else newArea.setProject(ProjectFabric.getProject(project));
-    	if(this.priority == null) this.priority = area.getPriority().getName();
-    	else newArea.setPriority(PriorityFabric.getPriority(priority));
-    	if(this.state == null) this.state = area.getState().getName();
-    	else newArea.setState(StateFabric.getState(state));
-    	if(this.description == null) this.description = area.getDescription();
-    	else newArea.setDescription(description);
-    	if(this.estimatedTime == null) this.estimatedTime = area.getEstimatedTime(); 
-    	else newArea.setEstimatedTime(estimatedTime);
-    	if(this.startDate == null) this.startDate = area.getStartDate();
-    	else newArea.setStartDate(startDate);
-    	if(this.endDate == null) this.endDate = area.getEndDate(); 
-    	else newArea.setEndDate(endDate);
-    	if(this.testersNumber == null) this.testersNumber = area.getTestersNumber(); 
-    	else newArea.setTestersNumber(testersNumber);
-    	if(this.workTime == null) this.workTime = area.getWorkTime();
-    	else newArea.setWorkTime(workTime);
-    	*/
-    	//Area newArea = new Area(title, description, 
-    		//	ProjectFabric.getProject(project), 
-    			//estimatedTime, startDate, endDate,
-    		//	testersNumber, workTime, StateFabric.getState(state),
-    		//	PriorityFabric.getPriority(priority));
-    	
-    	
-    	//AreaFabric.updateArea(area, newArea);
-    	
-    	//System.out.print(" edit ");
+		this.title = area.getTitle();
+		this.project = area.getProject().getTitle();
+    	this.priority = area.getPriority().getName();
+    	this.state = area.getState().getName();
+    	this.description = area.getDescription();
+    	this.estimatedTime = area.getEstimatedTime(); 
+    	this.startDate = area.getStartDate();
+    	this.endDate = area.getEndDate(); 
+    	this.testersNumber = area.getTestersNumber(); 
+    	this.workTime = area.getWorkTime();	
     	
     	return "editArea";
     }
 
 
-	public List<String> getProjectsList() {
+    
+    
+    
+    //##################################################################################################
+	
+    
+    
+    public List<String> getProjectsList() {
 		return projectsList;
+	}
+
+	public String getItemID() {
+		return itemID;
+	}
+
+
+	public void setItemID(String itemID) {
+		this.itemID = itemID;
 	}
 
 

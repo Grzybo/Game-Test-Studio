@@ -3,18 +3,7 @@ package com.bartosz.gameteststudio.create.action;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Properties;
 
-import javax.mail.Message;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
-import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 import org.passay.CharacterRule;
@@ -23,7 +12,6 @@ import org.passay.PasswordGenerator;
 
 import com.bartosz.gameteststudio.dp.Project;
 import com.bartosz.gameteststudio.dp.ProjectFabric;
-import com.bartosz.gameteststudio.dp.Role;
 import com.bartosz.gameteststudio.dp.RoleFabric;
 import com.bartosz.gameteststudio.dp.User;
 import com.bartosz.gameteststudio.dp.UserFabric;

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE jsptabcontrol-config PUBLIC 
+    "-//JSPTabControl/JSPTabControl JSPTabControlConfig DTD 1.0//EN"
+    "http://jsptabcontrol.sourceforge.net/dtd/jsptabcontrol-config-1.0.dtd">
+<jsptabcontrol-config>
+	<tabpage-states>		
+	
+		<!-- Render of Tab page with DISABLE state -->
+		<tabpage-state name="READ-ONLY">	
+			<insert-styleclass where="tabPageHeader" >
+				<![CDATA[tabPageHeaderReadOnly]]>
+			</insert-styleclass>	
+			<insert-styleclass where="tabPageBody" >
+				<![CDATA[tabPageBodyReadOnly]]>
+			</insert-styleclass>	
+		</tabpage-state>
+
+		<!-- Render of Tab page with FORBIDDEN state -->
+		<tabpage-state name="FORBIDDEN">	
+			<insert-styleclass where="tabPageHeader" >
+				<![CDATA[tabPageHeaderForbidden]]>
+			</insert-styleclass>	
+			<insert-styleclass where="tabPageBody" >
+				<![CDATA[tabPageBodyForbidden]]>
+			</insert-styleclass>				
+			<insert-javascript event="onclick" where="before" >
+				<![CDATA[alert('You are not authorized to select this tab page!');return false;]]>
+			</insert-javascript>
+		</tabpage-state>
+
+		<!-- Render of Tab page with INVISIBLE state -->
+		<tabpage-state name="INVISIBLE" visible="false" >	
+			
+		</tabpage-state>
+				
+	</tabpage-states>
+	
+</jsptabcontrol-config>

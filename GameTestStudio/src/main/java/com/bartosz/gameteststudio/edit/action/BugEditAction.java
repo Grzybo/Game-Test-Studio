@@ -30,6 +30,9 @@ public class BugEditAction  extends ActionSupport {
   
     private static final long serialVersionUID = 1L;
  
+    
+    private String itemID;
+    
     private String title;
     private String account;
     private String priority; 
@@ -50,9 +53,9 @@ public class BugEditAction  extends ActionSupport {
     
     private List<String> priorityList = PriorityFabric.keys();
 	private List<String> stateList = StateFabric.keys();
-	private List<String> areaList = new ArrayList();
+	private List<String> areaList = new ArrayList<String>();
 	private List<String> platformList = PlatformFabric.keys();
-	private List<String> accountList = new ArrayList();
+	private List<String> accountList = new ArrayList<String>();
 	private List<String> resultList = ResultFabric.keys();
 	private List<String> buildList = BuildTypeFabric.keys();
     
@@ -77,7 +80,7 @@ public class BugEditAction  extends ActionSupport {
 			}
 		}
     	
-    	Bug bug = BugFabric.get("Players - Marcin Gortat - Player is not available in Quick Match Mode");
+    	Bug bug = BugFabric.getById(Long.parseLong(itemID));
     	
     	title = bug.getTitle(); 
     	account = bug.getUser().getEmail();
@@ -99,6 +102,16 @@ public class BugEditAction  extends ActionSupport {
 
     public List<String> getPlatforms() {
 		return platforms;
+	}
+
+
+	public String getItemID() {
+		return itemID;
+	}
+
+
+	public void setItemID(String itemID) {
+		this.itemID = itemID;
 	}
 
 

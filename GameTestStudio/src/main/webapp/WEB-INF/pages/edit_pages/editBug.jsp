@@ -16,6 +16,7 @@
 	 		<s:form id="editBug" action="/updateBug" >
 	 		<table style="width:100%">
 	 			<tr>
+					<s:hidden name="itemID"/>
 					<s:textfield class="text" name="title" key="Title" size="100%"/>
 				</tr>
 				<tr>

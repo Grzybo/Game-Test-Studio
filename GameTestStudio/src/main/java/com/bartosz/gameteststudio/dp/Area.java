@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Area {
 	
-	//private Long id;
+	private Long id;
 	private String title;
 	private String description; 
 	private Project project; 
@@ -19,7 +19,7 @@ public class Area {
 	
 	public Area() {}
 	
-	public Area(String title, String description, Project project, Integer estimatedTime, Date startDate, Date endDate,
+	public Area(Long id, String title, String description, Project project, Integer estimatedTime, Date startDate, Date endDate,
 			Integer testersNumber, Integer workTime, State state, Priority priority) {
 		super();
 		this.title = title;
@@ -32,6 +32,7 @@ public class Area {
 		this.workTime = workTime;
 		this.state = state;
 		this.priority = priority;
+		this.id = id;
 	}
 	
 	
@@ -41,9 +42,27 @@ public class Area {
 	}
 
 	//--------------------------------------------------------------------------------------------------------
+	
+	
 	public String getTitle() {
 		return title;
 	}
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public void setTestersNumber(Integer testersNumber) {
+		this.testersNumber = testersNumber;
+	}
+
+	public void setWorkTime(Integer workTime) {
+		this.workTime = workTime;
+	}
+
 	public void setTitle(String title) {
 		this.title = title;
 	}

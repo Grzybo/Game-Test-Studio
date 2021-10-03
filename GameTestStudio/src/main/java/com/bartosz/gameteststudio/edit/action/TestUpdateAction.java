@@ -30,6 +30,7 @@ public class TestUpdateAction  extends ActionSupport {
   
     private static final long serialVersionUID = 1L;
  
+    private String itemID;
     private String title;
     private String account;
     private String priority; 
@@ -49,9 +50,9 @@ public class TestUpdateAction  extends ActionSupport {
     
     private List<String> priorityList = PriorityFabric.keys();
 	private List<String> stateList = StateFabric.keys();
-	private List<String> areaList = new ArrayList();
+	private List<String> areaList = new ArrayList<String>();
 	private List<String> platformList = PlatformFabric.keys();
-	private List<String> accountList = new ArrayList();
+	private List<String> accountList = new ArrayList<String>();
 	private List<String> resultList = ResultFabric.keys();
 	private List<String> buildList = BuildTypeFabric.keys();
 	
@@ -77,7 +78,7 @@ public class TestUpdateAction  extends ActionSupport {
 			}
 		}
     	
-    	Test test = TestFabric.get("Players - New - Marcin Gortat");
+    	Test test = TestFabric.getById(Long.parseLong(itemID));
     	
     	test.setUser(UserFabric.getUserByEmail(account));
     	test.setPriority(PriorityFabric.getPriority(priority));
@@ -309,6 +310,16 @@ public class TestUpdateAction  extends ActionSupport {
 
 	public void setBuildList(List<String> buildList) {
 		this.buildList = buildList;
+	}
+
+
+	public String getItemID() {
+		return itemID;
+	}
+
+
+	public void setItemID(String itemID) {
+		this.itemID = itemID;
 	}
 
     

@@ -1,6 +1,5 @@
 package com.bartosz.gameteststudio.create.action;
  
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -54,11 +53,7 @@ public class AreaCreateAction  extends ActionSupport {
     	projectsList = user.getProjectsList(); 
     	
     	//Area area = AreaFabric.getArea(session.getAttribute("selectedArea").toString()); 
-    	
-    	Calendar cal = Calendar.getInstance();
-		//set date to january 31, 2010
-		cal.set(2010, 0, 31);
-		Date newDate = cal.getTime();
+    
 	
 		//endDate = newDate;
     	//System.out.print(title.toString());

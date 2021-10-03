@@ -11,11 +11,7 @@ import org.apache.struts2.convention.annotation.Result;
 
 import com.bartosz.gameteststudio.dp.Area;
 import com.bartosz.gameteststudio.dp.AreaFabric;
-import com.bartosz.gameteststudio.dp.Priority;
 import com.bartosz.gameteststudio.dp.PriorityFabric;
-import com.bartosz.gameteststudio.dp.Project;
-import com.bartosz.gameteststudio.dp.ProjectFabric;
-import com.bartosz.gameteststudio.dp.State;
 import com.bartosz.gameteststudio.dp.StateFabric;
 import com.bartosz.gameteststudio.dp.User;
 import com.bartosz.gameteststudio.dp.UserFabric;
@@ -30,6 +26,7 @@ public class AreaUpdateAction  extends ActionSupport {
   
     private static final long serialVersionUID = 1L;
     
+    private String itemID;
     private String title; 
     private String project; 
     private String priority; 
@@ -56,15 +53,8 @@ public class AreaUpdateAction  extends ActionSupport {
     	
     	projectsList = user.getProjectsList(); 
     	
-    	//Area area = AreaFabric.getArea(session.getAttribute("selectedArea").toString()); 
-    	Area area = AreaFabric.getArea("Players");
-    	Area newArea = new Area();
-    	
-    	System.out.print(this.description);
-    	System.out.print(this.project);	
-    	
-    	//area.setTitle(this.title);
-    	//area.setProject(ProjectFabric.getProject(this.project));
+    	Area area = AreaFabric.getAreaById(Long.parseLong(itemID));
+
     	area.setPriority(PriorityFabric.getPriority(this.priority));
     	area.setState(StateFabric.getState(state));
     	area.setDescription(this.description);
@@ -208,6 +198,16 @@ public class AreaUpdateAction  extends ActionSupport {
 
 	public void setStateList(List<String> stateList) {
 		this.stateList = stateList;
+	}
+
+
+	public String getItemID() {
+		return itemID;
+	}
+
+
+	public void setItemID(String itemID) {
+		this.itemID = itemID;
 	}
 
 

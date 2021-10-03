@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
+<%@ taglib uri="/WEB-INF/jsptabcontrol.tld" prefix="jsptabcontrol" %>
 
 <!DOCTYPE html>
 <html>
@@ -7,6 +8,11 @@
 		<meta charset="UTF-8">
 		<title>Projects</title>
 		<style><%@include file="/WEB-INF/index.css"%></style>
+		  <script type="text/javascript" src="js/jsptabcontrol.js" ></script>
+		   <link href="/css/my-jsptabcontrol.css" rel="stylesheet" type="text/css"/>
+
+
+    	
 	</head>
 	<body>
 		<jsp:include page="_userMenu.jsp" />
@@ -36,7 +42,7 @@
 		   						<s:set var="item" value="selectedItem"/> 
 		   						<s:if test="%{#item=='Area'}">
 		   							<a class="button" 
-		   								href="${pageContext.request.contextPath}/editArea">
+		   								href="${pageContext.request.contextPath}/editArea?itemID=${el.id}">
 		   									[${el['class'].simpleName}] :
 			   								<s:property value="#el.title" /> | 
 								  			<s:property value="#el.state.name" /> |
@@ -46,7 +52,7 @@
 		   						</s:if>
 		   						<s:elseif test="%{#item=='Test'}">
 		   							<a class="button" 
-		   								href="${pageContext.request.contextPath}/editTest">
+		   								href="${pageContext.request.contextPath}/editTest?itemID=${el.id}">
 		   									[${el['class'].simpleName}] : 
 			   								<s:property value="#el.title" /> | 
 								  			<s:property value="#el.state.name" /> |
@@ -56,7 +62,7 @@
 		   						</s:elseif>
 		   						<s:elseif test="%{#item=='Bug'}">
 		   							<a class="button" 
-		   								href="${pageContext.request.contextPath}/editBug">
+		   								href="${pageContext.request.contextPath}/editBug?itemID=${el.id}">
 		   									[${el['class'].simpleName}] :
 			   								<s:property value="#el.title" /> | 
 								  			<s:property value="#el.state.name" /> |
@@ -143,10 +149,41 @@
 
 		 				</s:form>
 					</div> 
+					
+				
+					
+						
+						                       
+					 
 				</td>
 			</tr>
+			<tr>
+				<jsptabcontrol:tabControl name="MY_TABCONTROL" 
+                            width="500px"
+                            height="50px"
+                            >
+                            
+			    <jsptabcontrol:tabPage name="MY_TABPAGE1" title="Tab page 1" width="150px" >
+			      Tab Page 1 content
+			    </jsptabcontrol:tabPage>
+			    
+			    <jsptabcontrol:tabPage name="MY_TABPAGE2" title="Tab page 2"  >
+			      Tab Page 2 content
+			    </jsptabcontrol:tabPage>
+			    
+			    <jsptabcontrol:tabPage name="MY_TABPAGE3" title="Tab page 3" >
+			      Tab Page 3 content
+			    </jsptabcontrol:tabPage>  
+			    
+			  </jsptabcontrol:tabControl> 
+			</tr>
+			<tr>
+				 
+			</tr> 
+			
 		</table> 
-		</div>
+		</div> 
+	
 		<br>
 
 		
@@ -155,36 +192,4 @@
 </html>
 			
 			
-			
-			
-			
-			
-<!-- 	---------------------------------------------------------------------------------------------------------------------------------------		
-			
-			<table style="width:100%">
-	    		<tr>
-			    	<th>
-			    		<a class="button" href="${pageContext.request.contextPath}/createBug">Create new Bug</a>
-	    			</th>
-	    			<th>
-			    		<a class="button" href="${pageContext.request.contextPath}/createTest">Create new Test</a>
-	    			</th>
-	    			<th>
-			    		<a class="button" href="${pageContext.request.contextPath}/createArea">Create new Area</a>
-	    			</th>
-				</tr>
-				<tr>
-					<th>
-			    		<a class="button" href="${pageContext.request.contextPath}/editBug">Modify Bug</a>
-	    			</th>
-	    			<th>
-			    		<a class="button" href="${pageContext.request.contextPath}/editTest">Modify Test</a>
-	    			</th>
-	    			<th>
-			    		<a class="button" href="${pageContext.request.contextPath}/editArea">Modify Area</a>
-	    			</th>
-				</tr>
-			</table>
-		</div> 
--->
 

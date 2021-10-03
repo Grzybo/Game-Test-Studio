@@ -21,7 +21,9 @@ results = { //
 public class AccountEditAction  extends ActionSupport {
   
     private static final long serialVersionUID = 1L;
- 
+
+    private String userEmailParam;
+    
     private String firstName;
     private String lastName;
     private String email;
@@ -36,6 +38,8 @@ public class AccountEditAction  extends ActionSupport {
     @Override
     public String execute() {
           
+    	System.out.print(getUserEmailParam());
+    	
     	if(searchEmail != null) {
     		User user = UserFabric.getUserByEmail(searchEmail); 
     		
@@ -49,10 +53,35 @@ public class AccountEditAction  extends ActionSupport {
     	return "editAccount";
     }
 
+	
+    
+    
+    
+    
+    public String getUserEmailParam() {
+		return userEmailParam;
+	}
+
+
+
+
+
+
+	public void setUserEmailParam(String userEmailParam) {
+		this.userEmailParam = userEmailParam;
+	}
+
+
+
+
+
+
 	public String getSearchEmail() {
 		return searchEmail;
 	}
 
+	
+	
 	public void setSearchEmail(String searchEmail) {
 		this.searchEmail = searchEmail;
 	}

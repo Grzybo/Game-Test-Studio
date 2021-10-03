@@ -11,7 +11,7 @@ public abstract class BugFabric {
 		private static final long serialVersionUID = 1L;
 		{
 			put("Stadiums - Radomiak - Stadium is not available in Quick Match Mode", 
-					new Bug("Stadiums - Radomiak - Stadium is not available in Quick Match Mode", 
+					new Bug((long)1, "Stadiums - Radomiak - Stadium is not available in Quick Match Mode", 
 								UserFabric.getUserByEmail("donald@disney.com"),
 								"Stadion im. Marszałka J.Piłsudskiego w Radomiu\" (Radomiak) is not available in Quick Match Mode. \r\n"
 								+ "    Stadium cannot be chosen becouse its not visible one the stadiums list. \r\n"
@@ -27,7 +27,7 @@ public abstract class BugFabric {
 								AreaFabric.getArea("Stadiums")));
 			
 			put("Players - Marcin Gortat - Player is not available in Quick Match Mode", 
-					new Bug("Players - Marcin Gortat - Player is not available in Quick Match Mode", 
+					new Bug((long)2, "Players - Marcin Gortat - Player is not available in Quick Match Mode", 
 								UserFabric.getUserByEmail("donald@disney.com"),
 								"Marcin Gortat - Player\" is not available in Quick Match Mode. \r\n"
 								+ "    Player cannot be chosen becouse its not visible one the players list. \r\n"
@@ -44,7 +44,7 @@ public abstract class BugFabric {
 								AreaFabric.getArea("Players")));
 			
 			put("Teams - Toronto Raptors - Team Logo is not implemented in the game", 
-					new Bug("Teams - Toronto Raptors - Team Logo is not implemented in the game", 
+					new Bug((long)3, "Teams - Toronto Raptors - Team Logo is not implemented in the game", 
 								UserFabric.getUserByEmail("donald@disney.com"),
 								"Toronto Raptors - Team Logo\" is not implemented in game. \r\n"
 								+ "    Team logo is not visible in any game mode. \r\n"
@@ -62,7 +62,19 @@ public abstract class BugFabric {
 								AreaFabric.getArea("Teams")));
 			
 		}
-	};	
+	};
+	
+	public static HashMap<Long, String> mapId = new HashMap<Long, String>(){
+	
+			
+			private static final long serialVersionUID = 1L;
+			{
+				put((long)1, "Stadiums - Radomiak - Stadium is not available in Quick Match Mode");
+				put((long)2, "Players - Marcin Gortat - Player is not available in Quick Match Mode");
+				put((long)3, "Teams - Toronto Raptors - Team Logo is not implemented in the game");
+			} 
+		
+	};
 	
 	public static List<String> keys() {
 		return map.keySet().stream().sorted().collect(Collectors.toList());
@@ -74,17 +86,27 @@ public abstract class BugFabric {
 	
 	public static void add(String name, Bug bug) {
 		map.put(name, bug);
+		mapId.put(bug.getId(), name);
 	}
-	
-	/*
-	public static void updateArea(Area OldArea, Area NewArea) {
-		map.remove(OldArea.getTitle());
-		addArea(NewArea.getTitle(), NewArea);
-    }
-	*/
 	
 	public static void update(Bug bug) {
 		map.remove(bug.getTitle());
 		add(bug.getTitle(), bug);
     }
+	
+	//#########################################
+	
+	public static List<Long> IdKeys() {
+		return mapId.keySet().stream().sorted().collect(Collectors.toList());
+	} 
+	
+	public static Long getNewId() {
+		return IdKeys().get(IdKeys().size()) + (long)1;
+	}
+	
+	public static Bug getById(Long id) {
+		return map.get(mapId.get(id)); 
+    } 
+	
+	
 }

@@ -6,7 +6,6 @@ import java.util.List;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
-import com.bartosz.gameteststudio.dp.Platform;
 import com.bartosz.gameteststudio.dp.PlatformFabric;
 import com.opensymphony.xwork2.ActionSupport;
  
@@ -22,7 +21,7 @@ public class PlatformsDeleteAction  extends ActionSupport {
 	private static final long serialVersionUID = 1L; 
 	
 	private List<String> platformList = PlatformFabric.keys();
-	private List<String> selectedPlatforms = new ArrayList();
+	private List<String> selectedPlatforms = new ArrayList<String>();
 
 	@Override
     public String execute() {

@@ -1,12 +1,11 @@
 package com.bartosz.gameteststudio.dp;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class Bug {
 
-	//private Long id;
+		private Long id;
 		private String title;
 		private User user; 
 		private String description;
@@ -21,7 +20,7 @@ public class Bug {
 		
 		public Bug() {}
 		
-		public Bug(String title, User user, String description, String reproSteps,
+		public Bug(Long id, String title, User user, String description, String reproSteps,
 				State state, Priority priority,
 				List<Platform> platforms,  Version version, int minKitNumber, Area area) {
 			this.title = title;
@@ -34,10 +33,19 @@ public class Bug {
 			this.version = version;
 			this.minKitNumber = minKitNumber;
 			this.area = area;
+			this.id = id;
 		}
 
 		
 		
+		public Long getId() {
+			return id;
+		}
+
+		public void setId(Long id) {
+			this.id = id;
+		}
+
 		public Area getArea() {
 			return area;
 		}
@@ -52,7 +60,7 @@ public class Bug {
 		}
 
 		public List<String> getPlatformList(){
-			List<String> list = new ArrayList();
+			List<String> list = new ArrayList<String>();
 			for (Platform pl : platforms) {
 				list.add(pl.getName());
 			}

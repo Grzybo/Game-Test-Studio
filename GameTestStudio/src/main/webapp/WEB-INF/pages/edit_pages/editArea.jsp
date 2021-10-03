@@ -17,6 +17,7 @@
 	 		
 	 		<table style="width:100%">
 	 			
+					<s:hidden name="itemID"/>
 					<s:textfield class="text" name="title" key="Title" size="100%"/>
 				
 		

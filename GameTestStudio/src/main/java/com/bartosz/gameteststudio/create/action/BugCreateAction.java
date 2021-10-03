@@ -42,7 +42,7 @@ public class BugCreateAction  extends ActionSupport {
     private String area;
     private String platform;
    
-    private List<String> selectedPlatforms = new ArrayList();
+    private List<String> selectedPlatforms = new ArrayList<String>();
     private List<Platform> selectedPlatformsList;
     
     private String build;
@@ -58,9 +58,9 @@ public class BugCreateAction  extends ActionSupport {
     
     private List<String> priorityList = PriorityFabric.keys();
 	private List<String> stateList = StateFabric.keys();
-	private List<String> areaList = new ArrayList();
+	private List<String> areaList = new ArrayList<String>();
 	private List<String> platformList = PlatformFabric.keys();
-	private List<String> accountList = new ArrayList();
+	private List<String> accountList = new ArrayList<String>();
 	private List<String> resultList = ResultFabric.keys();
 	private List<String> buildList = BuildTypeFabric.keys();
     

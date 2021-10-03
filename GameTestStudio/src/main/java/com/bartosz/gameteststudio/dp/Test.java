@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Test {
 	
-	//private Long id;
+	private Long id;
 	private String title;
 	private User user; 
 	private String description; 
@@ -24,7 +24,7 @@ public class Test {
 	
 	public Test() {}
 
-	public Test(String title, User user, String description, com.bartosz.gameteststudio.dp.Area area, Result result,
+	public Test(Long id ,String title, User user, String description, com.bartosz.gameteststudio.dp.Area area, Result result,
 			Integer estimatedTime, Date startDate, Date endDate, Integer testersNumber, Integer workTime, State state,
 			Priority priority, List<Platform> platforms, Version version) {
 		this.title = title;
@@ -41,11 +41,12 @@ public class Test {
 		this.priority = priority;
 		this.platforms = platforms;
 		this.version = version;
+		this.id = id;
 	}
 
 
 	public List<String> getPlatformList(){
-		List<String> list = new ArrayList();
+		List<String> list = new ArrayList<String>();
 		for (Platform pl : platforms) {
 			list.add(pl.getName());
 		}
@@ -53,6 +54,14 @@ public class Test {
 	}
 	
 	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	public String getTitle() {
 		return title;
 	}

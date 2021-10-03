@@ -23,7 +23,7 @@ public class PlatformCreateAction  extends ActionSupport {
 	
 	private String platformName;
 	private List<String> platformList = PlatformFabric.keys();
-	private List<String> selectedPlatforms = new ArrayList();
+	private List<String> selectedPlatforms = new ArrayList<String>();
 
 	@Override
     public String execute() {
