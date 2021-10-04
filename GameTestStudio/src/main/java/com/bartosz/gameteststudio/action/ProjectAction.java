@@ -54,9 +54,12 @@ public class ProjectAction  extends ActionSupport {
 	private Test tmpTest;
 	private Bug tmpBug;
 	
+	private List<Object> elementsObjList; 
+	
+	private List<Bug> bugObjList; 
+	private List<Test> testObjList;
 	private List<Area> areaObjList;
 	
-	private List<Object> elementsObjList; 
 	
 	private String assigned;
 	private List<String> usersList;
@@ -71,7 +74,13 @@ public class ProjectAction  extends ActionSupport {
 		elementsList = new ArrayList<String>();
 		areaList = new ArrayList<String>();
 		elementsObjList = new ArrayList<Object>(); 
-		usersList = new ArrayList<String>(); 
+		usersList = new ArrayList<String>();  
+		
+		bugObjList = new ArrayList<Bug>();
+		testObjList = new ArrayList<Test>();
+		areaObjList = new ArrayList<Area>(); 
+		
+		
 		
 		statesList.add("Any");
 		prioritiesList.add("Any");
@@ -103,75 +112,16 @@ public class ProjectAction  extends ActionSupport {
 			}
 		}
 
-		
-		if(assignedToMe) { // tylko test i bug nalezace do uzytkownika
-			for (String el : TestFabric.keys()) {
-				tmpTest = TestFabric.get(el);
-				if((TestFabric.get(el).getUser().getEmail().equals(user.getEmail()) && 
-						(TestFabric.get(el).getArea().getProject().getTitle().equals(selectedProject)))) {
-					elementsObjList.add(tmpTest);
-				}
-			}
-			for (String el : BugFabric.keys()) {
-				tmpBug = BugFabric.get(el);
-				if((BugFabric.get(el).getUser().getEmail().equals(user.getEmail()) && 
-						(BugFabric.get(el).getArea().getProject().getTitle().equals(selectedProject)))) {
-					elementsObjList.add(tmpBug);
-				}
-			}
-		}
-		else {
 
-			// wypelniamy liste Area
-			if(selectedItem != "Area") {
-				 for (String el : AreaFabric.keys()) {
-					 if( AreaFabric.getArea(el).getProject().getTitle().equals(selectedProject)) {
-						 areaList.add(el);
-					 }
-				 }
-			}
-			
-			switch(selectedItem) { // wybieramy jaki item i tworzymy ich liste 
-			  case "Area":
-				  for (String el : AreaFabric.keys()) {
-					  tmpArea = AreaFabric.getArea(el);
-					  if(tmpArea.getProject().getTitle().equals(selectedProject) && 
-								(tmpArea.getState().getName().equals(state) || state.equals("Any")) &&	
-								(tmpArea.getPriority().getName().equals(priority) || priority.equals("Any")) ) {
-						  elementsObjList.add(tmpArea);
-						}
-					}
-			
-			    break;
-			  case "Test":
-				  
-				  for (String el : TestFabric.keys()) {
-					  tmpTest = TestFabric.get(el);
-					  if((tmpTest.getArea().getProject().getTitle().equals(selectedProject)) && 
-								(tmpTest.getState().getName().equals(state) || state.equals("Any")) && 
-								(tmpTest.getPriority().getName().equals(priority) || priority.equals("Any")) && 
-								(tmpTest.getArea().getTitle().equals(selectedArea) || selectedArea.equals("Any")) &&
-								(tmpTest.getUser().getEmail().equals(assigned) || assigned.equals("Any"))  ) {
-						  elementsObjList.add(tmpTest);
-						}
-					}
-				  
-			    break;
-			  case "Bug":
-				  for (String el : BugFabric.keys()) {
-						tmpBug = BugFabric.get(el);
-					  	if((tmpBug.getArea().getProject().getTitle().equals(selectedProject) )  &&
-								(tmpBug.getState().getName().equals(state) || state.equals("Any")) && 
-								(tmpBug.getPriority().getName().equals(priority) || priority.equals("Any")) && 
-								(tmpBug.getArea().getTitle().equals(selectedArea) || selectedArea.equals("Any")) &&
-								(tmpBug.getUser().getEmail().equals(assigned) || assigned.equals("Any"))
-					  			) {
-					  		elementsObjList.add(tmpBug);
-						}
-					}
-			  default:
-			}
-		}
+		// wypelniamy liste Area
+		
+		 for (String el : AreaFabric.keys()) {
+			 if( AreaFabric.getArea(el).getProject().getTitle().equals(selectedProject)) {
+				 areaList.add(el);
+			 }
+		 }
+		
+		fillLists(); 
 
 		return "projects";
 	 }
@@ -182,9 +132,77 @@ public class ProjectAction  extends ActionSupport {
 //---------------------------------------------------------------------------------------------------------------------------
 	
 	 
+	 private void fillLists() {
+		 for (String el : AreaFabric.keys()) {
+			  tmpArea = AreaFabric.getArea(el);
+			  if(tmpArea.getProject().getTitle().equals(selectedProject) && 
+						(tmpArea.getState().getName().equals(state) || state.equals("Any")) &&	
+						(tmpArea.getPriority().getName().equals(priority) || priority.equals("Any")) ) {
+				  areaObjList.add(tmpArea);
+				}
+			}
+	
+	
+	 
+		  
+		  for (String el : TestFabric.keys()) {
+			  tmpTest = TestFabric.get(el);
+			  if((tmpTest.getArea().getProject().getTitle().equals(selectedProject)) && 
+						(tmpTest.getState().getName().equals(state) || state.equals("Any")) && 
+						(tmpTest.getPriority().getName().equals(priority) || priority.equals("Any")) && 
+						(tmpTest.getArea().getTitle().equals(selectedArea) || selectedArea.equals("Any")) &&
+						(tmpTest.getUser().getEmail().equals(assigned) || assigned.equals("Any"))  ) {
+				  testObjList.add(tmpTest);
+				}
+			}
+		  
+	   
+		  for (String el : BugFabric.keys()) {
+				tmpBug = BugFabric.get(el);
+			  	if((tmpBug.getArea().getProject().getTitle().equals(selectedProject) )  &&
+						(tmpBug.getState().getName().equals(state) || state.equals("Any")) && 
+						(tmpBug.getPriority().getName().equals(priority) || priority.equals("Any")) && 
+						(tmpBug.getArea().getTitle().equals(selectedArea) || selectedArea.equals("Any")) &&
+						(tmpBug.getUser().getEmail().equals(assigned) || assigned.equals("Any"))
+			  			) {
+			  		bugObjList.add(tmpBug);
+				
+			}
+	  
+		  }
+	 }
+	 
 	 public String getPriority() {
 		return priority;
 	}
+
+
+	public List<Bug> getBugObjList() {
+		return bugObjList;
+	}
+
+
+
+
+	public void setBugObjList(List<Bug> bugObjList) {
+		this.bugObjList = bugObjList;
+	}
+
+
+
+
+	public List<Test> getTestObjList() {
+		return testObjList;
+	}
+
+
+
+
+	public void setTestObjList(List<Test> testObjList) {
+		this.testObjList = testObjList;
+	}
+
+
 
 
 	public String getAssigned() {
@@ -226,6 +244,10 @@ public class ProjectAction  extends ActionSupport {
 		this.elementsObjList = elementsObjList;
 	}
 
+
+
+
+	
 
 
 
