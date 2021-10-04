@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ taglib uri="/WEB-INF/jsptabcontrol.tld" prefix="jsptabcontrol" %>
+<%@ taglib uri="http://displaytag.sf.net" prefix="display" %>
 
 <!DOCTYPE html>
 <html>
@@ -44,6 +45,12 @@
 												</div> 
 											</s:iterator>
 											</div> 
+										</td>
+										<td>
+											<display:table name="bugObjList">
+											  <display:column property="id" title="ID" />
+											  <display:column property="title" />
+											</display:table>
 										</td>
 										<td  valign="top">
 											<div class = "projectContentFilters" > 

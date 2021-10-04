@@ -54,7 +54,7 @@ public class BugCreateAction  extends ActionSupport {
 	private String fileUploadFileName;
 	
 	private Attachment att;
-	private Version ver; 
+	//private Version ver; 
     
     private List<String> priorityList = PriorityFabric.keys();
 	private List<String> stateList = StateFabric.keys();
