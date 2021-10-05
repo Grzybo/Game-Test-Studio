@@ -7,6 +7,8 @@ public class Bug {
 
 		private Long id;
 		private String title;
+		private String titleLink;
+		
 		private User user; 
 		private String description;
 		private String reproSteps;
@@ -38,6 +40,15 @@ public class Bug {
 
 		
 		
+		public String getTitleLink() {
+			return "\<a href=\"${pageContext.request.contextPath}/editBug?itemID=" + getId() + "\"\>" + getTitle() + "</a>";
+			return "\<a href=\"details.jsp?index=" + lIndex + "\"\>" + lObject.getId() + "\</a\>";
+		}
+
+		public void setTitleLink(String titleLink) {
+			this.titleLink = titleLink;
+		}
+
 		public Long getId() {
 			return id;
 		}

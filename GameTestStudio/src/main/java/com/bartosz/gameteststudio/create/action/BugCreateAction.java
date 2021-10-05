@@ -98,7 +98,8 @@ public class BugCreateAction  extends ActionSupport {
     	if(title != null) {
     		Bug bug = new Bug();
         	
-        	bug.setTitle(title);
+    		bug.setId(BugFabric.getNewId());
+    		bug.setTitle(title);
         	bug.setUser(UserFabric.getUserByEmail(account));
         	bug.setDescription(description);
         	bug.setReproSteps(reproSteps);

@@ -101,7 +101,7 @@ public abstract class BugFabric {
 	} 
 	
 	public static Long getNewId() {
-		return IdKeys().get(IdKeys().size()) + (long)1;
+		return IdKeys().get(IdKeys().size() - 1) + (long)1;
 	}
 	
 	public static Bug getById(Long id) {
