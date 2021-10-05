@@ -14,7 +14,7 @@ public class User {
 	private List<Project> projects;
 	
 	public User(Long id, String firstName, String lastName, String email, String password, Role role, List<Project> projects) {
-		//this.id = id;
+		this.id = id;
 		this.firstName = firstName; 
 		this.lastName = lastName; 
 		this.email = email; 

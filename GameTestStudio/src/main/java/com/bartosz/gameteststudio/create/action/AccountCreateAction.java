@@ -76,7 +76,7 @@ public class AccountCreateAction  extends ActionSupport {
     			System.out.print(p);
     		}
     		
-    		User user = new User(firstName, lastName, email, "password", RoleFabric.get(role), pL);
+    		User user = new User(UserFabric.getNewId(), firstName, lastName, email, "password", RoleFabric.get(role), pL);
     		UserFabric.addUser(user);
             
     		//System.out.print(projects.split(", "));

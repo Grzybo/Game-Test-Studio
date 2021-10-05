@@ -11,12 +11,24 @@ public abstract class ProjectFabric {
 		private static final long serialVersionUID = 1L;
 		{
 			//public Project(String title, String description, int estimatedTime, int workTime, Date startDate, Date endDate,int testersNumber, State state) {
-			put("FIFA 22", new Project("FIFA 22", "New features in FIFA 22...", 500, 0, null, null, 10 , StateFabric.getState("New")));
-			put("FIFA 21", new Project("FIFA 21", "New features in FIFA 21...", 700, 900, null, null, 50 , StateFabric.getState("Closed")));
-			put("NBA2K 22", new Project("NBA2K 22", "New features in NBA2K 22...", 600, 45, null, null, 100 , StateFabric.getState("Active")));
+			put("FIFA 22", new Project("FIFA 22", "New features in FIFA 22...", 500, 0, "2021-10-01", null, 10 , StateFabric.getState("New"), (long)1));
+			put("FIFA 21", new Project("FIFA 21", "New features in FIFA 21...", 700, 900, "2020-01-01", "2020-10-11", 50 , StateFabric.getState("Closed"),(long)2));
+			put("NBA2K 22", new Project("NBA2K 22", "New features in NBA2K 22...", 600, 45, "2021-10-01", null, 100 , StateFabric.getState("Active"), (long)3));
 			
 		}
 	};	
+	
+	public static HashMap<Long, String> mapId = new HashMap<Long, String>(){
+		
+		
+		private static final long serialVersionUID = 1L;
+		{
+			put((long)1, "FIFA 22");
+			put((long)2, "FIFA 21");
+			put((long)3, "NBA2K 22");
+		} 
+	
+};
 	
 	public static List<String> keys() {
 		return map.keySet().stream().sorted().collect(Collectors.toList());
@@ -28,10 +40,24 @@ public abstract class ProjectFabric {
 	
 	public static void addProject(String name, Project project) {
 		map.put(name, project);
+		mapId.put(project.getId(), name);
 	} 
 	
 	public static void update(Project old, Project newP) {
 		map.remove(old.getTitle());
 		addProject(newP.getTitle(), newP);
 	}
+	//#########################################
+	
+		public static List<Long> IdKeys() {
+			return mapId.keySet().stream().sorted().collect(Collectors.toList());
+		} 
+		
+		public static Long getNewId() {
+			return IdKeys().get(IdKeys().size() - 1) + (long)1;
+		}
+		
+		public static Project getById(Long id) {
+			return map.get(mapId.get(id)); 
+	    } 
 }

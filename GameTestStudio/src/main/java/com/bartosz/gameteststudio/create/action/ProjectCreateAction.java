@@ -1,10 +1,11 @@
 package com.bartosz.gameteststudio.create.action;
  
+
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
-
 import com.bartosz.gameteststudio.dp.Project;
 import com.bartosz.gameteststudio.dp.ProjectFabric;
+import com.bartosz.gameteststudio.dp.StateFabric;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "createProject", //
@@ -20,14 +21,16 @@ public class ProjectCreateAction  extends ActionSupport {
     private String description; 
     private Integer testers_numbers;
     private Integer estimate_time; 
-    private Integer work_time; 
+    private Integer work_time;
+    private String startDate;
+    private String endDate;
     
     
     @Override
     public String execute() {
           
     	if(title != null) {
-    		Project project = new Project(title, description);
+    		Project project = new Project(title, description, estimate_time, work_time, startDate, endDate, testers_numbers, StateFabric.getState("New"), ProjectFabric.getNewId());
     		ProjectFabric.addProject(title, project);
     		addActionError("Project created.");
     		return "project_create";
@@ -41,6 +44,28 @@ public class ProjectCreateAction  extends ActionSupport {
 
 	public String getTitle() {
 		return title;
+	}
+
+	
+	
+
+	public String getEndDate() {
+		return endDate;
+	}
+
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+
+
+	public String getStartDate() {
+		return startDate;
+	}
+
+
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
 	}
 
 

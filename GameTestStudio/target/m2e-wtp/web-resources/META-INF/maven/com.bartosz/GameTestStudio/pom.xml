@@ -121,7 +121,11 @@
 			<groupId>displaytag</groupId>
 			<artifactId>displaytag</artifactId>
 			<version>1.2</version>
-		</dependency>
+		</dependency> 
+		
+
+		
+		
   </dependencies>
 
   <build>

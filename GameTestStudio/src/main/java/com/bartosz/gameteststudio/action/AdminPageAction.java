@@ -1,5 +1,8 @@
 package com.bartosz.gameteststudio.action;
  
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -7,6 +10,9 @@ import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
+import com.bartosz.gameteststudio.dp.Project;
+import com.bartosz.gameteststudio.dp.ProjectFabric;
+import com.bartosz.gameteststudio.dp.User;
 import com.bartosz.gameteststudio.dp.UserFabric;
 import com.opensymphony.xwork2.ActionSupport;
  
@@ -23,6 +29,8 @@ public class AdminPageAction  extends ActionSupport {
   
     private static final long serialVersionUID = 1L;
     
+    private List<Project> projectObjList;
+    private List<User> userObjList;
  
     @Override
     public String execute() {
@@ -31,13 +39,41 @@ public class AdminPageAction  extends ActionSupport {
         HttpSession session = request.getSession();
         
         
-        if(session.getAttribute("loginedUsername") == null ){
-        	return "login";
-        }
     	
-    	if(UserFabric.getUserByEmail(session.getAttribute("loginedEmail").toString()).isAdmin()){	
-    		return "admin";
-    	}
+    	projectObjList = new ArrayList<Project>(); 
+    	userObjList = new ArrayList<User>(); 
+    	
+    	  for (String el : ProjectFabric.keys()) projectObjList.add(ProjectFabric.getProject(el));
+    	  for (String el : UserFabric.keys()) userObjList.add(UserFabric.getUserByEmail(el));
+
+    	  if(session.getAttribute("loginedUsername") == null ){
+    		  return "login";
+    	  }
+    	  
+    	  if(UserFabric.getUserByEmail(session.getAttribute("loginedEmail").toString()).isAdmin()){	
+    		  return "admin";
+    	  }
+    	
     	return "login";
     }
+
+    
+    
+	public List<Project> getProjectObjList() {
+		return projectObjList;
+	}
+
+	public void setProjectObjList(List<Project> projectObjList) {
+		this.projectObjList = projectObjList;
+	}
+
+	public List<User> getUserObjList() {
+		return userObjList;
+	}
+
+	public void setUserObjList(List<User> userObjList) {
+		this.userObjList = userObjList;
+	} 
+    
+    
 }

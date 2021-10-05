@@ -33,8 +33,8 @@ public class AreaEditAction  extends ActionSupport {
     private String state;
     private String description; 
 	private Integer estimatedTime; 
-	private Date startDate;
-	private Date endDate;
+	private String startDate;
+	private String endDate;
 	private Integer testersNumber;
 	private Integer workTime; 
 	
@@ -155,22 +155,22 @@ public class AreaEditAction  extends ActionSupport {
 	}
 
 
-	public Date getStartDate() {
+	public String getStartDate() {
 		return startDate;
 	}
 
 
-	public void setStartDate(Date startDate) {
+	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
 
 
-	public Date getEndDate() {
+	public String getEndDate() {
 		return endDate;
 	}
 
 
-	public void setEndDate(Date endDate) {
+	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
 

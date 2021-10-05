@@ -9,8 +9,8 @@ public class Area {
 	private String description; 
 	private Project project; 
 	private Integer estimatedTime; 
-	private Date startDate;
-	private Date endDate;
+	private String startDate;
+	private String endDate;
 	private Integer testersNumber;
 	private Integer workTime;
 	private State state; 
@@ -19,7 +19,7 @@ public class Area {
 	
 	public Area() {}
 	
-	public Area(Long id, String title, String description, Project project, Integer estimatedTime, Date startDate, Date endDate,
+	public Area(Long id, String title, String description, Project project, Integer estimatedTime, String startDate, String endDate,
 			Integer testersNumber, Integer workTime, State state, Priority priority) {
 		super();
 		this.title = title;
@@ -84,16 +84,16 @@ public class Area {
 	public void setEstimatedTime(int estimatedTime) {
 		this.estimatedTime = estimatedTime;
 	}
-	public Date getStartDate() {
+	public String getStartDate() {
 		return startDate;
 	}
-	public void setStartDate(Date startDate) {
+	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
-	public Date getEndDate() {
+	public String getEndDate() {
 		return endDate;
 	}
-	public void setEndDate(Date endDate) {
+	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
 	public int getTestersNumber() {

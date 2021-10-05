@@ -73,7 +73,8 @@ public abstract class TestFabric {
 	public static void update(Test test) {
 		map.remove(test.getTitle());
 		add(test.getTitle(), test);
-    }	
+    } 
+	
 	
 	//#########################################
 	

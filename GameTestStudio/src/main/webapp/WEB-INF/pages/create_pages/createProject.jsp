@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
+<%@ taglib prefix="sx" uri="/struts-dojo-tags" %>
 
 <html>
 	<head>
@@ -22,7 +23,7 @@
         	<s:textfield class="text" name="endDate" key="End Date"  type="date" size="100%"/>
         	<s:textfield class="text" name="testers_numbers" key="Testers Number" size="100%" type="number" />
         	<s:textfield class="text" name="estimate_time" key="Estimated Time (hours)" size="100%" type="number" />
-        	<s:textfield class="text" name="work_time" key="Work Time" size="100%" type="number" /> 
+        	<s:textfield class="text" name="work_time" key="Work Time" size="100%" type="number" />  
     		<s:submit class= "button" method="execute" key="Create Project"/>
     	</s:form>
 	</div>

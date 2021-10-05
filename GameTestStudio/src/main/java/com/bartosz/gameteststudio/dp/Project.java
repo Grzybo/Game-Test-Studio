@@ -10,8 +10,8 @@ public class Project {
 	private String description; 
 	private int estimatedTime; 
 	private int workTime;
-	private Date startDate;
-	private Date endDate;
+	private String startDate;
+	private String endDate;
 	private int testersNumber;
 	private State state;
 	private List<User> users; 
@@ -25,8 +25,8 @@ public class Project {
 
 	
 	public Project(String title, String description, int estimatedTime, 
-			int workTime, Date startDate, Date endDate,
-			int testersNumber, State state) {
+			int workTime, String startDate, String endDate,
+			int testersNumber, State state, Long id) {
 		this.title = title;
 		this.description = description;
 		this.estimatedTime = estimatedTime;
@@ -35,6 +35,7 @@ public class Project {
 		this.endDate = endDate;
 		this.testersNumber = testersNumber;
 		this.state = state;
+		this.id = id;
 	}
 
 
@@ -79,19 +80,19 @@ public class Project {
 		this.workTime = workTime;
 	}
 
-	public Date getStartDate() {
+	public String getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(Date startDate) {
+	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
 
-	public Date getEndDate() {
+	public String getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(Date endDate) {
+	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
 

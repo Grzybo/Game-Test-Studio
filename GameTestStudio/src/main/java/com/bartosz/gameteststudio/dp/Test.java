@@ -13,8 +13,8 @@ public class Test {
 	private Area area; 
 	private Result result; 
 	private Integer estimatedTime; 
-	private Date startDate;
-	private Date endDate;
+	private String startDate;
+	private String endDate;
 	private Integer testersNumber;
 	private Integer workTime;
 	private State state; 
@@ -25,7 +25,7 @@ public class Test {
 	public Test() {}
 
 	public Test(Long id ,String title, User user, String description, com.bartosz.gameteststudio.dp.Area area, Result result,
-			Integer estimatedTime, Date startDate, Date endDate, Integer testersNumber, Integer workTime, State state,
+			Integer estimatedTime, String startDate, String endDate, Integer testersNumber, Integer workTime, State state,
 			Priority priority, List<Platform> platforms, Version version) {
 		this.title = title;
 		this.user = user;
@@ -110,19 +110,19 @@ public class Test {
 		this.estimatedTime = estimatedTime;
 	}
 
-	public Date getStartDate() {
+	public String getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(Date startDate) {
+	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
 
-	public Date getEndDate() {
+	public String getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(Date endDate) {
+	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
 

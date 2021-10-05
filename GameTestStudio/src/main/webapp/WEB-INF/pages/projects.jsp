@@ -1,3 +1,7 @@
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="com.bartosz.gameteststudio.dp.Bug"%>
+<%@ page import="java.util.List"%>
+<%@ page import="com.bartosz.gameteststudio.dp.BugFabric"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ taglib uri="/WEB-INF/jsptabcontrol.tld" prefix="jsptabcontrol" %>
@@ -16,13 +20,18 @@
     	
 	</head>
 	<body>
+		<%
+			List<Bug> bugObjList = new ArrayList<Bug>();
+			for (String el : BugFabric.keys()) bugObjList.add(BugFabric.get(el));
+			request.setAttribute( "bugs", bugObjList ); 
+		%>
 		<jsp:include page="_userMenu.jsp" />
 		
 			
 			<div class="center">
 			<h2>Project: ${userProject}</h2>
-					<jsptabcontrol:tabControl name="MY_TABCONTROL" > 
-					    <jsptabcontrol:tabPage name="MY_TABPAGE1" title="Bug" width="100%" >
+					<jsptabcontrol:tabControl name="ProjectsTabs" > 
+					    <jsptabcontrol:tabPage name="BugTab" title="Bug" width="100%" >
 					    	<div class="center">
 								<a class="button" href="${pageContext.request.contextPath}/createBug">New Bug</a>
 								<s:select label="Project" 
@@ -30,18 +39,23 @@
 				     					list="projectsList"/>
 							</div>
 							<div class = "projectContent"> 
-								<display:table name="bugObjList" id="row">
-								<display:column  property="id" title="ID"  href="${pageContext.request.contextPath}/editTest?itemID=" paramId="id"/>
-								  <display:column property="title"  href="${pageContext.request.contextPath}/editTest?itemID=" paramId="id" />
-								  <display:column property="state.name" title="State"/>
+								
+								
+								<display:table name="bugs" uid="row">
+								  <display:column property="id" title="ID" sortable="true" headerClass="sortable"/>
+								  <display:column property="title" href="${pageContext.request.contextPath}/editBug?itemID=${row.id}" sortable="true"/>
+								  <display:column property="state.name" title="State" />
 								  <display:column property="priority.name" title="Priority"/>
 								  <display:column property="user.email" title="Assigned To"/>
+								  <display:column property="area.title" title="Area"/>
+								  
 								</display:table>	
+								
 							</div> 
 						      
 						    </jsptabcontrol:tabPage>
 					    
-					    <jsptabcontrol:tabPage name="MY_TABPAGE2" title="Test" width="100%"  >
+					    <jsptabcontrol:tabPage name="TestTab" title="Test" width="100%"  >
 					     
 					     	<div class="center">
 								<a class="button" href="${pageContext.request.contextPath}/createTest">New Test</a>
@@ -53,12 +67,14 @@
 											  <display:column property="state.name" title="State" />
 											  <display:column property="priority.name" title="Priority"/>
 											  <display:column property="user.email" title="Assigned To"/>
+  											  <display:column property="startDate" title="Start Date"/>
+											  <display:column property="endDate" title="End Date"/>
 											</display:table>	
 							</div> 
 						      
 					    </jsptabcontrol:tabPage>
 					    
-					    <jsptabcontrol:tabPage name="MY_TABPAGE3" title="Area" width="100%" >
+					    <jsptabcontrol:tabPage name="AreaTab" title="Area" width="100%" >
 					      <div class="center">
 								<a class="button" href="${pageContext.request.contextPath}/createArea">New Area</a>
 							</div> 
@@ -68,13 +84,15 @@
 											  <display:column property="title" paramId="id" href="${pageContext.request.contextPath}/editArea?itemID=${row.id}"/>
 											  <display:column property="state.name" title="State"/>
 											  <display:column property="priority.name" title="Priority"/>
+											  <display:column property="startDate" title="Start Date"/>
+											  <display:column property="endDate" title="End Date"/>
 											</display:table>	
 							</div> 
 						      
 					    </jsptabcontrol:tabPage>  
 				    
 				  </jsptabcontrol:tabControl> 
-			</div> 
+			</div>
 	</body>
 </html>
 			
