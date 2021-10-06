@@ -51,7 +51,7 @@ public class TestUpdateAction  extends ActionSupport {
     private List<String> priorityList = PriorityFabric.keys();
 	private List<String> stateList = StateFabric.keys();
 	private List<String> areaList = new ArrayList<String>();
-	private List<String> platformList = PlatformFabric.keys();
+	private List<String> platformList;
 	private List<String> accountList = new ArrayList<String>();
 	private List<String> resultList = ResultFabric.keys();
 	private List<String> buildList = BuildTypeFabric.keys();
@@ -79,7 +79,7 @@ public class TestUpdateAction  extends ActionSupport {
 		}
     	
     	Test test = TestFabric.getById(Long.parseLong(itemID));
-    	
+    	platformList = test.getArea().getProject().getPlatformsStringList();
     	test.setUser(UserFabric.getUserByEmail(account));
     	test.setPriority(PriorityFabric.getPriority(priority));
     	test.setState(StateFabric.getState(state));

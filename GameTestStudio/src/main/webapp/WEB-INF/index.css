@@ -176,6 +176,9 @@ tr.tableRowEven,tr.even { /* nieparzyste rzedy */
 .grouped-table tr.odd {
     background-color: #fff;
 }
+
+
+
 /* ---------------------------- tab control ------------------------------------------ */ 
 /* tab styles */
 

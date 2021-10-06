@@ -1,10 +1,15 @@
 package com.bartosz.gameteststudio.edit.action;
  
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
+import com.bartosz.gameteststudio.dp.PlatformFabric;
 import com.bartosz.gameteststudio.dp.Project;
 import com.bartosz.gameteststudio.dp.ProjectFabric;
+import com.bartosz.gameteststudio.dp.StateFabric;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "updateProject", //
@@ -22,7 +27,13 @@ public class ProjectUpdateAction  extends ActionSupport {
     private String description; 
     private Integer testers_numbers;
     private Integer estimate_time; 
-    private Integer work_time; 
+    private Integer work_time;
+    private String startDate;
+    private String endDate;
+    private String state;
+    private List<String> platformList = PlatformFabric.keys(); 
+    private List<String> selectedPlatforms = new ArrayList<String>();
+    private List<String> stateList = StateFabric.keys();
     
     @Override
     public String execute() {
@@ -34,12 +45,16 @@ public class ProjectUpdateAction  extends ActionSupport {
     		
     		Project project = new Project();
         	
-        	//project.setTitle(title);
+        	project.setTitle(title);
         	project.setDescription(description);
         	project.setTestersNumber(testers_numbers);
         	project.setEstimatedTime(estimate_time);
         	project.setWorkTime(work_time); 
-        	
+        	project.setStartDate(startDate);
+        	project.setEndDate(endDate);
+        	project.setPlatforms(selectedPlatforms);
+        	project.setState(StateFabric.getState(state));
+        	project.setId(project.getId());
         	ProjectFabric.update(project, project);
         	
         	addActionError("Project Updated.");
@@ -53,6 +68,54 @@ public class ProjectUpdateAction  extends ActionSupport {
 
 	public String getSearchTitle() {
 		return searchTitle;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public List<String> getStateList() {
+		return stateList;
+	}
+
+	public void setStateList(List<String> stateList) {
+		this.stateList = stateList;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public List<String> getSelectedPlatforms() {
+		return selectedPlatforms;
+	}
+
+	public List<String> getPlatformList() {
+		return platformList;
+	}
+
+	public void setPlatformList(List<String> platformList) {
+		this.platformList = platformList;
+	}
+
+	public void setSelectedPlatforms(List<String> selectedPlatforms) {
+		this.selectedPlatforms = selectedPlatforms;
+	}
+
+	public String getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
 	}
 
 	public void setSearchTitle(String searchTitle) {

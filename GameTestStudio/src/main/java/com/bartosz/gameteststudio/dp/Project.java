@@ -1,5 +1,6 @@
 package com.bartosz.gameteststudio.dp;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -15,9 +16,12 @@ public class Project {
 	private int testersNumber;
 	private State state;
 	private List<User> users; 
+	private List<Platform> platforms;
 	
 	public Project() {}
 	
+	
+
 	public Project(String title, String description) {
 		this.description = description; 
 		this.title = title; 
@@ -26,7 +30,7 @@ public class Project {
 	
 	public Project(String title, String description, int estimatedTime, 
 			int workTime, String startDate, String endDate,
-			int testersNumber, State state, Long id) {
+			int testersNumber, State state, Long id, List<Platform> platforms) {
 		this.title = title;
 		this.description = description;
 		this.estimatedTime = estimatedTime;
@@ -36,10 +40,32 @@ public class Project {
 		this.testersNumber = testersNumber;
 		this.state = state;
 		this.id = id;
+		this.platforms = platforms;
 	}
 
 
 	// ------------------------------------------------------------------------------------------------------------------------
+	public List<Platform> getPlatforms() {
+		return platforms;
+	}
+	
+	public List<String> getPlatformsStringList() {
+		List<String> list = new ArrayList<String>();
+		for(Platform el : this.platforms) {
+			list.add(el.getName());  
+		}
+		return list;
+	}
+
+	public void setPlatforms(List<String> list) {
+		List<Platform> platforms = new ArrayList<Platform>();
+		for(String str : list) {
+			platforms.add(PlatformFabric.getPlatform(str));
+		}
+		this.platforms = platforms;
+	}
+	
+	
 	public Long getId() {
 		return id;
 	}

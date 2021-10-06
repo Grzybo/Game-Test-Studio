@@ -27,7 +27,7 @@
     	</div>
 	
 	<div class="center">
-		<a class="button" href="${pageContext.request.contextPath}/adminPage"> Cancel</a>
+		<a class="button" href="${pageContext.request.contextPath}/adminPage"> Return</a>
 		<a class="button" href="${pageContext.request.contextPath}/editPlatforms"> Refresh</a>
 		
 	</div> 	

@@ -12,7 +12,6 @@ public class BugDecorator extends TableDecorator {
 	public String getTitleLink() {
 		Bug bug = (Bug)getCurrentRowObject();
 		return "<a href=\"${pageContext.request.contextPath}/editBug?itemID=" + bug.getId() + "\">" + bug.getTitle() + "</a>";
-		//return "" + "[] "+ bug.getTitle();
 	}
 
 

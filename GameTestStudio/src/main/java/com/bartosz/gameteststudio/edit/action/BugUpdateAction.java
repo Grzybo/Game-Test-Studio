@@ -52,7 +52,7 @@ public class BugUpdateAction  extends ActionSupport {
     private List<String> priorityList = PriorityFabric.keys();
 	private List<String> stateList = StateFabric.keys();
 	private List<String> areaList = new ArrayList<String>();
-	private List<String> platformList = PlatformFabric.keys();
+	private List<String> platformList;
 	private List<String> accountList = new ArrayList<String>();
 	private List<String> resultList = ResultFabric.keys();
 	private List<String> buildList = BuildTypeFabric.keys();
@@ -79,7 +79,7 @@ public class BugUpdateAction  extends ActionSupport {
 		}
     	
     	Bug bug = BugFabric.getById(Long.parseLong(itemID));
-    	
+    	platformList = bug.getArea().getProject().getPlatformsStringList();
     	
     	
     	//bug.setTitle(title);

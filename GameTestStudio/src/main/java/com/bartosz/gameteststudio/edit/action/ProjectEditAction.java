@@ -1,10 +1,15 @@
 package com.bartosz.gameteststudio.edit.action;
  
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
+import com.bartosz.gameteststudio.dp.PlatformFabric;
 import com.bartosz.gameteststudio.dp.Project;
 import com.bartosz.gameteststudio.dp.ProjectFabric;
+import com.bartosz.gameteststudio.dp.StateFabric;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "editProject", //
@@ -17,32 +22,95 @@ public class ProjectEditAction  extends ActionSupport {
     private static final long serialVersionUID = 1L;
  
     private String searchTitle;
-    
+    private String itemID;
     private String title; 
     private String description; 
     private Integer testers_numbers;
     private Integer estimate_time; 
-    private Integer work_time; 
-    
-    @Override
+    private Integer work_time;
+    private String startDate;
+    private String endDate;
+    private String state;
+    private List<String> platformList = PlatformFabric.keys(); 
+    private List<String> selectedPlatforms = new ArrayList<String>();
+    private List<String> stateList = StateFabric.keys();
+  
+
+	@Override
     public String execute() {
           
     	
-    	if (searchTitle != null) {
-    		Project project = ProjectFabric.getProject(searchTitle); 
+    		Project project = ProjectFabric.getById(Long.parseLong(itemID)); 
     		title = project.getTitle(); 
     		description = project.getDescription();
     	    testers_numbers = project.getTestersNumber();
     	    estimate_time = project.getEstimatedTime();
-    	    work_time = project.getEstimatedTime();
+    	    work_time = project.getEstimatedTime(); 
+    	    startDate = project.getStartDate();
+    	    endDate = project.getEndDate();
+    		state = project.getState().getName();
     		
-    	}
+   
     	
     	return "editProject";
     }
 
 	public String getSearchTitle() {
 		return searchTitle;
+	}
+	  public List<String> getSelectedPlatforms() {
+			return selectedPlatforms;
+		}
+
+		public void setSelectedPlatforms(List<String> selectedPlatforms) {
+			this.selectedPlatforms = selectedPlatforms;
+		}
+	public List<String> getPlatformList() {
+		return platformList;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public void setPlatformList(List<String> platformList) {
+		this.platformList = platformList;
+	}
+
+	public List<String> getStateList() {
+		return stateList;
+	}
+
+	public void setStateList(List<String> stateList) {
+		this.stateList = stateList;
+	}
+
+	public String getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+
+	public String getItemID() {
+		return itemID;
+	}
+
+	public void setItemID(String itemID) {
+		this.itemID = itemID;
 	}
 
 	public void setSearchTitle(String searchTitle) {

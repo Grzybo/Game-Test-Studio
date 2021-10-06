@@ -100,6 +100,8 @@ public class TestEditAction  extends ActionSupport {
     	
     	Test test = TestFabric.getById(Long.parseLong(itemID));
     	
+    	platformList = test.getArea().getProject().getPlatformsStringList();
+    	
     	title = test.getTitle(); 
     	account = test.getUser().getEmail();
     	description = test.getDescription(); 

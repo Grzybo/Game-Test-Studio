@@ -18,6 +18,8 @@ import com.bartosz.gameteststudio.dp.BuildTypeFabric;
 import com.bartosz.gameteststudio.dp.Platform;
 import com.bartosz.gameteststudio.dp.PlatformFabric;
 import com.bartosz.gameteststudio.dp.PriorityFabric;
+import com.bartosz.gameteststudio.dp.Project;
+import com.bartosz.gameteststudio.dp.ProjectFabric;
 import com.bartosz.gameteststudio.dp.ResultFabric;
 import com.bartosz.gameteststudio.dp.StateFabric;
 import com.bartosz.gameteststudio.dp.UserFabric;
@@ -59,7 +61,7 @@ public class BugCreateAction  extends ActionSupport {
     private List<String> priorityList = PriorityFabric.keys();
 	private List<String> stateList = StateFabric.keys();
 	private List<String> areaList = new ArrayList<String>();
-	private List<String> platformList = PlatformFabric.keys();
+	private List<String> platformList;
 	private List<String> accountList = new ArrayList<String>();
 	private List<String> resultList = ResultFabric.keys();
 	private List<String> buildList = BuildTypeFabric.keys();
@@ -68,8 +70,9 @@ public class BugCreateAction  extends ActionSupport {
     public String execute() {
           
     	HttpSession session = ServletActionContext.getRequest().getSession();
+    	Project project = ProjectFabric.getProject(session.getAttribute("userProject").toString());
     	
-    	
+    	platformList = project.getPlatformsStringList();
     	
     	for (String el : UserFabric.keys()) {
     		if(UserFabric.getUserByEmail(el).getProjects() != null) {

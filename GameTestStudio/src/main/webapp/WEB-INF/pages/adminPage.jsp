@@ -18,14 +18,18 @@
 	 
 	 	<jsptabcontrol:tabControl name="AdminTabs" >
 	 	
-		    <jsptabcontrol:tabPage name="ProjectsTab" title="Projects"  >
+		    <jsptabcontrol:tabPage name="ProjectsTab" title="Projects"  width="100%">
 		    <div class="center">
 				<a class="button" href="${pageContext.request.contextPath}/createProject">New Project</a>
 			</div>
-
-					<display:table name="projectObjList">
+			<div class = "projectContent">
+					
+					
+					
+					<display:table name="projectObjList" decorator="com.bartosz.decorators.ProjectDecorator" 
+									sort="list" requestURI="${pageContext.request.contextPath}/adminPage?sort=sortProject">
 					<display:column property="id" title="ID" />
-					  <display:column property="title"/>
+					  <display:column property="titleLink" sortable="true"/>
 					  <display:column property="state.name" title="State" />
 					  <display:column property="estimatedTime" title="Estimated Time [h]" />
 					  <display:column property="workTime" title="Time Spent [h]" />
@@ -33,7 +37,7 @@
 					  <display:column property="endDate" title="End Date" />
 					  <display:column property="testersNumber" title="Testers" />
 					</display:table>	
-
+			</div>
 		    
 		    </jsptabcontrol:tabPage>
 		    
@@ -41,19 +45,18 @@
 			    <div class="center">
 					<a class="button" href="${pageContext.request.contextPath}/createAccount">New Account</a>
 				</div>
-		    	
-		    	<display:table name="userObjList">
+		    	<div class = "projectContent">
+		    	<display:table name="userObjList" decorator="com.bartosz.decorators.UserDecorator" 
+		    					 sort="list" requestURI="${pageContext.request.contextPath}/adminPage?sort=sortUser">
 					  <display:column property="id" title="ID" />
-					  <display:column property="email"/>
+					  <display:column property="emailLink"  title="Email" sortable="true"/>
 					  <display:column property="firstName" title="First Name" />
 					  <display:column property="lastName" title="Last Name" />
 					  <display:column property="role.name" title="Role" />
 					</display:table>
-		    	
+		    	</div>
 		    </jsptabcontrol:tabPage>
 		    
-		    <jsptabcontrol:tabPage name="PlatformsTab" title="Platforms" width="100%" >
-		    </jsptabcontrol:tabPage>
 	 	</jsptabcontrol:tabControl> 
 	 
 	 </div>

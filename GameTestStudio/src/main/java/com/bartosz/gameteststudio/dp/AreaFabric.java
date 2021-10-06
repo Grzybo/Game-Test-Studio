@@ -14,13 +14,19 @@ public abstract class AreaFabric {
 		private static final long serialVersionUID = 1L;
 		{
 			//public Area(String title, String description, Project project, int estimatedTime, Date startDate, Date endDate,int testersNumber, int workTime, State state, Priority priority)
-			put("Stadiums", new Area((long)1, "Stadiums", "New Stadiums...", ProjectFabric.getProject("FIFA 22"), 100, null, null, 30, 6, 
+			put("Stadiums", new Area((long)1, "Stadiums", "New Stadiums...", ProjectFabric.getProject("FIFA 22"), 100, "2020-01-01", "2020-10-11", 30, 6, 
 										StateFabric.getState("Active"), PriorityFabric.getPriority("Important")));
-			put("Goalkeepers", new Area((long)2, "Goalkeepers", "New Goalkeepers Models...", ProjectFabric.getProject("FIFA 22"), 150, null, null, 60, 40, 
+			put("Goalkeepers", new Area((long)2, "Goalkeepers", "New Goalkeepers Models...", ProjectFabric.getProject("FIFA 22"), 150, "2020-01-01", "2020-10-11", 60, 40, 
 										StateFabric.getState("Active"), PriorityFabric.getPriority("Critical")));
-			put("Players", new Area((long)3,"Players", "New Players Models...", ProjectFabric.getProject("NBA2K 22"), 550, null, null, 50, 100, 
+			put("Gameplay Modes", new Area((long)5,"Gameplay Modes", "New Gameplay Modes...", ProjectFabric.getProject("FIFA 22"), 550, "2020-01-01", "2020-10-11", 50, 100, 
+					StateFabric.getState("Active"), PriorityFabric.getPriority("Very Important")));
+			put("Cinematics", new Area((long)6,"Cinematics", "Cinematics...", ProjectFabric.getProject("FIFA 22"), 550, "2020-01-01", "2020-10-11", 50, 100, 
+					StateFabric.getState("Active"), PriorityFabric.getPriority("Very Important")));
+			
+			
+			put("Players", new Area((long)3,"Players", "New Players Models...", ProjectFabric.getProject("NBA2K 22"), 550, "2020-01-01", "2020-10-11", 50, 100, 
 										StateFabric.getState("New"), PriorityFabric.getPriority("Very Important")));
-			put("Teams", new Area((long)4,"Teams", "New Teams...", ProjectFabric.getProject("NBA2K 22"), 550, null, null, 50, 100, 
+			put("Teams", new Area((long)4,"Teams", "New Teams...", ProjectFabric.getProject("NBA2K 22"), 550, "2020-01-01", "2020-10-11", 50, 100, 
 										StateFabric.getState("Closed"), PriorityFabric.getPriority("Very Important")));
 		} 
 		
@@ -36,7 +42,8 @@ public abstract class AreaFabric {
 			put((long)2, "Goalkeepers");
 			put((long)3, "Players");
 			put((long)4, "Teams");
-			
+			put((long)5, "Gameplay Modes");
+			put((long)6, "Cinematics");
 		} 
 		
 		

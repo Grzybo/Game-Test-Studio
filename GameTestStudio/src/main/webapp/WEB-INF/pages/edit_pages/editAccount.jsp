@@ -9,13 +9,7 @@
     	<jsp:include page="../_adminMenu.jsp" />
     	
     	<h2>Manage Account</h2>
-	 <div class = "content">
-    	<s:form id="projectSerch" action="/editAccount">
-    				<s:textfield  class="text" name="searchEmail" key="Find User by Email" size="100%"/>
-    				<s:submit class= "button" method="execute" key="Search"/>
-    				</s:form>
-   	</div>
-   	<br>
+	 <s:hidden name="itemID"/>
     	 <div class = "content" >
     	<s:actionerror />
     	<s:form action="/updateAccount" id = "form"  method="post"> 
@@ -38,7 +32,7 @@
     	
 	</div> 
 	<div class="center">
-		<a class="button" href="${pageContext.request.contextPath}/adminPage"> Cancel</a>
+		<a class="button" href="${pageContext.request.contextPath}/adminPage"> Return</a>
 	</div> 			
 	</body>
 </html> 

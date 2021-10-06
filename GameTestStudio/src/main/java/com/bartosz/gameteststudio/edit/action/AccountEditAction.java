@@ -23,7 +23,7 @@ public class AccountEditAction  extends ActionSupport {
     private static final long serialVersionUID = 1L;
 
     private String userEmailParam;
-    
+    private String itemID;
     private String firstName;
     private String lastName;
     private String email;
@@ -40,14 +40,14 @@ public class AccountEditAction  extends ActionSupport {
           
     	System.out.print(getUserEmailParam());
     	
-    	if(searchEmail != null) {
-    		User user = UserFabric.getUserByEmail(searchEmail); 
+    	
+    		User user = UserFabric.getById(Long.parseLong(itemID)); 
     		
     		firstName = user.getFirstName(); 
     		lastName = user.getLastName(); 
     		email = user.getEmail(); 
     		role = user.getRole().getName();
-    	}
+    	
     	
     	
     	return "editAccount";
@@ -58,7 +58,25 @@ public class AccountEditAction  extends ActionSupport {
     
     
     
-    public String getUserEmailParam() {
+    public String getItemID() {
+		return itemID;
+	}
+
+
+
+
+
+
+	public void setItemID(String itemID) {
+		this.itemID = itemID;
+	}
+
+
+
+
+
+
+	public String getUserEmailParam() {
 		return userEmailParam;
 	}
 

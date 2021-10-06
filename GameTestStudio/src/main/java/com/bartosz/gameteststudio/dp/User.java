@@ -32,6 +32,11 @@ public class User {
 		this.projects = projects;
 	} 
 	
+	public User(String firstName,String lastName) {
+		this.firstName = firstName; 
+		this.lastName = lastName; 
+	}
+	
 	public User() {}
 	
 	

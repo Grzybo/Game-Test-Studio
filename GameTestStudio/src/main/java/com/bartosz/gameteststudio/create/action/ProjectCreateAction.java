@@ -30,7 +30,7 @@ public class ProjectCreateAction  extends ActionSupport {
     public String execute() {
           
     	if(title != null) {
-    		Project project = new Project(title, description, estimate_time, work_time, startDate, endDate, testers_numbers, StateFabric.getState("New"), ProjectFabric.getNewId());
+    		Project project = new Project(title, description, estimate_time, work_time, startDate, endDate, testers_numbers, StateFabric.getState("New"), ProjectFabric.getNewId(), null);
     		ProjectFabric.addProject(title, project);
     		addActionError("Project created.");
     		return "project_create";

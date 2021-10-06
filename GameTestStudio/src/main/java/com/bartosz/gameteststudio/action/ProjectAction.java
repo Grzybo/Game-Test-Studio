@@ -2,6 +2,7 @@ package com.bartosz.gameteststudio.action;
  
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -32,6 +33,8 @@ results = { //
 public class ProjectAction  extends ActionSupport {
 
 	private static final long serialVersionUID = 1L;
+	
+	private String sort;
 	
 	private List<String> projectsList;
 	private String selectedProject; 
@@ -89,7 +92,7 @@ public class ProjectAction  extends ActionSupport {
 		
 		 User user = UserFabric.getUserByEmail(session.getAttribute("loginedEmail").
 				 toString());
-		
+		 
 		userProjectsList = user.getProjects();
 	
 		projectsList = user.getProjectsList();
@@ -121,7 +124,12 @@ public class ProjectAction  extends ActionSupport {
 			 }
 		 }
 		
-		fillLists(); 
+		
+		fillLists();  
+		if(sort != null) {
+			 sortDsc(sort);			
+		}
+		
 
 		return "projects";
 	 }
@@ -170,6 +178,30 @@ public class ProjectAction  extends ActionSupport {
 			}
 	  
 		  }
+	 } 
+	 
+	 private void sortDsc(String element) {
+		 List<String> tmpList = new ArrayList<String>();
+		 switch(element) {
+		 	case "sortBug": 
+		 		for (Bug el : bugObjList) tmpList.add(el.getTitle());
+				 Collections.reverse(tmpList); 
+				 bugObjList.clear(); 
+				 for (String str : tmpList) bugObjList.add(BugFabric.get(str));
+			 break;
+		 	case "sortTest":
+				 for (Test el : testObjList) tmpList.add(el.getTitle());
+				 Collections.reverse(tmpList); 
+				 testObjList.clear(); 
+				 for (String str : tmpList) testObjList.add(TestFabric.get(str));
+			 break;
+		 	case "sortArea":
+				 for (Area el : areaObjList) tmpList.add(el.getTitle());
+				 Collections.reverse(tmpList); 
+				 areaObjList.clear(); 
+				 for (String str : tmpList) areaObjList.add(AreaFabric.getArea(str));
+			 break;	
+		 } 
 	 }
 	 
 	 public String getPriority() {
@@ -179,6 +211,20 @@ public class ProjectAction  extends ActionSupport {
 
 	public List<Bug> getBugObjList() {
 		return bugObjList;
+	}
+
+
+	
+
+	public String getSort() {
+		return sort;
+	}
+
+
+
+
+	public void setSort(String sort) {
+		this.sort = sort;
 	}
 
 
