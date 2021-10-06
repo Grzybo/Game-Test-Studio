@@ -21,9 +21,12 @@
 	</head>
 	<body>
 		<%
-			List<Bug> bugObjList = new ArrayList<Bug>();
-			for (String el : BugFabric.keys()) bugObjList.add(BugFabric.get(el));
-			request.setAttribute( "bugs", bugObjList ); 
+			List<Bug> list = new ArrayList<Bug>();
+			for (String el : BugFabric.keys()) list.add(BugFabric.get(el)); 
+			
+			
+			
+			request.setAttribute( "bugs", list ); 
 		%>
 		<jsp:include page="_userMenu.jsp" />
 		
@@ -41,9 +44,9 @@
 							<div class = "projectContent"> 
 								
 								
-								<display:table name="bugs" uid="row">
+								<display:table name="bugs" uid="row" decorator="com.bartosz.decorators.BugDecorator" defaultsort="1" defaultorder="descending">
 								  <display:column property="id" title="ID" sortable="true" headerClass="sortable"/>
-								  <display:column property="title" href="${pageContext.request.contextPath}/editBug?itemID=${row.id}" sortable="true"/>
+								  <display:column property="titleLink" title="Title"/> <!--  href="${pageContext.request.contextPath}/editBug?itemID=${row.id}" sortable="true"/>--> 
 								  <display:column property="state.name" title="State" />
 								  <display:column property="priority.name" title="Priority"/>
 								  <display:column property="user.email" title="Assigned To"/>
