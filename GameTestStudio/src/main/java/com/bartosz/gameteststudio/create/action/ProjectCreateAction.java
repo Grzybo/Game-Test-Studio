@@ -5,7 +5,6 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 import com.bartosz.gameteststudio.dp.Project;
 import com.bartosz.gameteststudio.dp.ProjectFabric;
-import com.bartosz.gameteststudio.dp.StateFabric;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "createProject", //

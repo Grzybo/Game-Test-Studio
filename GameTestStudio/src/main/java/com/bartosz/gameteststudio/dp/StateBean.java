@@ -1,15 +1,15 @@
 package com.bartosz.gameteststudio.dp;
 
-public class Priority {
-	
-	private String name;
+public class StateBean {
 
-	public Priority() {}
+	private String name;
 	
-	public Priority(String name) {
+	public StateBean() {}
+	
+	public StateBean(String name) {
 		this.name = name;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -17,4 +17,6 @@ public class Priority {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+
 }

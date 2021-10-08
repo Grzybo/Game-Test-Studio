@@ -1,5 +1,7 @@
 package com.bartosz.gameteststudio.dp;
 
+import com.bartosz.gameteststudio.beans.PriorityBean;
+
 public class Area {
 	
 	private Long id;
@@ -11,14 +13,14 @@ public class Area {
 	private String endDate;
 	private Integer testersNumber;
 	private Integer workTime;
-	private State state; 
-	private Priority priority;
+	private StateBean state; 
+	private PriorityBean priority;
 	
 	
 	public Area() {}
 	
 	public Area(Long id, String title, String description, Project project, Integer estimatedTime, String startDate, String endDate,
-			Integer testersNumber, Integer workTime, State state, Priority priority) {
+			Integer testersNumber, Integer workTime, StateBean state, PriorityBean priority) {
 		super();
 		this.title = title;
 		this.description = description;
@@ -106,16 +108,16 @@ public class Area {
 	public void setWorkTime(int workTime) {
 		this.workTime = workTime;
 	}
-	public State getState() {
+	public StateBean getState() {
 		return state;
 	}
-	public void setState(State state) {
+	public void setState(StateBean state) {
 		this.state = state;
 	}
-	public Priority getPriority() {
+	public PriorityBean getPriority() {
 		return priority;
 	}
-	public void setPriority(Priority priority) {
+	public void setPriority(PriorityBean priority) {
 		this.priority = priority;
 	} 
 	

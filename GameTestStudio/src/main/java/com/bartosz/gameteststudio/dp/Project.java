@@ -13,7 +13,7 @@ public class Project {
 	private String startDate;
 	private String endDate;
 	private int testersNumber;
-	private State state;
+	private StateBean state;
 	private List<User> users; 
 	private List<Platform> platforms;
 	
@@ -29,7 +29,7 @@ public class Project {
 	
 	public Project(String title, String description, int estimatedTime, 
 			int workTime, String startDate, String endDate,
-			int testersNumber, State state, Long id, List<Platform> platforms) {
+			int testersNumber, StateBean state, Long id, List<Platform> platforms) {
 		this.title = title;
 		this.description = description;
 		this.estimatedTime = estimatedTime;
@@ -129,11 +129,11 @@ public class Project {
 		this.testersNumber = testersNumber;
 	}
 
-	public State getState() {
+	public StateBean getState() {
 		return state;
 	}
 
-	public void setState(State state) {
+	public void setState(StateBean state) {
 		this.state = state;
 	}
 

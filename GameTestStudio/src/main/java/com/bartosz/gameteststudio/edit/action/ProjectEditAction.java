@@ -6,10 +6,10 @@ import java.util.List;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
+import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.dp.PlatformFabric;
 import com.bartosz.gameteststudio.dp.Project;
 import com.bartosz.gameteststudio.dp.ProjectFabric;
-import com.bartosz.gameteststudio.dp.StateFabric;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "editProject", //
@@ -33,7 +33,7 @@ public class ProjectEditAction  extends ActionSupport {
     private String state;
     private List<String> platformList = PlatformFabric.keys(); 
     private List<String> selectedPlatforms = new ArrayList<String>();
-    private List<String> stateList = StateFabric.keys();
+    private List<String> stateList = new ArrayList<String>(DataProvider.getStates().keySet());
   
 
 	@Override

@@ -13,9 +13,8 @@ import org.apache.struts2.convention.annotation.Result;
 import com.bartosz.gameteststudio.dp.Bug;
 import com.bartosz.gameteststudio.dp.BugFabric;
 import com.bartosz.gameteststudio.dp.BuildTypeFabric;
-import com.bartosz.gameteststudio.dp.PriorityFabric;
+import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.dp.ResultFabric;
-import com.bartosz.gameteststudio.dp.StateFabric;
 import com.bartosz.gameteststudio.dp.TestFabric;
 import com.bartosz.gameteststudio.dp.UserFabric;
 import com.opensymphony.xwork2.ActionSupport;
@@ -51,8 +50,8 @@ public class BugEditAction  extends ActionSupport {
 	private String fileUploadContentType;
 	private String fileUploadFileName;
     
-    private List<String> priorityList = PriorityFabric.keys();
-	private List<String> stateList = StateFabric.keys();
+    private List<String> priorityList = new ArrayList<String>(DataProvider.getPriorities().keySet()); 
+	private List<String> stateList = new ArrayList<String>(DataProvider.getStates().keySet());
 	private List<String> areaList = new ArrayList<String>();
 	private List<String> testList = new ArrayList<String>();
 	private List<String> platformList;

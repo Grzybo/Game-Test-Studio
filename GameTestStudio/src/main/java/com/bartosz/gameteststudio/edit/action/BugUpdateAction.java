@@ -14,9 +14,8 @@ import com.bartosz.gameteststudio.dp.AreaFabric;
 import com.bartosz.gameteststudio.dp.Bug;
 import com.bartosz.gameteststudio.dp.BugFabric;
 import com.bartosz.gameteststudio.dp.BuildTypeFabric;
-import com.bartosz.gameteststudio.dp.PriorityFabric;
+import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.dp.ResultFabric;
-import com.bartosz.gameteststudio.dp.StateFabric;
 import com.bartosz.gameteststudio.dp.TestFabric;
 import com.bartosz.gameteststudio.dp.UserFabric;
 import com.opensymphony.xwork2.ActionSupport;
@@ -50,8 +49,8 @@ public class BugUpdateAction  extends ActionSupport {
 	private String fileUploadContentType;
 	private String fileUploadFileName;
     
-    private List<String> priorityList = PriorityFabric.keys();
-	private List<String> stateList = StateFabric.keys();
+    private List<String> priorityList = new ArrayList<String>(DataProvider.getPriorities().keySet());
+	private List<String> stateList = new ArrayList<String>(DataProvider.getStates().keySet());
 	private List<String> areaList = new ArrayList<String>();
 	private List<String> platformList;
 	private List<String> accountList = new ArrayList<String>();
@@ -85,7 +84,7 @@ public class BugUpdateAction  extends ActionSupport {
     	
     	//bug.setTitle(title);
     	bug.setUser(UserFabric.getUserByEmail(account));
-    	bug.setPriority(PriorityFabric.getPriority(priority));
+    	bug.setPriority(DataProvider.getPriorities().get(priority));
     	bug.setState(StateFabric.getState(state));
     	bug.setDescription(description);
     	bug.setTest(TestFabric.get(test));

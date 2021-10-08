@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import java.util.List;
 
+import com.bartosz.gameteststudio.beans.PriorityBean;
+
 public class Test {
 	
 	private Long id;
@@ -17,16 +19,16 @@ public class Test {
 	private String endDate;
 	private Integer testersNumber;
 	private Integer workTime;
-	private State state; 
-	private Priority priority;
+	private StateBean state; 
+	private PriorityBean priority;
 	private List<Platform> platforms;
 	private Version version; 
 	
 	public Test() {}
 
 	public Test(Long id ,String title, User user, String description, com.bartosz.gameteststudio.dp.Area area, Result result,
-			Integer estimatedTime, String startDate, String endDate, Integer testersNumber, Integer workTime, State state,
-			Priority priority, List<Platform> platforms, Version version) {
+			Integer estimatedTime, String startDate, String endDate, Integer testersNumber, Integer workTime, StateBean state,
+			PriorityBean priority, List<Platform> platforms, Version version) {
 		this.title = title;
 		this.user = user;
 		this.description = description;
@@ -142,19 +144,19 @@ public class Test {
 		this.workTime = workTime;
 	}
 
-	public State getState() {
+	public StateBean getState() {
 		return state;
 	}
 
-	public void setState(State state) {
+	public void setState(StateBean state) {
 		this.state = state;
 	}
 
-	public Priority getPriority() {
+	public PriorityBean getPriority() {
 		return priority;
 	}
 
-	public void setPriority(Priority priority) {
+	public void setPriority(PriorityBean priority) {
 		this.priority = priority;
 	}
 

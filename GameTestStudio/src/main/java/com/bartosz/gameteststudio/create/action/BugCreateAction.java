@@ -10,18 +10,16 @@ import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
-import com.bartosz.gameteststudio.dp.AreaFabric;
 import com.bartosz.gameteststudio.dp.Attachment;
 import com.bartosz.gameteststudio.dp.Bug;
 import com.bartosz.gameteststudio.dp.BugFabric;
 import com.bartosz.gameteststudio.dp.BuildTypeFabric;
+import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.dp.Platform;
 import com.bartosz.gameteststudio.dp.PlatformFabric;
-import com.bartosz.gameteststudio.dp.PriorityFabric;
 import com.bartosz.gameteststudio.dp.Project;
 import com.bartosz.gameteststudio.dp.ProjectFabric;
 import com.bartosz.gameteststudio.dp.ResultFabric;
-import com.bartosz.gameteststudio.dp.StateFabric;
 import com.bartosz.gameteststudio.dp.TestFabric;
 import com.bartosz.gameteststudio.dp.UserFabric;
 import com.bartosz.gameteststudio.dp.Version;
@@ -59,8 +57,8 @@ public class BugCreateAction  extends ActionSupport {
 	private Attachment att;
 	//private Version ver; 
     
-    private List<String> priorityList = PriorityFabric.keys();
-	private List<String> stateList = StateFabric.keys();
+    private List<String> priorityList = new ArrayList<String>(DataProvider.getPriorities().keySet());
+	private List<String> stateList = new ArrayList<String>(DataProvider.getStates().keySet());
 	private List<String> testList = new ArrayList<String>();
 	private List<String> platformList;
 	private List<String> accountList = new ArrayList<String>();
@@ -108,7 +106,7 @@ public class BugCreateAction  extends ActionSupport {
         	bug.setDescription(description);
         	bug.setReproSteps(reproSteps);
         	bug.setState(StateFabric.getState(state));
-        	bug.setPriority(PriorityFabric.getPriority(priority));
+        	bug.setPriority(DataProvider.getPriorities().get(priority));
         	bug.setPlatforms(selectedPlatformsList);
         	bug.setVersion(new Version(version, BuildTypeFabric.get(build)));
         	bug.setTest(TestFabric.get(test));

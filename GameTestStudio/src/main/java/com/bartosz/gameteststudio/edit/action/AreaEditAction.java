@@ -1,5 +1,6 @@
 package com.bartosz.gameteststudio.edit.action;
  
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -10,8 +11,7 @@ import org.apache.struts2.convention.annotation.Result;
 
 import com.bartosz.gameteststudio.dp.Area;
 import com.bartosz.gameteststudio.dp.AreaFabric;
-import com.bartosz.gameteststudio.dp.PriorityFabric;
-import com.bartosz.gameteststudio.dp.StateFabric;
+import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.dp.User;
 import com.bartosz.gameteststudio.dp.UserFabric;
 import com.opensymphony.xwork2.ActionSupport;
@@ -38,7 +38,7 @@ public class AreaEditAction  extends ActionSupport {
 	private Integer workTime; 
 	
 	private List<String> projectsList;
-	private List<String> priorityList = PriorityFabric.keys();
+	private List<String> priorityList = new ArrayList<String>(DataProvider.getPriorities().keySet());
 	private List<String> stateList = StateFabric.keys();
 	
 	

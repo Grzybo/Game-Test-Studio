@@ -1,5 +1,6 @@
 package com.bartosz.gameteststudio.create.action;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -10,9 +11,8 @@ import org.apache.struts2.convention.annotation.Result;
 
 import com.bartosz.gameteststudio.dp.Area;
 import com.bartosz.gameteststudio.dp.AreaFabric;
-import com.bartosz.gameteststudio.dp.PriorityFabric;
+import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.dp.ProjectFabric;
-import com.bartosz.gameteststudio.dp.StateFabric;
 import com.bartosz.gameteststudio.dp.User;
 import com.bartosz.gameteststudio.dp.UserFabric;
 import com.opensymphony.xwork2.ActionSupport;
@@ -38,8 +38,8 @@ public class AreaCreateAction  extends ActionSupport {
 	private Integer workTime; 
 	
 	private List<String> projectsList;
-	private List<String> priorityList = PriorityFabric.keys();
-	private List<String> stateList = StateFabric.keys(); 
+	private List<String> priorityList = new ArrayList<String>(DataProvider.getPriorities().keySet()); 
+	private List<String> stateList = new ArrayList<String>(DataProvider.getStates().keySet());
 	
 	
 	
@@ -66,7 +66,7 @@ public class AreaCreateAction  extends ActionSupport {
         	area.setTestersNumber(this.testersNumber);
         	area.setWorkTime(this.workTime); 
         	area.setState(StateFabric.getState(state));
-        	area.setPriority(PriorityFabric.getPriority(this.priority));
+        	area.setPriority(DataProvider.getPriorities().get(priority)); 
         	area.setStartDate(this.startDate);
         	area.setEndDate(this.endDate);
         	//System.out.print(endDate.toString());

@@ -12,13 +12,12 @@ import org.apache.struts2.convention.annotation.Result;
 
 import com.bartosz.gameteststudio.dp.AreaFabric;
 import com.bartosz.gameteststudio.dp.BuildTypeFabric;
+import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.dp.Platform;
 import com.bartosz.gameteststudio.dp.PlatformFabric;
-import com.bartosz.gameteststudio.dp.PriorityFabric;
 import com.bartosz.gameteststudio.dp.Project;
 import com.bartosz.gameteststudio.dp.ProjectFabric;
 import com.bartosz.gameteststudio.dp.ResultFabric;
-import com.bartosz.gameteststudio.dp.StateFabric;
 import com.bartosz.gameteststudio.dp.Test;
 import com.bartosz.gameteststudio.dp.TestFabric;
 import com.bartosz.gameteststudio.dp.UserFabric;
@@ -53,8 +52,8 @@ public class TestCreateAction  extends ActionSupport {
 	private List<String> selectedPlatforms = new ArrayList<String>();
 	
     
-    private List<String> priorityList = PriorityFabric.keys();
-	private List<String> stateList = StateFabric.keys();
+    private List<String> priorityList = new ArrayList<String>(DataProvider.getPriorities().keySet());
+	private List<String> stateList = new ArrayList<String>(DataProvider.getStates().keySet());
 	private List<String> areaList = new ArrayList<String>();
 	private List<String> platformList;
 	private List<String> accountList = new ArrayList<String>();
@@ -107,7 +106,7 @@ public class TestCreateAction  extends ActionSupport {
         	test.setTestersNumber(testersNumber); 
         	test.setWorkTime(workTime);
         	test.setState(StateFabric.getState(state));
-        	test.setPriority(PriorityFabric.getPriority(priority)); 
+        	test.setPriority(DataProvider.getPriorities().get(priority));
         	test.setPlatforms(selectedPlatformsList);
         	test.setVersion(new Version(version, BuildTypeFabric.get(build)));
         	

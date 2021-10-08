@@ -15,11 +15,10 @@ import com.bartosz.gameteststudio.dp.Area;
 import com.bartosz.gameteststudio.dp.AreaFabric;
 import com.bartosz.gameteststudio.dp.Bug;
 import com.bartosz.gameteststudio.dp.Project;
-import com.bartosz.gameteststudio.dp.StateFabric;
 import com.bartosz.gameteststudio.dp.Test;
 import com.bartosz.gameteststudio.dp.TestFabric;
 import com.bartosz.gameteststudio.dp.BugFabric;
-import com.bartosz.gameteststudio.dp.PriorityFabric;
+import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.dp.User;
 import com.bartosz.gameteststudio.dp.UserFabric;
 import com.opensymphony.xwork2.ActionSupport;
@@ -45,10 +44,10 @@ public class ProjectAction  extends ActionSupport {
 	private boolean assignedToMe;
 	
 	private String state; 
-	private List<String> statesList = StateFabric.keys(); 
+	private List<String> statesList = new ArrayList<String>(DataProvider.getStates().keySet());
 	
 	private String priority; 
-	private List<String> prioritiesList = PriorityFabric.keys();
+	private List<String> prioritiesList = new ArrayList<String>(DataProvider.getPriorities().keySet());
 	
 	private String selectedArea;
 	private List<String> areaList;
