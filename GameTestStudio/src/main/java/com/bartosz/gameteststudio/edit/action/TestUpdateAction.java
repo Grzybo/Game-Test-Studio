@@ -12,7 +12,6 @@ import org.apache.struts2.convention.annotation.Result;
 
 import com.bartosz.gameteststudio.dp.AreaFabric;
 import com.bartosz.gameteststudio.dp.BuildTypeFabric;
-import com.bartosz.gameteststudio.dp.PlatformFabric;
 import com.bartosz.gameteststudio.dp.PriorityFabric;
 import com.bartosz.gameteststudio.dp.ResultFabric;
 import com.bartosz.gameteststudio.dp.StateFabric;
@@ -78,7 +77,7 @@ public class TestUpdateAction  extends ActionSupport {
 			}
 		}
     	
-    	Test test = TestFabric.getById(Long.parseLong(itemID));
+    	Test test = TestFabric.getById(Integer.parseInt(itemID));
     	platformList = test.getArea().getProject().getPlatformsStringList();
     	test.setUser(UserFabric.getUserByEmail(account));
     	test.setPriority(PriorityFabric.getPriority(priority));

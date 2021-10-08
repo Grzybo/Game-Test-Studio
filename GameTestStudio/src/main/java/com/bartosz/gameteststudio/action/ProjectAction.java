@@ -167,10 +167,10 @@ public class ProjectAction  extends ActionSupport {
 	   
 		  for (String el : BugFabric.keys()) {
 				tmpBug = BugFabric.get(el);
-			  	if((tmpBug.getArea().getProject().getTitle().equals(selectedProject) )  &&
+			  	if((tmpBug.getTest().getArea().getProject().getTitle().equals(selectedProject) )  &&
 						(tmpBug.getState().getName().equals(state) || state.equals("Any")) && 
 						(tmpBug.getPriority().getName().equals(priority) || priority.equals("Any")) && 
-						(tmpBug.getArea().getTitle().equals(selectedArea) || selectedArea.equals("Any")) &&
+						(tmpBug.getTest().getArea().getTitle().equals(selectedArea) || selectedArea.equals("Any")) &&
 						(tmpBug.getUser().getEmail().equals(assigned) || assigned.equals("Any"))
 			  			) {
 			  		bugObjList.add(tmpBug);

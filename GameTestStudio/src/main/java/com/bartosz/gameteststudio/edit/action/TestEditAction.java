@@ -98,7 +98,7 @@ public class TestEditAction  extends ActionSupport {
 			}
 		}
     	
-    	Test test = TestFabric.getById(Long.parseLong(itemID));
+    	Test test = TestFabric.getById(Integer.parseInt(itemID));
     	
     	platformList = test.getArea().getProject().getPlatformsStringList();
     	

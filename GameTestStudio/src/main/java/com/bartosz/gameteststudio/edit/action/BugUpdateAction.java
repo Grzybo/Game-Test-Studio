@@ -14,10 +14,10 @@ import com.bartosz.gameteststudio.dp.AreaFabric;
 import com.bartosz.gameteststudio.dp.Bug;
 import com.bartosz.gameteststudio.dp.BugFabric;
 import com.bartosz.gameteststudio.dp.BuildTypeFabric;
-import com.bartosz.gameteststudio.dp.PlatformFabric;
 import com.bartosz.gameteststudio.dp.PriorityFabric;
 import com.bartosz.gameteststudio.dp.ResultFabric;
 import com.bartosz.gameteststudio.dp.StateFabric;
+import com.bartosz.gameteststudio.dp.TestFabric;
 import com.bartosz.gameteststudio.dp.UserFabric;
 import com.opensymphony.xwork2.ActionSupport;
  
@@ -40,6 +40,7 @@ public class BugUpdateAction  extends ActionSupport {
     private String reproSteps;
     private String area;
     private String platform;
+    private String test; 
     //file
     private String build;
 	private Double version;
@@ -79,7 +80,7 @@ public class BugUpdateAction  extends ActionSupport {
 		}
     	
     	Bug bug = BugFabric.getById(Long.parseLong(itemID));
-    	platformList = bug.getArea().getProject().getPlatformsStringList();
+    	platformList = bug.getTest().getArea().getProject().getPlatformsStringList();
     	
     	
     	//bug.setTitle(title);
@@ -87,7 +88,7 @@ public class BugUpdateAction  extends ActionSupport {
     	bug.setPriority(PriorityFabric.getPriority(priority));
     	bug.setState(StateFabric.getState(state));
     	bug.setDescription(description);
-    	bug.setArea(AreaFabric.getArea(area));
+    	bug.setTest(TestFabric.get(test));
     	bug.setReproSteps(reproSteps);
     	
     	
@@ -99,6 +100,16 @@ public class BugUpdateAction  extends ActionSupport {
 
     public String getItemID() {
 		return itemID;
+	}
+
+
+	public String getTest() {
+		return test;
+	}
+
+
+	public void setTest(String test) {
+		this.test = test;
 	}
 
 

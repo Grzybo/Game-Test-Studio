@@ -15,15 +15,18 @@ public class Bug {
 		private Priority priority;
 		private List<Platform> platforms;
 		private Version version;
-		private Area area;
+		private Test test;
+		//private Area area;
 		private int minKitNumber;
-		private Attachment attachment;  
+		private Attachment attachment;   
+		
+		
 		
 		public Bug() {}
 		
 		public Bug(Long id, String title, User user, String description, String reproSteps,
 				State state, Priority priority,
-				List<Platform> platforms,  Version version, int minKitNumber, Area area) {
+				List<Platform> platforms,  Version version, int minKitNumber, Test test) {
 			this.title = title;
 			this.user = user;
 			this.description = description;
@@ -33,7 +36,7 @@ public class Bug {
 			this.platforms = platforms;
 			this.version = version;
 			this.minKitNumber = minKitNumber;
-			this.area = area;
+			this.test = test;
 			this.id = id;
 		}
 
@@ -47,6 +50,17 @@ public class Bug {
 			this.id = id;
 		}
 
+		
+		
+		public Test getTest() {
+			return test;
+		}
+
+		public void setTest(Test test) {
+			this.test = test;
+		}
+
+		/*
 		public Area getArea() {
 			return area;
 		}
@@ -54,7 +68,7 @@ public class Bug {
 		public void setArea(Area area) {
 			this.area = area;
 		}
-
+		*/
 		@Override
 		public String toString() {
 			return "Bug [title=" + title + "]";

@@ -40,6 +40,20 @@ public abstract class TestFabric {
 															Arrays.asList(PlatformFabric.getPlatform("Xbox One"), 
 																	PlatformFabric.getPlatform("Xbox One X")), 
 															new Version(1.23, BuildTypeFabric.get("Alpha"))));
+			put("Cinematics - New - Overall", new Test((long)5, "Cinematics - New - Overall",
+					UserFabric.getUserByEmail("donald@disney.com"),
+					"Remamber to read all scenario before starting the test.....", AreaFabric.getArea("Cinematics"), 
+					ResultFabric.get("Positive"), 6, "2021-10-01", "2021-10-01", 3, 0, StateFabric.getState("New"), PriorityFabric.getPriority("Important"), 
+					Arrays.asList(PlatformFabric.getPlatform("Xbox One"), 
+							PlatformFabric.getPlatform("Xbox One X")), 
+					new Version(1.23, BuildTypeFabric.get("Alpha"))));
+			put("Gameplay Modes - New - Overall", new Test((long)6, "Gameplay Modes - New - Overall",
+					UserFabric.getUserByEmail("donald@disney.com"),
+					"Remamber to read all scenario before starting the test.....", AreaFabric.getArea("Gameplay Modes"), 
+					ResultFabric.get("Positive"), 6, "2021-10-01", "2021-10-01", 3, 0, StateFabric.getState("New"), PriorityFabric.getPriority("Important"), 
+					Arrays.asList(PlatformFabric.getPlatform("Xbox One"), 
+							PlatformFabric.getPlatform("Xbox One X")), 
+					new Version(1.23, BuildTypeFabric.get("Alpha"))));
 		}
 	};	
 	
@@ -52,6 +66,8 @@ public abstract class TestFabric {
 			put((long)2, "Stadiums - New - Legia - Model and Functionality");
 			put((long)3, "Players - New - Marcin Gortat");
 			put((long)4, "Teams - New - Toronto Raptors");
+			put((long)5, "Cinematics - New - Overall");
+			put((long)6, "Gameplay Modes - New - Overall");
 		} 
 	
 };
@@ -86,7 +102,7 @@ public abstract class TestFabric {
 			return IdKeys().get(IdKeys().size()) + (long)1;
 		}
 		
-		public static Test getById(Long id) {
-			return map.get(mapId.get(id)); 
+		public static Test getById(int id) {
+			return map.get(mapId.get((long)id)); 
 	    } 
 }

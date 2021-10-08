@@ -1,7 +1,5 @@
 package com.bartosz.gameteststudio.dp;
 
-import java.util.Date;
-
 public class Area {
 	
 	private Long id;

@@ -36,9 +36,9 @@
 								rows="4" cols="61"  />
 				</tr>
 				<tr>
-					<s:select label="Area"
-	    					name="area"
-	    					list="areaList"/>		
+					<s:select label="Test"
+	    					name="test"
+	    					list="testList"/>		
 					<s:checkboxlist label="Platforms" list="platformList" 
 	 						name="selectedPlatforms" />
 				</tr>

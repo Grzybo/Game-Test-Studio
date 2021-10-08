@@ -50,14 +50,14 @@
 							<div class = "projectContent"> 
 								
 								
-								<display:table name="bugObjList" id="bugTable" decorator="com.bartosz.decorators.BugDecorator" sort="list" 
+								<display:table name="bugObjList" id="bugTable" decorator="com.bartosz.decorators.BugDecorator" sort="list" pagesize="3"
 												requestURI="${pageContext.request.contextPath}/projects?sort=sortBug">
 								  <display:column property="id" title="ID"/>
 								  <display:column property="titleLink" title="Title"  sortable="true" sortName="sortTitle"/> 
 								  <display:column property="state.name" title="State" />
 								  <display:column property="priority.name" title="Priority"/>
 								  <display:column property="user.email" title="Assigned To"/>
-								  <display:column property="area.title" title="Area"/>
+								  <display:column property="test.area.title" title="Area"/>
 								  
 								</display:table>	
 								
@@ -80,6 +80,7 @@
 											  <display:column property="user.email" title="Assigned To"/>
   											  <display:column property="startDate" title="Start Date"/>
 											  <display:column property="endDate" title="End Date"/>
+											  <display:column property="area.title" title="Area"/>
 											</display:table>	
 							</div> 
 						      

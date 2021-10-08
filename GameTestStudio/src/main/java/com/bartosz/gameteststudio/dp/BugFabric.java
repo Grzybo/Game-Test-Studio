@@ -24,7 +24,7 @@ public abstract class BugFabric {
 								StateFabric.getState("New"),
 								PriorityFabric.getPriority("Important"), Arrays.asList(PlatformFabric.getPlatform("PC"), PlatformFabric.getPlatform("PlayStation 4")), 
 								new Version(1.23, BuildTypeFabric.get("Alpha")), 1, 
-								AreaFabric.getArea("Stadiums")));
+								TestFabric.getById(1)));
 			
 			put("Players - Marcin Gortat - Player is not available in Quick Match Mode", 
 					new Bug((long)2, "Players - Marcin Gortat - Player is not available in Quick Match Mode", 
@@ -41,7 +41,7 @@ public abstract class BugFabric {
 								PriorityFabric.getPriority("Important"), Arrays.asList(PlatformFabric.getPlatform("Xbox Series X"), 
 										PlatformFabric.getPlatform("Xbox Series S")),
 								new Version(1.23, BuildTypeFabric.get("Alpha")), 1,
-								AreaFabric.getArea("Players")));
+								TestFabric.getById(3)));
 			
 			put("Teams - Toronto Raptors - Team Logo is not implemented in the game", 
 					new Bug((long)3, "Teams - Toronto Raptors - Team Logo is not implemented in the game", 
@@ -59,7 +59,7 @@ public abstract class BugFabric {
 								Arrays.asList(PlatformFabric.getPlatform("Xbox One"), 
 										PlatformFabric.getPlatform("Xbox One X")), 
 								new Version(1.23, BuildTypeFabric.get("Alpha")), 1,
-								AreaFabric.getArea("Teams"))); 
+								TestFabric.getById(4))); 
 			
 			put("Gameplay Modes - Quick Match - Quick Match Mode is not available", 
 					new Bug((long)4, "Gameplay Modes - Quick Match - Quick Match Mode is not available", 
@@ -75,7 +75,7 @@ public abstract class BugFabric {
 								StateFabric.getState("New"),
 								PriorityFabric.getPriority("Important"), Arrays.asList(PlatformFabric.getPlatform("PC"), PlatformFabric.getPlatform("PlayStation 4")), 
 								new Version(1.23, BuildTypeFabric.get("Alpha")), 1, 
-								AreaFabric.getArea("Gameplay Modes")));
+								TestFabric.getById(6)));
 			
 			put("Cinematics - Multiple Issues at Welcome Back Cinematic", 
 					new Bug((long)5, "Cinematics - Multiple Issues at Welcome Back Cinematic", 
@@ -91,7 +91,7 @@ public abstract class BugFabric {
 								StateFabric.getState("New"),
 								PriorityFabric.getPriority("Important"), Arrays.asList(PlatformFabric.getPlatform("PC"), PlatformFabric.getPlatform("PlayStation 4")), 
 								new Version(1.23, BuildTypeFabric.get("Alpha")), 1, 
-								AreaFabric.getArea("Cinematics"))); 
+								TestFabric.getById(5))); 
 			
 			put("Gameplay Modes - Career Mode - Progres in Career Mode cannot be saved", 
 					new Bug((long)6, "Gameplay Modes - Career Mode - Progres in Career Mode cannot be saved", 
@@ -107,7 +107,7 @@ public abstract class BugFabric {
 								StateFabric.getState("New"),
 								PriorityFabric.getPriority("Important"), Arrays.asList(PlatformFabric.getPlatform("PC"), PlatformFabric.getPlatform("PlayStation 4")), 
 								new Version(1.23, BuildTypeFabric.get("Alpha")), 1, 
-								AreaFabric.getArea("Gameplay Modes")));
+								TestFabric.getById(6)));
 			
 		} //TODO zmiana opisow 
 	};

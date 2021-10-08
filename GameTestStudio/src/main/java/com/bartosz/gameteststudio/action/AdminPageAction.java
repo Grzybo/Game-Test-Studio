@@ -11,14 +11,8 @@ import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
-import com.bartosz.gameteststudio.dp.Area;
-import com.bartosz.gameteststudio.dp.AreaFabric;
-import com.bartosz.gameteststudio.dp.Bug;
-import com.bartosz.gameteststudio.dp.BugFabric;
 import com.bartosz.gameteststudio.dp.Project;
 import com.bartosz.gameteststudio.dp.ProjectFabric;
-import com.bartosz.gameteststudio.dp.Test;
-import com.bartosz.gameteststudio.dp.TestFabric;
 import com.bartosz.gameteststudio.dp.User;
 import com.bartosz.gameteststudio.dp.UserFabric;
 import com.opensymphony.xwork2.ActionSupport;

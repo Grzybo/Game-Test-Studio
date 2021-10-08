@@ -10,16 +10,13 @@ import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
-import com.bartosz.gameteststudio.dp.AreaFabric;
 import com.bartosz.gameteststudio.dp.Bug;
 import com.bartosz.gameteststudio.dp.BugFabric;
 import com.bartosz.gameteststudio.dp.BuildTypeFabric;
-import com.bartosz.gameteststudio.dp.PlatformFabric;
 import com.bartosz.gameteststudio.dp.PriorityFabric;
-import com.bartosz.gameteststudio.dp.Project;
-import com.bartosz.gameteststudio.dp.ProjectFabric;
 import com.bartosz.gameteststudio.dp.ResultFabric;
 import com.bartosz.gameteststudio.dp.StateFabric;
+import com.bartosz.gameteststudio.dp.TestFabric;
 import com.bartosz.gameteststudio.dp.UserFabric;
 import com.opensymphony.xwork2.ActionSupport;
  
@@ -41,7 +38,8 @@ public class BugEditAction  extends ActionSupport {
     private String state;
     private String description;
     private String reproSteps;
-    private String area;
+    //private String area;
+    private String test; 
     private String platform;
     private List<String> platforms;
     //file
@@ -56,6 +54,7 @@ public class BugEditAction  extends ActionSupport {
     private List<String> priorityList = PriorityFabric.keys();
 	private List<String> stateList = StateFabric.keys();
 	private List<String> areaList = new ArrayList<String>();
+	private List<String> testList = new ArrayList<String>();
 	private List<String> platformList;
 	private List<String> accountList = new ArrayList<String>();
 	private List<String> resultList = ResultFabric.keys();
@@ -77,10 +76,10 @@ public class BugEditAction  extends ActionSupport {
     		}	
 		} 
     	
-    	for (String el : AreaFabric.keys()) {
-			if(AreaFabric.getArea(el).getProject().getTitle()
+    	for (String el : TestFabric.keys()) {
+			if(TestFabric.get(el).getArea().getProject().getTitle()
 					.equals(session.getAttribute("userProject").toString())){
-				areaList.add(el);
+				testList.add(el);
 			}
 		}
     	
@@ -88,7 +87,7 @@ public class BugEditAction  extends ActionSupport {
     	
 
     	
-    	platformList = bug.getArea().getProject().getPlatformsStringList();
+    	platformList = bug.getTest().getArea().getProject().getPlatformsStringList();
     	
     	title = bug.getTitle(); 
     	account = bug.getUser().getEmail();
@@ -99,7 +98,7 @@ public class BugEditAction  extends ActionSupport {
     	platforms = bug.getPlatformList();
     	version = bug.getVersion().getName();
     	build = bug.getVersion().getType().getName();
-    	area = bug.getArea().getTitle(); 
+    	test = bug.getTest().getTitle(); 
     	//fileUpload = bug.getAttachment().getFile();
     	//fileUploadContentType = bug.getAttachment().getFileType();
     	//fileUploadFileName = bug.getAttachment().getFileName();
@@ -115,6 +114,26 @@ public class BugEditAction  extends ActionSupport {
 
 	public String getItemID() {
 		return itemID;
+	}
+
+
+	public String getTest() {
+		return test;
+	}
+
+
+	public void setTest(String test) {
+		this.test = test;
+	}
+
+
+	public List<String> getTestList() {
+		return testList;
+	}
+
+
+	public void setTestList(List<String> testList) {
+		this.testList = testList;
 	}
 
 
@@ -200,13 +219,7 @@ public class BugEditAction  extends ActionSupport {
 		this.reproSteps = reproSteps;
 	}
 
-	public String getArea() {
-		return area;
-	}
-
-	public void setArea(String area) {
-		this.area = area;
-	}
+	
 
 	public String getPlatform() {
 		return platform;

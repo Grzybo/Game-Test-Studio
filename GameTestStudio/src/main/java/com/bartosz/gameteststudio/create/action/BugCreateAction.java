@@ -22,6 +22,7 @@ import com.bartosz.gameteststudio.dp.Project;
 import com.bartosz.gameteststudio.dp.ProjectFabric;
 import com.bartosz.gameteststudio.dp.ResultFabric;
 import com.bartosz.gameteststudio.dp.StateFabric;
+import com.bartosz.gameteststudio.dp.TestFabric;
 import com.bartosz.gameteststudio.dp.UserFabric;
 import com.bartosz.gameteststudio.dp.Version;
 import com.opensymphony.xwork2.ActionSupport;
@@ -41,7 +42,7 @@ public class BugCreateAction  extends ActionSupport {
     private String state;
     private String description;
     private String reproSteps;
-    private String area;
+    private String test;
     private String platform;
    
     private List<String> selectedPlatforms = new ArrayList<String>();
@@ -60,7 +61,7 @@ public class BugCreateAction  extends ActionSupport {
     
     private List<String> priorityList = PriorityFabric.keys();
 	private List<String> stateList = StateFabric.keys();
-	private List<String> areaList = new ArrayList<String>();
+	private List<String> testList = new ArrayList<String>();
 	private List<String> platformList;
 	private List<String> accountList = new ArrayList<String>();
 	private List<String> resultList = ResultFabric.keys();
@@ -83,10 +84,10 @@ public class BugCreateAction  extends ActionSupport {
     		}	
 		} 
     	
-    	for (String el : AreaFabric.keys()) {
-			if(AreaFabric.getArea(el).getProject().getTitle()
+    	for (String el : TestFabric.keys()) {
+			if(TestFabric.get(el).getArea().getProject().getTitle()
 					.equals(session.getAttribute("userProject").toString())){
-				areaList.add(el);
+				testList.add(el);
 			}
 		}
     	
@@ -110,7 +111,7 @@ public class BugCreateAction  extends ActionSupport {
         	bug.setPriority(PriorityFabric.getPriority(priority));
         	bug.setPlatforms(selectedPlatformsList);
         	bug.setVersion(new Version(version, BuildTypeFabric.get(build)));
-        	bug.setArea(AreaFabric.getArea(area));
+        	bug.setTest(TestFabric.get(test));
         	bug.setAttachment(att);
           	
         	BugFabric.add(bug.getTitle(), bug);
@@ -199,12 +200,12 @@ public class BugCreateAction  extends ActionSupport {
 		this.reproSteps = reproSteps;
 	}
 
-	public String getArea() {
-		return area;
+	public String getTest() {
+		return test;
 	}
 
-	public void setArea(String area) {
-		this.area = area;
+	public void setTest(String area) {
+		this.test = area;
 	}
 
 	public String getPlatform() {
@@ -279,12 +280,12 @@ public class BugCreateAction  extends ActionSupport {
 		this.stateList = stateList;
 	}
 
-	public List<String> getAreaList() {
-		return areaList;
+	public List<String> getTestList() {
+		return testList;
 	}
 
-	public void setAreaList(List<String> areaList) {
-		this.areaList = areaList;
+	public void setTestList(List<String> areaList) {
+		this.testList = areaList;
 	}
 
 	public List<String> getPlatformList() {
