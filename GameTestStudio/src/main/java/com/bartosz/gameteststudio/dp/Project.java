@@ -3,6 +3,8 @@ package com.bartosz.gameteststudio.dp;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bartosz.gameteststudio.beans.StateBean;
+
 public class Project {
 
 	private Long id; 

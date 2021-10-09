@@ -85,7 +85,7 @@ public class BugUpdateAction  extends ActionSupport {
     	//bug.setTitle(title);
     	bug.setUser(UserFabric.getUserByEmail(account));
     	bug.setPriority(DataProvider.getPriorities().get(priority));
-    	bug.setState(StateFabric.getState(state));
+    	bug.setState(DataProvider.getStates().get(state));
     	bug.setDescription(description);
     	bug.setTest(TestFabric.get(test));
     	bug.setReproSteps(reproSteps);

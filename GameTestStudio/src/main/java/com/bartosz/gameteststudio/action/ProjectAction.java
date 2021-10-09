@@ -11,8 +11,7 @@ import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
-import com.bartosz.gameteststudio.dp.Area;
-import com.bartosz.gameteststudio.dp.AreaFabric;
+import com.bartosz.gameteststudio.beans.AreaBean;
 import com.bartosz.gameteststudio.dp.Bug;
 import com.bartosz.gameteststudio.dp.Project;
 import com.bartosz.gameteststudio.dp.Test;
@@ -52,7 +51,7 @@ public class ProjectAction  extends ActionSupport {
 	private String selectedArea;
 	private List<String> areaList;
 	
-	private Area tmpArea;
+	private AreaBean tmpArea;
 	private Test tmpTest;
 	private Bug tmpBug;
 	
@@ -60,7 +59,7 @@ public class ProjectAction  extends ActionSupport {
 	
 	private List<Bug> bugObjList; 
 	private List<Test> testObjList;
-	private List<Area> areaObjList;
+	private List<AreaBean> areaObjList;
 	
 	
 	private String assigned;
@@ -80,7 +79,7 @@ public class ProjectAction  extends ActionSupport {
 		
 		bugObjList = new ArrayList<Bug>();
 		testObjList = new ArrayList<Test>();
-		areaObjList = new ArrayList<Area>(); 
+		areaObjList = new ArrayList<AreaBean>(); 
 		
 		
 		
@@ -117,8 +116,8 @@ public class ProjectAction  extends ActionSupport {
 
 		// wypelniamy liste Area
 		
-		 for (String el : AreaFabric.keys()) {
-			 if( AreaFabric.getArea(el).getProject().getTitle().equals(selectedProject)) {
+		 for (String el : DataProvider.getAreas().keySet()) {
+			 if( DataProvider.getAreas().get(el).getProject().getTitle().equals(selectedProject)) {
 				 areaList.add(el);
 			 }
 		 }
@@ -140,8 +139,8 @@ public class ProjectAction  extends ActionSupport {
 	
 	 
 	 private void fillLists() {
-		 for (String el : AreaFabric.keys()) {
-			  tmpArea = AreaFabric.getArea(el);
+		 for (String el : DataProvider.getAreas().keySet()) {
+			  tmpArea = DataProvider.getAreas().get(el);
 			  if(tmpArea.getProject().getTitle().equals(selectedProject) && 
 						(tmpArea.getState().getName().equals(state) || state.equals("Any")) &&	
 						(tmpArea.getPriority().getName().equals(priority) || priority.equals("Any")) ) {
@@ -195,10 +194,10 @@ public class ProjectAction  extends ActionSupport {
 				 for (String str : tmpList) testObjList.add(TestFabric.get(str));
 			 break;
 		 	case "sortArea":
-				 for (Area el : areaObjList) tmpList.add(el.getTitle());
+				 for (AreaBean el : areaObjList) tmpList.add(el.getTitle());
 				 Collections.reverse(tmpList); 
 				 areaObjList.clear(); 
-				 for (String str : tmpList) areaObjList.add(AreaFabric.getArea(str));
+				 for (String str : tmpList) areaObjList.add(DataProvider.getAreas().get(str));
 			 break;	
 		 } 
 	 }
@@ -296,14 +295,14 @@ public class ProjectAction  extends ActionSupport {
 
 
 
-	public List<Area> getAreaObjList() {
+	public List<AreaBean> getAreaObjList() {
 		return areaObjList;
 	}
 
 
 
 
-	public void setAreaObjList(List<Area> areaObjList) {
+	public void setAreaObjList(List<AreaBean> areaObjList) {
 		this.areaObjList = areaObjList;
 	}
 

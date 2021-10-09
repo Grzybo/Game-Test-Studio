@@ -1,8 +1,8 @@
-package com.bartosz.gameteststudio.dp;
+package com.bartosz.gameteststudio.beans;
 
-import com.bartosz.gameteststudio.beans.PriorityBean;
+import com.bartosz.gameteststudio.dp.Project;
 
-public class Area {
+public class AreaBean {
 	
 	private Long id;
 	private String title;
@@ -17,9 +17,9 @@ public class Area {
 	private PriorityBean priority;
 	
 	
-	public Area() {}
+	public AreaBean() {}
 	
-	public Area(Long id, String title, String description, Project project, Integer estimatedTime, String startDate, String endDate,
+	public AreaBean(Long id, String title, String description, Project project, Integer estimatedTime, String startDate, String endDate,
 			Integer testersNumber, Integer workTime, StateBean state, PriorityBean priority) {
 		super();
 		this.title = title;

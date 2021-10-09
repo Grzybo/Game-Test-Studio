@@ -1,4 +1,4 @@
-package com.bartosz.gameteststudio.dp;
+package com.bartosz.gameteststudio.beans;
 
 public class StateBean {
 

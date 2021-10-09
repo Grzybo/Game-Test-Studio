@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 import java.util.List;
 
+import com.bartosz.gameteststudio.beans.AreaBean;
 import com.bartosz.gameteststudio.beans.PriorityBean;
+import com.bartosz.gameteststudio.beans.StateBean;
 
 public class Test {
 	
@@ -12,7 +14,7 @@ public class Test {
 	private String title;
 	private User user; 
 	private String description; 
-	private Area area; 
+	private AreaBean area; 
 	private Result result; 
 	private Integer estimatedTime; 
 	private String startDate;
@@ -26,7 +28,7 @@ public class Test {
 	
 	public Test() {}
 
-	public Test(Long id ,String title, User user, String description, com.bartosz.gameteststudio.dp.Area area, Result result,
+	public Test(Long id ,String title, User user, String description, com.bartosz.gameteststudio.beans.AreaBean area, Result result,
 			Integer estimatedTime, String startDate, String endDate, Integer testersNumber, Integer workTime, StateBean state,
 			PriorityBean priority, List<Platform> platforms, Version version) {
 		this.title = title;
@@ -88,11 +90,11 @@ public class Test {
 		this.description = description;
 	}
 
-	public Area getArea() {
+	public AreaBean getArea() {
 		return area;
 	}
 
-	public void setArea(Area area) {
+	public void setArea(AreaBean area) {
 		this.area = area;
 	}
 

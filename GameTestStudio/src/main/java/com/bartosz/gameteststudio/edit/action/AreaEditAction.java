@@ -9,8 +9,7 @@ import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
-import com.bartosz.gameteststudio.dp.Area;
-import com.bartosz.gameteststudio.dp.AreaFabric;
+import com.bartosz.gameteststudio.beans.AreaBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.dp.User;
 import com.bartosz.gameteststudio.dp.UserFabric;
@@ -39,7 +38,7 @@ public class AreaEditAction  extends ActionSupport {
 	
 	private List<String> projectsList;
 	private List<String> priorityList = new ArrayList<String>(DataProvider.getPriorities().keySet());
-	private List<String> stateList = StateFabric.keys();
+	private List<String> stateList = new ArrayList<String>(DataProvider.getStates().keySet());
 	
 	
     @Override
@@ -51,7 +50,7 @@ public class AreaEditAction  extends ActionSupport {
     	projectsList = user.getProjectsList(); 
     	
     	
-    	Area area = AreaFabric.getAreaById(Long.parseLong(itemID));
+    	AreaBean area = DataProvider.getAreaById(Integer.parseInt(itemID));
     	
 		this.title = area.getTitle();
 		this.project = area.getProject().getTitle();

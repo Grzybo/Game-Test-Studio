@@ -105,7 +105,7 @@ public class TestCreateAction  extends ActionSupport {
         	//dates
         	test.setTestersNumber(testersNumber); 
         	test.setWorkTime(workTime);
-        	test.setState(StateFabric.getState(state));
+        	test.setState(DataProvider.getStates().get(state));
         	test.setPriority(DataProvider.getPriorities().get(priority));
         	test.setPlatforms(selectedPlatformsList);
         	test.setVersion(new Version(version, BuildTypeFabric.get(build)));
@@ -123,7 +123,6 @@ public class TestCreateAction  extends ActionSupport {
 	public String getTitle() {
 		return title;
 	}
-
 
 	public void setTitle(String title) {
 		this.title = title;

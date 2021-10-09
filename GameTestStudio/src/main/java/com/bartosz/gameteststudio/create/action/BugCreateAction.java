@@ -105,7 +105,7 @@ public class BugCreateAction  extends ActionSupport {
         	bug.setUser(UserFabric.getUserByEmail(account));
         	bug.setDescription(description);
         	bug.setReproSteps(reproSteps);
-        	bug.setState(StateFabric.getState(state));
+        	bug.setState(DataProvider.getStates().get(state));
         	bug.setPriority(DataProvider.getPriorities().get(priority));
         	bug.setPlatforms(selectedPlatformsList);
         	bug.setVersion(new Version(version, BuildTypeFabric.get(build)));

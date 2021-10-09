@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.bartosz.gameteststudio.beans.PriorityBean;
+import com.bartosz.gameteststudio.beans.StateBean;
 
 public class Bug {
 

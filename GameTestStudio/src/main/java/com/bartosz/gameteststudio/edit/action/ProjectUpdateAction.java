@@ -53,7 +53,7 @@ public class ProjectUpdateAction  extends ActionSupport {
         	project.setStartDate(startDate);
         	project.setEndDate(endDate);
         	project.setPlatforms(selectedPlatforms);
-        	project.setState(StateFabric.getState(state));
+        	project.setState(DataProvider.getStates().get(state));
         	project.setId(project.getId());
         	ProjectFabric.update(project, project);
         	

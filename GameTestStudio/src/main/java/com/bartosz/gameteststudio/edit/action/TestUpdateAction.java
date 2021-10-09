@@ -80,7 +80,7 @@ public class TestUpdateAction  extends ActionSupport {
     	platformList = test.getArea().getProject().getPlatformsStringList();
     	test.setUser(UserFabric.getUserByEmail(account));
     	test.setPriority(DataProvider.getPriorities().get(priority));
-    	test.setState(StateFabric.getState(state));
+    	test.setState(DataProvider.getStates().get(state));
     	test.setDescription(description);
     	test.setArea(AreaFabric.getArea(area));
     	test.setEstimatedTime(estimatedTime);

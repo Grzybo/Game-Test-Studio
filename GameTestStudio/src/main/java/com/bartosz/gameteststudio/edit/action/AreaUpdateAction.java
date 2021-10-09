@@ -9,7 +9,7 @@ import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
-import com.bartosz.gameteststudio.dp.Area;
+import com.bartosz.gameteststudio.beans.AreaBean;
 import com.bartosz.gameteststudio.dp.AreaFabric;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.dp.User;
@@ -52,20 +52,18 @@ public class AreaUpdateAction  extends ActionSupport {
     	
     	projectsList = user.getProjectsList(); 
     	
-    	Area area = AreaFabric.getAreaById(Long.parseLong(itemID));
+    	AreaBean area = DataProvider.getAreaById(Integer.parseInt(itemID));
 
     	area.setPriority(DataProvider.getPriorities().get(priority));
-    	area.setState(StateFabric.getState(state));
+    	area.setState(DataProvider.getStates().get(state));
     	area.setDescription(this.description);
     	area.setEstimatedTime(this.estimatedTime);
     	area.setStartDate(this.startDate);
     	area.setEndDate(this.endDate);
     	area.setTestersNumber(this.testersNumber);
     	area.setWorkTime(this.workTime); 
-        	 
-    	AreaFabric.updateArea(area);  
-    	
-    	
+        DataProvider.mapAreas.put(area.getTitle(), area);
+        
     	return "update";
     }
 

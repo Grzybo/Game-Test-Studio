@@ -21,7 +21,7 @@ public abstract class BugFabric {
 								+ "    3. Choose any teams and go to match settings. \r\n"
 								+ "    4. Go to stadium settings. \r\n"
 								+ "    5. Observe lack of stadium: \"Stadion im. Marszałka J.Piłsudskiego w Radomiu.",
-								StateFabric.getState("New"),
+								DataProvider.getStates().get("New") ,
 								DataProvider.getPriorities().get("Important"), Arrays.asList(PlatformFabric.getPlatform("PC"), PlatformFabric.getPlatform("PlayStation 4")), 
 								new Version(1.23, BuildTypeFabric.get("Alpha")), 1, 
 								TestFabric.getById(1)));
@@ -37,7 +37,7 @@ public abstract class BugFabric {
 								+ "    3. Choose any teams and go to match settings. \r\n"
 								+ "    4. Go to players settings. \r\n"
 								+ "    5. Observe lack of player.",
-								StateFabric.getState("New"),
+								DataProvider.getStates().get("New") ,
 								DataProvider.getPriorities().get("Important"), Arrays.asList(PlatformFabric.getPlatform("Xbox Series X"), 
 										PlatformFabric.getPlatform("Xbox Series S")),
 								new Version(1.23, BuildTypeFabric.get("Alpha")), 1,
@@ -54,7 +54,7 @@ public abstract class BugFabric {
 								+ "    3. Choose any teams and go to match settings. \r\n"
 								+ "    4. Go to players settings. \r\n"
 								+ "    5. Observe lack of player.",
-								StateFabric.getState("New"),
+								DataProvider.getStates().get("New") ,
 								DataProvider.getPriorities().get("Important"), 
 								Arrays.asList(PlatformFabric.getPlatform("Xbox One"), 
 										PlatformFabric.getPlatform("Xbox One X")), 
@@ -72,7 +72,7 @@ public abstract class BugFabric {
 								+ "    3. Choose any teams and go to match settings. \r\n"
 								+ "    4. Go to stadium settings. \r\n"
 								+ "    5. Observe lack of stadium: \"Stadion im. Marszałka J.Piłsudskiego w Radomiu.",
-								StateFabric.getState("New"),
+								DataProvider.getStates().get("New") ,
 								DataProvider.getPriorities().get("Important"), Arrays.asList(PlatformFabric.getPlatform("PC"), PlatformFabric.getPlatform("PlayStation 4")), 
 								new Version(1.23, BuildTypeFabric.get("Alpha")), 1, 
 								TestFabric.getById(6)));
@@ -88,7 +88,7 @@ public abstract class BugFabric {
 								+ "    3. Choose any teams and go to match settings. \r\n"
 								+ "    4. Go to stadium settings. \r\n"
 								+ "    5. Observe lack of stadium: \"Stadion im. Marszałka J.Piłsudskiego w Radomiu.",
-								StateFabric.getState("New"),
+								DataProvider.getStates().get("New") ,
 								DataProvider.getPriorities().get("Important"), Arrays.asList(PlatformFabric.getPlatform("PC"), PlatformFabric.getPlatform("PlayStation 4")), 
 								new Version(1.23, BuildTypeFabric.get("Alpha")), 1, 
 								TestFabric.getById(5))); 
@@ -104,7 +104,7 @@ public abstract class BugFabric {
 								+ "    3. Choose any teams and go to match settings. \r\n"
 								+ "    4. Go to stadium settings. \r\n"
 								+ "    5. Observe lack of stadium: \"Stadion im. Marszałka J.Piłsudskiego w Radomiu.",
-								StateFabric.getState("New"),
+								DataProvider.getStates().get("New") ,
 								DataProvider.getPriorities().get("Important"), Arrays.asList(PlatformFabric.getPlatform("PC"), PlatformFabric.getPlatform("PlayStation 4")), 
 								new Version(1.23, BuildTypeFabric.get("Alpha")), 1, 
 								TestFabric.getById(6)));
