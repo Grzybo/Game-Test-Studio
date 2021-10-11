@@ -6,10 +6,8 @@ import java.util.List;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
+import com.bartosz.gameteststudio.beans.ProjectBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
-import com.bartosz.gameteststudio.dp.PlatformFabric;
-import com.bartosz.gameteststudio.dp.Project;
-import com.bartosz.gameteststudio.dp.ProjectFabric;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "editProject", //
@@ -31,7 +29,7 @@ public class ProjectEditAction  extends ActionSupport {
     private String startDate;
     private String endDate;
     private String state;
-    private List<String> platformList = PlatformFabric.keys(); 
+    private List<String> platformList = new ArrayList<String>(DataProvider.mapPlatforms.keySet()); 
     private List<String> selectedPlatforms = new ArrayList<String>();
     private List<String> stateList = new ArrayList<String>(DataProvider.getStates().keySet());
   
@@ -40,7 +38,7 @@ public class ProjectEditAction  extends ActionSupport {
     public String execute() {
           
     	
-    		Project project = ProjectFabric.getById(Long.parseLong(itemID)); 
+    		ProjectBean project = DataProvider.getProjectById(Integer.parseInt(itemID)); 
     		title = project.getTitle(); 
     		description = project.getDescription();
     	    testers_numbers = project.getTestersNumber();
@@ -49,8 +47,6 @@ public class ProjectEditAction  extends ActionSupport {
     	    startDate = project.getStartDate();
     	    endDate = project.getEndDate();
     		state = project.getState().getName();
-    		
-   
     	
     	return "editProject";
     }

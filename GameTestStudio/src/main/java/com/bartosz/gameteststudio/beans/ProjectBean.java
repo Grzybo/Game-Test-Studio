@@ -1,11 +1,11 @@
-package com.bartosz.gameteststudio.dp;
+package com.bartosz.gameteststudio.beans;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.bartosz.gameteststudio.beans.StateBean;
+import com.bartosz.gameteststudio.dp.DataProvider;
 
-public class Project {
+public class ProjectBean {
 
 	private Long id; 
 	private String title; 
@@ -16,22 +16,22 @@ public class Project {
 	private String endDate;
 	private int testersNumber;
 	private StateBean state;
-	private List<User> users; 
-	private List<Platform> platforms;
+	private List<UserBean> users; 
+	private List<PlatformBean> platforms;
 	
-	public Project() {}
+	public ProjectBean() {}
 	
 	
 
-	public Project(String title, String description) {
+	public ProjectBean(String title, String description) {
 		this.description = description; 
 		this.title = title; 
 	}
 
 	
-	public Project(String title, String description, int estimatedTime, 
+	public ProjectBean(String title, String description, int estimatedTime, 
 			int workTime, String startDate, String endDate,
-			int testersNumber, StateBean state, Long id, List<Platform> platforms) {
+			int testersNumber, StateBean state, Long id, List<PlatformBean> platforms) {
 		this.title = title;
 		this.description = description;
 		this.estimatedTime = estimatedTime;
@@ -46,22 +46,22 @@ public class Project {
 
 
 	// ------------------------------------------------------------------------------------------------------------------------
-	public List<Platform> getPlatforms() {
+	public List<PlatformBean> getPlatforms() {
 		return platforms;
 	}
 	
 	public List<String> getPlatformsStringList() {
 		List<String> list = new ArrayList<String>();
-		for(Platform el : this.platforms) {
+		for(PlatformBean el : this.platforms) {
 			list.add(el.getName());  
 		}
 		return list;
 	}
 
 	public void setPlatforms(List<String> list) {
-		List<Platform> platforms = new ArrayList<Platform>();
+		List<PlatformBean> platforms = new ArrayList<PlatformBean>();
 		for(String str : list) {
-			platforms.add(PlatformFabric.getPlatform(str));
+			platforms.add(DataProvider.mapPlatforms.get(str));
 		}
 		this.platforms = platforms;
 	}
@@ -139,11 +139,11 @@ public class Project {
 		this.state = state;
 	}
 
-	public List<User> getUsers() {
+	public List<UserBean> getUsers() {
 		return users;
 	}
 
-	public void setUsers(List<User> users) {
+	public void setUsers(List<UserBean> users) {
 		this.users = users;
 	} 
 	

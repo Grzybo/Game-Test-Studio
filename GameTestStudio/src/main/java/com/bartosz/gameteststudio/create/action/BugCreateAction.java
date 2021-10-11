@@ -10,19 +10,12 @@ import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
-import com.bartosz.gameteststudio.dp.Attachment;
-import com.bartosz.gameteststudio.dp.Bug;
-import com.bartosz.gameteststudio.dp.BugFabric;
-import com.bartosz.gameteststudio.dp.BuildTypeFabric;
+import com.bartosz.gameteststudio.beans.AttachmentBean;
+import com.bartosz.gameteststudio.beans.BugBean;
+import com.bartosz.gameteststudio.beans.PlatformBean;
+import com.bartosz.gameteststudio.beans.ProjectBean;
+import com.bartosz.gameteststudio.beans.VersionBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
-import com.bartosz.gameteststudio.dp.Platform;
-import com.bartosz.gameteststudio.dp.PlatformFabric;
-import com.bartosz.gameteststudio.dp.Project;
-import com.bartosz.gameteststudio.dp.ProjectFabric;
-import com.bartosz.gameteststudio.dp.ResultFabric;
-import com.bartosz.gameteststudio.dp.TestFabric;
-import com.bartosz.gameteststudio.dp.UserFabric;
-import com.bartosz.gameteststudio.dp.Version;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "createBug", //
@@ -44,7 +37,7 @@ public class BugCreateAction  extends ActionSupport {
     private String platform;
    
     private List<String> selectedPlatforms = new ArrayList<String>();
-    private List<Platform> selectedPlatformsList;
+    private List<PlatformBean> selectedPlatformsList;
     
     private String build;
 	private Double version;
@@ -54,7 +47,7 @@ public class BugCreateAction  extends ActionSupport {
 	private String fileUploadContentType;
 	private String fileUploadFileName;
 	
-	private Attachment att;
+	private AttachmentBean att;
 	//private Version ver; 
     
     private List<String> priorityList = new ArrayList<String>(DataProvider.getPriorities().keySet());
@@ -62,28 +55,28 @@ public class BugCreateAction  extends ActionSupport {
 	private List<String> testList = new ArrayList<String>();
 	private List<String> platformList;
 	private List<String> accountList = new ArrayList<String>();
-	private List<String> resultList = ResultFabric.keys();
-	private List<String> buildList = BuildTypeFabric.keys();
+	private List<String> resultList = new ArrayList<String>(DataProvider.mapResults.keySet());
+	private List<String> buildList = new ArrayList<String>(DataProvider.mapBuilds.keySet());
     
     @Override
     public String execute() {
           
     	HttpSession session = ServletActionContext.getRequest().getSession();
-    	Project project = ProjectFabric.getProject(session.getAttribute("userProject").toString());
+    	ProjectBean project = DataProvider.mapProjects.get(session.getAttribute("userProject").toString());
     	
     	platformList = project.getPlatformsStringList();
     	
-    	for (String el : UserFabric.keys()) {
-    		if(UserFabric.getUserByEmail(el).getProjects() != null) {
-    			if(UserFabric.getUserByEmail(el).getProjectsList().
+    	for (String el : DataProvider.mapUsers.keySet()) {
+    		if(DataProvider.mapUsers.get(el).getProjects() != null) {
+    			if(DataProvider.mapUsers.get(el).getProjectsList().
     					contains(session.getAttribute("userProject"))) {
     				accountList.add(el);
     			}
     		}	
 		} 
     	
-    	for (String el : TestFabric.keys()) {
-			if(TestFabric.get(el).getArea().getProject().getTitle()
+    	for (String el : DataProvider.mapTests.keySet()) {
+			if(DataProvider.mapTests.get(el).getArea().getProject().getTitle()
 					.equals(session.getAttribute("userProject").toString())){
 				testList.add(el);
 			}
@@ -91,28 +84,28 @@ public class BugCreateAction  extends ActionSupport {
     	
     	if(!selectedPlatforms.isEmpty()) {
     		for (String pl : selectedPlatforms) {
-        		selectedPlatformsList.add(PlatformFabric.getPlatform(pl));
+        		selectedPlatformsList.add(DataProvider.mapPlatforms.get(pl));
     		}
         	
     	}
     	
     	
     	if(title != null) {
-    		Bug bug = new Bug();
+    		BugBean bug = new BugBean();
         	
-    		bug.setId(BugFabric.getNewId());
+    		bug.setId((long)DataProvider.mapBugsId.keySet().size() + 1);  
     		bug.setTitle(title);
-        	bug.setUser(UserFabric.getUserByEmail(account));
+        	bug.setUser(DataProvider.mapUsers.get(account));
         	bug.setDescription(description);
         	bug.setReproSteps(reproSteps);
         	bug.setState(DataProvider.getStates().get(state));
         	bug.setPriority(DataProvider.getPriorities().get(priority));
         	bug.setPlatforms(selectedPlatformsList);
-        	bug.setVersion(new Version(version, BuildTypeFabric.get(build)));
-        	bug.setTest(TestFabric.get(test));
+        	bug.setVersion(new VersionBean(version, DataProvider.mapBuilds.get(build)));
+        	bug.setTest(DataProvider.mapTests.get(test));
         	bug.setAttachment(att);
           	
-        	BugFabric.add(bug.getTitle(), bug);
+        	DataProvider.mapBugs.put(bug.getTitle(), bug);
         	
         	addActionError("Bug created!");
     	}else {

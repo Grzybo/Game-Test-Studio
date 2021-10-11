@@ -10,7 +10,7 @@
     	
     	<h2>Manage Project</h2>
     	
-    
+    <s:hidden name="itemID"/>
 		 <div class = "content">
 <s:hidden name="itemID"/>
 		<s:actionerror />

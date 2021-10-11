@@ -11,10 +11,9 @@ import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
-import com.bartosz.gameteststudio.dp.Project;
-import com.bartosz.gameteststudio.dp.ProjectFabric;
-import com.bartosz.gameteststudio.dp.User;
-import com.bartosz.gameteststudio.dp.UserFabric;
+import com.bartosz.gameteststudio.beans.ProjectBean;
+import com.bartosz.gameteststudio.beans.UserBean;
+import com.bartosz.gameteststudio.dp.DataProvider;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "adminPage", 
@@ -30,8 +29,8 @@ public class AdminPageAction  extends ActionSupport {
   
     private static final long serialVersionUID = 1L;
     
-    private List<Project> projectObjList;
-    private List<User> userObjList;
+    private List<ProjectBean> projectObjList;
+    private List<UserBean> userObjList;
     private String sort;
     
     
@@ -43,11 +42,11 @@ public class AdminPageAction  extends ActionSupport {
         
         
     	
-    	projectObjList = new ArrayList<Project>(); 
-    	userObjList = new ArrayList<User>(); 
+    	projectObjList = new ArrayList<ProjectBean>(); 
+    	userObjList = new ArrayList<UserBean>(); 
     	
-    	  for (String el : ProjectFabric.keys()) projectObjList.add(ProjectFabric.getProject(el));
-    	  for (String el : UserFabric.keys()) userObjList.add(UserFabric.getUserByEmail(el));
+    	  for (String el : DataProvider.mapProjects.keySet()) projectObjList.add(DataProvider.mapProjects.get(el));
+    	  for (String el : DataProvider.mapUsers.keySet()) userObjList.add(DataProvider.mapUsers.get(el));
 
     	  if(sort != null) {
  			 sortDsc(sort);			
@@ -57,7 +56,7 @@ public class AdminPageAction  extends ActionSupport {
     		  return "login";
     	  }
     	  
-    	  if(UserFabric.getUserByEmail(session.getAttribute("loginedEmail").toString()).isAdmin()){	
+    	  if(DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString()).isAdmin()){	
     		  return "admin";
     	  }
     	
@@ -68,16 +67,16 @@ public class AdminPageAction  extends ActionSupport {
 		 List<String> tmpList = new ArrayList<String>();
 		 switch(element) {
 		 	case "sortProject": 
-		 		for (Project el : projectObjList) tmpList.add(el.getTitle());
+		 		for (ProjectBean el : projectObjList) tmpList.add(el.getTitle());
 				 Collections.reverse(tmpList); 
 				 projectObjList.clear(); 
-				 for (String str : tmpList) projectObjList.add(ProjectFabric.getProject(str));
+				 for (String str : tmpList) projectObjList.add(DataProvider.mapProjects.get(str));
 			 break;
 		 	case "sortUser":
-				 for (User el : userObjList) tmpList.add(el.getEmail());
+				 for (UserBean el : userObjList) tmpList.add(el.getEmail());
 				 Collections.reverse(tmpList); 
 				 userObjList.clear(); 
-				 for (String str : tmpList) userObjList.add(UserFabric.getUserByEmail(str));
+				 for (String str : tmpList) userObjList.add(DataProvider.mapUsers.get(str));
 			 break;
 		 } 
 	 }
@@ -92,19 +91,19 @@ public class AdminPageAction  extends ActionSupport {
 		this.sort = sort;
 	}
 
-	public List<Project> getProjectObjList() {
+	public List<ProjectBean> getProjectObjList() {
 		return projectObjList;
 	}
 
-	public void setProjectObjList(List<Project> projectObjList) {
+	public void setProjectObjList(List<ProjectBean> projectObjList) {
 		this.projectObjList = projectObjList;
 	}
 
-	public List<User> getUserObjList() {
+	public List<UserBean> getUserObjList() {
 		return userObjList;
 	}
 
-	public void setUserObjList(List<User> userObjList) {
+	public void setUserObjList(List<UserBean> userObjList) {
 		this.userObjList = userObjList;
 	} 
     

@@ -6,7 +6,7 @@ import java.util.List;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
-import com.bartosz.gameteststudio.dp.PlatformFabric;
+import com.bartosz.gameteststudio.dp.DataProvider;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "deletePlatforms", //
@@ -20,16 +20,16 @@ public class PlatformsDeleteAction  extends ActionSupport {
 
 	private static final long serialVersionUID = 1L; 
 	
-	private List<String> platformList = PlatformFabric.keys();
+	private List<String> platformList = new ArrayList<String>(DataProvider.mapPlatforms.keySet()); 
 	private List<String> selectedPlatforms = new ArrayList<String>();
 
 	@Override
     public String execute() {
           
     	if(!selectedPlatforms.isEmpty()) {
-    		PlatformFabric.remove(selectedPlatforms);
+    //		DataProvider.mapPlatforms.remove(selectedPlatforms);
     	}	
-            
+            //TODO zrobic cos z tym 
     		return "cratePlatforms";
     	}
 

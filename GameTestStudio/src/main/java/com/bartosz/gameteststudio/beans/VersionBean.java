@@ -1,14 +1,14 @@
-package com.bartosz.gameteststudio.dp;
+package com.bartosz.gameteststudio.beans;
 
-public class Version {
+public class VersionBean {
 
 	private Double  number; 
-	private BuildType type;  
+	private BuildBean type;  
 		
 
-	public Version() {}
+	public VersionBean() {}
 	
-	public Version(Double  number, BuildType type) {
+	public VersionBean(Double  number, BuildBean type) {
 		this.number = number;
 		this.type = type;
 	}
@@ -18,14 +18,11 @@ public class Version {
 		return type + ": " + number;
 	}
 
-	public BuildType getType() {
+	public BuildBean getType() {
 		return type;
 	}
 	
-	
-	
-	
-	public void setType(BuildType type) {
+	public void setType(BuildBean type) {
 		this.type = type;
 	}
 

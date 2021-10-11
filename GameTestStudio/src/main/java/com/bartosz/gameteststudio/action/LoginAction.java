@@ -6,8 +6,8 @@ import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
-import com.bartosz.gameteststudio.dp.User;
-import com.bartosz.gameteststudio.dp.UserFabric;
+import com.bartosz.gameteststudio.beans.UserBean;
+import com.bartosz.gameteststudio.dp.DataProvider;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "login", //
@@ -36,10 +36,12 @@ public class LoginAction extends ActionSupport {
     	
         HttpSession session = ServletActionContext.getRequest().getSession();
         
-        User user = new User();
+       
+        System.out.print(email);
+        UserBean user = new UserBean();
         
         try {
-        	user = UserFabric.getUserByEmail(email);  
+        	user = DataProvider.mapUsers.get(this.email);
         	
         	if(user.getPassword().equals(this.password)) {
         		session.setAttribute("loginedUsername", user.getDisplayName());

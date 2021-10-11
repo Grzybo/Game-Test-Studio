@@ -1,19 +1,19 @@
-package com.bartosz.gameteststudio.dp;
+package com.bartosz.gameteststudio.beans;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class User { 
+public class UserBean { 
 	
 	private Long id; 
-	private Role role;
+	private RoleBean role;
 	private String firstName;
 	private String lastName; 
 	private String email;
 	private String password;
-	private List<Project> projects;
+	private List<ProjectBean> projects;
 	
-	public User(Long id, String firstName, String lastName, String email, String password, Role role, List<Project> projects) {
+	public UserBean(Long id, String firstName, String lastName, String email, String password, RoleBean role, List<ProjectBean> projects) {
 		this.id = id;
 		this.firstName = firstName; 
 		this.lastName = lastName; 
@@ -23,7 +23,7 @@ public class User {
 		this.projects = projects;
 	}
 	
-	public User(String firstName, String lastName, String email, String password, Role role, List<Project> projects) {
+	public UserBean(String firstName, String lastName, String email, String password, RoleBean role, List<ProjectBean> projects) {
 		this.firstName = firstName; 
 		this.lastName = lastName; 
 		this.email = email; 
@@ -32,12 +32,12 @@ public class User {
 		this.projects = projects;
 	} 
 	
-	public User(String firstName,String lastName) {
+	public UserBean(String firstName,String lastName) {
 		this.firstName = firstName; 
 		this.lastName = lastName; 
 	}
 	
-	public User() {}
+	public UserBean() {}
 	
 	
 	
@@ -60,7 +60,7 @@ public class User {
 		
 		List<String> list = new ArrayList<String>();
 		
-		for(Project p : this.projects) {
+		for(ProjectBean p : this.projects) {
 			list.add(p.getTitle());
 		}
 		
@@ -79,12 +79,12 @@ public class User {
 	}
 
 
-	public Role getRole() {
+	public RoleBean getRole() {
 		return role;
 	}
 
 
-	public void setRole(Role role) {
+	public void setRole(RoleBean role) {
 		this.role = role;
 	}
 
@@ -129,12 +129,12 @@ public class User {
 	}
 
 
-	public List<Project> getProjects() {
+	public List<ProjectBean> getProjects() {
 		return projects;
 	}
 
 
-	public void setProjects(List<Project> projects) {
+	public void setProjects(List<ProjectBean> projects) {
 		this.projects = projects;
 	} 
 	

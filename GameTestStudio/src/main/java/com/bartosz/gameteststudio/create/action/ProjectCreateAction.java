@@ -4,9 +4,8 @@ package com.bartosz.gameteststudio.create.action;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
+import com.bartosz.gameteststudio.beans.ProjectBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
-import com.bartosz.gameteststudio.dp.Project;
-import com.bartosz.gameteststudio.dp.ProjectFabric;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "createProject", //
@@ -31,15 +30,17 @@ public class ProjectCreateAction  extends ActionSupport {
     public String execute() {
           
     	if(title != null) {
-    		Project project = new Project(title, description, estimate_time, work_time, startDate, endDate, testers_numbers, DataProvider.getStates().get("New"), ProjectFabric.getNewId(), null);
-    		ProjectFabric.addProject(title, project);
+    		ProjectBean project = new ProjectBean(title, description, estimate_time, 
+    				work_time, startDate, endDate, testers_numbers, 
+    				DataProvider.getStates().get("New"), 
+    				(long)DataProvider.mapProjectsId.keySet().size() + 1, null);
+    		DataProvider.mapProjects.put(title, project);
     		addActionError("Project created.");
     		return "project_create";
     	}else {
     		addActionError("Title cannot be empty.");
     		return "project_create";
     	}
-    
     }
 
 

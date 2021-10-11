@@ -10,13 +10,8 @@ import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
-import com.bartosz.gameteststudio.dp.AreaFabric;
-import com.bartosz.gameteststudio.dp.BuildTypeFabric;
+import com.bartosz.gameteststudio.beans.TestBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
-import com.bartosz.gameteststudio.dp.ResultFabric;
-import com.bartosz.gameteststudio.dp.Test;
-import com.bartosz.gameteststudio.dp.TestFabric;
-import com.bartosz.gameteststudio.dp.UserFabric;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "updateTest", //
@@ -51,8 +46,8 @@ public class TestUpdateAction  extends ActionSupport {
 	private List<String> areaList = new ArrayList<String>();
 	private List<String> platformList;
 	private List<String> accountList = new ArrayList<String>();
-	private List<String> resultList = ResultFabric.keys();
-	private List<String> buildList = BuildTypeFabric.keys();
+	private List<String> resultList = new ArrayList<String>(DataProvider.mapResults.keySet());
+	private List<String> buildList = new ArrayList<String>(DataProvider.mapBuilds.keySet());
 	
     
     @Override
@@ -60,34 +55,39 @@ public class TestUpdateAction  extends ActionSupport {
           
     	HttpSession session = ServletActionContext.getRequest().getSession();
     	
-    	for (String el : UserFabric.keys()) {
-    		if(UserFabric.getUserByEmail(el).getProjects() != null) {
-    			if(UserFabric.getUserByEmail(el).getProjectsList().
+    	for (String el : DataProvider.mapUsers.keySet()) {
+    		if(DataProvider.mapUsers.get(el).getProjects() != null) {
+    			if(DataProvider.mapUsers.get(el).getProjectsList().
     					contains(session.getAttribute("userProject"))) {
     				accountList.add(el);
     			}
     		}	
 		} 
     	
-    	for (String el : AreaFabric.keys()) {
-			if(AreaFabric.getArea(el).getProject().getTitle()
+    	for (String el : DataProvider.mapAreas.keySet()) {
+			if(DataProvider.mapAreas.get(el).getProject().getTitle()
 					.equals(session.getAttribute("userProject").toString())){
 				areaList.add(el);
 			}
 		}
     	
-    	Test test = TestFabric.getById(Integer.parseInt(itemID));
-    	platformList = test.getArea().getProject().getPlatformsStringList();
-    	test.setUser(UserFabric.getUserByEmail(account));
+    	TestBean test = DataProvider.getTestById(Integer.parseInt(itemID));
+    	platformList = test.getArea().getProject().getPlatformsStringList(); 
+    	//DataProvider.mapTests.remove(test.getTitle());
+    	
+    	test.setUser(DataProvider.mapUsers.get(account));
     	test.setPriority(DataProvider.getPriorities().get(priority));
     	test.setState(DataProvider.getStates().get(state));
     	test.setDescription(description);
-    	test.setArea(AreaFabric.getArea(area));
+    	test.setArea(DataProvider.mapAreas.get(area));
     	test.setEstimatedTime(estimatedTime);
     	test.setWorkTime(workTime);
     	test.setTestersNumber(testersNumber);
     	
+    	//DataProvider.mapTests.put(test.getTitle(), test);
+    	
     	return "update";
+    	
     }
 
 

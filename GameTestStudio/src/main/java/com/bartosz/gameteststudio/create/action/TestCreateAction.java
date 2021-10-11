@@ -10,18 +10,11 @@ import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
-import com.bartosz.gameteststudio.dp.AreaFabric;
-import com.bartosz.gameteststudio.dp.BuildTypeFabric;
+import com.bartosz.gameteststudio.beans.PlatformBean;
+import com.bartosz.gameteststudio.beans.ProjectBean;
+import com.bartosz.gameteststudio.beans.TestBean;
+import com.bartosz.gameteststudio.beans.VersionBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
-import com.bartosz.gameteststudio.dp.Platform;
-import com.bartosz.gameteststudio.dp.PlatformFabric;
-import com.bartosz.gameteststudio.dp.Project;
-import com.bartosz.gameteststudio.dp.ProjectFabric;
-import com.bartosz.gameteststudio.dp.ResultFabric;
-import com.bartosz.gameteststudio.dp.Test;
-import com.bartosz.gameteststudio.dp.TestFabric;
-import com.bartosz.gameteststudio.dp.UserFabric;
-import com.bartosz.gameteststudio.dp.Version;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "createTest", //
@@ -48,7 +41,7 @@ public class TestCreateAction  extends ActionSupport {
 	private String result;
 	private String build;
 	private Double version;
-	private List<Platform> selectedPlatformsList = new ArrayList<Platform>();
+	private List<PlatformBean> selectedPlatformsList = new ArrayList<PlatformBean>();
 	private List<String> selectedPlatforms = new ArrayList<String>();
 	
     
@@ -57,8 +50,8 @@ public class TestCreateAction  extends ActionSupport {
 	private List<String> areaList = new ArrayList<String>();
 	private List<String> platformList;
 	private List<String> accountList = new ArrayList<String>();
-	private List<String> resultList = ResultFabric.keys();
-	private List<String> buildList = BuildTypeFabric.keys();
+	private List<String> resultList = new ArrayList<String>(DataProvider.mapResults.keySet());
+	private List<String> buildList = new ArrayList<String>(DataProvider.mapBuilds.keySet());
 	
     
     @Override
@@ -66,21 +59,21 @@ public class TestCreateAction  extends ActionSupport {
           
     	HttpSession session = ServletActionContext.getRequest().getSession();
     	
-    	Project project = ProjectFabric.getProject(session.getAttribute("userProject").toString());
+    	ProjectBean project = DataProvider.mapProjects.get(session.getAttribute("userProject").toString());
     	
     	platformList = project.getPlatformsStringList();
     	
-    	for (String el : UserFabric.keys()) {
-    		if(UserFabric.getUserByEmail(el).getProjects() != null) {
-    			if(UserFabric.getUserByEmail(el).getProjectsList().
+    	for (String el : DataProvider.mapUsers.keySet()) {
+    		if(DataProvider.mapUsers.get(el).getProjects() != null) {
+    			if(DataProvider.mapUsers.get(el).getProjectsList().
     					contains(session.getAttribute("userProject"))) {
     				accountList.add(el);
     			}
     		}	
 		} 
     	
-    	for (String el : AreaFabric.keys()) {
-			if(AreaFabric.getArea(el).getProject().getTitle()
+    	for (String el : DataProvider.mapAreas.keySet()) {
+			if(DataProvider.mapAreas.get(el).getProject().getTitle()
 					.equals(session.getAttribute("userProject").toString())){
 				areaList.add(el);
 			}
@@ -88,19 +81,19 @@ public class TestCreateAction  extends ActionSupport {
     	
     	if(!selectedPlatforms.isEmpty()) {
     		for (String pl : selectedPlatforms) {
-        		selectedPlatformsList.add(PlatformFabric.getPlatform(pl));
+        		selectedPlatformsList.add(DataProvider.mapPlatforms.get(pl));
     		}
         	
     	}
     	
     	if (title != null) {
-    		Test test = TestFabric.get("Players - New - Marcin Gortat");
+    		TestBean test = DataProvider.mapTests.get("Players - New - Marcin Gortat");
         	
     		test.setTitle(title);
-        	test.setUser(UserFabric.getUserByEmail(account));
+        	test.setUser(DataProvider.mapUsers.get(account));
         	test.setDescription(description);
-        	test.setArea(AreaFabric.getArea(area));
-        	test.setResult(ResultFabric.get(result));
+        	test.setArea(DataProvider.mapAreas.get(area));
+        	test.setResult(DataProvider.mapResults.get(result));
         	test.setEstimatedTime(estimatedTime);
         	//dates
         	test.setTestersNumber(testersNumber); 
@@ -108,9 +101,10 @@ public class TestCreateAction  extends ActionSupport {
         	test.setState(DataProvider.getStates().get(state));
         	test.setPriority(DataProvider.getPriorities().get(priority));
         	test.setPlatforms(selectedPlatformsList);
-        	test.setVersion(new Version(version, BuildTypeFabric.get(build)));
+        	test.setVersion(new VersionBean(version, DataProvider.mapBuilds.get(build)));
         	
-        	TestFabric.add(test.getTitle(), test);
+        	DataProvider.mapTests.put(test.getTitle(), test); 
+        	//TODO update 
         	addActionError("Test created!");
     	}
     	else addActionError("Title field cannot be empty");
@@ -179,12 +173,12 @@ public class TestCreateAction  extends ActionSupport {
 	}
 
 
-	public List<Platform> getSelectedPlatformsList() {
+	public List<PlatformBean> getSelectedPlatformsList() {
 		return selectedPlatformsList;
 	}
 
 
-	public void setSelectedPlatformsList(List<Platform> selectedPlatformsList) {
+	public void setSelectedPlatformsList(List<PlatformBean> selectedPlatformsList) {
 		this.selectedPlatformsList = selectedPlatformsList;
 	}
 

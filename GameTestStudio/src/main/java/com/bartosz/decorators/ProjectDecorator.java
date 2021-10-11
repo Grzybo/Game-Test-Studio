@@ -1,14 +1,15 @@
 package com.bartosz.decorators;
 
 import org.displaytag.decorator.TableDecorator;
-import com.bartosz.gameteststudio.dp.Project;
+
+import com.bartosz.gameteststudio.beans.ProjectBean;
 
 public class ProjectDecorator extends TableDecorator {
 
 	private String titleLink;
 	
 	public String getTitleLink() {
-		Project project = (Project)getCurrentRowObject();
+		ProjectBean project = (ProjectBean)getCurrentRowObject();
 		return "<a href=\"${pageContext.request.contextPath}/editProject?itemID=" + project.getId() + "\">" + project.getTitle() + "</a>";
 	}
 

@@ -6,11 +6,9 @@ import java.util.List;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
-import com.bartosz.gameteststudio.dp.Project;
-import com.bartosz.gameteststudio.dp.ProjectFabric;
-import com.bartosz.gameteststudio.dp.RoleFabric;
-import com.bartosz.gameteststudio.dp.User;
-import com.bartosz.gameteststudio.dp.UserFabric;
+import com.bartosz.gameteststudio.beans.ProjectBean;
+import com.bartosz.gameteststudio.beans.UserBean;
+import com.bartosz.gameteststudio.dp.DataProvider;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "updateAccount", //
@@ -29,21 +27,21 @@ public class AccountUpdateAction  extends ActionSupport {
     private String role;
     private String projects;
     private String searchEmail;
-    private List<String> rolesList = RoleFabric.keys();
-    private List<String>  projectsList = ProjectFabric.keys();
-    private List<Project> pL = new ArrayList<Project>();
+    private List<String> rolesList = new ArrayList<String>(DataProvider.mapRoles.keySet());
+    private List<String>  projectsList = new ArrayList<String>(DataProvider.mapProjects.keySet());
+    private List<ProjectBean> pL = new ArrayList<ProjectBean>();
     
     @Override
     public String execute() {
           
-    	User user = new User(); 
+    	UserBean user = new UserBean(); 
     	
     	user.setFirstName(firstName);
     	user.setLastName(lastName);
     	user.setEmail(email);
-    	user.setRole(RoleFabric.get(role));
+    	user.setRole(DataProvider.mapRoles.get(role));
     	
-    	UserFabric.updateUser(user);
+    	//UserFabric.updateUser(user);
     	return "editAccount";
     }
 
@@ -119,11 +117,11 @@ public class AccountUpdateAction  extends ActionSupport {
 		this.projectsList = projectsList;
 	}
 
-	public List<Project> getpL() {
+	public List<ProjectBean> getpL() {
 		return pL;
 	}
 
-	public void setpL(List<Project> pL) {
+	public void setpL(List<ProjectBean> pL) {
 		this.pL = pL;
 	}
     

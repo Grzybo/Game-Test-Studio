@@ -10,14 +10,8 @@ import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
-import com.bartosz.gameteststudio.dp.AreaFabric;
-import com.bartosz.gameteststudio.dp.Bug;
-import com.bartosz.gameteststudio.dp.BugFabric;
-import com.bartosz.gameteststudio.dp.BuildTypeFabric;
+import com.bartosz.gameteststudio.beans.BugBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
-import com.bartosz.gameteststudio.dp.ResultFabric;
-import com.bartosz.gameteststudio.dp.TestFabric;
-import com.bartosz.gameteststudio.dp.UserFabric;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "updateBug", //
@@ -54,42 +48,50 @@ public class BugUpdateAction  extends ActionSupport {
 	private List<String> areaList = new ArrayList<String>();
 	private List<String> platformList;
 	private List<String> accountList = new ArrayList<String>();
-	private List<String> resultList = ResultFabric.keys();
-	private List<String> buildList = BuildTypeFabric.keys();
+	private List<String> resultList = new ArrayList<String>(DataProvider.mapResults.keySet());
+	private List<String> buildList = new ArrayList<String>(DataProvider.mapBuilds.keySet());
     
     @Override
     public String execute() {
           
     	HttpSession session = ServletActionContext.getRequest().getSession();
     	
-    	for (String el : UserFabric.keys()) {
-    		if(UserFabric.getUserByEmail(el).getProjects() != null) {
-    			if(UserFabric.getUserByEmail(el).getProjectsList().
+    	for (String el : DataProvider.mapUsers.keySet()) {
+    		if(DataProvider.mapUsers.get(el).getProjects() != null) {
+    			if(DataProvider.mapUsers.get(el).getProjectsList().
     					contains(session.getAttribute("userProject"))) {
     				accountList.add(el);
     			}
     		}	
 		} 
     	
-    	for (String el : AreaFabric.keys()) {
-			if(AreaFabric.getArea(el).getProject().getTitle()
+    	for (String el : DataProvider.mapAreas.keySet()) {
+			if(DataProvider.mapAreas.get(el).getProject().getTitle()
 					.equals(session.getAttribute("userProject").toString())){
 				areaList.add(el);
 			}
 		}
     	
-    	Bug bug = BugFabric.getById(Long.parseLong(itemID));
+    	BugBean bug = DataProvider.getBugById(Integer.parseInt(itemID));
     	platformList = bug.getTest().getArea().getProject().getPlatformsStringList();
+    	DataProvider.mapBugs.remove(bug.getTitle());
     	
-    	
-    	//bug.setTitle(title);
-    	bug.setUser(UserFabric.getUserByEmail(account));
-    	bug.setPriority(DataProvider.getPriorities().get(priority));
-    	bug.setState(DataProvider.getStates().get(state));
+    	bug.setTitle(title);
+    	bug.setUser(DataProvider.mapUsers.get(account));
     	bug.setDescription(description);
-    	bug.setTest(TestFabric.get(test));
     	bug.setReproSteps(reproSteps);
-    	
+    	bug.setState(DataProvider.getStates().get(state));
+    	bug.setPriority(DataProvider.getPriorities().get(priority));
+    	//platformy 
+    	//varsia
+    	//build
+    	bug.setTest(DataProvider.mapTests.get(test));
+    	//fileUpload = bug.getAttachment().getFile();
+    	//fileUploadContentType = bug.getAttachment().getFileType();
+    	//fileUploadFileName = bug.getAttachment().getFileName();
+    	//TODO dodac pola 
+    	//TODO update id na innych itemach
+    	DataProvider.mapBugs.put(bug.getTitle(), bug);
     	
     	
     	

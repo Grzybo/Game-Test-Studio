@@ -10,10 +10,8 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
 import com.bartosz.gameteststudio.beans.AreaBean;
-import com.bartosz.gameteststudio.dp.AreaFabric;
+import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
-import com.bartosz.gameteststudio.dp.User;
-import com.bartosz.gameteststudio.dp.UserFabric;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "updateArea", //
@@ -48,12 +46,14 @@ public class AreaUpdateAction  extends ActionSupport {
     public String execute() {
           
     	HttpSession session = ServletActionContext.getRequest().getSession();
-    	User user = UserFabric.getUserByEmail(session.getAttribute("loginedEmail").toString()); 
+    	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString()); 
     	
     	projectsList = user.getProjectsList(); 
     	
     	AreaBean area = DataProvider.getAreaById(Integer.parseInt(itemID));
+    	DataProvider.mapAreas.remove(area.getTitle());
 
+    	area.setTitle(this.title);
     	area.setPriority(DataProvider.getPriorities().get(priority));
     	area.setState(DataProvider.getStates().get(state));
     	area.setDescription(this.description);
@@ -62,8 +62,9 @@ public class AreaUpdateAction  extends ActionSupport {
     	area.setEndDate(this.endDate);
     	area.setTestersNumber(this.testersNumber);
     	area.setWorkTime(this.workTime); 
-        DataProvider.mapAreas.put(area.getTitle(), area);
-        
+    	
+    	DataProvider.mapAreas.put(area.getTitle(), area);
+        // TODO wresza itemow poprawda add i remove 
     	return "update";
     }
 

@@ -10,11 +10,8 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
 import com.bartosz.gameteststudio.beans.AreaBean;
-import com.bartosz.gameteststudio.dp.AreaFabric;
+import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
-import com.bartosz.gameteststudio.dp.ProjectFabric;
-import com.bartosz.gameteststudio.dp.User;
-import com.bartosz.gameteststudio.dp.UserFabric;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "createArea", //
@@ -48,7 +45,7 @@ public class AreaCreateAction  extends ActionSupport {
     public String execute() {
           
     	HttpSession session = ServletActionContext.getRequest().getSession();
-    	User user = UserFabric.getUserByEmail(session.getAttribute("loginedEmail").toString()); 
+    	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString()); 
     	projectsList = user.getProjectsList(); 
     	
     	//Area area = AreaFabric.getArea(session.getAttribute("selectedArea").toString()); 
@@ -61,7 +58,7 @@ public class AreaCreateAction  extends ActionSupport {
     		AreaBean area = new AreaBean();
         	area.setTitle(this.title);
         	area.setDescription(this.description);
-        	area.setProject(ProjectFabric.getProject(session.getAttribute("userProject").toString()));
+        	area.setProject(DataProvider.mapProjects.get(session.getAttribute("userProject").toString()));
         	area.setEstimatedTime(this.estimatedTime);
         	area.setTestersNumber(this.testersNumber);
         	area.setWorkTime(this.workTime); 
@@ -70,7 +67,7 @@ public class AreaCreateAction  extends ActionSupport {
         	area.setStartDate(this.startDate);
         	area.setEndDate(this.endDate);
         	//System.out.print(endDate.toString());
-        	AreaFabric.addArea(title, area);
+        	DataProvider.mapAreas.put(title, area);
         	
         	addActionError("Area created!");
     	}else addActionError("Title field cannot be empty");

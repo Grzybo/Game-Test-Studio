@@ -6,8 +6,8 @@ import java.util.List;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
-import com.bartosz.gameteststudio.dp.Platform;
-import com.bartosz.gameteststudio.dp.PlatformFabric;
+import com.bartosz.gameteststudio.beans.PlatformBean;
+import com.bartosz.gameteststudio.dp.DataProvider;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "editPlatforms", //
@@ -22,15 +22,15 @@ public class PlatformCreateAction  extends ActionSupport {
 	private static final long serialVersionUID = 1L; 
 	
 	private String platformName;
-	private List<String> platformList = PlatformFabric.keys();
+	private List<String> platformList = new ArrayList<String>(DataProvider.mapPlatforms.keySet()); 
 	private List<String> selectedPlatforms = new ArrayList<String>();
 
 	@Override
     public String execute() {
           
     	if(platformName != null) {
-    		if(!PlatformFabric.keys().contains(platformName)){
-    			PlatformFabric.add(platformName, new Platform(platformName));
+    		if(!DataProvider.mapPlatforms.keySet().contains(platformName)){
+    			DataProvider.mapPlatforms.put(platformName, new PlatformBean(platformName));
     			addActionError("Platform created!");
     		}
     		else addActionError("Platform already exists!");

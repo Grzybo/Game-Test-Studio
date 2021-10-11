@@ -1,35 +1,32 @@
-package com.bartosz.gameteststudio.dp;
+package com.bartosz.gameteststudio.beans;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.bartosz.gameteststudio.beans.PriorityBean;
-import com.bartosz.gameteststudio.beans.StateBean;
-
-public class Bug {
+public class BugBean {
 
 		private Long id;
 		private String title;
 		
-		private User user; 
+		private UserBean user; 
 		private String description;
 		private String reproSteps;
 		private StateBean state; 
 		private PriorityBean priority;
-		private List<Platform> platforms;
-		private Version version;
-		private Test test;
+		private List<PlatformBean> platforms;
+		private VersionBean version;
+		private TestBean test;
 		//private Area area;
 		private int minKitNumber;
-		private Attachment attachment;   
+		private AttachmentBean attachment;   
 		
 		
 		
-		public Bug() {}
+		public BugBean() {}
 		
-		public Bug(Long id, String title, User user, String description, String reproSteps,
+		public BugBean(Long id, String title, UserBean user, String description, String reproSteps,
 				StateBean state, PriorityBean priority,
-				List<Platform> platforms,  Version version, int minKitNumber, Test test) {
+				List<PlatformBean> platforms,  VersionBean version, int minKitNumber, TestBean test) {
 			this.title = title;
 			this.user = user;
 			this.description = description;
@@ -55,11 +52,11 @@ public class Bug {
 
 		
 		
-		public Test getTest() {
+		public TestBean getTest() {
 			return test;
 		}
 
-		public void setTest(Test test) {
+		public void setTest(TestBean test) {
 			this.test = test;
 		}
 
@@ -79,7 +76,7 @@ public class Bug {
 
 		public List<String> getPlatformList(){
 			List<String> list = new ArrayList<String>();
-			for (Platform pl : platforms) {
+			for (PlatformBean pl : platforms) {
 				list.add(pl.getName());
 			}
 			return list;
@@ -93,11 +90,11 @@ public class Bug {
 			this.title = title;
 		}
 
-		public User getUser() {
+		public UserBean getUser() {
 			return user;
 		}
 
-		public void setUser(User user) {
+		public void setUser(UserBean user) {
 			this.user = user;
 		}
 
@@ -133,20 +130,20 @@ public class Bug {
 			this.priority = priority;
 		}
 
-		public List<Platform> getPlatforms() {
+		public List<PlatformBean> getPlatforms() {
 			return platforms;
 		}
 
-		public void setPlatforms(List<Platform> platforms) {
+		public void setPlatforms(List<PlatformBean> platforms) {
 			this.platforms = platforms;
 		}
 
 
-		public Version getVersion() {
+		public VersionBean getVersion() {
 			return version;
 		}
 
-		public void setVersion(Version version) {
+		public void setVersion(VersionBean version) {
 			this.version = version;
 		}
 
@@ -158,11 +155,11 @@ public class Bug {
 			this.minKitNumber = minKitNumber;
 		}
 
-		public Attachment getAttachment() {
+		public AttachmentBean getAttachment() {
 			return attachment;
 		}
 
-		public void setAttachment(Attachment attachment) {
+		public void setAttachment(AttachmentBean attachment) {
 			this.attachment = attachment;
 		}  
 		

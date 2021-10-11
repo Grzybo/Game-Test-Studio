@@ -12,14 +12,11 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
 import com.bartosz.gameteststudio.beans.AreaBean;
-import com.bartosz.gameteststudio.dp.Bug;
-import com.bartosz.gameteststudio.dp.Project;
-import com.bartosz.gameteststudio.dp.Test;
-import com.bartosz.gameteststudio.dp.TestFabric;
-import com.bartosz.gameteststudio.dp.BugFabric;
+import com.bartosz.gameteststudio.beans.BugBean;
+import com.bartosz.gameteststudio.beans.ProjectBean;
+import com.bartosz.gameteststudio.beans.TestBean;
+import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
-import com.bartosz.gameteststudio.dp.User;
-import com.bartosz.gameteststudio.dp.UserFabric;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "projects", //
@@ -39,7 +36,7 @@ public class ProjectAction  extends ActionSupport {
 	private List<String> itemsList = Arrays.asList("Area", "Test", "Bug");
 	private String selectedItem; 
 	private List<String> elementsList;
-	private List<Project> userProjectsList;
+	private List<ProjectBean> userProjectsList;
 	private boolean assignedToMe;
 	
 	private String state; 
@@ -52,13 +49,13 @@ public class ProjectAction  extends ActionSupport {
 	private List<String> areaList;
 	
 	private AreaBean tmpArea;
-	private Test tmpTest;
-	private Bug tmpBug;
+	private TestBean tmpTest;
+	private BugBean tmpBug;
 	
 	private List<Object> elementsObjList; 
 	
-	private List<Bug> bugObjList; 
-	private List<Test> testObjList;
+	private List<BugBean> bugObjList; 
+	private List<TestBean> testObjList;
 	private List<AreaBean> areaObjList;
 	
 	
@@ -77,8 +74,8 @@ public class ProjectAction  extends ActionSupport {
 		elementsObjList = new ArrayList<Object>(); 
 		usersList = new ArrayList<String>();  
 		
-		bugObjList = new ArrayList<Bug>();
-		testObjList = new ArrayList<Test>();
+		bugObjList = new ArrayList<BugBean>();
+		testObjList = new ArrayList<TestBean>();
 		areaObjList = new ArrayList<AreaBean>(); 
 		
 		
@@ -88,7 +85,7 @@ public class ProjectAction  extends ActionSupport {
 		areaList.add("Any");
 		usersList.add("Any");
 		
-		 User user = UserFabric.getUserByEmail(session.getAttribute("loginedEmail").
+		 UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").
 				 toString());
 		 
 		userProjectsList = user.getProjects();
@@ -105,9 +102,9 @@ public class ProjectAction  extends ActionSupport {
 		if (assigned == null) assigned = "Any";
 		if(assignedToMe)  assigned = user.getEmail();
 		
-		for (String userStr : UserFabric.keys()) {
-			if( (!UserFabric.getUserByEmail(userStr).isAdmin()) && 
-					(UserFabric.getUserByEmail(userStr).getProjectsList().
+		for (String userStr : DataProvider.mapUsers.keySet()) {
+			if( (!DataProvider.mapUsers.get(userStr).isAdmin()) && 
+					(DataProvider.mapUsers.get(userStr).getProjectsList().
 							contains(selectedProject))) {
 				usersList.add(userStr);
 			}
@@ -116,8 +113,8 @@ public class ProjectAction  extends ActionSupport {
 
 		// wypelniamy liste Area
 		
-		 for (String el : DataProvider.getAreas().keySet()) {
-			 if( DataProvider.getAreas().get(el).getProject().getTitle().equals(selectedProject)) {
+		 for (String el : DataProvider.mapAreas.keySet()) {
+			 if( DataProvider.mapAreas.get(el).getProject().getTitle().equals(selectedProject)) {
 				 areaList.add(el);
 			 }
 		 }
@@ -139,8 +136,8 @@ public class ProjectAction  extends ActionSupport {
 	
 	 
 	 private void fillLists() {
-		 for (String el : DataProvider.getAreas().keySet()) {
-			  tmpArea = DataProvider.getAreas().get(el);
+		 for (String el : DataProvider.mapAreas.keySet()) {
+			  tmpArea = DataProvider.mapAreas.get(el);
 			  if(tmpArea.getProject().getTitle().equals(selectedProject) && 
 						(tmpArea.getState().getName().equals(state) || state.equals("Any")) &&	
 						(tmpArea.getPriority().getName().equals(priority) || priority.equals("Any")) ) {
@@ -148,11 +145,8 @@ public class ProjectAction  extends ActionSupport {
 				}
 			}
 	
-	
-	 
-		  
-		  for (String el : TestFabric.keys()) {
-			  tmpTest = TestFabric.get(el);
+		  for (String el :DataProvider.mapTests.keySet()) {
+			  tmpTest = DataProvider.mapTests.get(el);
 			  if((tmpTest.getArea().getProject().getTitle().equals(selectedProject)) && 
 						(tmpTest.getState().getName().equals(state) || state.equals("Any")) && 
 						(tmpTest.getPriority().getName().equals(priority) || priority.equals("Any")) && 
@@ -163,8 +157,8 @@ public class ProjectAction  extends ActionSupport {
 			}
 		  
 	   
-		  for (String el : BugFabric.keys()) {
-				tmpBug = BugFabric.get(el);
+		  for (String el : DataProvider.mapBugs.keySet()) {
+				tmpBug = DataProvider.mapBugs.get(el);
 			  	if((tmpBug.getTest().getArea().getProject().getTitle().equals(selectedProject) )  &&
 						(tmpBug.getState().getName().equals(state) || state.equals("Any")) && 
 						(tmpBug.getPriority().getName().equals(priority) || priority.equals("Any")) && 
@@ -182,22 +176,22 @@ public class ProjectAction  extends ActionSupport {
 		 List<String> tmpList = new ArrayList<String>();
 		 switch(element) {
 		 	case "sortBug": 
-		 		for (Bug el : bugObjList) tmpList.add(el.getTitle());
+		 		for (BugBean el : bugObjList) tmpList.add(el.getTitle());
 				 Collections.reverse(tmpList); 
 				 bugObjList.clear(); 
-				 for (String str : tmpList) bugObjList.add(BugFabric.get(str));
+				 for (String str : tmpList) bugObjList.add(DataProvider.mapBugs.get(str));
 			 break;
 		 	case "sortTest":
-				 for (Test el : testObjList) tmpList.add(el.getTitle());
+				 for (TestBean el : testObjList) tmpList.add(el.getTitle());
 				 Collections.reverse(tmpList); 
 				 testObjList.clear(); 
-				 for (String str : tmpList) testObjList.add(TestFabric.get(str));
+				 for (String str : tmpList) testObjList.add(DataProvider.mapTests.get(str));
 			 break;
 		 	case "sortArea":
 				 for (AreaBean el : areaObjList) tmpList.add(el.getTitle());
 				 Collections.reverse(tmpList); 
 				 areaObjList.clear(); 
-				 for (String str : tmpList) areaObjList.add(DataProvider.getAreas().get(str));
+				 for (String str : tmpList) areaObjList.add(DataProvider.mapAreas.get(str));
 			 break;	
 		 } 
 	 }
@@ -207,7 +201,7 @@ public class ProjectAction  extends ActionSupport {
 	}
 
 
-	public List<Bug> getBugObjList() {
+	public List<BugBean> getBugObjList() {
 		return bugObjList;
 	}
 
@@ -228,21 +222,21 @@ public class ProjectAction  extends ActionSupport {
 
 
 
-	public void setBugObjList(List<Bug> bugObjList) {
+	public void setBugObjList(List<BugBean> bugObjList) {
 		this.bugObjList = bugObjList;
 	}
 
 
 
 
-	public List<Test> getTestObjList() {
+	public List<TestBean> getTestObjList() {
 		return testObjList;
 	}
 
 
 
 
-	public void setTestObjList(List<Test> testObjList) {
+	public void setTestObjList(List<TestBean> testObjList) {
 		this.testObjList = testObjList;
 	}
 
@@ -413,12 +407,12 @@ public class ProjectAction  extends ActionSupport {
 	}
 
 
-	public List<Project> getUserProjectsList() {
+	public List<ProjectBean> getUserProjectsList() {
 		return userProjectsList;
 	}
 
 
-	public void setUserProjectsList(List<Project> userProjectsList) {
+	public void setUserProjectsList(List<ProjectBean> userProjectsList) {
 		this.userProjectsList = userProjectsList;
 	}
 

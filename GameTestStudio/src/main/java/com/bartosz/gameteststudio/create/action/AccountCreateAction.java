@@ -10,11 +10,9 @@ import org.passay.CharacterRule;
 import org.passay.EnglishCharacterData;
 import org.passay.PasswordGenerator;
 
-import com.bartosz.gameteststudio.dp.Project;
-import com.bartosz.gameteststudio.dp.ProjectFabric;
-import com.bartosz.gameteststudio.dp.RoleFabric;
-import com.bartosz.gameteststudio.dp.User;
-import com.bartosz.gameteststudio.dp.UserFabric;
+import com.bartosz.gameteststudio.beans.ProjectBean;
+import com.bartosz.gameteststudio.beans.UserBean;
+import com.bartosz.gameteststudio.dp.DataProvider;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "createAccount", //
@@ -32,9 +30,9 @@ public class AccountCreateAction  extends ActionSupport {
     private String password;
     private String role;
     private String projects;
-    private List<String> rolesList = RoleFabric.keys();
-    private List<String>  projectsList = ProjectFabric.keys();
-    private List<Project> pL = new ArrayList<Project>();
+    private List<String> rolesList = new ArrayList<String>(DataProvider.mapRoles.keySet());
+    private List<String>  projectsList = new ArrayList<String>(DataProvider.mapProjects.keySet());
+    private List<ProjectBean> projectsObjList = new ArrayList<ProjectBean>();
     
     
    // private String from = "gameteststudiomail@gmail.com";
@@ -72,12 +70,12 @@ public class AccountCreateAction  extends ActionSupport {
             */ 
     		
     		for(String p : projects.split(", ") ) {
-    			pL.add(ProjectFabric.getProject(p));
+    			projectsObjList.add(DataProvider.mapProjects.get(p));
     			System.out.print(p);
     		}
     		
-    		User user = new User(UserFabric.getNewId(), firstName, lastName, email, "password", RoleFabric.get(role), pL);
-    		UserFabric.addUser(user);
+    		UserBean user = new UserBean((long)DataProvider.mapUsersId.keySet().size() + 1 , firstName, lastName, email, "password", DataProvider.mapRoles.get(role), projectsObjList);
+    		DataProvider.mapUsers.put(user.getEmail(), user);
             
     		//System.out.print(projects.split(", "));
     		

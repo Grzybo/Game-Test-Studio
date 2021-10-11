@@ -1,8 +1,7 @@
 <%@ page import="java.util.ArrayList"%>
-<%@ page import="com.bartosz.gameteststudio.dp.Bug"%>
+
 <%@ page import="java.util.List"%>
-<%@ page import="com.bartosz.gameteststudio.dp.BugFabric"%>
-<%@ page import="com.bartosz.gameteststudio.dp.User"%>
+
 <%@ page import="org.displaytag.tags.TableTagParameters"%>
 <%@ page import="org.displaytag.util.ParamEncoder"%>
 
@@ -27,9 +26,7 @@
 	<body>
 		
 		<% 
-			List<Bug> list = new ArrayList<Bug>(); 
-			for (String el : BugFabric.keys()) list.add(BugFabric.get(el));
-		 	session.setAttribute("bugs", list);
+			
 		
 		%>
 		

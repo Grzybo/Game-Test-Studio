@@ -1,13 +1,13 @@
-package com.bartosz.gameteststudio.dp;
+package com.bartosz.gameteststudio.beans;
 
-public class Role {
+public class RoleBean {
 
 	//private Long id; 
 	private String name;
 	
-	public Role() {}
+	public RoleBean() {}
 	
-	public Role(String name) {
+	public RoleBean(String name) {
 		this.name = name;
 	}
 	

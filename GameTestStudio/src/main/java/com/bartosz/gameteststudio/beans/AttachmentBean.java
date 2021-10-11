@@ -1,14 +1,14 @@
-package com.bartosz.gameteststudio.dp;
+package com.bartosz.gameteststudio.beans;
 
 import java.io.File;
 
-public class Attachment {
+public class AttachmentBean {
 
 	private String fileName; 
 	private String fileType; 
 	private File file;
 	
-	public Attachment(String fileName, String fileType, File file) {
+	public AttachmentBean(String fileName, String fileType, File file) {
 		this.fileName = fileName;
 		this.fileType = fileType;
 		this.file = file;

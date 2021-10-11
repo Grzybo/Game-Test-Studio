@@ -6,10 +6,8 @@ import java.util.List;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
+import com.bartosz.gameteststudio.beans.ProjectBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
-import com.bartosz.gameteststudio.dp.PlatformFabric;
-import com.bartosz.gameteststudio.dp.Project;
-import com.bartosz.gameteststudio.dp.ProjectFabric;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "updateProject", //
@@ -22,7 +20,7 @@ public class ProjectUpdateAction  extends ActionSupport {
     private static final long serialVersionUID = 1L;
  
     private String searchTitle;
-    
+    private String itemID;
     private String title; 
     private String description; 
     private Integer testers_numbers;
@@ -31,7 +29,7 @@ public class ProjectUpdateAction  extends ActionSupport {
     private String startDate;
     private String endDate;
     private String state;
-    private List<String> platformList = PlatformFabric.keys(); 
+    private List<String> platformList = new ArrayList<String>(DataProvider.mapPlatforms.keySet()); 
     private List<String> selectedPlatforms = new ArrayList<String>();
     private List<String> stateList = new ArrayList<String>(DataProvider.getStates().keySet());
     
@@ -43,8 +41,11 @@ public class ProjectUpdateAction  extends ActionSupport {
     	
     	if (title != null) {
     		
-    		Project project = new Project();
-        	
+    		ProjectBean project = DataProvider.getProjectById(Integer.parseInt(itemID));
+    		
+    		DataProvider.mapProjects.remove(project.getTitle());
+    		DataProvider.mapProjectsId.remove(Long.parseLong(itemID));
+    		
         	project.setTitle(title);
         	project.setDescription(description);
         	project.setTestersNumber(testers_numbers);
@@ -55,7 +56,9 @@ public class ProjectUpdateAction  extends ActionSupport {
         	project.setPlatforms(selectedPlatforms);
         	project.setState(DataProvider.getStates().get(state));
         	project.setId(project.getId());
-        	ProjectFabric.update(project, project);
+        	
+        	DataProvider.mapProjects.put(project.getTitle(), project);
+        	DataProvider.mapProjectsId.put(Long.parseLong(itemID), project.getTitle());
         	
         	addActionError("Project Updated.");
     	}
@@ -80,6 +83,14 @@ public class ProjectUpdateAction  extends ActionSupport {
 
 	public void setStateList(List<String> stateList) {
 		this.stateList = stateList;
+	}
+
+	public String getItemID() {
+		return itemID;
+	}
+
+	public void setItemID(String itemID) {
+		this.itemID = itemID;
 	}
 
 	public void setState(String state) {

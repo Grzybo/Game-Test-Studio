@@ -1,7 +1,7 @@
 package com.bartosz.gameteststudio.action;
  
-import com.bartosz.gameteststudio.dp.User;
-import com.bartosz.gameteststudio.dp.UserFabric;
+import com.bartosz.gameteststudio.beans.UserBean;
+import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.utils.Utils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -41,13 +41,13 @@ public class UserInfoAction  extends ActionSupport {
 	HttpServletRequest request = ServletActionContext.getRequest();
 	HttpSession session = request.getSession();  
 	
-	User user = UserFabric.getUserByEmail(session.getAttribute("loginedEmail").toString());
+	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());
 	
 	if(this.firstName != null && this.lastName != null) {
 		user.setFirstName(firstName);
 		user.setLastName(lastName);
-		UserFabric.updateUser(user);
-		System.out.print(user.toString());
+		//UserFabric.updateUser(user);
+		//System.out.print(user.toString());
 	}
 	
 	//setFirstName(user.getFirstName());
@@ -59,7 +59,7 @@ public class UserInfoAction  extends ActionSupport {
         if(user.getPassword().equals(oldPassword)) {
         	if(newPassword1.equals(newPassword2)) {
         		user.setPassword(newPassword1);
-        		UserFabric.updateUser(user);
+        		//UserFabric.updateUser(user);
         		addActionError("Password changed successfully.");	
         	}
         	else addActionError("New Passwords do not match.");

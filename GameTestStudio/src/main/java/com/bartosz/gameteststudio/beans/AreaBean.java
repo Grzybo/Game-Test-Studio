@@ -1,13 +1,11 @@
 package com.bartosz.gameteststudio.beans;
 
-import com.bartosz.gameteststudio.dp.Project;
-
 public class AreaBean {
 	
 	private Long id;
 	private String title;
 	private String description; 
-	private Project project; 
+	private ProjectBean project; 
 	private Integer estimatedTime; 
 	private String startDate;
 	private String endDate;
@@ -19,7 +17,7 @@ public class AreaBean {
 	
 	public AreaBean() {}
 	
-	public AreaBean(Long id, String title, String description, Project project, Integer estimatedTime, String startDate, String endDate,
+	public AreaBean(Long id, String title, String description, ProjectBean project, Integer estimatedTime, String startDate, String endDate,
 			Integer testersNumber, Integer workTime, StateBean state, PriorityBean priority) {
 		super();
 		this.title = title;
@@ -72,10 +70,10 @@ public class AreaBean {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public Project getProject() {
+	public ProjectBean getProject() {
 		return project;
 	}
-	public void setProject(Project project) {
+	public void setProject(ProjectBean project) {
 		this.project = project;
 	}
 	public int getEstimatedTime() {

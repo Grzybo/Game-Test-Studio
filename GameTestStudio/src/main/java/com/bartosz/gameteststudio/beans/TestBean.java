@@ -1,21 +1,17 @@
-package com.bartosz.gameteststudio.dp;
+package com.bartosz.gameteststudio.beans;
 
 import java.util.ArrayList;
 
 import java.util.List;
 
-import com.bartosz.gameteststudio.beans.AreaBean;
-import com.bartosz.gameteststudio.beans.PriorityBean;
-import com.bartosz.gameteststudio.beans.StateBean;
-
-public class Test {
+public class TestBean {
 	
 	private Long id;
 	private String title;
-	private User user; 
+	private UserBean user; 
 	private String description; 
 	private AreaBean area; 
-	private Result result; 
+	private ResultBean result; 
 	private Integer estimatedTime; 
 	private String startDate;
 	private String endDate;
@@ -23,14 +19,15 @@ public class Test {
 	private Integer workTime;
 	private StateBean state; 
 	private PriorityBean priority;
-	private List<Platform> platforms;
-	private Version version; 
+	private List<PlatformBean> platforms;
+	private VersionBean version; 
 	
-	public Test() {}
+	public TestBean() {}
 
-	public Test(Long id ,String title, User user, String description, com.bartosz.gameteststudio.beans.AreaBean area, Result result,
+	public TestBean(Long id ,String title, UserBean user, String description,
+			com.bartosz.gameteststudio.beans.AreaBean area, ResultBean result,
 			Integer estimatedTime, String startDate, String endDate, Integer testersNumber, Integer workTime, StateBean state,
-			PriorityBean priority, List<Platform> platforms, Version version) {
+			PriorityBean priority, List<PlatformBean> platforms, VersionBean version) {
 		this.title = title;
 		this.user = user;
 		this.description = description;
@@ -51,7 +48,7 @@ public class Test {
 
 	public List<String> getPlatformList(){
 		List<String> list = new ArrayList<String>();
-		for (Platform pl : platforms) {
+		for (PlatformBean pl : platforms) {
 			list.add(pl.getName());
 		}
 		return list;
@@ -74,11 +71,11 @@ public class Test {
 		this.title = title;
 	}
 
-	public User getUser() {
+	public UserBean getUser() {
 		return user;
 	}
 
-	public void setUser(User user) {
+	public void setUser(UserBean user) {
 		this.user = user;
 	}
 
@@ -98,11 +95,11 @@ public class Test {
 		this.area = area;
 	}
 
-	public Result getResult() {
+	public ResultBean getResult() {
 		return result;
 	}
 
-	public void setResult(Result result) {
+	public void setResult(ResultBean result) {
 		this.result = result;
 	}
 
@@ -162,19 +159,19 @@ public class Test {
 		this.priority = priority;
 	}
 
-	public List<Platform> getPlatforms() {
+	public List<PlatformBean> getPlatforms() {
 		return platforms;
 	}
 
-	public void setPlatforms(List<Platform> platforms) {
+	public void setPlatforms(List<PlatformBean> platforms) {
 		this.platforms = platforms;
 	}
 
-	public Version getVersion() {
+	public VersionBean getVersion() {
 		return version;
 	}
 
-	public void setVersion(Version version) {
+	public void setVersion(VersionBean version) {
 		this.version = version;
 	} 
 	

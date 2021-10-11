@@ -10,9 +10,8 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
 import com.bartosz.gameteststudio.beans.AreaBean;
+import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
-import com.bartosz.gameteststudio.dp.User;
-import com.bartosz.gameteststudio.dp.UserFabric;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "editArea", //
@@ -45,7 +44,7 @@ public class AreaEditAction  extends ActionSupport {
     public String execute() {
           
     	HttpSession session = ServletActionContext.getRequest().getSession();
-    	User user = UserFabric.getUserByEmail(session.getAttribute("loginedEmail").toString()); 
+    	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString()); 
     	
     	projectsList = user.getProjectsList(); 
     	

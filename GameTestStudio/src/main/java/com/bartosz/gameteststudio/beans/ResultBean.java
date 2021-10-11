@@ -1,13 +1,13 @@
-package com.bartosz.gameteststudio.dp;
+package com.bartosz.gameteststudio.beans;
 
-public class Result {
+public class ResultBean {
 	
 	//private Long id;
 	private String name; 
 	
-	public Result() {}
+	public ResultBean() {}
 	
-	public Result(String name) {this.name = name;}
+	public ResultBean(String name) {this.name = name;}
 
 
 	public String getName() {
