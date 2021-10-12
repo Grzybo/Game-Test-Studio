@@ -29,11 +29,14 @@ public class AccountCreateAction  extends ActionSupport {
     private String email;
     private String password;
     private String role;
-    private String projects;
+    private List<String> projects;
+    private String bugPer;
+    private String testPer;
+    private String areaPer;
+    
     private List<String> rolesList = new ArrayList<String>(DataProvider.mapRoles.keySet());
     private List<String>  projectsList = new ArrayList<String>(DataProvider.mapProjects.keySet());
-    private List<ProjectBean> projectsObjList = new ArrayList<ProjectBean>();
-    
+    private List<String> permissionsList = new ArrayList<String>(DataProvider.mapPermissions.keySet());
     
    // private String from = "gameteststudiomail@gmail.com";
     //private String emailPassword = "Pa$$word1!"; 
@@ -69,15 +72,20 @@ public class AccountCreateAction  extends ActionSupport {
             SendMail();
             */ 
     		
-    		for(String p : projects.split(", ") ) {
-    			projectsObjList.add(DataProvider.mapProjects.get(p));
-    			System.out.print(p);
-    		}
-    		
-    		UserBean user = new UserBean((long)DataProvider.mapUsersId.keySet().size() + 1 , firstName, lastName, email, "password", DataProvider.mapRoles.get(role), projectsObjList);
+    		UserBean user = new UserBean(); 
+			
+    		user.setId((long)DataProvider.mapUsersId.keySet().size() + 1); 
+			user.setFirstName(firstName);
+			user.setLastName(lastName);
+			user.setEmail(email); 
+			user.setRole(DataProvider.mapRoles.get(role)); 
+			user.setProjectsList(projects);
+			user.setBugPremission(DataProvider.mapPermissions.get(bugPer));
+			user.setTestPremission(DataProvider.mapPermissions.get(testPer));
+			user.setAreaPremission(DataProvider.mapPermissions.get(areaPer));
+			
     		DataProvider.mapUsers.put(user.getEmail(), user);
-            
-    		//System.out.print(projects.split(", "));
+    		DataProvider.mapUsersId.put(user.getId(), user.getEmail());
     		
     		addActionError("Account created.");
     		
@@ -135,10 +143,25 @@ public class AccountCreateAction  extends ActionSupport {
         }
         System.out.print(ret);
     } 
-    */
+    */ 
+    
+    
+    
     public String getFirstName() {return firstName;}
     
-    public void setFirstName(String firstName) {
+    public List<String> getPermissionsList() {
+		return permissionsList;
+	}
+
+
+
+	public void setPermissionsList(List<String> permissionsList) {
+		this.permissionsList = permissionsList;
+	}
+
+
+
+	public void setFirstName(String firstName) {
         if(firstName == "") firstName = null;
         else this.firstName = firstName;
     }
@@ -169,13 +192,52 @@ public class AccountCreateAction  extends ActionSupport {
 	
 
 
-	public String getProjects() {
+	public String getBugPer() {
+		return bugPer;
+	}
+
+
+
+	public void setBugPer(String bugPer) {
+		this.bugPer = bugPer;
+	}
+
+
+
+	public String getTestPer() {
+		return testPer;
+	}
+
+
+
+	public void setTestPer(String testPer) {
+		this.testPer = testPer;
+	}
+
+
+
+	public String getAreaPer() {
+		return areaPer;
+	}
+
+
+
+	public void setAreaPer(String areaPer) {
+		this.areaPer = areaPer;
+	}
+
+
+
+
+
+
+	public List<String> getProjects() {
 		return projects;
 	}
 
 
 
-	public void setProjects(String projects) {
+	public void setProjects(List<String> projects) {
 		this.projects = projects;
 	}
 

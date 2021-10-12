@@ -1,7 +1,7 @@
 package com.bartosz.gameteststudio.action;
  
 import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -10,10 +10,13 @@ import javax.servlet.http.HttpSession;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
+import org.displaytag.tags.TableTagParameters;
+import org.displaytag.util.ParamEncoder;
 
+import net.sourceforge.jsptabcontrol.util.JSPTabControlUtil;
 import com.bartosz.gameteststudio.beans.AreaBean;
 import com.bartosz.gameteststudio.beans.BugBean;
-import com.bartosz.gameteststudio.beans.ProjectBean;
+
 import com.bartosz.gameteststudio.beans.TestBean;
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
@@ -29,38 +32,16 @@ public class ProjectAction  extends ActionSupport {
 
 	private static final long serialVersionUID = 1L;
 	
-	private String sort;
+	private String sort; 
+	private String tab;
+	
 	
 	private List<String> projectsList;
 	private String selectedProject; 
-	private List<String> itemsList = Arrays.asList("Area", "Test", "Bug");
-	private String selectedItem; 
-	private List<String> elementsList;
-	private List<ProjectBean> userProjectsList;
-	private boolean assignedToMe;
-	
-	private String state; 
-	private List<String> statesList = new ArrayList<String>(DataProvider.getStates().keySet());
-	
-	private String priority; 
-	private List<String> prioritiesList = new ArrayList<String>(DataProvider.getPriorities().keySet());
-	
-	private String selectedArea;
-	private List<String> areaList;
-	
-	private AreaBean tmpArea;
-	private TestBean tmpTest;
-	private BugBean tmpBug;
-	
-	private List<Object> elementsObjList; 
 	
 	private List<BugBean> bugObjList; 
 	private List<TestBean> testObjList;
 	private List<AreaBean> areaObjList;
-	
-	
-	private String assigned;
-	private List<String> usersList;
 	
 
 	HttpSession session = ServletActionContext.getRequest().getSession();
@@ -68,63 +49,24 @@ public class ProjectAction  extends ActionSupport {
 	 @Override
 	    public String execute() {
 		 
-		 
-		elementsList = new ArrayList<String>();
-		areaList = new ArrayList<String>();
-		elementsObjList = new ArrayList<Object>(); 
-		usersList = new ArrayList<String>();  
-		
 		bugObjList = new ArrayList<BugBean>();
 		testObjList = new ArrayList<TestBean>();
 		areaObjList = new ArrayList<AreaBean>(); 
-		
-		
-		
-		statesList.add("Any");
-		prioritiesList.add("Any");
-		areaList.add("Any");
-		usersList.add("Any");
-		
-		 UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").
-				 toString());
-		 
-		userProjectsList = user.getProjects();
-	
+			
+		UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());
+
 		projectsList = user.getProjectsList();
 		if(selectedProject == null) selectedProject = projectsList.get(0);
 		session.setAttribute("userProject", selectedProject); 
-		
-		if(selectedItem == null) selectedItem = itemsList.get(0);
-		
-		if (state == null) state = "Any";
-		if (priority == null) priority = "Any"; 
-		if (selectedArea == null) selectedArea = "Any"; 
-		if (assigned == null) assigned = "Any";
-		if(assignedToMe)  assigned = user.getEmail();
-		
-		for (String userStr : DataProvider.mapUsers.keySet()) {
-			if( (!DataProvider.mapUsers.get(userStr).isAdmin()) && 
-					(DataProvider.mapUsers.get(userStr).getProjectsList().
-							contains(selectedProject))) {
-				usersList.add(userStr);
-			}
-		}
-
-
-		// wypelniamy liste Area
-		
-		 for (String el : DataProvider.mapAreas.keySet()) {
-			 if( DataProvider.mapAreas.get(el).getProject().getTitle().equals(selectedProject)) {
-				 areaList.add(el);
-			 }
-		 }
-		
-		
+		 
 		fillLists();  
-		if(sort != null) {
-			 sortDsc(sort);			
-		}
+
+		//System.out.print(JSPTabControlUtil.getTabPageState(ServletActionContext.getRequest(), "ProjectsTabs", "TestTab"));
+		//JSPTabControlUtil.getTabPageState(ServletActionContext.getRequest(), "ProjectsTabs", "TestTab");
+		//JSPTabControlUtil.setSelectedTabPageName(ServletActionContext.getRequest(), "ProjectsTabs", "TestTab");
 		
+		//String sortBy = ServletActionContext.getRequest().getParameter((new ParamEncoder("bugTable")).encodeParameterName(TableTagParameters.PARAMETER_ORDER));
+
 
 		return "projects";
 	 }
@@ -137,38 +79,24 @@ public class ProjectAction  extends ActionSupport {
 	 
 	 private void fillLists() {
 		 for (String el : DataProvider.mapAreas.keySet()) {
-			  tmpArea = DataProvider.mapAreas.get(el);
-			  if(tmpArea.getProject().getTitle().equals(selectedProject) && 
-						(tmpArea.getState().getName().equals(state) || state.equals("Any")) &&	
-						(tmpArea.getPriority().getName().equals(priority) || priority.equals("Any")) ) {
-				  areaObjList.add(tmpArea);
+			  if(DataProvider.mapAreas.get(el).getProject().getTitle().equals(selectedProject)) {
+				  areaObjList.add(DataProvider.mapAreas.get(el));
+				  
 				}
 			}
 	
 		  for (String el :DataProvider.mapTests.keySet()) {
-			  tmpTest = DataProvider.mapTests.get(el);
-			  if((tmpTest.getArea().getProject().getTitle().equals(selectedProject)) && 
-						(tmpTest.getState().getName().equals(state) || state.equals("Any")) && 
-						(tmpTest.getPriority().getName().equals(priority) || priority.equals("Any")) && 
-						(tmpTest.getArea().getTitle().equals(selectedArea) || selectedArea.equals("Any")) &&
-						(tmpTest.getUser().getEmail().equals(assigned) || assigned.equals("Any"))  ) {
-				  testObjList.add(tmpTest);
+			  if(DataProvider.mapTests.get(el).getArea().getProject().getTitle().equals(selectedProject)) {
+				  testObjList.add(DataProvider.mapTests.get(el));
 				}
 			}
 		  
 	   
 		  for (String el : DataProvider.mapBugs.keySet()) {
-				tmpBug = DataProvider.mapBugs.get(el);
-			  	if((tmpBug.getTest().getArea().getProject().getTitle().equals(selectedProject) )  &&
-						(tmpBug.getState().getName().equals(state) || state.equals("Any")) && 
-						(tmpBug.getPriority().getName().equals(priority) || priority.equals("Any")) && 
-						(tmpBug.getTest().getArea().getTitle().equals(selectedArea) || selectedArea.equals("Any")) &&
-						(tmpBug.getUser().getEmail().equals(assigned) || assigned.equals("Any"))
-			  			) {
-			  		bugObjList.add(tmpBug);
+			  	if(DataProvider.mapBugs.get(el).getTest().getArea().getProject().getTitle().equals(selectedProject)) {
+			  		bugObjList.add(DataProvider.mapBugs.get(el));
 				
 			}
-	  
 		  }
 	 } 
 	 
@@ -180,26 +108,30 @@ public class ProjectAction  extends ActionSupport {
 				 Collections.reverse(tmpList); 
 				 bugObjList.clear(); 
 				 for (String str : tmpList) bugObjList.add(DataProvider.mapBugs.get(str));
+				 this.tab= "bug";
+				 System.out.print(tab); 
+				
 			 break;
 		 	case "sortTest":
 				 for (TestBean el : testObjList) tmpList.add(el.getTitle());
 				 Collections.reverse(tmpList); 
 				 testObjList.clear(); 
 				 for (String str : tmpList) testObjList.add(DataProvider.mapTests.get(str));
+				 this.tab= "test";
+				 System.out.print(tab); 
 			 break;
 		 	case "sortArea":
 				 for (AreaBean el : areaObjList) tmpList.add(el.getTitle());
 				 Collections.reverse(tmpList); 
 				 areaObjList.clear(); 
 				 for (String str : tmpList) areaObjList.add(DataProvider.mapAreas.get(str));
+				 this.tab= "area";
+				 System.out.print(tab); 
 			 break;	
 		 } 
 	 }
 	 
-	 public String getPriority() {
-		return priority;
-	}
-
+	 
 
 	public List<BugBean> getBugObjList() {
 		return bugObjList;
@@ -242,53 +174,6 @@ public class ProjectAction  extends ActionSupport {
 
 
 
-
-	public String getAssigned() {
-		return assigned;
-	}
-
-
-
-
-	public void setAssigned(String assigned) {
-		this.assigned = assigned;
-	}
-
-
-
-
-	public List<String> getUsersList() {
-		return usersList;
-	}
-
-
-
-
-	public void setUsersList(List<String> usersList) {
-		this.usersList = usersList;
-	}
-
-
-
-
-	public List<Object> getElementsObjList() {
-		return elementsObjList;
-	}
-
-
-
-
-	public void setElementsObjList(List<Object> elementsObjList) {
-		this.elementsObjList = elementsObjList;
-	}
-
-
-
-
-	
-
-
-
 	public List<AreaBean> getAreaObjList() {
 		return areaObjList;
 	}
@@ -301,63 +186,6 @@ public class ProjectAction  extends ActionSupport {
 	}
 
 
-
-
-	public List<String> getAreaList() {
-		return areaList;
-	}
-
-
-	public void setAreaList(List<String> areaList) {
-		this.areaList = areaList;
-	}
-
-
-	public void setPriority(String priority) {
-		this.priority = priority;
-	}
-
-
-	public List<String> getPrioritiesList() {
-		return prioritiesList;
-	}
-
-
-	public void setPrioritiesList(List<String> prioritiesList) {
-		this.prioritiesList = prioritiesList;
-	}
-
-
-	public String getState() {
-		return state;
-	}
-
-
-	public void setState(String state) {
-		this.state = state;
-	}
-
-
-	public List<String> getStatesList() {
-		return statesList;
-	}
-
-
-	public void setStatesList(List<String> statesList) {
-		this.statesList = statesList;
-	}
-
-
-	public boolean isAssignedToMe() {
-		return assignedToMe;
-	}
-
-
-	public void setAssignedToMe(boolean assignedToMe) {
-		this.assignedToMe = assignedToMe;
-	}
-
-
 	public HttpSession getSession() {
 		return session;
 	}
@@ -366,58 +194,6 @@ public class ProjectAction  extends ActionSupport {
 	public void setSession(HttpSession session) {
 		this.session = session;
 	}
-
-	public List<String> getElementsList() {
-		return elementsList;
-	}
-
-
-	public void setElementsList(List<String> elementsList) {
-		this.elementsList = elementsList;
-	}
-
-
-	public String getSelectedArea() {
-		return selectedArea;
-	}
-
-
-	public void setSelectedArea(String selectedArea) {
-		this.selectedArea = selectedArea;
-	}
-
-
-	public List<String> getItemsList() {
-		return itemsList;
-	}
-
-
-	public void setItemsList(List<String> itemsList) {
-		this.itemsList = itemsList;
-	}
-
-
-	public String getSelectedItem() {
-		return selectedItem;
-	}
-
-
-	public void setSelectedItem(String selectedItem) {
-		this.selectedItem = selectedItem;
-	}
-
-
-	public List<ProjectBean> getUserProjectsList() {
-		return userProjectsList;
-	}
-
-
-	public void setUserProjectsList(List<ProjectBean> userProjectsList) {
-		this.userProjectsList = userProjectsList;
-	}
-
-
-
 
 	public List<String> getProjectsList() {
 		return projectsList;

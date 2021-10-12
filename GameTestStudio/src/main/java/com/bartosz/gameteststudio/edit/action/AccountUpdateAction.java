@@ -25,23 +25,36 @@ public class AccountUpdateAction  extends ActionSupport {
     private String email;
     private String password;
     private String role;
-    private String projects;
+    private String bugPer;
+    private String testPer;
+    private String areaPer;
+    private List<String> projects;
     private String searchEmail;
     private List<String> rolesList = new ArrayList<String>(DataProvider.mapRoles.keySet());
     private List<String>  projectsList = new ArrayList<String>(DataProvider.mapProjects.keySet());
     private List<ProjectBean> pL = new ArrayList<ProjectBean>();
+    private List<String> permissionsList = new ArrayList<String>(DataProvider.mapPermissions.keySet());
+    
     
     @Override
     public String execute() {
           
-    	UserBean user = new UserBean(); 
+    	UserBean user = DataProvider.mapUsers.get(email);
+    	DataProvider.mapUsers.remove(email);
+    	DataProvider.mapUsersId.remove(user.getId());
     	
     	user.setFirstName(firstName);
     	user.setLastName(lastName);
     	user.setEmail(email);
     	user.setRole(DataProvider.mapRoles.get(role));
+    	user.setBugPremission(DataProvider.mapPermissions.get(bugPer));
+    	user.setTestPremission(DataProvider.mapPermissions.get(testPer));
+    	user.setAreaPremission(DataProvider.mapPermissions.get(areaPer));
+    	user.setProjectsList(projects);
     	
-    	//UserFabric.updateUser(user);
+    	DataProvider.mapUsers.put(email, user);
+    	DataProvider.mapUsersId.put(user.getId(), user.getEmail());
+
     	return "editAccount";
     }
 
@@ -63,6 +76,30 @@ public class AccountUpdateAction  extends ActionSupport {
 
 	public String getLastName() {
 		return lastName;
+	}
+
+	public String getBugPer() {
+		return bugPer;
+	}
+
+	public void setBugPer(String bugPer) {
+		this.bugPer = bugPer;
+	}
+
+	public String getTestPer() {
+		return testPer;
+	}
+
+	public void setTestPer(String testPer) {
+		this.testPer = testPer;
+	}
+
+	public String getAreaPer() {
+		return areaPer;
+	}
+
+	public void setAreaPer(String areaPer) {
+		this.areaPer = areaPer;
 	}
 
 	public void setLastName(String lastName) {
@@ -93,11 +130,13 @@ public class AccountUpdateAction  extends ActionSupport {
 		this.role = role;
 	}
 
-	public String getProjects() {
+	
+	
+	public List<String> getProjects() {
 		return projects;
 	}
 
-	public void setProjects(String projects) {
+	public void setProjects(List<String> projects) {
 		this.projects = projects;
 	}
 
@@ -123,6 +162,14 @@ public class AccountUpdateAction  extends ActionSupport {
 
 	public void setpL(List<ProjectBean> pL) {
 		this.pL = pL;
+	}
+
+	public List<String> getPermissionsList() {
+		return permissionsList;
+	}
+
+	public void setPermissionsList(List<String> permissionsList) {
+		this.permissionsList = permissionsList;
 	}
     
 }

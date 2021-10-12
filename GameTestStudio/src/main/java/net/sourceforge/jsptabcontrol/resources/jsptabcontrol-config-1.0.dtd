@@ -1,0 +1,41 @@
+<!-- JSPTabControlConfig DTD.
+
+<!DOCTYPE jsptabcontrol-config PUBLIC 
+    "-//JSPTabControl/JSPTabControl JSPTabControlConfig DTD 1.0//EN"
+    "http://jsptabcontrol.sourceforge.net/dtd/jsptabcontrol-config-1.0.dtd">
+-->
+
+<!--
+	The document root.
+ -->
+
+<!ELEMENT jsptabcontrol-config (
+	tabpage-states
+)>
+	
+<!--
+	TABPAGE-STATES element definition; define tabpage-state for each States.
+-->
+<!ELEMENT tabpage-states (tabpage-state*)>
+
+<!--
+	TABPAGE-STATE element definition; define a tabpage-state for a state.
+-->
+<!ELEMENT tabpage-state (insert-styleclass*,insert-javascript*)>
+	<!ATTLIST tabpage-state name CDATA #REQUIRED>	
+	<!ATTLIST tabpage-state visible (true|false) #IMPLIED>	
+
+<!--
+	INSERT-STYLECLASS element definition; define a style class to insert to 
+	tabPageHeader or tabPageBody (where).
+-->
+<!ELEMENT insert-styleclass ANY>
+	<!ATTLIST insert-styleclass where CDATA #REQUIRED>
+
+<!--
+	INSERT-JAVASCRIPT element definition; define an javascript content
+	to insert for an event into A HREF of tab page Header.
+-->
+<!ELEMENT insert-javascript ANY>
+	<!ATTLIST insert-javascript event CDATA #REQUIRED>
+	<!ATTLIST insert-javascript where (before|after) #IMPLIED>	

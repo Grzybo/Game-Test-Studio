@@ -1,12 +1,21 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
-
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.List"%>
+<%@ page import="com.bartosz.gameteststudio.dp.DataProvider"%>
 <html>
 	<head>
 		<title>Game Test Studio - Create Account</title>
 	</head>
 	<body> 
     	<jsp:include page="../_adminMenu.jsp" />
+    	
+    	<% 
+    		List<String> permissionsList = new ArrayList<String>(DataProvider.mapPermissions.keySet());
+    	
+    	%>
+    	
+    	
     	
     	<h2>Manage Account</h2>
 	 <s:hidden name="itemID"/>
@@ -21,6 +30,18 @@
    		<s:select label="Role"
 	     					name="role"
 	     					list="rolesList"/>
+	     					
+		<s:select label="Bug Permission"
+	     					name="bugPer"
+	     					list="permissionsList"/>
+		<s:select label="Test Permission"
+	     					name="testPer"
+	     					list="permissionsList"/>
+		<s:select label="Area Permission"
+	     					name="areaPer"
+	     					list="permissionsList"/>
+	     					
+	     					
 		<s:checkboxlist label="Project" list="projectsList" 
 	 						name="projects" />    		
 		    		

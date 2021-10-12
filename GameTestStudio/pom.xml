@@ -121,13 +121,18 @@
 			<groupId>displaytag</groupId>
 			<artifactId>displaytag</artifactId>
 			<version>1.2</version>
-		</dependency> 
-		
-		
-		
+		</dependency>
 
-		
-		
+
+
+
+
+
+		<dependency>
+			<groupId>commons-digester</groupId>
+			<artifactId>commons-digester</artifactId>
+			<version>1.6</version>
+		</dependency>
   </dependencies>
 
   <build>

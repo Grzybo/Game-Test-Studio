@@ -1,7 +1,8 @@
 <%@ page import="java.util.ArrayList"%>
 
 <%@ page import="java.util.List"%>
-
+<%@ page import="com.bartosz.gameteststudio.dp.DataProvider"%>
+<%@ page import="net.sourceforge.jsptabcontrol.util.JSPTabControlUtil"%>
 <%@ page import="org.displaytag.tags.TableTagParameters"%>
 <%@ page import="org.displaytag.util.ParamEncoder"%>
 
@@ -26,10 +27,9 @@
 	<body>
 		
 		<% 
+
 			
-		
 		%>
-		
 		<jsp:include page="_userMenu.jsp" />
 		<s:form id = "projectForm" action="/projects" method="post">
 				<s:select label="Project" name="selectedProject" list="projectsList"/>
@@ -40,21 +40,18 @@
 
 					<jsptabcontrol:tabControl name="ProjectsTabs" > 
 					    <jsptabcontrol:tabPage name="BugTab" title="Bug" width="100%" >
-					    	<div class="center">
+					    		<div class="center">
 								<a class="button" href="${pageContext.request.contextPath}/createBug">New Bug</a>
-								
 							</div>
 							<div class = "projectContent"> 
-								
-								
-								<display:table name="bugObjList" id="bugTable" decorator="com.bartosz.decorators.BugDecorator" sort="list" pagesize="3"
-												requestURI="${pageContext.request.contextPath}/projects?sort=sortBug">
+								<display:table name="bugObjList" id="bugTable" decorator="com.bartosz.decorators.BugDecorator" sort="list"
+								  	pagesize="3" requestURI="#bugTable">
 								  <display:column property="id" title="ID"/>
-								  <display:column property="titleLink" title="Title"  sortable="true" sortName="sortTitle"/> 
-								  <display:column property="state.name" title="State" />
-								  <display:column property="priority.name" title="Priority"/>
-								  <display:column property="user.email" title="Assigned To"/>
-								  <display:column property="test.area.title" title="Area"/>
+								  <display:column property="titleLink" title="Title" sortable="true" sortName="sortTitle"/> 
+								  <display:column property="state.name" title="State" sortable="true"/>
+								  <display:column property="priority.name" title="Priority" sortable="true"/>
+								  <display:column property="user.email" title="Assigned To" sortable="true"/>
+								  <display:column property="test.area.title" title="Area" sortable="true"/>
 								  
 								</display:table>	
 								
@@ -69,15 +66,15 @@
 							</div> 
 							<div class = "projectContent"> 
 											<display:table name="testObjList" id="testTable" decorator="com.bartosz.decorators.TestDecorator" sort="list" 
-															requestURI="${pageContext.request.contextPath}/projects?sort=sortTest">
+															requestURI="#testTable">
 											  <display:column property="id" title="ID"/>
-											  <display:column property="titleLink" title="Title"  sortable="true" />
-											  <display:column property="state.name" title="State" />
-											  <display:column property="priority.name" title="Priority"/>
-											  <display:column property="user.email" title="Assigned To"/>
-  											  <display:column property="startDate" title="Start Date"/>
-											  <display:column property="endDate" title="End Date"/>
-											  <display:column property="area.title" title="Area"/>
+											  <display:column property="titleLink" title="Title" sortable="true" />
+											  <display:column property="state.name" title="State" sortable="true"/>
+											  <display:column property="priority.name" title="Priority" sortable="true"/>
+											  <display:column property="user.email" title="Assigned To" sortable="true"/>
+  											  <display:column property="startDate" title="Start Date" sortable="true"/>
+											  <display:column property="endDate" title="End Date" sortable="true"/>
+											  <display:column property="area.title" title="Area" sortable="true"/>
 											</display:table>	
 							</div> 
 						      
@@ -89,13 +86,13 @@
 							</div> 
 							<div class = "projectContent"> 
 											<display:table name="areaObjList" id="areaTable" decorator="com.bartosz.decorators.AreaDecorator" sort="list" 
-															requestURI="${pageContext.request.contextPath}/projects?sort=sortTest"	>
+															requestURI="#areaTable"	>
 											  <display:column property="id" title="ID" />
 											  <display:column  property="titleLink" title="Title"  sortable="true" />
-											  <display:column property="state.name" title="State"/>
-											  <display:column property="priority.name" title="Priority"/>
-											  <display:column property="startDate" title="Start Date"/>
-											  <display:column property="endDate" title="End Date"/>
+											  <display:column property="state.name" title="State"  sortable="true"/>
+											  <display:column property="priority.name" title="Priority"  sortable="true"/>
+											  <display:column property="startDate" title="Start Date"  sortable="true"/>
+											  <display:column property="endDate" title="End Date"  sortable="true"/>
 											</display:table>	
 							</div> 
 						      

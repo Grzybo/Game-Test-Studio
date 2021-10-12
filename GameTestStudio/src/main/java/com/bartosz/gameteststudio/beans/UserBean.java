@@ -3,6 +3,8 @@ package com.bartosz.gameteststudio.beans;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bartosz.gameteststudio.dp.DataProvider;
+
 public class UserBean { 
 	
 	private Long id; 
@@ -11,26 +13,27 @@ public class UserBean {
 	private String lastName; 
 	private String email;
 	private String password;
-	private List<ProjectBean> projects;
+	private List<ProjectBean> projects; 
+	private PermissionBean bugPremission;
+	private PermissionBean testPremission;
+	private PermissionBean areaPremission;
 	
-	public UserBean(Long id, String firstName, String lastName, String email, String password, RoleBean role, List<ProjectBean> projects) {
+	public UserBean(Long id, String firstName, String lastName, String email, 
+			String password, RoleBean role, List<ProjectBean> projects, 
+			PermissionBean bugPremission, PermissionBean testPremission, PermissionBean areaPremission) {
 		this.id = id;
 		this.firstName = firstName; 
 		this.lastName = lastName; 
 		this.email = email; 
 		this.password = password;
 		this.role = role;
-		this.projects = projects;
+		this.projects = projects; 
+		this.bugPremission = bugPremission; 
+		this.testPremission = testPremission; 
+		this.areaPremission = areaPremission; 
 	}
 	
-	public UserBean(String firstName, String lastName, String email, String password, RoleBean role, List<ProjectBean> projects) {
-		this.firstName = firstName; 
-		this.lastName = lastName; 
-		this.email = email; 
-		this.password = password;
-		this.role = role;
-		this.projects = projects;
-	} 
+	
 	
 	public UserBean(String firstName,String lastName) {
 		this.firstName = firstName; 
@@ -72,6 +75,43 @@ public class UserBean {
 	public Long getId() {
 		return id;
 	}
+
+	
+
+	public PermissionBean getBugPremission() {
+		return bugPremission;
+	}
+
+
+
+	public void setBugPremission(PermissionBean bugPremission) {
+		this.bugPremission = bugPremission;
+	}
+
+
+
+	public PermissionBean getTestPremission() {
+		return testPremission;
+	}
+
+
+
+	public void setTestPremission(PermissionBean testPremission) {
+		this.testPremission = testPremission;
+	}
+
+
+
+	public PermissionBean getAreaPremission() {
+		return areaPremission;
+	}
+
+
+
+	public void setAreaPremission(PermissionBean areaPremission) {
+		this.areaPremission = areaPremission;
+	}
+
 
 
 	public void setId(Long id) {
@@ -138,4 +178,9 @@ public class UserBean {
 		this.projects = projects;
 	} 
 	
+	public void setProjectsList(List<String> projects) {
+		List<ProjectBean> list = new ArrayList<ProjectBean>();
+		for(String p : projects) {list.add(DataProvider.mapProjects.get(p));}
+		this.projects = list;
+	}
 }

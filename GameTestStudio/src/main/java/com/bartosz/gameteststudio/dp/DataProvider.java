@@ -7,6 +7,7 @@ import java.util.Map;
 import com.bartosz.gameteststudio.beans.AreaBean;
 import com.bartosz.gameteststudio.beans.BugBean;
 import com.bartosz.gameteststudio.beans.BuildBean;
+import com.bartosz.gameteststudio.beans.PermissionBean;
 import com.bartosz.gameteststudio.beans.PlatformBean;
 import com.bartosz.gameteststudio.beans.PriorityBean;
 import com.bartosz.gameteststudio.beans.ProjectBean;
@@ -25,6 +26,61 @@ import com.bartosz.gameteststudio.beans.VersionBean;
 
 public class DataProvider {
 
+	
+	/**
+	 * Słownik uprawnień. 
+	 */
+	public static  Map<String, PermissionBean> mapPermissions = new LinkedHashMap<>() {
+		private static final long serialVersionUID = 1L;
+		{
+			put("Read", new PermissionBean("Read"));
+			put("Edit", new PermissionBean("Edit"));
+			put("Create", new PermissionBean("Create"));
+		}
+	}; 
+	
+	
+	/**
+	 * Słownik wyników. 
+	 */
+	public static  Map<String, ResultBean> mapResults = new LinkedHashMap<>() {
+		private static final long serialVersionUID = 1L;
+		{
+			put("Positive", new ResultBean("Positive"));
+			put("Negative", new ResultBean("Negative"));
+			put("Blocked", new ResultBean("Blocked"));
+		}
+	}; 
+	
+	/**
+	 *  Słownik ról.
+	 */
+	public static  Map<String, RoleBean> mapRoles = new LinkedHashMap<>() {
+		private static final long serialVersionUID = 1L;
+		{
+			put("Tester", new RoleBean("Tester"));
+			put("Developer", new RoleBean("Developer"));
+			put("Tester Manager", new RoleBean("Tester Manager"));
+			put("Developer Manager", new RoleBean("Developer Manager"));
+            put("Administrator", new RoleBean("Administrator")); 
+		}
+	}; 
+	
+	/**
+	 * Słownik typu wersji (Build type).
+	 */
+	public static  Map<String, BuildBean> mapBuilds = new LinkedHashMap<>() {
+		private static final long serialVersionUID = 1L;
+		{
+			put("Release Candidate", new BuildBean("Release Candidate"));
+			put("Alpha", new BuildBean("Alpha"));
+			put("Beta", new BuildBean("Beta"));
+			put("Release", new BuildBean("Release"));
+		}
+	};
+	
+	
+	
 	public static Map<String, PlatformBean> mapPlatforms = new LinkedHashMap<>() {
 		private static final long serialVersionUID = 1L;
 		{
@@ -154,6 +210,147 @@ public class DataProvider {
 	public static AreaBean getAreaById(int id) {
 		return mapAreas.get(mapAreasId.get((long)id));
 	} 
+	// ####################################################################################################################
+	
+			/**
+			 * Słownik użytkowników.
+			 */
+			public static  Map<String, UserBean> mapUsers = new LinkedHashMap<>() {
+				private static final long serialVersionUID = 1L;
+				{			
+					put("admin@admin.com", new UserBean((long)1, "Admin", "Administrator", "admin@admin.com", 
+							"admin", mapRoles.get("Administrator"), null, 
+							mapPermissions.get("Create"), mapPermissions.get("Create") ,mapPermissions.get("Create")));
+					put("hp@griffindor.uk", new UserBean((long)2, "Harry", "Potter", "hp@griffindor.uk",
+							"hogwart", mapRoles.get("Developer"), Arrays.asList(mapProjects.get("FIFA 22")), mapPermissions.get("Create"), 
+							mapPermissions.get("Create") ,mapPermissions.get("Create")));
+					put("donald@disney.com", new UserBean((long)3, "Donald", "Duck", "donald@disney.com", 
+							"disney123", mapRoles.get("Tester"), Arrays.asList(mapProjects.get("NBA2K 22"), mapProjects.get("FIFA 22")), 
+							mapPermissions.get("Create"), mapPermissions.get("Create") ,mapPermissions.get("Create"))); 
+					put("ryszard.ochodzki@mis.pl", new UserBean((long)4, "Ryszard", "Ochodzki", 
+							"ryszard.ochodzki@mis.pl", "mis123", mapRoles.get("Tester"), Arrays.asList(mapProjects.get("NBA2K 22")), 
+							mapPermissions.get("Create"), mapPermissions.get("Create") ,mapPermissions.get("Create")));
+					put("mickey@disney.com", new UserBean((long)5, "Mickey", "Mouse", "mickey@disney.com", 
+							"disney456", mapRoles.get("Tester"), Arrays.asList(mapProjects.get("FIFA 21")), 
+							mapPermissions.get("Create"), mapPermissions.get("Create") ,mapPermissions.get("Create")));
+					put("minnie@disney.com", new UserBean((long)6, "Minnie", "Mouse", "minnie@disney.com", 
+							"pluto", mapRoles.get("Tester Manager"), Arrays.asList(mapProjects.get("FIFA 21")), 
+							mapPermissions.get("Create"), mapPermissions.get("Create") ,mapPermissions.get("Create")));
+				}
+			};
+			
+			
+			public static  Map<Long, String> mapUsersId = new LinkedHashMap<>() {
+				private static final long serialVersionUID = 1L;
+				{
+					put((long)1, "admin@admin.com");
+					put((long)2, "hp@griffindor.uk");
+					put((long)3, "donald@disney.com");
+					put((long)4, "ryszard.ochodzki@mis.pl");
+					put((long)5, "mickey@disney.com");
+					put((long)6, "minnie@disney.com");
+				} 
+			};
+			/**
+			 * Metoda zwracająca użytkownika po id.  
+			 * @param id
+			 * @return
+			 */
+			public static UserBean getUserById(int id) {
+				return mapUsers.get(mapUsersId.get((long)id));
+			}
+	
+	//############################################################################################################## 
+	
+		public static  Map<String, TestBean> mapTests = new LinkedHashMap<>() {
+			private static final long serialVersionUID = 1L;
+			{
+
+				put("Stadiums - New - Radomiak - Model and Functionality", new TestBean((long)1, 
+						"Stadiums - New - Radomiak - Model and Functionality", 
+						mapUsers.get("hp@griffindor.uk"),
+						"Remamber to read all scenario before starting the test.....", 
+						mapAreas.get("Stadiums"), 
+						mapResults.get("Positive"), 6, "2021-10-01", "2021-10-01", 3, 0, 
+						getStates().get("New"), getPriorities().get("Important"), 
+						Arrays.asList(mapPlatforms.get("Xbox One"), 
+						mapPlatforms.get("Xbox One X")),
+						new VersionBean(1.23, mapBuilds.get("Alpha"))));
+				
+				put("Stadiums - New - Legia - Model and Functionality", new TestBean((long)2, 
+						"Stadiums - New - Legia - Model and Functionality", 
+						mapUsers.get("hp@griffindor.uk"),
+						"Remamber to read all scenario before starting the test.....", 
+						mapAreas.get("Stadiums"), 
+						mapResults.get("Positive"), 6, "2021-10-01", "2021-10-01", 3, 0, 
+						getStates().get("New"), getPriorities().get("Important"), 
+						Arrays.asList(mapPlatforms.get("Xbox One"), 
+						mapPlatforms.get("Xbox One X")), 
+						new VersionBean(1.23, mapBuilds.get("Alpha"))));
+				put("Players - New - Marcin Gortat", new TestBean((long)3, "Players - New - Marcin Gortat",
+						mapUsers.get("donald@disney.com"),
+						"Remamber to read all scenario before starting the test.....", 
+						mapAreas.get("Players"), 
+						mapResults.get("Positive"), 6, "2021-10-01", "2021-10-01", 3, 0, 
+						getStates().get("New"), getPriorities().get("Important"), 
+						Arrays.asList(mapPlatforms.get("Xbox One"), 
+						mapPlatforms.get("Xbox One X")), 
+						new VersionBean(1.23, mapBuilds.get("Alpha"))));
+				put("Teams - New - Toronto Raptors", new TestBean((long)4, "Teams - New - Toronto Raptors",
+						mapUsers.get("donald@disney.com"),
+						"Remamber to read all scenario before starting the test.....", 
+						mapAreas.get("Teams"), 
+						mapResults.get("Positive"), 6, "2021-10-01", "2021-10-01", 3, 0, 
+						getStates().get("New"), getPriorities().get("Important"), 
+						Arrays.asList(mapPlatforms.get("Xbox One"), 
+						mapPlatforms.get("Xbox One X")), 
+						new VersionBean(1.23, mapBuilds.get("Alpha"))));
+				put("Cinematics - New - Overall", new TestBean((long)5, "Cinematics - New - Overall",
+						mapUsers.get("donald@disney.com"),
+						"Remamber to read all scenario before starting the test.....", 
+						mapAreas.get("Cinematics"), 
+						mapResults.get("Positive"), 6, "2021-10-01", "2021-10-01", 3, 0, 
+						getStates().get("New"), getPriorities().get("Important"), 
+						Arrays.asList(mapPlatforms.get("Xbox One"), 
+						mapPlatforms.get("Xbox One X")), 
+						new VersionBean(1.23, mapBuilds.get("Alpha"))));
+				put("Gameplay Modes - New - Overall", new TestBean((long)6, "Gameplay Modes - New - Overall",
+						mapUsers.get("donald@disney.com"),
+						"Remamber to read all scenario before starting the test.....", 
+						mapAreas.get("Gameplay Modes"), 
+						mapResults.get("Positive"), 6, "2021-10-01", "2021-10-01", 3, 0, 
+						getStates().get("New"), getPriorities().get("Important"), 
+						Arrays.asList(mapPlatforms.get("Xbox One"), 
+								mapPlatforms.get("Xbox One X")), 
+						new VersionBean(1.23, mapBuilds.get("Alpha"))));
+			}
+		};
+		
+		
+		public static  Map<Long, String> mapTestsId = new LinkedHashMap<>() {
+			private static final long serialVersionUID = 1L;
+			{
+				put((long)1, "Stadiums - New - Radomiak - Model and Functionality");
+				put((long)2, "Stadiums - New - Legia - Model and Functionality");
+				put((long)3, "Players - New - Marcin Gortat");
+				put((long)4, "Teams - New - Toronto Raptors");
+				put((long)5, "Cinematics - New - Overall");
+				put((long)6, "Gameplay Modes - New - Overall");
+			} 
+		};
+		
+		/**
+		 * Metoda zwracająca obiekt Test po id.  
+		 * @param id
+		 * @return
+		 */
+		public static TestBean getTestById(int id) {
+			return mapTests.get(mapTestsId.get((long)id));
+		}  
+	
+	
+	
+	
 	
 	//##############################################################################################################
 	public static Map<String, BugBean> mapBugs = new LinkedHashMap<>() {
@@ -292,174 +489,10 @@ public class DataProvider {
 
 	
 	
-	/**
-	 * Słownik wyników. 
-	 */
-	public static  Map<String, ResultBean> mapResults = new LinkedHashMap<>() {
-		private static final long serialVersionUID = 1L;
-		{
-			put("Positive", new ResultBean("Positive"));
-			put("Negative", new ResultBean("Negative"));
-			put("Blocked", new ResultBean("Blocked"));
-		}
-	}; 
-	
-	/**
-	 *  Słownik ról.
-	 */
-	public static  Map<String, RoleBean> mapRoles = new LinkedHashMap<>() {
-		private static final long serialVersionUID = 1L;
-		{
-			put("Tester", new RoleBean("Tester"));
-			put("Developer", new RoleBean("Developer"));
-			put("Tester Manager", new RoleBean("Tester Manager"));
-			put("Developer Manager", new RoleBean("Developer Manager"));
-            put("Administrator", new RoleBean("Administrator")); 
-		}
-	}; 
-	
-	/**
-	 * Słownik typu wersji (Build type).
-	 */
-	public static  Map<String, BuildBean> mapBuilds = new LinkedHashMap<>() {
-		private static final long serialVersionUID = 1L;
-		{
-			put("Release Candidate", new BuildBean("Release Candidate"));
-			put("Alpha", new BuildBean("Alpha"));
-			put("Beta", new BuildBean("Beta"));
-			put("Release", new BuildBean("Release"));
-		}
-	};
 	
 	
-	//############################################################################################################## 
-	
-	public static  Map<String, TestBean> mapTests = new LinkedHashMap<>() {
-		private static final long serialVersionUID = 1L;
-		{
-
-			put("Stadiums - New - Radomiak - Model and Functionality", new TestBean((long)1, 
-					"Stadiums - New - Radomiak - Model and Functionality", 
-					mapUsers.get("hp@griffindor.uk"),
-					"Remamber to read all scenario before starting the test.....", 
-					mapAreas.get("Stadiums"), 
-					mapResults.get("Positive"), 6, "2021-10-01", "2021-10-01", 3, 0, 
-					getStates().get("New"), getPriorities().get("Important"), 
-					Arrays.asList(mapPlatforms.get("Xbox One"), 
-					mapPlatforms.get("Xbox One X")),
-					new VersionBean(1.23, mapBuilds.get("Alpha"))));
-			
-			put("Stadiums - New - Legia - Model and Functionality", new TestBean((long)2, 
-					"Stadiums - New - Legia - Model and Functionality", 
-					mapUsers.get("hp@griffindor.uk"),
-					"Remamber to read all scenario before starting the test.....", 
-					mapAreas.get("Stadiums"), 
-					mapResults.get("Positive"), 6, "2021-10-01", "2021-10-01", 3, 0, 
-					getStates().get("New"), getPriorities().get("Important"), 
-					Arrays.asList(mapPlatforms.get("Xbox One"), 
-					mapPlatforms.get("Xbox One X")), 
-					new VersionBean(1.23, mapBuilds.get("Alpha"))));
-			put("Players - New - Marcin Gortat", new TestBean((long)3, "Players - New - Marcin Gortat",
-					mapUsers.get("donald@disney.com"),
-					"Remamber to read all scenario before starting the test.....", 
-					mapAreas.get("Players"), 
-					mapResults.get("Positive"), 6, "2021-10-01", "2021-10-01", 3, 0, 
-					getStates().get("New"), getPriorities().get("Important"), 
-					Arrays.asList(mapPlatforms.get("Xbox One"), 
-					mapPlatforms.get("Xbox One X")), 
-					new VersionBean(1.23, mapBuilds.get("Alpha"))));
-			put("Teams - New - Toronto Raptors", new TestBean((long)4, "Teams - New - Toronto Raptors",
-					mapUsers.get("donald@disney.com"),
-					"Remamber to read all scenario before starting the test.....", 
-					mapAreas.get("Teams"), 
-					mapResults.get("Positive"), 6, "2021-10-01", "2021-10-01", 3, 0, 
-					getStates().get("New"), getPriorities().get("Important"), 
-					Arrays.asList(mapPlatforms.get("Xbox One"), 
-					mapPlatforms.get("Xbox One X")), 
-					new VersionBean(1.23, mapBuilds.get("Alpha"))));
-			put("Cinematics - New - Overall", new TestBean((long)5, "Cinematics - New - Overall",
-					mapUsers.get("donald@disney.com"),
-					"Remamber to read all scenario before starting the test.....", 
-					mapAreas.get("Cinematics"), 
-					mapResults.get("Positive"), 6, "2021-10-01", "2021-10-01", 3, 0, 
-					getStates().get("New"), getPriorities().get("Important"), 
-					Arrays.asList(mapPlatforms.get("Xbox One"), 
-					mapPlatforms.get("Xbox One X")), 
-					new VersionBean(1.23, mapBuilds.get("Alpha"))));
-			put("Gameplay Modes - New - Overall", new TestBean((long)6, "Gameplay Modes - New - Overall",
-					mapUsers.get("donald@disney.com"),
-					"Remamber to read all scenario before starting the test.....", 
-					mapAreas.get("Gameplay Modes"), 
-					mapResults.get("Positive"), 6, "2021-10-01", "2021-10-01", 3, 0, 
-					getStates().get("New"), getPriorities().get("Important"), 
-					Arrays.asList(mapPlatforms.get("Xbox One"), 
-							mapPlatforms.get("Xbox One X")), 
-					new VersionBean(1.23, mapBuilds.get("Alpha"))));
-		}
-	};
 	
 	
-	public static  Map<Long, String> mapTestsId = new LinkedHashMap<>() {
-		private static final long serialVersionUID = 1L;
-		{
-			put((long)1, "Stadiums - New - Radomiak - Model and Functionality");
-			put((long)2, "Stadiums - New - Legia - Model and Functionality");
-			put((long)3, "Players - New - Marcin Gortat");
-			put((long)4, "Teams - New - Toronto Raptors");
-			put((long)5, "Cinematics - New - Overall");
-			put((long)6, "Gameplay Modes - New - Overall");
-		} 
-	};
 	
-	/**
-	 * Metoda zwracająca obiekt Test po id.  
-	 * @param id
-	 * @return
-	 */
-	public static TestBean getTestById(int id) {
-		return mapTests.get(mapTestsId.get((long)id));
-	}  
 	
-	// ####################################################################################################################
-	
-	/**
-	 * Słownik użytkowników.
-	 */
-	public static  Map<String, UserBean> mapUsers = new LinkedHashMap<>() {
-		private static final long serialVersionUID = 1L;
-		{			
-			put("admin@admin.com", new UserBean((long)1, "Admin", "Administrator", "admin@admin.com", "admin", mapRoles.get("Administrator"), null));
-			put("hp@griffindor.uk", new UserBean((long)2, "Harry", "Potter", "hp@griffindor.uk", "hogwart", mapRoles.get("Developer"), Arrays.asList(mapProjects.get("FIFA 22"))));
-			put("donald@disney.com", new UserBean((long)3, "Donald", "Duck", "donald@disney.com", "disney123", mapRoles.get("Tester"), Arrays.asList(mapProjects.get("NBA2K 22")))); 
-			put("ryszard.ochodzki@mis.pl", new UserBean((long)4, "Ryszard", "Ochodzki", "ryszard.ochodzki@mis.pl", "mis123", mapRoles.get("Tester"), Arrays.asList(mapProjects.get("NBA2K 22"))));
-			put("mickey@disney.com", new UserBean((long)5, "Mickey", "Mouse", "mickey@disney.com", "disney456", mapRoles.get("Tester"), Arrays.asList(mapProjects.get("FIFA 21"))));
-			put("minnie@disney.com", new UserBean((long)6, "Minnie", "Mouse", "minnie@disney.com", "pluto", mapRoles.get("Tester Manager"), Arrays.asList(mapProjects.get("FIFA 21"))));
-		}
-	};
-	
-	public static  Map<String, UserBean> getUsers(){
-		Map<String, UserBean> map = new LinkedHashMap<>();
-		map.put("donald@disney.com", new UserBean((long)3, "Donald", "Duck", "donald@disney.com", "disney123", mapRoles.get("Tester"), Arrays.asList(mapProjects.get("NBA2K 22")))); 
-		return map;
-	}
-	
-	public static  Map<Long, String> mapUsersId = new LinkedHashMap<>() {
-		private static final long serialVersionUID = 1L;
-		{
-			put((long)1, "admin@admin.com");
-			put((long)2, "hp@griffindor.uk");
-			put((long)3, "donald@disney.com");
-			put((long)4, "ryszard.ochodzki@mis.pl");
-			put((long)5, "mickey@disney.com");
-			put((long)6, "minnie@disney.com");
-		} 
-	};
-	/**
-	 * Metoda zwracająca użytkownika po id.  
-	 * @param id
-	 * @return
-	 */
-	public static UserBean getUserById(int id) {
-		return mapUsers.get(mapUsersId.get((long)id));
-	}
 }

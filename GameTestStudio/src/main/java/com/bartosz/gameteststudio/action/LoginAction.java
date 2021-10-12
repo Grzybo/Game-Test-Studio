@@ -36,8 +36,6 @@ public class LoginAction extends ActionSupport {
     	
         HttpSession session = ServletActionContext.getRequest().getSession();
         
-       
-        System.out.print(email);
         UserBean user = new UserBean();
         
         try {

@@ -27,11 +27,16 @@ public class AccountEditAction  extends ActionSupport {
     private String email;
     private String password;
     private String role;
-    private String projects;
-    private String searchEmail;
+    private List<String> projects;
+    
+    private String bugPer;
+    private String testPer;
+    private String areaPer;
+    
     private List<String> rolesList = new ArrayList<String>(DataProvider.mapRoles.keySet());
     private List<String>  projectsList = new ArrayList<String>(DataProvider.mapProjects.keySet());
     private List<ProjectBean> pL = new ArrayList<ProjectBean>();
+    private List<String> permissionsList = new ArrayList<String>(DataProvider.mapPermissions.keySet());
     
     @Override
     public String execute() {
@@ -45,18 +50,87 @@ public class AccountEditAction  extends ActionSupport {
     		lastName = user.getLastName(); 
     		email = user.getEmail(); 
     		role = user.getRole().getName();
-    	
+    		projects = user.getProjectsList();
+    		bugPer = user.getBugPremission().getName();
+    	    testPer = user.getTestPremission().getName();
+    	    areaPer = user.getAreaPremission().getName();
     	
     	
     	return "editAccount";
     }
 
-	
-    
-    
-    
-    
-    public String getItemID() {
+    public List<String> getPermissionsList() {
+		return permissionsList;
+	}
+
+	public void setPermissionsList(List<String> permissionsList) {
+		this.permissionsList = permissionsList;
+	}
+
+
+
+
+
+
+	public String getBugPer() {
+		return bugPer;
+	}
+
+
+
+
+
+
+	public List<String> getProjects() {
+		return projects;
+	}
+
+	public void setBugPer(String bugPer) {
+		this.bugPer = bugPer;
+	}
+
+
+
+
+
+
+	public String getTestPer() {
+		return testPer;
+	}
+
+
+
+
+
+
+	public void setTestPer(String testPer) {
+		this.testPer = testPer;
+	}
+
+
+
+
+
+
+	public String getAreaPer() {
+		return areaPer;
+	}
+
+
+
+
+
+
+	public void setAreaPer(String areaPer) {
+		this.areaPer = areaPer;
+	}
+
+
+
+
+
+
+	public String getItemID() {
 		return itemID;
 	}
 
@@ -83,24 +157,19 @@ public class AccountEditAction  extends ActionSupport {
 
 
 
+	public void setProjects(List<String> projects) {
+		this.projects = projects;
+	}
+
+
+
+
+
+
 	public void setUserEmailParam(String userEmailParam) {
 		this.userEmailParam = userEmailParam;
 	}
 
-
-
-
-
-
-	public String getSearchEmail() {
-		return searchEmail;
-	}
-
-	
-	
-	public void setSearchEmail(String searchEmail) {
-		this.searchEmail = searchEmail;
-	}
 
 	public String getFirstName() {
 		return firstName;
@@ -142,13 +211,7 @@ public class AccountEditAction  extends ActionSupport {
 		this.role = role;
 	}
 
-	public String getProjects() {
-		return projects;
-	}
-
-	public void setProjects(String projects) {
-		this.projects = projects;
-	}
+	
 
 	public List<String> getRolesList() {
 		return rolesList;
