@@ -39,13 +39,12 @@ public class AreaCreateAction  extends ActionSupport {
 	private List<String> stateList = new ArrayList<String>(DataProvider.getStates().keySet());
 	
 	
-	
-	
     @Override
     public String execute() {
           
     	HttpSession session = ServletActionContext.getRequest().getSession();
     	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString()); 
+    	
     	projectsList = user.getProjectsList(); 
     	
     	//Area area = AreaFabric.getArea(session.getAttribute("selectedArea").toString()); 

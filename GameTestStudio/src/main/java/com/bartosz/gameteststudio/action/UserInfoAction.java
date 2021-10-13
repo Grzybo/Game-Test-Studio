@@ -31,10 +31,15 @@ public class UserInfoAction  extends ActionSupport {
     private String oldPassword;
     private String newPassword1;
     private String newPassword2;
+    private String bugPer;
+    private String testPer;
+    private String areaPer;
  
     @Override
     public String execute() {
 
+	
+    	
 	if(Utils.isNotLogged()) {System.out.print(" NOT LOGGED ");  return "logout"; }
     	
 	System.out.print(" LOGGED! ");
@@ -42,6 +47,10 @@ public class UserInfoAction  extends ActionSupport {
 	HttpSession session = request.getSession();  
 	
 	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());
+	
+	bugPer = user.getBugPremission().getName();
+	testPer = user.getTestPremission().getName();
+	areaPer = user.getAreaPremission().getName();
 	
 	if(this.firstName != null && this.lastName != null) {
 		user.setFirstName(firstName);
@@ -70,8 +79,62 @@ public class UserInfoAction  extends ActionSupport {
 	if(user.isAdmin()) {
 		return "adminInfoPage";
 	}
+	
+	
 	else return "userInfoPage";
     }
+
+    
+    
+    
+    
+	public String getBugPer() {
+		return bugPer;
+	}
+
+
+
+
+
+	public void setBugPer(String bugPer) {
+		this.bugPer = bugPer;
+	}
+
+
+
+
+
+	public String getTestPer() {
+		return testPer;
+	}
+
+
+
+
+
+	public void setTestPer(String testPer) {
+		this.testPer = testPer;
+	}
+
+
+
+
+
+	public String getAreaPer() {
+		return areaPer;
+	}
+
+
+
+
+
+	public void setAreaPer(String areaPer) {
+		this.areaPer = areaPer;
+	}
+
+
+
+
 
 	public String getProject() {
 		return project;

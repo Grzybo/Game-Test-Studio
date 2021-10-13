@@ -3,20 +3,35 @@ package com.bartosz.gameteststudio.beans;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import com.bartosz.gameteststudio.dp.DataProvider;
 
 public class UserBean { 
 	
-	private Long id; 
+
+	private Long id;
+	
 	private RoleBean role;
+
 	private String firstName;
+
 	private String lastName; 
 	private String email;
 	private String password;
+	
 	private List<ProjectBean> projects; 
+	
 	private PermissionBean bugPremission;
-	private PermissionBean testPremission;
+	
 	private PermissionBean areaPremission;
+	private PermissionBean testPremission;
+	
 	
 	public UserBean(Long id, String firstName, String lastName, String email, 
 			String password, RoleBean role, List<ProjectBean> projects, 
@@ -35,9 +50,12 @@ public class UserBean {
 	
 	
 	
-	public UserBean(String firstName,String lastName) {
+	public UserBean(String firstName, String lastName, String email, 
+						String password) {
 		this.firstName = firstName; 
-		this.lastName = lastName; 
+		this.lastName = lastName;
+		this.email = email; 
+		this.password = password;
 	}
 	
 	public UserBean() {}

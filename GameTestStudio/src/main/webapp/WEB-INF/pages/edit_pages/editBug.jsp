@@ -1,5 +1,11 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
+
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="java.util.List"%>
+<%@ page import="com.bartosz.gameteststudio.dp.DataProvider"%>
+
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -9,6 +15,11 @@
 	<body>
 		<jsp:include page="../_userMenu.jsp"/>
 	 	
+	 		<%
+	 		 	//List<String> priorityList = new ArrayList<String>(DataProvider.getPriorities().keySet());
+	 		%>
+	 		
+	 		
 	 		<h2>Edit Bug</h2>
 	 		
 	 	

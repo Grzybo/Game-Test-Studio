@@ -69,7 +69,7 @@
  			<s:actionerror />
 	 	</div>
 	 	<div class="center">
-		<a class="button" href="${pageContext.request.contextPath}/projects"> Cancel</a>
+		<a class="button" href="${pageContext.request.contextPath}/projects"> Return</a>
 		</div> 	
 	</body>
 </html><%@ page language="java" contentType="text/html; charset=UTF-8"

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.ServletActionContext;
@@ -44,8 +45,8 @@ public class ProjectAction  extends ActionSupport {
 	private List<AreaBean> areaObjList;
 	
 
-	HttpSession session = ServletActionContext.getRequest().getSession();
-	
+	HttpServletRequest request = ServletActionContext.getRequest();
+	HttpSession session = request.getSession();
 	 @Override
 	    public String execute() {
 		 
@@ -63,10 +64,16 @@ public class ProjectAction  extends ActionSupport {
 
 		//System.out.print(JSPTabControlUtil.getTabPageState(ServletActionContext.getRequest(), "ProjectsTabs", "TestTab"));
 		//JSPTabControlUtil.getTabPageState(ServletActionContext.getRequest(), "ProjectsTabs", "TestTab");
-		//JSPTabControlUtil.setSelectedTabPageName(ServletActionContext.getRequest(), "ProjectsTabs", "TestTab");
+		JSPTabControlUtil.setSelectedTabPageName(ServletActionContext.getRequest(), "ProjectsTabs", "BugTab");
 		
-		//String sortBy = ServletActionContext.getRequest().getParameter((new ParamEncoder("bugTable")).encodeParameterName(TableTagParameters.PARAMETER_ORDER));
-
+		String state  = JSPTabControlUtil.getTabPageState(ServletActionContext.getRequest(), "ProjectsTabs", "TestTab");
+		//String testSort = ServletActionContext.getRequest().getParameter((new ParamEncoder("testTable")).encodeParameterName(TableTagParameters.PARAMETER_SORT));
+		//String areaSort = ServletActionContext.getRequest().getParameter((new ParamEncoder("areaTable")).encodeParameterName(TableTagParameters.PARAMETER_SORT));
+		
+		//System.out.print(bugSort);
+		//System.out.print(testSort);
+		//System.out.print(areaSort);
+		System.out.print(JSPTabControlUtil.getSelectedTabPageName(ServletActionContext.getRequest(), "ProjectsTabs"));
 
 		return "projects";
 	 }

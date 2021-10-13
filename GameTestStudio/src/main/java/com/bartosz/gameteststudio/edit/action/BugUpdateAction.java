@@ -11,6 +11,7 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
 import com.bartosz.gameteststudio.beans.BugBean;
+import com.bartosz.gameteststudio.beans.VersionBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.opensymphony.xwork2.ActionSupport;
  
@@ -32,7 +33,7 @@ public class BugUpdateAction  extends ActionSupport {
     private String description;
     private String reproSteps;
     private String area;
-    private String platform;
+    private List<String> platforms;
     private String test; 
     //file
     private String build;
@@ -50,6 +51,7 @@ public class BugUpdateAction  extends ActionSupport {
 	private List<String> accountList = new ArrayList<String>();
 	private List<String> resultList = new ArrayList<String>(DataProvider.mapResults.keySet());
 	private List<String> buildList = new ArrayList<String>(DataProvider.mapBuilds.keySet());
+	private List<String> testList = new ArrayList<String>();
     
     @Override
     public String execute() {
@@ -65,16 +67,17 @@ public class BugUpdateAction  extends ActionSupport {
     		}	
 		} 
     	
-    	for (String el : DataProvider.mapAreas.keySet()) {
-			if(DataProvider.mapAreas.get(el).getProject().getTitle()
+    	for (String el : DataProvider.mapTests.keySet()) {
+			if(DataProvider.mapTests.get(el).getArea().getProject().getTitle()
 					.equals(session.getAttribute("userProject").toString())){
-				areaList.add(el);
+				testList.add(el);
 			}
 		}
     	
     	BugBean bug = DataProvider.getBugById(Integer.parseInt(itemID));
     	platformList = bug.getTest().getArea().getProject().getPlatformsStringList();
     	DataProvider.mapBugs.remove(bug.getTitle());
+    	DataProvider.mapBugsId.remove(Long.parseLong(itemID));
     	
     	bug.setTitle(title);
     	bug.setUser(DataProvider.mapUsers.get(account));
@@ -82,24 +85,58 @@ public class BugUpdateAction  extends ActionSupport {
     	bug.setReproSteps(reproSteps);
     	bug.setState(DataProvider.getStates().get(state));
     	bug.setPriority(DataProvider.getPriorities().get(priority));
-    	//platformy 
-    	//varsia
-    	//build
+    	bug.setPlatformsList(platforms);
+    	bug.setTest(DataProvider.mapTests.get(test));
+    	bug.setVersion(new VersionBean(version, DataProvider.mapBuilds.get(build)));
     	bug.setTest(DataProvider.mapTests.get(test));
     	//fileUpload = bug.getAttachment().getFile();
     	//fileUploadContentType = bug.getAttachment().getFileType();
     	//fileUploadFileName = bug.getAttachment().getFileName();
-    	//TODO dodac pola 
-    	//TODO update id na innych itemach
+    	//TODO files
     	DataProvider.mapBugs.put(bug.getTitle(), bug);
-    	
+    	DataProvider.mapBugsId.put(bug.getId(), bug.getTitle());
     	
     	
     	return "update";
     }
 
 
-    public String getItemID() {
+    
+    
+    
+    public List<String> getPlatforms() {
+		return platforms;
+	}
+
+
+
+
+
+	public void setPlatforms(List<String> platforms) {
+		this.platforms = platforms;
+	}
+
+
+
+
+
+	public List<String> getTestList() {
+		return testList;
+	}
+
+
+
+
+
+	public void setTestList(List<String> testList) {
+		this.testList = testList;
+	}
+
+
+
+
+
+	public String getItemID() {
 		return itemID;
 	}
 
@@ -199,13 +236,6 @@ public class BugUpdateAction  extends ActionSupport {
 		this.area = area;
 	}
 
-	public String getPlatform() {
-		return platform;
-	}
-
-	public void setPlatform(String platform) {
-		this.platform = platform;
-	}
 
 	public String getBuild() {
 		return build;

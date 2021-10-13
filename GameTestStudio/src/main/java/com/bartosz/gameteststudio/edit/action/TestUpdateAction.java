@@ -1,7 +1,6 @@
 package com.bartosz.gameteststudio.edit.action;
  
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -34,8 +33,8 @@ public class TestUpdateAction  extends ActionSupport {
     private Integer estimatedTime; 
     private Integer testersNumber;
 	private Integer workTime;
-	private Date startDate;
-	private Date endDate;
+	private String startDate;
+	private String endDate;
 	private String result;
 	private String build;
 	private Double version;
@@ -73,7 +72,8 @@ public class TestUpdateAction  extends ActionSupport {
     	
     	TestBean test = DataProvider.getTestById(Integer.parseInt(itemID));
     	platformList = test.getArea().getProject().getPlatformsStringList(); 
-    	//DataProvider.mapTests.remove(test.getTitle());
+    	DataProvider.mapTests.remove(test.getTitle());
+    	DataProvider.mapTestsId.remove(test.getId());
     	
     	test.setUser(DataProvider.mapUsers.get(account));
     	test.setPriority(DataProvider.getPriorities().get(priority));
@@ -83,8 +83,11 @@ public class TestUpdateAction  extends ActionSupport {
     	test.setEstimatedTime(estimatedTime);
     	test.setWorkTime(workTime);
     	test.setTestersNumber(testersNumber);
+    	test.setStartDate(startDate);
+    	test.setEndDate(endDate);
     	
-    	//DataProvider.mapTests.put(test.getTitle(), test);
+    	DataProvider.mapTests.put(test.getTitle(), test);
+    	DataProvider.mapTestsId.put(test.getId(), test.getTitle());
     	
     	return "update";
     	
@@ -190,23 +193,22 @@ public class TestUpdateAction  extends ActionSupport {
 		this.workTime = workTime;
 	}
 
-
-	public Date getStartDate() {
+	public String getStartDate() {
 		return startDate;
 	}
 
 
-	public void setStartDate(Date startDate) {
+	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
 
 
-	public Date getEndDate() {
+	public String getEndDate() {
 		return endDate;
 	}
 
 
-	public void setEndDate(Date endDate) {
+	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
 

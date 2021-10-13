@@ -3,18 +3,47 @@ package com.bartosz.gameteststudio.beans;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import com.bartosz.gameteststudio.dp.DataProvider;
 
+@Entity
+@Table(name = "PROJECTS")
 public class ProjectBean {
 
+	
+	@Id
+	@GeneratedValue (strategy = GenerationType.IDENTITY)
+	@Column(name = "id", unique = true)
 	private Long id; 
+	
+	@Column(name = "title", nullable = false)
 	private String title; 
+	
+	@Column(name = "description", nullable = false)
 	private String description; 
+	
+	@Column(name = "estimated_time")
 	private int estimatedTime; 
+	
+	@Column(name = "work_time")
 	private int workTime;
+	
+	@Column(name = "start_date")
 	private String startDate;
+	
+	@Column(name = "end_date")
 	private String endDate;
+	
+	@Column(name = "testers_number")
 	private int testersNumber;
+	
+	
 	private StateBean state;
 	private List<UserBean> users; 
 	private List<PlatformBean> platforms;

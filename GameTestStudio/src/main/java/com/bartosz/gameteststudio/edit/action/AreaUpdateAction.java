@@ -52,7 +52,8 @@ public class AreaUpdateAction  extends ActionSupport {
     	
     	AreaBean area = DataProvider.getAreaById(Integer.parseInt(itemID));
     	DataProvider.mapAreas.remove(area.getTitle());
-
+    	DataProvider.mapAreasId.remove(area.getId());
+    	
     	area.setTitle(this.title);
     	area.setPriority(DataProvider.getPriorities().get(priority));
     	area.setState(DataProvider.getStates().get(state));
@@ -64,7 +65,7 @@ public class AreaUpdateAction  extends ActionSupport {
     	area.setWorkTime(this.workTime); 
     	
     	DataProvider.mapAreas.put(area.getTitle(), area);
-        // TODO wresza itemow poprawda add i remove 
+    	DataProvider.mapAreasId.put(area.getId(), area.getTitle());
     	return "update";
     }
 

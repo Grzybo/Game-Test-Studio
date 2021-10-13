@@ -36,8 +36,8 @@ public class TestCreateAction  extends ActionSupport {
     private Integer estimatedTime; 
     private Integer testersNumber;
 	private Integer workTime;
-	private Date startDate;
-	private Date endDate;
+	private String startDate;
+	private String endDate;
 	private String result;
 	private String build;
 	private Double version;
@@ -95,7 +95,8 @@ public class TestCreateAction  extends ActionSupport {
         	test.setArea(DataProvider.mapAreas.get(area));
         	test.setResult(DataProvider.mapResults.get(result));
         	test.setEstimatedTime(estimatedTime);
-        	//dates
+        	test.setStartDate(startDate);
+        	test.setEndDate(endDate);
         	test.setTestersNumber(testersNumber); 
         	test.setWorkTime(workTime);
         	test.setState(DataProvider.getStates().get(state));
@@ -104,7 +105,7 @@ public class TestCreateAction  extends ActionSupport {
         	test.setVersion(new VersionBean(version, DataProvider.mapBuilds.get(build)));
         	
         	DataProvider.mapTests.put(test.getTitle(), test); 
-        	//TODO update 
+        	
         	addActionError("Test created!");
     	}
     	else addActionError("Title field cannot be empty");
@@ -233,22 +234,25 @@ public class TestCreateAction  extends ActionSupport {
 	}
 
 
-	public Date getStartDate() {
+	
+
+
+	public String getStartDate() {
 		return startDate;
 	}
 
 
-	public void setStartDate(Date startDate) {
+	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
 
 
-	public Date getEndDate() {
+	public String getEndDate() {
 		return endDate;
 	}
 
 
-	public void setEndDate(Date endDate) {
+	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
 

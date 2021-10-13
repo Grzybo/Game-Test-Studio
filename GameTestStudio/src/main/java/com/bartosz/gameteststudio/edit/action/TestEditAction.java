@@ -1,7 +1,6 @@
 package com.bartosz.gameteststudio.edit.action;
  
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -35,8 +34,8 @@ public class TestEditAction  extends ActionSupport {
     private Integer estimatedTime; 
     private Integer testersNumber;
 	private Integer workTime;
-	private Date startDate;
-	private Date endDate;
+	private String startDate;
+	private String endDate;
 	private String result;
 	private String build;
 	private Double version;
@@ -101,7 +100,8 @@ public class TestEditAction  extends ActionSupport {
     	area = test.getArea().getTitle(); 
     	result = test.getResult().getName(); 
     	estimatedTime = test.getEstimatedTime(); 
-    	// daty
+    	startDate = test.getStartDate();
+    	endDate = test.getEndDate();
     	testersNumber = test.getTestersNumber();
     	workTime = test.getWorkTime();
     	state = test.getState().getName(); 
@@ -297,26 +297,25 @@ public class TestEditAction  extends ActionSupport {
 	}
 
 
-
-	public Date getStartDate() {
+	public String getStartDate() {
 		return startDate;
 	}
 
 
 
-	public void setStartDate(Date startDate) {
+	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
 
 
 
-	public Date getEndDate() {
+	public String getEndDate() {
 		return endDate;
 	}
 
 
 
-	public void setEndDate(Date endDate) {
+	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
 

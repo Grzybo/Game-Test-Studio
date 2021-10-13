@@ -5,7 +5,9 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
 import com.bartosz.gameteststudio.beans.ProjectBean;
+import com.bartosz.gameteststudio.beans.ProjectDbTest;
 import com.bartosz.gameteststudio.dp.DataProvider;
+import com.bartosz.gameteststudio.dp.ProjectRepository;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "createProject", //
@@ -35,7 +37,10 @@ public class ProjectCreateAction  extends ActionSupport {
     				DataProvider.getStates().get("New"), 
     				(long)DataProvider.mapProjectsId.keySet().size() + 1, null);
     		DataProvider.mapProjects.put(title, project);
-    		addActionError("Project created.");
+    		addActionError("Project created."); 
+    		
+    		ProjectRepository.save(new ProjectDbTest(title, description));
+    		
     		return "project_create";
     	}else {
     		addActionError("Title cannot be empty.");

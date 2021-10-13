@@ -3,6 +3,8 @@ package com.bartosz.gameteststudio.beans;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bartosz.gameteststudio.dp.DataProvider;
+
 public class BugBean {
 
 		private Long id;
@@ -50,7 +52,13 @@ public class BugBean {
 			this.id = id;
 		}
 
-		
+		public void setPlatformsList(List<String> list) {
+			List<PlatformBean> platforms = new ArrayList<PlatformBean>();
+			for(String str : list) {
+				platforms.add(DataProvider.mapPlatforms.get(str));
+			}
+			this.platforms = platforms;
+		}
 		
 		public TestBean getTest() {
 			return test;
