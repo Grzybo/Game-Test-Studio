@@ -25,9 +25,7 @@ public class AccountUpdateAction  extends ActionSupport {
     private String email;
     private String password;
     private String role;
-    private String bugPer;
-    private String testPer;
-    private String areaPer;
+
     private List<String> projects;
     private String searchEmail;
     private List<String> rolesList = new ArrayList<String>(DataProvider.mapRoles.keySet());
@@ -47,9 +45,7 @@ public class AccountUpdateAction  extends ActionSupport {
     	user.setLastName(lastName);
     	user.setEmail(email);
     	user.setRole(DataProvider.mapRoles.get(role));
-    	user.setBugPremission(DataProvider.mapPermissions.get(bugPer));
-    	user.setTestPremission(DataProvider.mapPermissions.get(testPer));
-    	user.setAreaPremission(DataProvider.mapPermissions.get(areaPer));
+
     	user.setProjectsList(projects);
     	
     	DataProvider.mapUsers.put(email, user);
@@ -78,29 +74,7 @@ public class AccountUpdateAction  extends ActionSupport {
 		return lastName;
 	}
 
-	public String getBugPer() {
-		return bugPer;
-	}
-
-	public void setBugPer(String bugPer) {
-		this.bugPer = bugPer;
-	}
-
-	public String getTestPer() {
-		return testPer;
-	}
-
-	public void setTestPer(String testPer) {
-		this.testPer = testPer;
-	}
-
-	public String getAreaPer() {
-		return areaPer;
-	}
-
-	public void setAreaPer(String areaPer) {
-		this.areaPer = areaPer;
-	}
+	
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;

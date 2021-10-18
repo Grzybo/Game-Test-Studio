@@ -6,8 +6,12 @@ import java.util.List;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
+import com.bartosz.gameteststudio.beans.PlatformBean;
 import com.bartosz.gameteststudio.beans.ProjectBean;
+import com.bartosz.gameteststudio.beans.StateBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
+import com.bartosz.gameteststudio.repositories.PlatformRepository;
+import com.bartosz.gameteststudio.repositories.StateRepository;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "editProject", //
@@ -29,24 +33,31 @@ public class ProjectEditAction  extends ActionSupport {
     private String startDate;
     private String endDate;
     private String state;
-    private List<String> platformList = new ArrayList<String>(DataProvider.mapPlatforms.keySet()); 
+    private List<String> platformList= new ArrayList<String>(); // = new ArrayList<String>(DataProvider.mapPlatforms.keySet()); 
     private List<String> selectedPlatforms = new ArrayList<String>();
-    private List<String> stateList = new ArrayList<String>(DataProvider.getStates().keySet());
+    private List<String> stateList = new ArrayList<String>(); // = new ArrayList<String>(DataProvider.getStates().keySet());
   
 
 	@Override
     public String execute() {
-          
-    	
-    		ProjectBean project = DataProvider.getProjectById(Integer.parseInt(itemID)); 
-    		title = project.getTitle(); 
-    		description = project.getDescription();
-    	    testers_numbers = project.getTestersNumber();
-    	    estimate_time = project.getEstimatedTime();
-    	    work_time = project.getEstimatedTime(); 
-    	    startDate = project.getStartDate();
-    	    endDate = project.getEndDate();
-    		state = project.getState().getName();
+        
+		List<StateBean> stateObjList = StateRepository.findAllStates();
+		List<PlatformBean> platformObjList = PlatformRepository.findAllProjects();
+		
+		for(PlatformBean p : platformObjList) { platformList.add(p.getName()); } 
+		for(StateBean p : stateObjList) { 
+			stateList.add(p.getName());
+		}
+	
+		ProjectBean project = DataProvider.getProjectById(Integer.parseInt(itemID)); 
+		title = project.getTitle(); 
+		description = project.getDescription();
+	    testers_numbers = project.getTestersNumber();
+	    estimate_time = project.getEstimatedTime();
+	    work_time = project.getEstimatedTime(); 
+	    startDate = project.getStartDate();
+	    endDate = project.getEndDate();
+		state = project.getState().getName();
     	
     	return "editProject";
     }

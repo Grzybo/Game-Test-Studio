@@ -1,8 +1,37 @@
 package com.bartosz.gameteststudio.beans;
 
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "DIC_PLATFORMS")
 public class PlatformBean {
 
+
+	@Id
+	@GeneratedValue (strategy = GenerationType.IDENTITY)
+	@Column(name = "id", unique = true)
+	private Long id; 
+	
+	@Column(name = "name", nullable = false)
 	private String name; 
+	
+	@ManyToMany (fetch = FetchType.EAGER) //(cascade = { CascadeType.ALL })
+    @JoinTable(
+        name = "PROJECT_DIC_PLATFORMS", 
+        joinColumns = { @JoinColumn(name = "FK_PLATFORMS_ID") }, 
+        inverseJoinColumns = { @JoinColumn(name = "FK_PROJECTS_ID") })
+	private List<ProjectBean> projects;
 	
 	public PlatformBean() {}
 	

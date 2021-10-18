@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
- 
  	<head>
     	<style><%@include file="/WEB-INF/index.css"%></style>
 	</head>

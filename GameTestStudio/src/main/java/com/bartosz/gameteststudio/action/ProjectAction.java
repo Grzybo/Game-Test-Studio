@@ -36,7 +36,6 @@ public class ProjectAction  extends ActionSupport {
 	private String sort; 
 	private String tab;
 	
-	
 	private List<String> projectsList;
 	private String selectedProject; 
 	
@@ -47,6 +46,7 @@ public class ProjectAction  extends ActionSupport {
 
 	HttpServletRequest request = ServletActionContext.getRequest();
 	HttpSession session = request.getSession();
+	
 	 @Override
 	    public String execute() {
 		 

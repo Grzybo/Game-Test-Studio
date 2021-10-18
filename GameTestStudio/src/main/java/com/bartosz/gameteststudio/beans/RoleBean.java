@@ -1,8 +1,22 @@
 package com.bartosz.gameteststudio.beans;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "ROLES")
 public class RoleBean {
 
-	//private Long id; 
+	@Id
+	@GeneratedValue (strategy = GenerationType.IDENTITY)
+	@Column(name = "id", unique = true)
+	private Long id; 
+	
+	@Column(name = "name", nullable = false, unique = true)
 	private String name;
 	
 	public RoleBean() {}

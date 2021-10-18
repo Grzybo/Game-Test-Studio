@@ -5,32 +5,54 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.bartosz.gameteststudio.dp.DataProvider;
 
+@Entity
+@Table(name = "USERS")
 public class UserBean { 
 	
-
+	@Id
+	@GeneratedValue (strategy = GenerationType.IDENTITY)
+	@Column(name = "id", unique = true)
 	private Long id;
 	
+	@ManyToOne
+	@JoinColumn(name="fk_roles_id", nullable = false)
 	private RoleBean role;
 
+	@Column(name = "first_name", nullable = false)
 	private String firstName;
 
+	@Column(name = "last_name", nullable = false)
 	private String lastName; 
+	
+	@Column(name = "email", nullable = false, unique = true)
 	private String email;
+	
+	@Column(name = "password", nullable = false)
 	private String password;
 	
+	@ManyToMany (fetch = FetchType.EAGER) //(cascade = { CascadeType.ALL })
+    @JoinTable(
+        name = "PROJECTS_USERS", 
+        joinColumns = { @JoinColumn(name = "FK_USERS_ID") }, 
+        inverseJoinColumns = { @JoinColumn(name = "FK_PROJECTS_ID") })
 	private List<ProjectBean> projects; 
 	
-	private PermissionBean bugPremission;
+	//private PermissionBean bugPremission;
 	
-	private PermissionBean areaPremission;
-	private PermissionBean testPremission;
+	//private PermissionBean areaPremission;
+	//private PermissionBean testPremission;
 	
 	
 	public UserBean(Long id, String firstName, String lastName, String email, 
@@ -43,9 +65,7 @@ public class UserBean {
 		this.password = password;
 		this.role = role;
 		this.projects = projects; 
-		this.bugPremission = bugPremission; 
-		this.testPremission = testPremission; 
-		this.areaPremission = areaPremission; 
+		
 	}
 	
 	
@@ -96,39 +116,7 @@ public class UserBean {
 
 	
 
-	public PermissionBean getBugPremission() {
-		return bugPremission;
-	}
-
-
-
-	public void setBugPremission(PermissionBean bugPremission) {
-		this.bugPremission = bugPremission;
-	}
-
-
-
-	public PermissionBean getTestPremission() {
-		return testPremission;
-	}
-
-
-
-	public void setTestPremission(PermissionBean testPremission) {
-		this.testPremission = testPremission;
-	}
-
-
-
-	public PermissionBean getAreaPremission() {
-		return areaPremission;
-	}
-
-
-
-	public void setAreaPremission(PermissionBean areaPremission) {
-		this.areaPremission = areaPremission;
-	}
+	
 
 
 

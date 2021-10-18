@@ -13,7 +13,7 @@ import org.passay.PasswordGenerator;
 import com.bartosz.gameteststudio.beans.ProjectBean;
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
-import com.bartosz.gameteststudio.dp.ProjectRepository;
+import com.bartosz.gameteststudio.repositories.ProjectRepository;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "createAccount", //
@@ -81,9 +81,7 @@ public class AccountCreateAction  extends ActionSupport {
 			user.setEmail(email); 
 			user.setRole(DataProvider.mapRoles.get(role)); 
 			user.setProjectsList(projects);
-			user.setBugPremission(DataProvider.mapPermissions.get(bugPer));
-			user.setTestPremission(DataProvider.mapPermissions.get(testPer));
-			user.setAreaPremission(DataProvider.mapPermissions.get(areaPer));
+
 			
     		DataProvider.mapUsers.put(user.getEmail(), user);
     		DataProvider.mapUsersId.put(user.getId(), user.getEmail());

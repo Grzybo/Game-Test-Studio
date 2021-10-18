@@ -29,9 +29,7 @@ public class AccountEditAction  extends ActionSupport {
     private String role;
     private List<String> projects;
     
-    private String bugPer;
-    private String testPer;
-    private String areaPer;
+
     
     private List<String> rolesList = new ArrayList<String>(DataProvider.mapRoles.keySet());
     private List<String>  projectsList = new ArrayList<String>(DataProvider.mapProjects.keySet());
@@ -51,9 +49,7 @@ public class AccountEditAction  extends ActionSupport {
     		email = user.getEmail(); 
     		role = user.getRole().getName();
     		projects = user.getProjectsList();
-    		bugPer = user.getBugPremission().getName();
-    	    testPer = user.getTestPremission().getName();
-    	    areaPer = user.getAreaPremission().getName();
+    		
     	
     	
     	return "editAccount";
@@ -72,58 +68,6 @@ public class AccountEditAction  extends ActionSupport {
 
 
 
-	public String getBugPer() {
-		return bugPer;
-	}
-
-
-
-
-
-
-	public List<String> getProjects() {
-		return projects;
-	}
-
-	public void setBugPer(String bugPer) {
-		this.bugPer = bugPer;
-	}
-
-
-
-
-
-
-	public String getTestPer() {
-		return testPer;
-	}
-
-
-
-
-
-
-	public void setTestPer(String testPer) {
-		this.testPer = testPer;
-	}
-
-
-
-
-
-
-	public String getAreaPer() {
-		return areaPer;
-	}
-
-
-
-
-
-
-	public void setAreaPer(String areaPer) {
-		this.areaPer = areaPer;
-	}
 
 
 

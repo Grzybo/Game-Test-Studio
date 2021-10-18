@@ -1,8 +1,12 @@
 package com.bartosz.gameteststudio.dp;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+
+import org.apache.log4j.Logger;
 
 import com.bartosz.gameteststudio.beans.AreaBean;
 import com.bartosz.gameteststudio.beans.BugBean;
@@ -11,12 +15,15 @@ import com.bartosz.gameteststudio.beans.PermissionBean;
 import com.bartosz.gameteststudio.beans.PlatformBean;
 import com.bartosz.gameteststudio.beans.PriorityBean;
 import com.bartosz.gameteststudio.beans.ProjectBean;
+import com.bartosz.gameteststudio.beans.ProjectDbTest;
 import com.bartosz.gameteststudio.beans.ResultBean;
 import com.bartosz.gameteststudio.beans.RoleBean;
 import com.bartosz.gameteststudio.beans.StateBean;
 import com.bartosz.gameteststudio.beans.TestBean;
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.beans.VersionBean;
+import com.bartosz.gameteststudio.exceptions.GSException;
+import com.bartosz.gameteststudio.repositories.ProjectRepository;
 
 /**
  * klasa zarzadzajaca danymi
@@ -26,6 +33,8 @@ import com.bartosz.gameteststudio.beans.VersionBean;
 
 public class DataProvider {
 
+	
+	protected static final Logger log = Logger.getLogger(DataProvider.class.getName());
 	
 	/**
 	 * Słownik uprawnień. 
@@ -95,7 +104,55 @@ public class DataProvider {
 	}; 
 	
 	//##############################################################################################################
-		/**
+	
+	//TODO przepisanie do innych 
+	
+	public static void saveProject(ProjectBean project) {
+		if (project != null) {
+			//ProjectDbTest db = new ProjectDbTest (project.getTitle(), project.getDescription(), project.getEstimatedTime(), project.getWorkTime(), project.getStartDate(), project.getEndDate(), project.getTestersNumber());	
+			ProjectRepository.save(project);
+			mapProjects.put(project.getTitle(), project);
+			mapProjectsId.put(project.getId(), project.getTitle());
+		} else
+			log.error("Project is null.");
+	} 
+	
+	public static void update(ProjectBean oldProject, ProjectBean newProject) {
+		if (oldProject != null && newProject != null) {
+			mapProjectsId.replace(oldProject.getId(), oldProject.getTitle(), newProject.getTitle());
+			mapProjects.remove(oldProject.getTitle());
+			ProjectRepository.update(oldProject, newProject);
+			mapProjects.put(newProject.getTitle(), newProject);
+		} else
+			log.error("Project is null.");
+	}
+	
+	public ProjectBean getProject(Long id) throws GSException {
+		if (id != null && id.intValue() > 0) {
+			ProjectDbTest db = ProjectRepository.findById(id); 
+		//	ProjectBean bean = new ProjectBean(db.getTitle(), db.getDescription(), db.getEstimatedTime(), db.getWorkTime(), 
+			//									db.getStartDate(), db.getEndDate(), db.getTestersNumber()); 
+			//return bean;
+		} else
+			log.error(" Project id is null or out of range."); 
+		
+		throw new GSException("Project id is null or out of range.");
+	}
+	
+	public List<ProjectBean> getAllProjects() {
+		List<ProjectBean> lstResult = new ArrayList<>();
+		List<ProjectDbTest> dblist = ProjectRepository.findAllProjects();
+		for(ProjectDbTest db : dblist) {
+		//	lstResult.add(new ProjectBean(db.getTitle(), db.getDescription(), db.getEstimatedTime(), db.getWorkTime(), 
+			//				db.getStartDate(), db.getEndDate(), db.getTestersNumber()));
+		}
+		return lstResult;
+	}
+	
+	
+	
+	
+	/**
 		 * Słownik projektów.
 		 */
 		public static  Map<String, ProjectBean> mapProjects = new LinkedHashMap<>() {
@@ -237,7 +294,7 @@ public class DataProvider {
 							"pluto", mapRoles.get("Tester Manager"), Arrays.asList(mapProjects.get("FIFA 21")), 
 							mapPermissions.get("Create"), mapPermissions.get("Create") ,mapPermissions.get("Create")));
 				}
-			};
+			};//TODO klucz : ID 
 			
 			
 			public static  Map<Long, String> mapUsersId = new LinkedHashMap<>() {

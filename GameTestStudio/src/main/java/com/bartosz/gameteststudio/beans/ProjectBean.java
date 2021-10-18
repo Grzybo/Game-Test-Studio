@@ -8,6 +8,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.bartosz.gameteststudio.dp.DataProvider;
@@ -43,10 +46,15 @@ public class ProjectBean {
 	@Column(name = "testers_number")
 	private int testersNumber;
 	
-	
+	@ManyToOne
+	@JoinColumn(name="fk_dic_states_id", nullable = false) //  fk_dic_states_id BIGINT NOT NULL REFERENCES dic_states(id) ON DELETE CASCADE
 	private StateBean state;
+	
+	@ManyToMany (mappedBy = "projects") //(cascade = { CascadeType.ALL })
 	private List<UserBean> users; 
-	private List<PlatformBean> platforms;
+	
+	@ManyToMany (mappedBy = "projects")
+	private List<PlatformBean> platforms; // 
 	
 	public ProjectBean() {}
 	
@@ -55,6 +63,17 @@ public class ProjectBean {
 	public ProjectBean(String title, String description) {
 		this.description = description; 
 		this.title = title; 
+	}
+	
+	public ProjectBean(String title, String description, int estimatedTime, int workTime, String startDate,String endDate, int testersNumber, StateBean state) {
+		this.title = title;
+		this.description = description;
+		this.estimatedTime = estimatedTime;
+		this.workTime = workTime;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.testersNumber = testersNumber;
+		this.state = state;
 	}
 
 	
@@ -174,6 +193,22 @@ public class ProjectBean {
 
 	public void setUsers(List<UserBean> users) {
 		this.users = users;
+	}
+
+
+
+	public void setAllFields(ProjectBean newProject) {
+		this.title = newProject.title;
+		this.description = newProject.description;
+		this.estimatedTime = newProject.estimatedTime;
+		this.workTime = newProject.workTime;
+		this.startDate = newProject.startDate;
+		this.endDate = newProject.endDate;
+		this.testersNumber = newProject.testersNumber;
+		this.state = newProject.state;
+		this.id = newProject.id;
+		this.platforms = newProject.platforms;
+		
 	} 
 	
 	

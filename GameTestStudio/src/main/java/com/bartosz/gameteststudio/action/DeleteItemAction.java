@@ -7,12 +7,12 @@ import com.bartosz.gameteststudio.dp.DataProvider;
 import com.opensymphony.xwork2.ActionSupport;
 
 
-@Action(value = "delete", //
+@Action(value = "deleteItem", //
 results = { //
-        @Result(name = "succes", location = "/WEB-INF/pages/projects.jsp")
+        @Result(name = "deleteItem", location = "/WEB-INF/pages/projects.jsp")
 } //
 )
-public class DeleteAction  extends ActionSupport {
+public class DeleteItemAction  extends ActionSupport {
 
 	private static final long serialVersionUID = 1L;
 	private String itemID;
@@ -20,9 +20,11 @@ public class DeleteAction  extends ActionSupport {
 	
 	 @Override
 	    public String execute() {
+
+		 
 		 /**
 		  * 
-		  *  switch(itemType) {
+		  switch(itemType) {
 			 case "bug": 
 				 DataProvider.mapBugs.remove(DataProvider.getBugById(Integer.parseInt(itemID)).getTitle());
 				 DataProvider.mapBugsId.remove(Long.parseLong(itemID));
@@ -37,11 +39,14 @@ public class DeleteAction  extends ActionSupport {
 			 break;
 		 }
 		  * 
+		  * 
 		  */
+		 System.out.print("deletepage");
+		 return "deleteItem";
+		  
 		 
 		
 
-		return "succes";
 	 }
 
 	public String getItemID() {

@@ -35,24 +35,6 @@
 	
 	<s:actionerror />
    </div>
-   <br>
-   <div class = "content">
-   	<s:set var="bP" value="bugPer"/>
-	<s:set var="tP" value="testPer"/>
-	<s:set var="aP" value="areaPer"/>
-	<table style="width:100%">
-	<s:label>Permissions:</s:label>
-	<tr >
-			<td>Bug</td>
-			<td>Test</td>
-			<td>Area</td>
-	</tr>
-	<tr>
-			<td><a> ${bP}</a></td>
-			<td><a> ${tP}</a></td>
-			<td><a> ${aP}</a></td>
-	</tr>
-	</table>
-   </div>
+   
 </body>
 </html>

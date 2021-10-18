@@ -18,91 +18,72 @@
 		<meta charset="UTF-8">
 		<title>Projects</title>
 		<style><%@include file="/WEB-INF/index.css"%></style>
-		  <script type="text/javascript" src="js/jsptabcontrol.js" ></script>
-		   <link href="/css/my-jsptabcontrol.css" rel="stylesheet" type="text/css"/>
-
-
-    	
+	  	<script type="text/javascript" src="js/jsptabcontrol.js" ></script>
+	   	<link href="/css/my-jsptabcontrol.css" rel="stylesheet" type="text/css"/>
 	</head>
 	<body>
-		
-		<% 
-
-			
-		%>
+		<% %>
 		<jsp:include page="_userMenu.jsp" />
 		<s:form id = "projectForm" action="/projects" method="post">
-				<s:select label="Project" name="selectedProject" list="projectsList"/>
-				<s:submit class= "button"  method="execute" key="Switch Project" align="center" />
-			</s:form>
-			
-			<div class="center">
-
-					<jsptabcontrol:tabControl name="ProjectsTabs" > 
-					    <jsptabcontrol:tabPage name="BugTab" title="Bug" width="100%" >
-					    		<div class="center">
-								<a class="button" href="${pageContext.request.contextPath}/createBug">New Bug</a>
-							</div>
-							<div class = "projectContent"> 
-								<display:table name="bugObjList" id="bugTable" decorator="com.bartosz.decorators.BugDecorator" sort="list"
-								  	pagesize="3" requestURI="#bugTable">
-								  <display:column property="id" title="ID"/>
-								  <display:column property="titleLink" title="Title" sortable="true" sortName="sortTitle"/> 
-								  <display:column property="state.name" title="State" sortable="true"/>
-								  <display:column property="priority.name" title="Priority" sortable="true"/>
-								  <display:column property="user.email" title="Assigned To" sortable="true"/>
-								  <display:column property="test.area.title" title="Area" sortable="true"/>
-								  
-								</display:table>	
-								
-							</div>
-						      
-						    </jsptabcontrol:tabPage>
-					    
-					    <jsptabcontrol:tabPage name="TestTab" title="Test" width="100%"  >
-					     
-					     	<div class="center">
-								<a class="button" href="${pageContext.request.contextPath}/createTest">New Test</a>
-							</div> 
-							<div class = "projectContent"> 
-											<display:table name="testObjList" id="testTable" decorator="com.bartosz.decorators.TestDecorator" sort="list" 
-															requestURI="#testTable">
-											  <display:column property="id" title="ID"/>
-											  <display:column property="titleLink" title="Title" sortable="true" />
-											  <display:column property="state.name" title="State" sortable="true"/>
-											  <display:column property="priority.name" title="Priority" sortable="true"/>
-											  <display:column property="user.email" title="Assigned To" sortable="true"/>
-  											  <display:column property="startDate" title="Start Date" sortable="true"/>
-											  <display:column property="endDate" title="End Date" sortable="true"/>
-											  <display:column property="area.title" title="Area" sortable="true"/>
-											</display:table>	
-							</div> 
-						      
-					    </jsptabcontrol:tabPage>
-					    
-					    <jsptabcontrol:tabPage name="AreaTab" title="Area" width="100%" >
-					      <div class="center">
-								<a class="button" href="${pageContext.request.contextPath}/createArea">New Area</a>
-							</div> 
-							<div class = "projectContent"> 
-											<display:table name="areaObjList" id="areaTable" decorator="com.bartosz.decorators.AreaDecorator" sort="list" 
-															requestURI="#areaTable"	>
-											  <display:column property="id" title="ID" />
-											  <display:column  property="titleLink" title="Title"  sortable="true" />
-											  <display:column property="state.name" title="State"  sortable="true"/>
-											  <display:column property="priority.name" title="Priority"  sortable="true"/>
-											  <display:column property="startDate" title="Start Date"  sortable="true"/>
-											  <display:column property="endDate" title="End Date"  sortable="true"/>
-											</display:table>	
-							</div> 
-						      
-					    </jsptabcontrol:tabPage>  
-				    
-				  </jsptabcontrol:tabControl> 
-			</div> 
-			
-			
-			
+			<s:select label="Project" name="selectedProject" list="projectsList"/>
+			<s:submit class= "button"  method="execute" key="Switch Project" align="center" />
+		</s:form>
+		<div class="center">
+			<jsptabcontrol:tabControl name="ProjectsTabs" > 
+				<jsptabcontrol:tabPage name="BugTab" title="Bug" width="100%" >
+		    		<div class="center">
+						<a class="button" href="${pageContext.request.contextPath}/createBug">New Bug</a>
+						<a class="button" href="${pageContext.request.contextPath}/deleteItem">Delete Bug</a>
+					</div>
+					<div class = "projectContent"> 
+						<display:table name="bugObjList" id="bugTable" decorator="com.bartosz.decorators.BugDecorator" sort="list"
+						  		pagesize="3" requestURI="#bugTable">
+							<display:column property="id" title="ID"/>
+							<display:column property="titleLink" title="Title" sortable="true" sortName="sortTitle"/> 
+							<display:column property="state.name" title="State" sortable="true"/>
+							<display:column property="priority.name" title="Priority" sortable="true"/>
+							<display:column property="user.email" title="Assigned To" sortable="true"/>
+							<display:column property="test.area.title" title="Area" sortable="true"/>	
+						  
+						</display:table> 
+					</div>  
+				</jsptabcontrol:tabPage>    
+			    <jsptabcontrol:tabPage name="TestTab" title="Test" width="100%"  >     
+			     	<div class="center">
+						<a class="button" href="${pageContext.request.contextPath}/createTest">New Test</a>
+					</div> 
+						<div class = "projectContent"> 
+							<display:table name="testObjList" id="testTable" decorator="com.bartosz.decorators.TestDecorator" sort="list" 
+											requestURI="#testTable">
+								<display:column property="id" title="ID"/>
+								<display:column property="titleLink" title="Title" sortable="true" />
+								<display:column property="state.name" title="State" sortable="true"/>
+								<display:column property="priority.name" title="Priority" sortable="true"/>
+								<display:column property="user.email" title="Assigned To" sortable="true"/>
+								<display:column property="startDate" title="Start Date" sortable="true"/>
+								<display:column property="endDate" title="End Date" sortable="true"/>
+								<display:column property="area.title" title="Area" sortable="true"/>
+							</display:table>	
+						</div>  
+		    	</jsptabcontrol:tabPage>
+			    <jsptabcontrol:tabPage name="AreaTab" title="Area" width="100%" >
+				<div class="center">
+					<a class="button" href="${pageContext.request.contextPath}/createArea">New Area</a>
+				</div> 
+				<div class = "projectContent"> 
+					<display:table name="areaObjList" id="areaTable" decorator="com.bartosz.decorators.AreaDecorator" sort="list" 
+									requestURI="#areaTable"	>
+						<display:column property="id" title="ID" />
+						<display:column  property="titleLink" title="Title"  sortable="true" />
+						<display:column property="state.name" title="State"  sortable="true"/>
+						<display:column property="priority.name" title="Priority"  sortable="true"/>
+						<display:column property="startDate" title="Start Date"  sortable="true"/>
+						<display:column property="endDate" title="End Date"  sortable="true"/>
+					</display:table>	
+				</div> 						      
+			</jsptabcontrol:tabPage>  
+		  </jsptabcontrol:tabControl> 
+		</div> 
 	</body>
 </html>
 			

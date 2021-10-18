@@ -19,7 +19,7 @@ import com.opensymphony.xwork2.ActionSupport;
                 @Result(name = "admin", type="redirect", location= "/adminPage") //
         } //
 )
-public class LoginAction extends ActionSupport {
+public class LoginAction extends SecureAction {
  
     private static final long serialVersionUID = 7299264265184515893L;
     private String email;
@@ -27,12 +27,13 @@ public class LoginAction extends ActionSupport {
     private String ret;
  
  
-    @Override
+    
     public String execute() {
         
     	if (this.email == null && this.password == null) {
             return "showForm";
         }
+    	System.out.println(" LOGIN ");
     	
         HttpSession session = ServletActionContext.getRequest().getSession();
         
