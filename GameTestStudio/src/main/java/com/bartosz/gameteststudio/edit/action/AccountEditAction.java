@@ -39,7 +39,6 @@ public class AccountEditAction  extends ActionSupport {
     @Override
     public String execute() {
           
-    	System.out.print(getUserEmailParam());
     	
     	
     		UserBean user = DataProvider.getUserById(Integer.parseInt(itemID)); 
@@ -48,9 +47,8 @@ public class AccountEditAction  extends ActionSupport {
     		lastName = user.getLastName(); 
     		email = user.getEmail(); 
     		role = user.getRole().getName();
-    		projects = user.getProjectsList();
+    		projects = user.getProjectsList(); 
     		
-    	
     	
     	return "editAccount";
     }

@@ -49,6 +49,7 @@ public class LoginAction extends SecureAction {
         		
         		if(user.isAdmin()) {
         			session.setAttribute("admin", "admin");
+        			System.out.println("     ADMIN ");
         			ret = "admin";
             	}
             	else ret = "loginSuccess";
@@ -64,6 +65,7 @@ public class LoginAction extends SecureAction {
         	addActionError("Login Failed.");
         	ret = "loginError";
         } 
+        System.out.println(ret);
         
         return ret;
         

@@ -18,10 +18,11 @@
     	
     	
     	<h2>Manage Account</h2>
-	 <s:hidden name="itemID"/>
+	 
     	 <div class = "content" >
     	<s:actionerror />
     	<s:form action="/updateAccount" id = "form"  method="post"> 
+        	<s:hidden name="itemID"/>
         	<s:textfield class="text" name="firstName" key="First Name" size="100%" />
         	<s:textfield class="text" name="lastName" key="Last Name" size="100%" />
         	<s:textfield class="text" name="email" key="E-Mail" size="100%" />
@@ -31,15 +32,7 @@
 	     					name="role"
 	     					list="rolesList"/>
 	     					
-		<s:select label="Bug Permission"
-	     					name="bugPer"
-	     					list="permissionsList"/>
-		<s:select label="Test Permission"
-	     					name="testPer"
-	     					list="permissionsList"/>
-		<s:select label="Area Permission"
-	     					name="areaPer"
-	     					list="permissionsList"/>
+		
 	     					
 	     					
 		<s:checkboxlist label="Project" list="projectsList" 
@@ -60,6 +53,16 @@
 
 
 <!--   
+			 		<s:select label="Bug Permission"
+	     					name="bugPer"
+	     					list="permissionsList"/>
+		<s:select label="Test Permission"
+	     					name="testPer"
+	     					list="permissionsList"/>
+		<s:select label="Area Permission"
+	     					name="areaPer"
+	     					list="permissionsList"/>
+			 		
 			 		<table style="width:100%">
 			    		<tr>
 			    			<th style="width:25%">Project</th>

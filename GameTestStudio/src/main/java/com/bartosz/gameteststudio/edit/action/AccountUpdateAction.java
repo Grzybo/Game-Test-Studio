@@ -9,6 +9,7 @@ import org.apache.struts2.convention.annotation.Result;
 import com.bartosz.gameteststudio.beans.ProjectBean;
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
+import com.bartosz.gameteststudio.exceptions.GSException;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "updateAccount", //
@@ -24,7 +25,8 @@ public class AccountUpdateAction  extends ActionSupport {
     private String lastName;
     private String email;
     private String password;
-    private String role;
+    private String role; 
+    private String itemID;
 
     private List<String> projects;
     private String searchEmail;
@@ -35,21 +37,20 @@ public class AccountUpdateAction  extends ActionSupport {
     
     
     @Override
-    public String execute() {
+    public String execute() throws NumberFormatException, GSException {
           
-    	UserBean user = DataProvider.mapUsers.get(email);
-    	DataProvider.mapUsers.remove(email);
-    	DataProvider.mapUsersId.remove(user.getId());
+    	UserBean user = DataProvider.getUserByID(Long.parseLong(itemID));
+    	UserBean newUser = new UserBean();
     	
-    	user.setFirstName(firstName);
-    	user.setLastName(lastName);
-    	user.setEmail(email);
-    	user.setRole(DataProvider.mapRoles.get(role));
-
-    	user.setProjectsList(projects);
+    	newUser.setFirstName(firstName);
+    	newUser.setLastName(lastName);
+    	newUser.setEmail(email);
+    	newUser.setRole(DataProvider.mapRoles.get(role));
+    	newUser.setProjectsList(projects);
+    	newUser.setId(user.getId());
+    	newUser.setPassword(user.getPassword());
     	
-    	DataProvider.mapUsers.put(email, user);
-    	DataProvider.mapUsersId.put(user.getId(), user.getEmail());
+    	DataProvider.updateUser(user, newUser);
 
     	return "editAccount";
     }
@@ -68,6 +69,14 @@ public class AccountUpdateAction  extends ActionSupport {
 
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
+	}
+
+	public String getItemID() {
+		return itemID;
+	}
+
+	public void setItemID(String itemID) {
+		this.itemID = itemID;
 	}
 
 	public String getLastName() {

@@ -10,11 +10,11 @@
     	
     	<h2>Manage Project</h2>
     	
-    <s:hidden name="itemID"/>
 		 <div class = "content">
 <s:hidden name="itemID"/>
 		<s:actionerror />
     	<s:form action="/updateProject" > 
+    	<s:hidden name="itemID"/>
         	<s:textfield class="text" name="title" key="Title" size="100%" />
         	<s:textarea class="text" name="description" key="Description" rows="4" cols="61" size="100%" />
         	<s:textfield class="text" name="startDate" key="Start Date"  type="date" size="100%"/>

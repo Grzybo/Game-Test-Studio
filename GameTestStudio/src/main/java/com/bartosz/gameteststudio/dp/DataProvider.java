@@ -23,7 +23,11 @@ import com.bartosz.gameteststudio.beans.TestBean;
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.beans.VersionBean;
 import com.bartosz.gameteststudio.exceptions.GSException;
+import com.bartosz.gameteststudio.repositories.PlatformRepository;
 import com.bartosz.gameteststudio.repositories.ProjectRepository;
+import com.bartosz.gameteststudio.repositories.RoleRepository;
+import com.bartosz.gameteststudio.repositories.StateRepository;
+import com.bartosz.gameteststudio.repositories.UserRepository;
 
 /**
  * klasa zarzadzajaca danymi
@@ -36,6 +40,9 @@ public class DataProvider {
 	
 	protected static final Logger log = Logger.getLogger(DataProvider.class.getName());
 	
+// ##################################################################################################################################################################################################
+// Permissions
+// ##################################################################################################################################################################################################
 	/**
 	 * Słownik uprawnień. 
 	 */
@@ -47,7 +54,9 @@ public class DataProvider {
 			put("Create", new PermissionBean("Create"));
 		}
 	}; 
-	
+// ##################################################################################################################################################################################################
+// Results
+// ##################################################################################################################################################################################################
 	
 	/**
 	 * Słownik wyników. 
@@ -60,6 +69,14 @@ public class DataProvider {
 			put("Blocked", new ResultBean("Blocked"));
 		}
 	}; 
+// ##################################################################################################################################################################################################
+// Roles
+// ##################################################################################################################################################################################################
+	
+	public static List<RoleBean> getAllRoles() {
+		List<RoleBean> lstResult = RoleRepository.findAll();
+		return lstResult;
+	}
 	
 	/**
 	 *  Słownik ról.
@@ -67,14 +84,22 @@ public class DataProvider {
 	public static  Map<String, RoleBean> mapRoles = new LinkedHashMap<>() {
 		private static final long serialVersionUID = 1L;
 		{
+			for(RoleBean rb : getAllRoles()) {
+				put(rb.getName(), rb);
+			}			
+			/**
 			put("Tester", new RoleBean("Tester"));
 			put("Developer", new RoleBean("Developer"));
 			put("Tester Manager", new RoleBean("Tester Manager"));
 			put("Developer Manager", new RoleBean("Developer Manager"));
             put("Administrator", new RoleBean("Administrator")); 
+			 * 
+			 */
 		}
 	}; 
-	
+// ##################################################################################################################################################################################################
+// Build
+// ##################################################################################################################################################################################################
 	/**
 	 * Słownik typu wersji (Build type).
 	 */
@@ -88,11 +113,22 @@ public class DataProvider {
 		}
 	};
 	
+// ##################################################################################################################################################################################################
+// Platforms 
+// ##################################################################################################################################################################################################	
 	
+	public static List<PlatformBean> getAllPlatforms() {
+		List<PlatformBean> lstResult = PlatformRepository.findAll();
+		return lstResult;
+	}
 	
 	public static Map<String, PlatformBean> mapPlatforms = new LinkedHashMap<>() {
 		private static final long serialVersionUID = 1L;
 		{
+			for(PlatformBean pb : getAllPlatforms()) {
+				put(pb.getName(), pb);
+			}
+			/**
 			put("PlayStation 4", new PlatformBean("PlayStation 4"));
 			put("PlayStation 5", new PlatformBean("PlayStation 5"));
 			put("Xbox One", new PlatformBean("Xbox One"));
@@ -100,10 +136,24 @@ public class DataProvider {
 			put("Xbox Series S", new PlatformBean("Xbox Series S"));
 			put("Xbox Series X", new PlatformBean("Xbox Series X"));
 			put("PC", new PlatformBean("PC"));
+			 * 
+			 */
 		}
 	}; 
 	
-	//##############################################################################################################
+	public static PlatformBean getPlatformByTitle(String title) throws GSException {
+		if (title != null ) {
+			PlatformBean db = PlatformRepository.findByName(title); 
+			return db;
+		} else
+			log.error(" Project id is null."); 
+		
+		throw new GSException("Project id is null or out of range.");
+	}
+	
+// ##################################################################################################################################################################################################
+// Proejct 
+// ##################################################################################################################################################################################################
 	
 	//TODO przepisanie do innych 
 	
@@ -117,7 +167,7 @@ public class DataProvider {
 			log.error("Project is null.");
 	} 
 	
-	public static void update(ProjectBean oldProject, ProjectBean newProject) {
+	public static void updateProject(ProjectBean oldProject, ProjectBean newProject) {
 		if (oldProject != null && newProject != null) {
 			mapProjectsId.replace(oldProject.getId(), oldProject.getTitle(), newProject.getTitle());
 			mapProjects.remove(oldProject.getTitle());
@@ -127,25 +177,35 @@ public class DataProvider {
 			log.error("Project is null.");
 	}
 	
-	public ProjectBean getProject(Long id) throws GSException {
+	public static ProjectBean getProjectByID(Long id) throws GSException {
 		if (id != null && id.intValue() > 0) {
-			ProjectDbTest db = ProjectRepository.findById(id); 
+			ProjectBean db = ProjectRepository.findById(id); 
 		//	ProjectBean bean = new ProjectBean(db.getTitle(), db.getDescription(), db.getEstimatedTime(), db.getWorkTime(), 
 			//									db.getStartDate(), db.getEndDate(), db.getTestersNumber()); 
-			//return bean;
+			return db;
 		} else
 			log.error(" Project id is null or out of range."); 
 		
 		throw new GSException("Project id is null or out of range.");
+	} 
+	
+	public static ProjectBean getProjectByTitle(String title) throws GSException {
+		if (title != null ) {
+			ProjectBean db = ProjectRepository.findByTitle(title); 
+			return db;
+		} else
+			log.error(" Project id is null."); 
+		
+		throw new GSException("Project id is null or out of range.");
 	}
 	
-	public List<ProjectBean> getAllProjects() {
-		List<ProjectBean> lstResult = new ArrayList<>();
-		List<ProjectDbTest> dblist = ProjectRepository.findAllProjects();
-		for(ProjectDbTest db : dblist) {
+	public static List<ProjectBean> getAllProjects() {
+		List<ProjectBean> lstResult = ProjectRepository.findAll();
+		//List<ProjectDbTest> dblist = ProjectRepository.findAllProjects();
+		//for(ProjectDbTest db : dblist) {
 		//	lstResult.add(new ProjectBean(db.getTitle(), db.getDescription(), db.getEstimatedTime(), db.getWorkTime(), 
 			//				db.getStartDate(), db.getEndDate(), db.getTestersNumber()));
-		}
+		//}
 		return lstResult;
 	}
 	
@@ -158,15 +218,21 @@ public class DataProvider {
 		public static  Map<String, ProjectBean> mapProjects = new LinkedHashMap<>() {
 			private static final long serialVersionUID = 1L;
 			{
-				put("FIFA 22", new ProjectBean("FIFA 22", "New features in FIFA 22...", 500, 0, "2021-10-01", null, 10 , getStates().get("New"), (long)1, 
+				for(ProjectBean pb : getAllProjects()) {
+					put(pb.getTitle(), pb);
+				}
+				/**
+				 * 
+				put("FIFA 22", new ProjectBean("FIFA 22", "New features in FIFA 22...", 500, 0, "2021-10-01", null, 10 , getStates().get("New"), (long)10, 
 						Arrays.asList(mapPlatforms.get("PlayStation 4"), mapPlatforms.get("PlayStation 5"),
 								mapPlatforms.get("Xbox Series S"), mapPlatforms.get("Xbox Series X")))) ;
 				put("FIFA 21", new ProjectBean("FIFA 21", "New features in FIFA 21...", 700, 900, "2020-01-01", "2020-10-11", 50 , getStates().get("Closed"), 
-						(long)2,Arrays.asList(mapPlatforms.get("PlayStation 4"), mapPlatforms.get("PlayStation 5"),
+						(long)20,Arrays.asList(mapPlatforms.get("PlayStation 4"), mapPlatforms.get("PlayStation 5"),
 						mapPlatforms.get("Xbox Series S"), mapPlatforms.get("Xbox Series X"))));
 				put("NBA2K 22", new ProjectBean("NBA2K 22", "New features in NBA2K 22...", 600, 45, "2021-10-01", null, 100 , getStates().get("Active"), 
-						(long)3,Arrays.asList(mapPlatforms.get("PlayStation 4"), mapPlatforms.get("PlayStation 5"),
+						(long)30,Arrays.asList(mapPlatforms.get("PlayStation 4"), mapPlatforms.get("PlayStation 5"),
 						mapPlatforms.get("Xbox Series S"), mapPlatforms.get("Xbox Series X"))));
+				 */
 			}
 		}; 
 		
@@ -176,9 +242,9 @@ public class DataProvider {
 		public static  Map<Long, String> mapProjectsId = new LinkedHashMap<>() {
 			private static final long serialVersionUID = 1L;
 			{
-				put((long)1, "FIFA 22");
-				put((long)2, "FIFA 21");
-				put((long)3, "NBA2K 22");
+				for(ProjectBean pb : getAllProjects()) {
+					put(pb.getId(), pb.getTitle());
+				}
 			} 
 		};
 		
@@ -187,11 +253,14 @@ public class DataProvider {
 		 * @param id
 		 * @return
 		 */
-		public static ProjectBean getProjectById(int id) {
-			return mapProjects.get(mapProjectsId.get((long)id));
-		} 
+		//public static ProjectBean getProjectById(int id) {
+		//	return mapProjects.get(mapProjectsId.get((long)id));
+		//} 
+		
 		// (long)DataProvider.mapProjectsId.keySet().size() + 1 
-	
+// ##################################################################################################################################################################################################
+// Priorities 
+// ##################################################################################################################################################################################################
 	/**
 	 * Pobiera słowink priorytetów. (PriorityBean)
 	 * @return
@@ -203,20 +272,46 @@ public class DataProvider {
 		mapPriorities.put("Very Important",  new PriorityBean("Very Important")); 
 		return mapPriorities;
 	}  
-	//#######################################################################################################
+// ##################################################################################################################################################################################################
+// State
+// ##################################################################################################################################################################################################
+	public static List<StateBean> getAllStates() {
+		List<StateBean> lstResult = StateRepository.findAllStates();
+		return lstResult;
+	}
+	
+	
 	/**
 	 * Pobiera słowink stanów. (StateBean)
 	 * @return
 	 */
+	public static Map<String, StateBean> mapStates = new LinkedHashMap<>() {
+		{
+			for(StateBean sb : getAllStates()) {
+				put(sb.getName(), sb);
+			}
+		}
+		
+	};
+	
+	
 	public static Map<String, StateBean> getStates(){
-		Map<String, StateBean> mapStates = new LinkedHashMap<>();
+		/**
 		mapStates.put("New", new StateBean("New"));
 		mapStates.put("Active", new StateBean("Active"));
 		mapStates.put("Closed", new StateBean("Closed"));
 		mapStates.put("Blocked", new StateBean("Blocked"));
+		 * 
+		 */
+		Map<String, StateBean> mapStates = new LinkedHashMap<>();
+		for(StateBean sb : getAllStates()) {
+			mapStates.put(sb.getName(), sb);
+		}
 		return mapStates;
 	} 
-	//#######################################################################################################
+// ##################################################################################################################################################################################################
+// Area
+// ##################################################################################################################################################################################################
 	/**
 	 * Słowink obszarów. (klasa AreaBean)
 	 * @return
@@ -267,57 +362,119 @@ public class DataProvider {
 	public static AreaBean getAreaById(int id) {
 		return mapAreas.get(mapAreasId.get((long)id));
 	} 
-	// ####################################################################################################################
+// ##################################################################################################################################################################################################
+// User 
+// ##################################################################################################################################################################################################
 	
-			/**
-			 * Słownik użytkowników.
-			 */
-			public static  Map<String, UserBean> mapUsers = new LinkedHashMap<>() {
-				private static final long serialVersionUID = 1L;
-				{			
-					put("admin@admin.com", new UserBean((long)1, "Admin", "Administrator", "admin@admin.com", 
-							"admin", mapRoles.get("Administrator"), null, 
-							mapPermissions.get("Create"), mapPermissions.get("Create") ,mapPermissions.get("Create")));
-					put("hp@griffindor.uk", new UserBean((long)2, "Harry", "Potter", "hp@griffindor.uk",
-							"hogwart", mapRoles.get("Developer"), Arrays.asList(mapProjects.get("FIFA 22")), mapPermissions.get("Create"), 
-							mapPermissions.get("Create") ,mapPermissions.get("Create")));
-					put("donald@disney.com", new UserBean((long)3, "Donald", "Duck", "donald@disney.com", 
-							"disney123", mapRoles.get("Tester"), Arrays.asList(mapProjects.get("NBA2K 22"), mapProjects.get("FIFA 22")), 
-							mapPermissions.get("Create"), mapPermissions.get("Create") ,mapPermissions.get("Create"))); 
-					put("ryszard.ochodzki@mis.pl", new UserBean((long)4, "Ryszard", "Ochodzki", 
-							"ryszard.ochodzki@mis.pl", "mis123", mapRoles.get("Tester"), Arrays.asList(mapProjects.get("NBA2K 22")), 
-							mapPermissions.get("Create"), mapPermissions.get("Create") ,mapPermissions.get("Create")));
-					put("mickey@disney.com", new UserBean((long)5, "Mickey", "Mouse", "mickey@disney.com", 
-							"disney456", mapRoles.get("Tester"), Arrays.asList(mapProjects.get("FIFA 21")), 
-							mapPermissions.get("Create"), mapPermissions.get("Create") ,mapPermissions.get("Create")));
-					put("minnie@disney.com", new UserBean((long)6, "Minnie", "Mouse", "minnie@disney.com", 
-							"pluto", mapRoles.get("Tester Manager"), Arrays.asList(mapProjects.get("FIFA 21")), 
-							mapPermissions.get("Create"), mapPermissions.get("Create") ,mapPermissions.get("Create")));
+		public static List<UserBean> getAllUsers() {
+			List<UserBean> lstResult = UserRepository.findAll();
+			return lstResult;
+		}
+
+		public static UserBean getUserByID(Long id) throws GSException {
+			if (id != null && id.intValue() > 0) {
+				UserBean db = UserRepository.findById(id); 
+				return db;
+			} else
+				log.error(" User id is null or out of range."); 
+			throw new GSException("Project id is null or out of range.");
+		} 
+		
+		public static UserBean getUserByTitle(String title) throws GSException {
+			if (title != null ) {
+				UserBean db = UserRepository.findByEmail(title); 
+				return db;
+			} else
+				log.error(" User id is null."); 
+			
+			throw new GSException("User is null.");
+		}
+		
+		public static void saveUser(UserBean user) {
+			if (user != null) {
+				UserRepository.save(user);
+				mapUsers.put(user.getEmail(), user);
+				mapUsersId.put(user.getId(), user.getEmail());
+			} else
+				log.error("User is null.");
+		} 
+		
+		public static void updateUser(UserBean old, UserBean newUser) {
+			if (old != null && newUser != null) {
+				mapUsersId.replace(old.getId(), old.getEmail(), newUser.getEmail());
+				mapUsers.remove(old.getEmail());
+				UserRepository.update(old, newUser);
+				mapUsers.put(newUser.getEmail(), newUser);
+			} else
+				log.error("User is null.");
+		}
+		
+		/**
+		 * Słownik użytkowników.
+		 */
+		public static  Map<String, UserBean> mapUsers = new LinkedHashMap<>() {
+			private static final long serialVersionUID = 1L;
+			{			
+				
+				for(UserBean sb : getAllUsers()) {
+					put(sb.getEmail(), sb);
 				}
-			};//TODO klucz : ID 
-			
-			
-			public static  Map<Long, String> mapUsersId = new LinkedHashMap<>() {
-				private static final long serialVersionUID = 1L;
-				{
-					put((long)1, "admin@admin.com");
-					put((long)2, "hp@griffindor.uk");
-					put((long)3, "donald@disney.com");
-					put((long)4, "ryszard.ochodzki@mis.pl");
-					put((long)5, "mickey@disney.com");
-					put((long)6, "minnie@disney.com");
-				} 
-			};
-			/**
-			 * Metoda zwracająca użytkownika po id.  
-			 * @param id
-			 * @return
-			 */
-			public static UserBean getUserById(int id) {
-				return mapUsers.get(mapUsersId.get((long)id));
+				
+				/**
+				put("admin@admin.com", new UserBean((long)1, "Admin", "Administrator", "admin@admin.com", 
+						"admin", mapRoles.get("Administrator"), null, 
+						mapPermissions.get("Create"), mapPermissions.get("Create") ,mapPermissions.get("Create")));
+				put("hp@griffindor.uk", new UserBean((long)2, "Harry", "Potter", "hp@griffindor.uk",
+						"hogwart", mapRoles.get("Developer"), Arrays.asList(mapProjects.get("FIFA 22")), mapPermissions.get("Create"), 
+						mapPermissions.get("Create") ,mapPermissions.get("Create")));
+				put("donald@disney.com", new UserBean((long)3, "Donald", "Duck", "donald@disney.com", 
+						"disney123", mapRoles.get("Tester"), Arrays.asList(mapProjects.get("NBA2K 22"), mapProjects.get("FIFA 22")), 
+						mapPermissions.get("Create"), mapPermissions.get("Create") ,mapPermissions.get("Create"))); 
+				put("ryszard.ochodzki@mis.pl", new UserBean((long)4, "Ryszard", "Ochodzki", 
+						"ryszard.ochodzki@mis.pl", "mis123", mapRoles.get("Tester"), Arrays.asList(mapProjects.get("NBA2K 22")), 
+						mapPermissions.get("Create"), mapPermissions.get("Create") ,mapPermissions.get("Create")));
+				put("mickey@disney.com", new UserBean((long)5, "Mickey", "Mouse", "mickey@disney.com", 
+						"disney456", mapRoles.get("Tester"), Arrays.asList(mapProjects.get("FIFA 21")), 
+						mapPermissions.get("Create"), mapPermissions.get("Create") ,mapPermissions.get("Create")));
+				put("minnie@disney.com", new UserBean((long)6, "Minnie", "Mouse", "minnie@disney.com", 
+						"pluto", mapRoles.get("Tester Manager"), Arrays.asList(mapProjects.get("FIFA 21")), 
+						mapPermissions.get("Create"), mapPermissions.get("Create") ,mapPermissions.get("Create")));
+				 * 
+				 */
+				
 			}
+		};//TODO klucz : ID 
+		
+		
+		public static  Map<Long, String> mapUsersId = new LinkedHashMap<>() {
+			private static final long serialVersionUID = 1L;
+			{
+				for(UserBean ub : getAllUsers()) {
+					put(ub.getId(), ub.getEmail());
+				}
+				/**
+				 * 
+				put((long)1, "admin@admin.com");
+				put((long)2, "hp@griffindor.uk");
+				put((long)3, "donald@disney.com");
+				put((long)4, "ryszard.ochodzki@mis.pl");
+				put((long)5, "mickey@disney.com");
+				put((long)6, "minnie@disney.com");
+				 */
+			} 
+		};
+		/**
+		 * Metoda zwracająca użytkownika po id.  
+		 * @param id
+		 * @return
+		 */
+		public static UserBean getUserById(int id) {
+			return mapUsers.get(mapUsersId.get((long)id));
+		}
 	
-	//############################################################################################################## 
+// ##################################################################################################################################################################################################
+// Test
+// ##################################################################################################################################################################################################
 	
 		public static  Map<String, TestBean> mapTests = new LinkedHashMap<>() {
 			private static final long serialVersionUID = 1L;
@@ -409,7 +566,9 @@ public class DataProvider {
 	
 	
 	
-	//##############################################################################################################
+// ##################################################################################################################################################################################################
+// Bug 
+// ##################################################################################################################################################################################################
 	public static Map<String, BugBean> mapBugs = new LinkedHashMap<>() {
 
 		private static final long serialVersionUID = 1L;
@@ -540,16 +699,4 @@ public class DataProvider {
 	} 
 	
 	// bug.setId((long)DataProvider.mapBugsId.keySet().size() + 1);
-	
-	
-	//##############################################################################################################
-
-	
-	
-	
-	
-	
-	
-	
-	
 }

@@ -3,17 +3,26 @@ package com.bartosz.gameteststudio.create.action;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
 
+import javax.mail.Message;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 import org.passay.CharacterRule;
 import org.passay.EnglishCharacterData;
 import org.passay.PasswordGenerator;
 
-import com.bartosz.gameteststudio.beans.ProjectBean;
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
-import com.bartosz.gameteststudio.repositories.ProjectRepository;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "createAccount", //
@@ -36,15 +45,15 @@ public class AccountCreateAction  extends ActionSupport {
     private String areaPer;
     
     private List<String> rolesList = new ArrayList<String>(DataProvider.mapRoles.keySet());
-    private List<String>  projectsList = new ArrayList<String>(DataProvider.mapProjects.keySet());
+    private List<String> projectsList = new ArrayList<String>(DataProvider.mapProjects.keySet());
     private List<String> permissionsList = new ArrayList<String>(DataProvider.mapPermissions.keySet());
     
-   // private String from = "gameteststudiomail@gmail.com";
-    //private String emailPassword = "Pa$$word1!"; 
-   //private String body;
-    //private String role;
+    private String from = "gameteststudiomail@gmail.com";
+    private String emailPassword = "Pa$$word1!"; 
+    private String body;
+
 	
-    /*
+    
 	static Properties properties = new Properties();
     static {
 	       properties.put("mail.smtp.host", "smtp.gmail.com");
@@ -53,56 +62,39 @@ public class AccountCreateAction  extends ActionSupport {
 	       properties.put("mail.smtp.auth", "true");
 	       properties.put("mail.smtp.port", "465");
     }
-    */
+    
     @Override
     public String execute() {
           
     	
     	if(this.firstName != null && this.lastName != null && this.email != null ) {
-    		
-    		/*
-    		 * HttpServletRequest request = ServletActionContext.getRequest();
-            HttpSession session = request.getSession(); 
-            
-            this.password = generateRandomPassword();
-            session.setAttribute("generatedPassword", this.password);
-            
-            body = "Hello " + this.firstName + " " + this.lastName + 
-        			", your password to Game Test Studio is: " + this.password + " \nYour Role is: " + this.role; 
-            
-            SendMail();
-            */ 
-    		
-    		UserBean user = new UserBean(); 
-				
-    		user.setId((long)DataProvider.mapUsersId.keySet().size() + 1); 
-			user.setFirstName(firstName);
-			user.setLastName(lastName);
-			user.setEmail(email); 
-			user.setRole(DataProvider.mapRoles.get(role)); 
-			user.setProjectsList(projects);
+    		if(!DataProvider.mapUsers.keySet().contains(email)) {
+    			HttpServletRequest request = ServletActionContext.getRequest();
+                HttpSession session = request.getSession(); 
+                
+                this.password = generateRandomPassword();
+                session.setAttribute("generatedPassword", this.password);
+                
+                body = "Hello " + this.firstName + " " + this.lastName + 
+            			", your password to Game Test Studio is: " + this.password + " \nYour Role is: " + this.role; 
+                
+                SendMail();
 
-			
-    		DataProvider.mapUsers.put(user.getEmail(), user);
-    		DataProvider.mapUsersId.put(user.getId(), user.getEmail());
-    		
-    		
-    		
-    		
-    		addActionError("Account created.");
-    		
-            return "account_create";
+        		UserBean user = new UserBean(firstName, lastName, email, password, DataProvider.mapRoles.get(role), projects); 
+        		DataProvider.saveUser(user);
+
+        		addActionError("Account created.");
+        		
+                return "account_create";
+    		}
+    		addActionError("Acccount with this email already exists.");
+    		return "account_create"; 
     	}
     	else {
-    		/*
-    		HttpServletRequest request = ServletActionContext.getRequest();
-            HttpSession session = request.getSession(); 
-            
-            session.setAttribute("generatedPassword", null); 
-           */
+    	
     		addActionError("Fill all fields.");
     		
-            return "account_create";
+            return "account_create"; 
     	}
     	 
     }
@@ -119,7 +111,7 @@ public class AccountCreateAction  extends ActionSupport {
 		return generator.generatePassword(8, rules);
 	} 
     
-    /*
+    
     public void SendMail() {
     	
     	String ret = SUCCESS; 
@@ -145,7 +137,7 @@ public class AccountCreateAction  extends ActionSupport {
         }
         System.out.print(ret);
     } 
-    */ 
+    
     
     
     

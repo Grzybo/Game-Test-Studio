@@ -3,6 +3,7 @@ package com.bartosz.gameteststudio.beans;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.bartosz.gameteststudio.dp.DataProvider;
+import com.bartosz.gameteststudio.exceptions.GSException;
 
 @Entity
 @Table(name = "PROJECTS")
@@ -46,14 +48,14 @@ public class ProjectBean {
 	@Column(name = "testers_number")
 	private int testersNumber;
 	
-	@ManyToOne
-	@JoinColumn(name="fk_dic_states_id", nullable = false) //  fk_dic_states_id BIGINT NOT NULL REFERENCES dic_states(id) ON DELETE CASCADE
+	@ManyToOne (cascade = CascadeType.ALL) // dodalem to bo byl bląd przy update Projektu 
+	@JoinColumn(name="fk_dic_states_id", nullable = false ) //  fk_dic_states_id BIGINT NOT NULL REFERENCES dic_states(id) ON DELETE CASCADE
 	private StateBean state;
 	
-	@ManyToMany (mappedBy = "projects") //(cascade = { CascadeType.ALL })
+	@ManyToMany (mappedBy = "projects", cascade = CascadeType.ALL) //(cascade = { CascadeType.ALL })
 	private List<UserBean> users; 
 	
-	@ManyToMany (mappedBy = "projects")
+	@ManyToMany (mappedBy = "projects", cascade = CascadeType.ALL)
 	private List<PlatformBean> platforms; // 
 	
 	public ProjectBean() {}
@@ -106,13 +108,13 @@ public class ProjectBean {
 		return list;
 	}
 
-	public void setPlatforms(List<String> list) {
+	public void setPlatforms(List<String> list) throws GSException {
 		List<PlatformBean> platforms = new ArrayList<PlatformBean>();
 		for(String str : list) {
-			platforms.add(DataProvider.mapPlatforms.get(str));
+			platforms.add(DataProvider.getPlatformByTitle(str));
 		}
 		this.platforms = platforms;
-	}
+	} 
 	
 	
 	public Long getId() {

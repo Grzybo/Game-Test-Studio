@@ -55,16 +55,14 @@ public class UserBean {
 	//private PermissionBean testPremission;
 	
 	
-	public UserBean(Long id, String firstName, String lastName, String email, 
-			String password, RoleBean role, List<ProjectBean> projects, 
-			PermissionBean bugPremission, PermissionBean testPremission, PermissionBean areaPremission) {
-		this.id = id;
+	public UserBean(String firstName, String lastName, String email, 
+			String password, RoleBean role, List<String> projects) {
 		this.firstName = firstName; 
 		this.lastName = lastName; 
 		this.email = email; 
 		this.password = password;
 		this.role = role;
-		this.projects = projects; 
+		setProjectsList(projects);
 		
 	}
 	
@@ -89,7 +87,7 @@ public class UserBean {
 	
 	public boolean isAdmin() 
 	{
-		if(this.role.getName() == "Administrator") return true;
+		if(this.role.getName().equals("Administrator")) return true;
 		else return false;
 	} 
 	
@@ -114,11 +112,15 @@ public class UserBean {
 		return id;
 	}
 
-	
-
-	
-
-
+	public void setAllFields(UserBean user) {
+		this.id = user.id;
+		this.firstName = user.firstName; 
+		this.lastName = user.lastName; 
+		this.email = user.email; 
+		this.password = user.password;
+		this.role = user.role;
+		this.projects = user.projects; 
+	}
 
 	public void setId(Long id) {
 		this.id = id;

@@ -10,6 +10,7 @@ import com.bartosz.gameteststudio.beans.PlatformBean;
 import com.bartosz.gameteststudio.beans.ProjectBean;
 import com.bartosz.gameteststudio.beans.StateBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
+import com.bartosz.gameteststudio.exceptions.GSException;
 import com.bartosz.gameteststudio.repositories.PlatformRepository;
 import com.bartosz.gameteststudio.repositories.StateRepository;
 import com.opensymphony.xwork2.ActionSupport;
@@ -23,7 +24,6 @@ public class ProjectEditAction  extends ActionSupport {
   
     private static final long serialVersionUID = 1L;
  
-    private String searchTitle;
     private String itemID;
     private String title; 
     private String description; 
@@ -33,38 +33,33 @@ public class ProjectEditAction  extends ActionSupport {
     private String startDate;
     private String endDate;
     private String state;
-    private List<String> platformList= new ArrayList<String>(); // = new ArrayList<String>(DataProvider.mapPlatforms.keySet()); 
+    private List<String> platformList = new ArrayList<String>(DataProvider.mapPlatforms.keySet()); 
     private List<String> selectedPlatforms = new ArrayList<String>();
-    private List<String> stateList = new ArrayList<String>(); // = new ArrayList<String>(DataProvider.getStates().keySet());
+    private List<String> stateList = new ArrayList<String>(DataProvider.mapStates.keySet());
   
 
 	@Override
     public String execute() {
-        
-		List<StateBean> stateObjList = StateRepository.findAllStates();
-		List<PlatformBean> platformObjList = PlatformRepository.findAllProjects();
-		
-		for(PlatformBean p : platformObjList) { platformList.add(p.getName()); } 
-		for(StateBean p : stateObjList) { 
-			stateList.add(p.getName());
+        	
+		try {
+			
+			ProjectBean project = DataProvider.getProjectByID(Long.parseLong(itemID)); 
+			
+			title = project.getTitle(); 
+			description = project.getDescription();
+		    testers_numbers = project.getTestersNumber();
+		    estimate_time = project.getEstimatedTime(); 
+		    //selectedPlatforms = project.getPlatformsStringList();
+		    work_time = project.getWorkTime(); 
+		    startDate = project.getStartDate();
+		    endDate = project.getEndDate();
+			state = project.getState().getName();
 		}
-	
-		ProjectBean project = DataProvider.getProjectById(Integer.parseInt(itemID)); 
-		title = project.getTitle(); 
-		description = project.getDescription();
-	    testers_numbers = project.getTestersNumber();
-	    estimate_time = project.getEstimatedTime();
-	    work_time = project.getEstimatedTime(); 
-	    startDate = project.getStartDate();
-	    endDate = project.getEndDate();
-		state = project.getState().getName();
-    	
+		catch(GSException e){}
+		
     	return "editProject";
     }
 
-	public String getSearchTitle() {
-		return searchTitle;
-	}
 	  public List<String> getSelectedPlatforms() {
 			return selectedPlatforms;
 		}
@@ -118,10 +113,6 @@ public class ProjectEditAction  extends ActionSupport {
 
 	public void setItemID(String itemID) {
 		this.itemID = itemID;
-	}
-
-	public void setSearchTitle(String searchTitle) {
-		this.searchTitle = searchTitle;
 	}
 
 	public String getTitle() {

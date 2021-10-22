@@ -2,6 +2,7 @@ package com.bartosz.gameteststudio.beans;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -26,7 +27,7 @@ public class PlatformBean {
 	@Column(name = "name", nullable = false)
 	private String name; 
 	
-	@ManyToMany (fetch = FetchType.EAGER) //(cascade = { CascadeType.ALL })
+	@ManyToMany  (cascade = { CascadeType.ALL }) // (fetch = FetchType.EAGER)
     @JoinTable(
         name = "PROJECT_DIC_PLATFORMS", 
         joinColumns = { @JoinColumn(name = "FK_PLATFORMS_ID") }, 

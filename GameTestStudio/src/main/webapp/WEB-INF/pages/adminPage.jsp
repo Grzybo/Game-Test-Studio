@@ -21,7 +21,7 @@
 					<div class = "projectContent">
 						<display:table name="projectObjList" decorator="com.bartosz.decorators.ProjectDecorator" id="projectsTable"
 										sort="list" requestURI="#projectsTable">
-							<display:column property="id" title="ID" />
+							<display:column property="id" title="ID" sortable="true"/>
 						  	<display:column property="titleLink" sortable="true"/>
 						  	<display:column property="state.name" title="State" sortable="true"/>
 						  	<display:column property="estimatedTime" title="Estimated Time [h]"  sortable="true"/>

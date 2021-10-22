@@ -69,7 +69,7 @@ public class TestUpdateAction  extends ActionSupport {
 				areaList.add(el);
 			}
 		}
-    	
+    	System.out.println("  ID:  " + itemID + "   ");
     	TestBean test = DataProvider.getTestById(Integer.parseInt(itemID));
     	platformList = test.getArea().getProject().getPlatformsStringList(); 
     	DataProvider.mapTests.remove(test.getTitle());

@@ -4,11 +4,8 @@ package com.bartosz.gameteststudio.create.action;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
-import com.bartosz.gameteststudio.action.SecureAction;
 import com.bartosz.gameteststudio.beans.ProjectBean;
-import com.bartosz.gameteststudio.beans.ProjectDbTest;
 import com.bartosz.gameteststudio.dp.DataProvider;
-import com.bartosz.gameteststudio.repositories.ProjectRepository;
 import com.bartosz.gameteststudio.repositories.StateRepository;
 import com.opensymphony.xwork2.ActionSupport;
  

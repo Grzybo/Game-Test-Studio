@@ -28,6 +28,5 @@ com\bartosz\decorators\TestDecorator.class
 com\bartosz\gameteststudio\edit\action\AreaEditAction.class
 com\bartosz\gameteststudio\create\action\PlatformCreateAction.class
 com\bartosz\gameteststudio\edit\action\AccountUpdateAction.class
-com\bartosz\gameteststudio\edit\action\ProjectEditAction.class
 com\bartosz\gameteststudio\dictionary\ProjectsDictionary.class
 com\bartosz\gameteststudio\edit\action\TestEditAction.class

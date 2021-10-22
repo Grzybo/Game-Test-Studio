@@ -6,8 +6,11 @@ import java.util.List;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
+import com.bartosz.gameteststudio.beans.PlatformBean;
 import com.bartosz.gameteststudio.beans.ProjectBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
+import com.bartosz.gameteststudio.exceptions.GSException;
+import com.bartosz.gameteststudio.repositories.StateRepository;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "updateProject", //
@@ -37,34 +40,38 @@ public class ProjectUpdateAction  extends ActionSupport {
     public String execute() {
           
     	
+		try {
+			if (title != null) {
+	    		
+				
+	    		ProjectBean project = DataProvider.getProjectByID(Long.parseLong(itemID));
+	    		ProjectBean newProject = new ProjectBean(); 
+	    		
+	    		newProject.setTitle(title);
+	    		newProject.setDescription(description);
+	    		newProject.setTestersNumber(testers_numbers);
+	    		newProject.setEstimatedTime(estimate_time);
+	    		newProject.setWorkTime(work_time); 
+	    		newProject.setStartDate(startDate);
+	    		newProject.setEndDate(endDate);
+	    		newProject.setPlatforms(selectedPlatforms);
+	    		newProject.setState(StateRepository.findByName(state));     // DataProvider.getStates().get(state));
+	    		newProject.setId(project.getId());
+	        	
+	        	DataProvider.updateProject(project, newProject);
+	        	
+	        	addActionError("Project Updated.");
+				
+			}
+			else {
+	    		addActionError("Title cannot be empty.");
+	    	}
+		}
+			catch(GSException e){		}
     	
     	
-    	if (title != null) {
-    		
-    		ProjectBean project = DataProvider.getProjectById(Integer.parseInt(itemID));
-    		
-    		DataProvider.mapProjects.remove(project.getTitle());
-    		DataProvider.mapProjectsId.remove(Long.parseLong(itemID));
-    		
-        	project.setTitle(title);
-        	project.setDescription(description);
-        	project.setTestersNumber(testers_numbers);
-        	project.setEstimatedTime(estimate_time);
-        	project.setWorkTime(work_time); 
-        	project.setStartDate(startDate);
-        	project.setEndDate(endDate);
-        	project.setPlatforms(selectedPlatforms);
-        	project.setState(DataProvider.getStates().get(state));
-        	project.setId(project.getId());
-        	
-        	DataProvider.mapProjects.put(project.getTitle(), project);
-        	DataProvider.mapProjectsId.put(Long.parseLong(itemID), project.getTitle());
-        	
-        	addActionError("Project Updated.");
-    	}
-    	else {
-    		addActionError("Title cannot be empty.");
-    	}
+    	
+    	
     	
     	return "updateProject";
     }

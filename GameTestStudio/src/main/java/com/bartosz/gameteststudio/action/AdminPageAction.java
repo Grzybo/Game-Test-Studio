@@ -33,7 +33,7 @@ public class AdminPageAction  extends ActionSupport {
     
     private List<ProjectBean> projectObjList;
     private List<ProjectDbTest> projectsDbList;  //= ProjectRepository.findAllProjects();
-    private List<UserBean> userObjList;
+    private List<UserBean> userObjList = new ArrayList<UserBean>(DataProvider.getAllUsers());
     private String sort;
     
     
@@ -42,14 +42,12 @@ public class AdminPageAction  extends ActionSupport {
           	
     	HttpServletRequest request = ServletActionContext.getRequest();
         HttpSession session = request.getSession();
-        
-        System.out.print(" ADMIN ");
     	
-    	projectObjList = new ArrayList<ProjectBean>(); 
-    	userObjList = new ArrayList<UserBean>(); 
+    	projectObjList = DataProvider.getAllProjects(); //= new ArrayList<ProjectBean>(); 
+    	//userObjList = new ArrayList<UserBean>(); 
     	
-    	  for (String el : DataProvider.mapProjects.keySet()) projectObjList.add(DataProvider.mapProjects.get(el));
-    	  for (String el : DataProvider.mapUsers.keySet()) userObjList.add(DataProvider.mapUsers.get(el));
+    	  //for (String el : DataProvider.mapProjects.keySet()) projectObjList.add(DataProvider.mapProjects.get(el));
+    	  //for (String el : DataProvider.mapUsers.keySet()) userObjList.add(DataProvider.mapUsers.get(el));
 
     	  if(sort != null) {
  			 sortDsc(sort);			
