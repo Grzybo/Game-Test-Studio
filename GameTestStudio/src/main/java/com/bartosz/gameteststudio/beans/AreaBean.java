@@ -1,17 +1,55 @@
 package com.bartosz.gameteststudio.beans;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "AREAS")
 public class AreaBean {
-	
+
+	@Id
+	@GeneratedValue (strategy = GenerationType.IDENTITY)
+	@Column(name = "id", unique = true)
 	private Long id;
+	
+	@Column(name = "title", nullable = false)
 	private String title;
-	private String description; 
-	private ProjectBean project; 
+	
+	@Column(name = "description", nullable = false)
+	private String description;
+	
+	@ManyToOne (cascade = CascadeType.ALL) 
+	@JoinColumn(name="fk_projects_id", nullable = false )
+	private ProjectBean project;
+	
+	@Column(name = "estimated_time")
 	private Integer estimatedTime; 
+	
+	@Column(name = "start_date")
 	private String startDate;
+	
+	@Column(name = "end_date")
 	private String endDate;
+	
+	@Column(name = "testers_number")
 	private Integer testersNumber;
+	
+	@Column(name = "work_time")
 	private Integer workTime;
+	
+	@ManyToOne (cascade = CascadeType.ALL) // dodalem to bo byl bląd przy update Projektu 
+	@JoinColumn(name="fk_dic_states_id", nullable = false ) //  fk_dic_s
 	private StateBean state; 
+	
+	@ManyToOne (cascade = CascadeType.ALL) 
+	@JoinColumn(name="fk_dic_priorities_id", nullable = false ) 
 	private PriorityBean priority;
 	
 	
@@ -41,6 +79,19 @@ public class AreaBean {
 
 	//--------------------------------------------------------------------------------------------------------
 	
+	public void setAllFields(AreaBean area) {
+		this.title = area.title;
+		this.description = area.description;
+		this.project = area.project;
+		this.estimatedTime = area.estimatedTime;
+		this.startDate = area.startDate;
+		this.endDate = area.endDate;
+		this.testersNumber = area.testersNumber;
+		this.workTime = area.workTime;
+		this.state = area.state;
+		this.priority = area.priority;
+		this.id = area.id;
+	}
 	
 	public String getTitle() {
 		return title;

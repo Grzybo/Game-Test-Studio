@@ -53,7 +53,7 @@ public class AreaCreateAction  extends ActionSupport {
 		//endDate = newDate;
     	//System.out.print(title.toString());
     	
-    	if(title != null) {
+    	if(title != null && description != null) {
     		AreaBean area = new AreaBean();
         	area.setTitle(this.title);
         	area.setDescription(this.description);
@@ -65,8 +65,8 @@ public class AreaCreateAction  extends ActionSupport {
         	area.setPriority(DataProvider.getPriorities().get(priority)); 
         	area.setStartDate(this.startDate);
         	area.setEndDate(this.endDate);
-        	//System.out.print(endDate.toString());
-        	DataProvider.mapAreas.put(title, area);
+        	
+        	DataProvider.saveArea(area);
         	
         	addActionError("Area created!");
     	}else addActionError("Title field cannot be empty");

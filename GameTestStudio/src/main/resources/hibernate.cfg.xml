@@ -18,5 +18,7 @@
         <mapping class="com.bartosz.gameteststudio.beans.RoleBean"></mapping>
         <mapping class="com.bartosz.gameteststudio.beans.UserBean"></mapping>
         <mapping class="com.bartosz.gameteststudio.beans.PlatformBean"></mapping>
+        <mapping class="com.bartosz.gameteststudio.beans.PriorityBean"></mapping>
+        <mapping class="com.bartosz.gameteststudio.beans.AreaBean"></mapping>
     </session-factory>
 </hibernate-configuration>

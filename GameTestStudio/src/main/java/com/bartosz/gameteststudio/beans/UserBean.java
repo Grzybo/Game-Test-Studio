@@ -64,7 +64,8 @@ public class UserBean {
 		this.role = role;
 		setProjectsList(projects);
 		
-	}
+	} 
+	
 	
 	
 	

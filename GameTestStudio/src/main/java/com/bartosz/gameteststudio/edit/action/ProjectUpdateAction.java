@@ -54,7 +54,7 @@ public class ProjectUpdateAction  extends ActionSupport {
 	    		newProject.setWorkTime(work_time); 
 	    		newProject.setStartDate(startDate);
 	    		newProject.setEndDate(endDate);
-	    		newProject.setPlatforms(selectedPlatforms);
+	    		//newProject.setPlatforms(selectedPlatforms);
 	    		newProject.setState(StateRepository.findByName(state));     // DataProvider.getStates().get(state));
 	    		newProject.setId(project.getId());
 	        	

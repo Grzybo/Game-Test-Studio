@@ -43,7 +43,7 @@ public class AdminPageAction  extends ActionSupport {
     	HttpServletRequest request = ServletActionContext.getRequest();
         HttpSession session = request.getSession();
     	
-    	projectObjList = DataProvider.getAllProjects(); //= new ArrayList<ProjectBean>(); 
+    	projectObjList = new ArrayList<ProjectBean>(DataProvider.mapProjects.values());// DataProvider.getAllProjects(); //= new ArrayList<ProjectBean>(); 
     	//userObjList = new ArrayList<UserBean>(); 
     	
     	  //for (String el : DataProvider.mapProjects.keySet()) projectObjList.add(DataProvider.mapProjects.get(el));

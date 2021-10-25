@@ -1,6 +1,5 @@
 package com.bartosz.gameteststudio.dp;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -15,7 +14,6 @@ import com.bartosz.gameteststudio.beans.PermissionBean;
 import com.bartosz.gameteststudio.beans.PlatformBean;
 import com.bartosz.gameteststudio.beans.PriorityBean;
 import com.bartosz.gameteststudio.beans.ProjectBean;
-import com.bartosz.gameteststudio.beans.ProjectDbTest;
 import com.bartosz.gameteststudio.beans.ResultBean;
 import com.bartosz.gameteststudio.beans.RoleBean;
 import com.bartosz.gameteststudio.beans.StateBean;
@@ -23,7 +21,9 @@ import com.bartosz.gameteststudio.beans.TestBean;
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.beans.VersionBean;
 import com.bartosz.gameteststudio.exceptions.GSException;
+import com.bartosz.gameteststudio.repositories.AreaRepository;
 import com.bartosz.gameteststudio.repositories.PlatformRepository;
+import com.bartosz.gameteststudio.repositories.PriorityRepository;
 import com.bartosz.gameteststudio.repositories.ProjectRepository;
 import com.bartosz.gameteststudio.repositories.RoleRepository;
 import com.bartosz.gameteststudio.repositories.StateRepository;
@@ -223,12 +223,12 @@ public class DataProvider {
 				}
 				/**
 				 * 
+				put("FIFA 21", new ProjectBean("FIFA 21", "New features in FIFA 21...", 700, 900, "2020-01-01", "2020-10-11", 50 , getStates().get("Closed"), 
+						(long)20,Arrays.asList(mapPlatforms.get("PlayStation 4"), mapPlatforms.get("PlayStation 5"),
+								mapPlatforms.get("Xbox Series S"), mapPlatforms.get("Xbox Series X"))));
 				put("FIFA 22", new ProjectBean("FIFA 22", "New features in FIFA 22...", 500, 0, "2021-10-01", null, 10 , getStates().get("New"), (long)10, 
 						Arrays.asList(mapPlatforms.get("PlayStation 4"), mapPlatforms.get("PlayStation 5"),
 								mapPlatforms.get("Xbox Series S"), mapPlatforms.get("Xbox Series X")))) ;
-				put("FIFA 21", new ProjectBean("FIFA 21", "New features in FIFA 21...", 700, 900, "2020-01-01", "2020-10-11", 50 , getStates().get("Closed"), 
-						(long)20,Arrays.asList(mapPlatforms.get("PlayStation 4"), mapPlatforms.get("PlayStation 5"),
-						mapPlatforms.get("Xbox Series S"), mapPlatforms.get("Xbox Series X"))));
 				put("NBA2K 22", new ProjectBean("NBA2K 22", "New features in NBA2K 22...", 600, 45, "2021-10-01", null, 100 , getStates().get("Active"), 
 						(long)30,Arrays.asList(mapPlatforms.get("PlayStation 4"), mapPlatforms.get("PlayStation 5"),
 						mapPlatforms.get("Xbox Series S"), mapPlatforms.get("Xbox Series X"))));
@@ -244,7 +244,8 @@ public class DataProvider {
 			{
 				for(ProjectBean pb : getAllProjects()) {
 					put(pb.getId(), pb.getTitle());
-				}
+				} 
+				//put((long)20, "FIFA 21");
 			} 
 		};
 		
@@ -261,15 +262,21 @@ public class DataProvider {
 // ##################################################################################################################################################################################################
 // Priorities 
 // ##################################################################################################################################################################################################
-	/**
+	
+	public static List<PriorityBean> getAllPriorities() {
+		List<PriorityBean> lstResult = PriorityRepository.findAll();
+		return lstResult;
+	}
+			
+		/**
 	 * Pobiera słowink priorytetów. (PriorityBean)
 	 * @return
 	 */
 	public static Map<String, PriorityBean> getPriorities(){
 		Map<String, PriorityBean> mapPriorities = new LinkedHashMap<>();
-		mapPriorities.put("Critical", new PriorityBean("Critical"));
-		mapPriorities.put("Important",  new PriorityBean("Important"));
-		mapPriorities.put("Very Important",  new PriorityBean("Very Important")); 
+		for(PriorityBean rb : getAllPriorities()) {
+			mapPriorities.put(rb.getName(), rb);
+		}
 		return mapPriorities;
 	}  
 // ##################################################################################################################################################################################################
@@ -279,30 +286,8 @@ public class DataProvider {
 		List<StateBean> lstResult = StateRepository.findAllStates();
 		return lstResult;
 	}
-	
-	
-	/**
-	 * Pobiera słowink stanów. (StateBean)
-	 * @return
-	 */
-	public static Map<String, StateBean> mapStates = new LinkedHashMap<>() {
-		{
-			for(StateBean sb : getAllStates()) {
-				put(sb.getName(), sb);
-			}
-		}
-		
-	};
-	
-	
+
 	public static Map<String, StateBean> getStates(){
-		/**
-		mapStates.put("New", new StateBean("New"));
-		mapStates.put("Active", new StateBean("Active"));
-		mapStates.put("Closed", new StateBean("Closed"));
-		mapStates.put("Blocked", new StateBean("Blocked"));
-		 * 
-		 */
 		Map<String, StateBean> mapStates = new LinkedHashMap<>();
 		for(StateBean sb : getAllStates()) {
 			mapStates.put(sb.getName(), sb);
@@ -312,6 +297,48 @@ public class DataProvider {
 // ##################################################################################################################################################################################################
 // Area
 // ##################################################################################################################################################################################################
+	public static List<AreaBean> getAllAreas() {
+		List<AreaBean> lstResult = AreaRepository.findAll();
+		return lstResult;
+	}
+	
+	public static AreaBean getAreaByID(Long id) throws GSException {
+		if (id != null && id.intValue() > 0) {
+			AreaBean a = AreaRepository.findById(id); 
+			return a;
+		} else
+			log.error(" Area id is null or out of range."); 
+		throw new GSException("Area id is null or out of range.");
+	} 
+	
+	public static AreaBean getAreaByTitle(String title) throws GSException {
+		if (title != null ) {
+			AreaBean db = AreaRepository.findByTitle(title); 
+			return db;
+		} else
+			log.error(" Area id is null."); 
+		
+		throw new GSException("Area is null.");
+	}
+	
+	public static void saveArea(AreaBean area) {
+		if (area != null) {
+			AreaRepository.save(area);
+			mapAreas.put(area.getTitle(), area);
+			mapAreasId.put(area.getId(), area.getTitle());
+		} else
+			log.error("Area is null.");
+	} 
+	
+	public static void updateArea(AreaBean old, AreaBean newArea) {
+		if (old != null && newArea != null) {
+			mapAreasId.replace(old.getId(), old.getTitle(), newArea.getTitle());
+			mapAreas.remove(old.getTitle());
+			AreaRepository.update(old, newArea);
+			mapAreas.put(newArea.getTitle(), newArea);
+		} else
+			log.error("User is null.");
+	}
 	/**
 	 * Słowink obszarów. (klasa AreaBean)
 	 * @return
@@ -321,9 +348,13 @@ public class DataProvider {
 		private static final long serialVersionUID = 1L;
 
 		{
+			for(AreaBean sb : getAllAreas()) {
+				put(sb.getTitle(), sb);
+			}
 			put("Stadiums", new AreaBean((long)1, "Stadiums", "New Stadiums...", 
 					mapProjects.get("FIFA 22"), 100, "2020-01-01", "2020-10-11", 30, 6, 
-				getStates().get("Active"), getPriorities().get("Important")));
+					getStates().get("Active"), getPriorities().get("Important")));
+			/**
 			put("Goalkeepers", new AreaBean((long)2, "Goalkeepers", "New Goalkeepers Models...", 
 					mapProjects.get("FIFA 22"), 150, "2020-01-01", "2020-10-11", 60, 40, 
 					getStates().get("Active") , getPriorities().get("Critical")));
@@ -334,7 +365,9 @@ public class DataProvider {
 			put("Players", new AreaBean((long)3,"Players", "New Players Models...", mapProjects.get("NBA2K 22"), 550, "2020-01-01", "2020-10-11", 50, 100, 
 					getStates().get("New") , getPriorities().get("Very Important")));
 			put("Teams", new AreaBean((long)4,"Teams", "New Teams...", mapProjects.get("NBA2K 22"), 550, "2020-01-01", "2020-10-11", 50, 100, 
-					getStates().get("Closed") , getPriorities().get("Very Important")));
+					getStates().get("Closed") , getPriorities().get("Very Important"))); 
+			 */
+			
 		}
 	};  
 	
@@ -345,12 +378,20 @@ public class DataProvider {
 	public static Map<Long, String> mapAreasId = new LinkedHashMap<>() {
 		private static final long serialVersionUID = 1L;
 		{
+			
+			for(AreaBean sb : getAllAreas()) {
+				put(sb.getId(), sb.getTitle());
+			}
 			put((long)1, "Stadiums");
+			/**
+			 
 			put((long)2, "Goalkeepers");
 			put((long)3, "Players");
 			put((long)4, "Teams");
 			put((long)5, "Gameplay Modes");
-			put((long)6, "Cinematics");
+			put((long)6, "Cinematics"); 
+			 */
+			
 		}	
 	};
 	
@@ -420,13 +461,13 @@ public class DataProvider {
 					put(sb.getEmail(), sb);
 				}
 				
+				put("hp@griffindor.uk", new UserBean("Harry", "Potter", "hp@griffindor.uk",
+						"hogwart", mapRoles.get("Developer"), Arrays.asList("LEGO Star Wars")));
+				
 				/**
 				put("admin@admin.com", new UserBean((long)1, "Admin", "Administrator", "admin@admin.com", 
 						"admin", mapRoles.get("Administrator"), null, 
 						mapPermissions.get("Create"), mapPermissions.get("Create") ,mapPermissions.get("Create")));
-				put("hp@griffindor.uk", new UserBean((long)2, "Harry", "Potter", "hp@griffindor.uk",
-						"hogwart", mapRoles.get("Developer"), Arrays.asList(mapProjects.get("FIFA 22")), mapPermissions.get("Create"), 
-						mapPermissions.get("Create") ,mapPermissions.get("Create")));
 				put("donald@disney.com", new UserBean((long)3, "Donald", "Duck", "donald@disney.com", 
 						"disney123", mapRoles.get("Tester"), Arrays.asList(mapProjects.get("NBA2K 22"), mapProjects.get("FIFA 22")), 
 						mapPermissions.get("Create"), mapPermissions.get("Create") ,mapPermissions.get("Create"))); 
@@ -443,7 +484,7 @@ public class DataProvider {
 				 */
 				
 			}
-		};//TODO klucz : ID 
+		};
 		
 		
 		public static  Map<Long, String> mapUsersId = new LinkedHashMap<>() {
@@ -672,7 +713,7 @@ public class DataProvider {
 								new VersionBean(1.23, mapBuilds.get("Alpha")), 1, 
 								getTestById(6)));
 			
-		} //TODO zmiana opisow 
+		} 
 	};
 	
 	public static  Map<Long, String> mapBugsId =new LinkedHashMap<>() {

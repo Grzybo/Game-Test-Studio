@@ -35,7 +35,7 @@ public class ProjectEditAction  extends ActionSupport {
     private String state;
     private List<String> platformList = new ArrayList<String>(DataProvider.mapPlatforms.keySet()); 
     private List<String> selectedPlatforms = new ArrayList<String>();
-    private List<String> stateList = new ArrayList<String>(DataProvider.mapStates.keySet());
+    private List<String> stateList = new ArrayList<String>(DataProvider.getStates().keySet());
   
 
 	@Override
@@ -45,11 +45,14 @@ public class ProjectEditAction  extends ActionSupport {
 			
 			ProjectBean project = DataProvider.getProjectByID(Long.parseLong(itemID)); 
 			
+			//System.out.println(project.getPlatformsStringList()); 
+			//TODO naprawic relacje projects-platforms
+			
 			title = project.getTitle(); 
 			description = project.getDescription();
 		    testers_numbers = project.getTestersNumber();
 		    estimate_time = project.getEstimatedTime(); 
-		    //selectedPlatforms = project.getPlatformsStringList();
+		   // selectedPlatforms = project.getPlatformsStringList();
 		    work_time = project.getWorkTime(); 
 		    startDate = project.getStartDate();
 		    endDate = project.getEndDate();

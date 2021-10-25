@@ -39,31 +39,28 @@ public class UserInfoAction  extends ActionSupport {
     	
 	if(Utils.isNotLogged()) {System.out.print(" NOT LOGGED ");  return "logout"; }
     	
-	System.out.print(" LOGGED! ");
+	
 	HttpServletRequest request = ServletActionContext.getRequest();
 	HttpSession session = request.getSession();  
 	
 	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());
+	firstName = user.getFirstName(); 
+	lastName = user.getLastName();
 	
-	
-	
-	if(this.firstName != null && this.lastName != null) {
+	if(this.firstName != user.getFirstName() && this.lastName != user.getLastName()) {
 		user.setFirstName(firstName);
 		user.setLastName(lastName);
-		//UserFabric.updateUser(user);
-		//System.out.print(user.toString());
+		DataProvider.updateUser(user, user); 
+		
+		addActionError("Personal Data updated.");
 	}
-	
-	//setFirstName(user.getFirstName());
-	//setLastName(user.getLastName()); 
-	//setEmail(user.getEmail());
-	
 	
 	if(oldPassword != null && newPassword1 != null && newPassword2 != null) { 
         if(user.getPassword().equals(oldPassword)) {
         	if(newPassword1.equals(newPassword2)) {
         		user.setPassword(newPassword1);
-        		//UserFabric.updateUser(user);
+        		DataProvider.updateUser(user, user);
+        		
         		addActionError("Password changed successfully.");	
         	}
         	else addActionError("New Passwords do not match.");
@@ -78,15 +75,6 @@ public class UserInfoAction  extends ActionSupport {
 	
 	else return "userInfoPage";
     }
-
-    
-    
-    
-    
-	
-
-
-
 
 	public String getProject() {
 		return project;

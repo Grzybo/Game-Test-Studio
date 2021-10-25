@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -20,7 +21,6 @@ import com.bartosz.gameteststudio.exceptions.GSException;
 @Entity
 @Table(name = "PROJECTS")
 public class ProjectBean {
-
 	
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
@@ -55,7 +55,12 @@ public class ProjectBean {
 	@ManyToMany (mappedBy = "projects", cascade = CascadeType.ALL) //(cascade = { CascadeType.ALL })
 	private List<UserBean> users; 
 	
-	@ManyToMany (mappedBy = "projects", cascade = CascadeType.ALL)
+	
+	@ManyToMany  (cascade = { CascadeType.ALL }) // (fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "PROJECT_DIC_PLATFORMS", 
+        joinColumns = { @JoinColumn(name = "FK_PROJECTS_ID") }, 
+        inverseJoinColumns = { @JoinColumn(name = "FK_PLATFORMS_ID") })
 	private List<PlatformBean> platforms; // 
 	
 	public ProjectBean() {}

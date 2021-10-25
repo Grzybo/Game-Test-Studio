@@ -27,11 +27,7 @@ public class PlatformBean {
 	@Column(name = "name", nullable = false)
 	private String name; 
 	
-	@ManyToMany  (cascade = { CascadeType.ALL }) // (fetch = FetchType.EAGER)
-    @JoinTable(
-        name = "PROJECT_DIC_PLATFORMS", 
-        joinColumns = { @JoinColumn(name = "FK_PLATFORMS_ID") }, 
-        inverseJoinColumns = { @JoinColumn(name = "FK_PROJECTS_ID") })
+	@ManyToMany (mappedBy = "platforms", cascade = CascadeType.ALL)
 	private List<ProjectBean> projects;
 	
 	public PlatformBean() {}

@@ -93,17 +93,17 @@ public class ProjectAction  extends ActionSupport {
 			}
 	
 		  for (String el :DataProvider.mapTests.keySet()) {
-			  if(DataProvider.mapTests.get(el).getArea().getProject().getTitle().equals(selectedProject)) {
-				  testObjList.add(DataProvider.mapTests.get(el));
-				}
+			//  if(DataProvider.mapTests.get(el).getArea().getProject().getTitle().equals(selectedProject)) {
+				//  testObjList.add(DataProvider.mapTests.get(el));
+			//	}
 			}
 		  
 	   
 		  for (String el : DataProvider.mapBugs.keySet()) {
-			  	if(DataProvider.mapBugs.get(el).getTest().getArea().getProject().getTitle().equals(selectedProject)) {
-			  		bugObjList.add(DataProvider.mapBugs.get(el));
+			  //	if(DataProvider.mapBugs.get(el).getTest().getArea().getProject().getTitle().equals(selectedProject)) {
+			  	//	bugObjList.add(DataProvider.mapBugs.get(el));
 				
-			}
+			//}
 		  }
 	 } 
 	 
