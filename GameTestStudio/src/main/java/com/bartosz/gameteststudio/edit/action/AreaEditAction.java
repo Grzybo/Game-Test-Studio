@@ -12,6 +12,7 @@ import org.apache.struts2.convention.annotation.Result;
 import com.bartosz.gameteststudio.beans.AreaBean;
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
+import com.bartosz.gameteststudio.exceptions.GSException;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "editArea", //
@@ -41,15 +42,15 @@ public class AreaEditAction  extends ActionSupport {
 	
 	
     @Override
-    public String execute() {
+    public String execute() throws Exception, GSException {
           
     	HttpSession session = ServletActionContext.getRequest().getSession();
     	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString()); 
     	
     	projectsList = user.getProjectsList(); 
+    	project = session.getAttribute("userProject").toString();
     	
-    	
-    	AreaBean area = DataProvider.getAreaById(Integer.parseInt(itemID));
+    	AreaBean area = DataProvider.getAreaByID(Long.parseLong(itemID));
     	
 		this.title = area.getTitle();
 		this.project = area.getProject().getTitle();

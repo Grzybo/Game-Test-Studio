@@ -69,7 +69,23 @@ public class AreaBean {
 		this.state = state;
 		this.priority = priority;
 		this.id = id;
+	} 
+	
+	public AreaBean(String title, String description, ProjectBean project, Integer estimatedTime, String startDate, String endDate,
+			Integer testersNumber, Integer workTime, StateBean state, PriorityBean priority) {
+		super();
+		this.title = title;
+		this.description = description;
+		this.project = project;
+		this.estimatedTime = estimatedTime;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.testersNumber = testersNumber;
+		this.workTime = workTime;
+		this.state = state;
+		this.priority = priority;
 	}
+	
 	
 	
 	@Override

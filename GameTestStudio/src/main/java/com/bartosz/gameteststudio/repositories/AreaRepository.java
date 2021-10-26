@@ -11,10 +11,10 @@ import com.bartosz.gameteststudio.dp.HibernateUtil;
 
 public class AreaRepository {
 
-	public static void save(AreaBean project) {
+	public static void save(AreaBean area) {
 		final Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
-		session.save(project);
+		session.save(area);
 		session.getTransaction().commit();
 		session.close();
 	}  

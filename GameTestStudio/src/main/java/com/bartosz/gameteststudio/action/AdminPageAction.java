@@ -20,11 +20,8 @@ import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "adminPage", 
 		results = { 
-        
 		@Result(name = "admin", location = "/WEB-INF/pages/adminPage.jsp"),
-        
         @Result(name = "login", type="redirect", location = "/login")
-        
 } 
 )
 public class AdminPageAction  extends ActionSupport {

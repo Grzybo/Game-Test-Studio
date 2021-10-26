@@ -37,7 +37,6 @@ public class ProjectEditAction  extends ActionSupport {
     private List<String> selectedPlatforms = new ArrayList<String>();
     private List<String> stateList = new ArrayList<String>(DataProvider.getStates().keySet());
   
-
 	@Override
     public String execute() {
         	
@@ -52,7 +51,7 @@ public class ProjectEditAction  extends ActionSupport {
 			description = project.getDescription();
 		    testers_numbers = project.getTestersNumber();
 		    estimate_time = project.getEstimatedTime(); 
-		   // selectedPlatforms = project.getPlatformsStringList();
+		    //selectedPlatforms = project.getPlatformsStringList();
 		    work_time = project.getWorkTime(); 
 		    startDate = project.getStartDate();
 		    endDate = project.getEndDate();

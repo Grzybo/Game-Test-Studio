@@ -57,8 +57,22 @@ public class ProjectAction  extends ActionSupport {
 		UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());
 
 		projectsList = user.getProjectsList();
-		if(selectedProject == null) selectedProject = projectsList.get(0);
-		session.setAttribute("userProject", selectedProject); 
+		
+		if(selectedProject == null) {
+			if(session.getAttribute("userProject") != null) {
+				selectedProject = session.getAttribute("userProject").toString();
+				
+			}
+			else {
+				selectedProject = projectsList.get(0);
+				session.setAttribute("userProject", selectedProject);			
+			} 
+		}
+		else {
+			session.setAttribute("userProject", selectedProject);
+		}
+		
+		System.out.print(" TEST : " + session.getAttribute("userProject").toString());
 		 
 		fillLists();  
 
@@ -73,7 +87,7 @@ public class ProjectAction  extends ActionSupport {
 		//System.out.print(bugSort);
 		//System.out.print(testSort);
 		//System.out.print(areaSort);
-		System.out.print(JSPTabControlUtil.getSelectedTabPageName(ServletActionContext.getRequest(), "ProjectsTabs"));
+		//System.out.print(JSPTabControlUtil.getSelectedTabPageName(ServletActionContext.getRequest(), "ProjectsTabs"));
 
 		return "projects";
 	 }

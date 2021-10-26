@@ -1,11 +1,15 @@
 package com.bartosz.gameteststudio.create.action;
  
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
 import com.bartosz.gameteststudio.beans.ProjectBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
+import com.bartosz.gameteststudio.exceptions.GSException;
 import com.bartosz.gameteststudio.repositories.StateRepository;
 import com.opensymphony.xwork2.ActionSupport;
  
@@ -25,10 +29,12 @@ public class ProjectCreateAction extends ActionSupport {
     private Integer work_time;
     private String startDate;
     private String endDate;
+    private List<String> platformList = new ArrayList<String>(DataProvider.mapPlatforms.keySet()); 
+    private List<String> selectedPlatforms = new ArrayList<String>();
     
     
     @Override
-    public String execute() {
+    public String execute() throws GSException {
           
     	if(title != null) {
     		/**
@@ -41,6 +47,8 @@ public class ProjectCreateAction extends ActionSupport {
     		
     		addActionError("Project created."); 
     		ProjectBean newProject = new ProjectBean(title, description, estimate_time, work_time, startDate, endDate, testers_numbers, StateRepository.findByName("New"));
+    		//newProject.setPlatforms(selectedPlatforms); 
+    		//System.out.println(selectedPlatforms);
     		DataProvider.saveProject(newProject);
     		
     		return "project_create";
@@ -57,6 +65,26 @@ public class ProjectCreateAction extends ActionSupport {
 
 	public String getEndDate() {
 		return endDate;
+	}
+
+
+	public List<String> getPlatformList() {
+		return platformList;
+	}
+
+
+	public void setPlatformList(List<String> platformList) {
+		this.platformList = platformList;
+	}
+
+
+	public List<String> getSelectedPlatforms() {
+		return selectedPlatforms;
+	}
+
+
+	public void setSelectedPlatforms(List<String> selectedPlatforms) {
+		this.selectedPlatforms = selectedPlatforms;
 	}
 
 

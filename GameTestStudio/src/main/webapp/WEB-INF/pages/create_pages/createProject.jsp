@@ -24,6 +24,7 @@
         	<s:textfield class="text" name="testers_numbers" key="Testers Number" size="100%" type="number" />
         	<s:textfield class="text" name="estimate_time" key="Estimated Time (hours)" size="100%" type="number" />
         	<s:textfield class="text" name="work_time" key="Work Time" size="100%" type="number" />  
+        	<s:checkboxlist label="Platforms" list="platformList" name="selectedPlatforms" />
     		<s:submit class= "button" method="execute" key="Create Project"/>
     	</s:form>
 	</div>

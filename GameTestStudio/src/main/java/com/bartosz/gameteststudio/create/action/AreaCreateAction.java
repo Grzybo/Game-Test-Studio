@@ -10,6 +10,9 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
 import com.bartosz.gameteststudio.beans.AreaBean;
+import com.bartosz.gameteststudio.beans.PriorityBean;
+import com.bartosz.gameteststudio.beans.ProjectBean;
+import com.bartosz.gameteststudio.beans.StateBean;
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.opensymphony.xwork2.ActionSupport;
@@ -52,22 +55,12 @@ public class AreaCreateAction  extends ActionSupport {
 	
 		//endDate = newDate;
     	//System.out.print(title.toString());
-    	
+    	project = session.getAttribute("userProject").toString();
     	if(title != null && description != null) {
-    		AreaBean area = new AreaBean();
-        	area.setTitle(this.title);
-        	area.setDescription(this.description);
-        	area.setProject(DataProvider.mapProjects.get(session.getAttribute("userProject").toString()));
-        	area.setEstimatedTime(this.estimatedTime);
-        	area.setTestersNumber(this.testersNumber);
-        	area.setWorkTime(this.workTime); 
-        	area.setState(DataProvider.getStates().get(state));
-        	area.setPriority(DataProvider.getPriorities().get(priority)); 
-        	area.setStartDate(this.startDate);
-        	area.setEndDate(this.endDate);
-        	
+    		AreaBean area = new AreaBean(this.title, this.description, DataProvider.mapProjects.get(session.getAttribute("userProject").toString()), 
+    				this.estimatedTime, this.startDate, this.endDate, this.testersNumber, this.workTime, 
+    				DataProvider.getStates().get(state), DataProvider.getPriorities().get(priority));
         	DataProvider.saveArea(area);
-        	
         	addActionError("Area created!");
     	}else addActionError("Title field cannot be empty");
 

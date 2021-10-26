@@ -224,7 +224,7 @@ public class DataProvider {
 				/**
 				 * 
 				put("FIFA 21", new ProjectBean("FIFA 21", "New features in FIFA 21...", 700, 900, "2020-01-01", "2020-10-11", 50 , getStates().get("Closed"), 
-						(long)20,Arrays.asList(mapPlatforms.get("PlayStation 4"), mapPlatforms.get("PlayStation 5"),
+						(long)20, Arrays.asList(mapPlatforms.get("PlayStation 4"), mapPlatforms.get("PlayStation 5"),
 								mapPlatforms.get("Xbox Series S"), mapPlatforms.get("Xbox Series X"))));
 				put("FIFA 22", new ProjectBean("FIFA 22", "New features in FIFA 22...", 500, 0, "2021-10-01", null, 10 , getStates().get("New"), (long)10, 
 						Arrays.asList(mapPlatforms.get("PlayStation 4"), mapPlatforms.get("PlayStation 5"),
@@ -351,7 +351,7 @@ public class DataProvider {
 			for(AreaBean sb : getAllAreas()) {
 				put(sb.getTitle(), sb);
 			}
-			put("Stadiums", new AreaBean((long)1, "Stadiums", "New Stadiums...", 
+			put("Stadiums", new AreaBean((long)10, "Stadiums", "New Stadiums...", 
 					mapProjects.get("FIFA 22"), 100, "2020-01-01", "2020-10-11", 30, 6, 
 					getStates().get("Active"), getPriorities().get("Important")));
 			/**
@@ -382,7 +382,7 @@ public class DataProvider {
 			for(AreaBean sb : getAllAreas()) {
 				put(sb.getId(), sb.getTitle());
 			}
-			put((long)1, "Stadiums");
+			put((long)10, "Stadiums");
 			/**
 			 
 			put((long)2, "Goalkeepers");

@@ -51,21 +51,19 @@ public class AreaUpdateAction  extends ActionSupport {
     	projectsList = user.getProjectsList(); 
     	
     	AreaBean area = DataProvider.getAreaById(Integer.parseInt(itemID));
-    	DataProvider.mapAreas.remove(area.getTitle());
-    	DataProvider.mapAreasId.remove(area.getId());
+    	AreaBean newArea = DataProvider.getAreaById(Integer.parseInt(itemID));
     	
-    	area.setTitle(this.title);
-    	area.setPriority(DataProvider.getPriorities().get(priority));
-    	area.setState(DataProvider.getStates().get(state));
-    	area.setDescription(this.description);
-    	area.setEstimatedTime(this.estimatedTime);
-    	area.setStartDate(this.startDate);
-    	area.setEndDate(this.endDate);
-    	area.setTestersNumber(this.testersNumber);
-    	area.setWorkTime(this.workTime); 
+    	newArea.setTitle(this.title);
+    	newArea.setPriority(DataProvider.getPriorities().get(priority));
+    	newArea.setState(DataProvider.getStates().get(state));
+    	newArea.setDescription(this.description);
+    	newArea.setEstimatedTime(this.estimatedTime);
+    	newArea.setStartDate(this.startDate);
+    	newArea.setEndDate(this.endDate);
+    	newArea.setTestersNumber(this.testersNumber);
+    	newArea.setWorkTime(this.workTime); 
     	
-    	DataProvider.mapAreas.put(area.getTitle(), area);
-    	DataProvider.mapAreasId.put(area.getId(), area.getTitle());
+    	DataProvider.updateArea(area, area);
     	return "update";
     }
 

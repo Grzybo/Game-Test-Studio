@@ -47,11 +47,8 @@
 					
 				</tr>
 				<tr>
-					
-					<sx:datetimepicker name="startDate" label="Format (dd-MMM-yyyy)" 
-						displayFormat="dd-MMM-yyyy"  />
-					
-					<s:textfield  class="text" size="100%" name="asd" 
+				
+					<s:textfield  class="text" size="100%" name="startDate" 
 						label="Start Date" type="date"/>
 					<s:textfield class="text" size="100%" name="endDate" label="End Date" 
 						type="date"/>
