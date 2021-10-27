@@ -20,5 +20,9 @@
         <mapping class="com.bartosz.gameteststudio.beans.PlatformBean"></mapping>
         <mapping class="com.bartosz.gameteststudio.beans.PriorityBean"></mapping>
         <mapping class="com.bartosz.gameteststudio.beans.AreaBean"></mapping>
+        <mapping class="com.bartosz.gameteststudio.beans.ResultBean"></mapping>
+        <mapping class="com.bartosz.gameteststudio.beans.VersionBean"></mapping>
+        <mapping class="com.bartosz.gameteststudio.beans.BuildBean"></mapping>
+        <mapping class="com.bartosz.gameteststudio.beans.TestBean"></mapping>  
     </session-factory>
 </hibernate-configuration>

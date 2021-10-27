@@ -49,9 +49,10 @@ public class AreaUpdateAction  extends ActionSupport {
     	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString()); 
     	
     	projectsList = user.getProjectsList(); 
+    	project = session.getAttribute("userProject").toString();
     	
     	AreaBean area = DataProvider.getAreaById(Integer.parseInt(itemID));
-    	AreaBean newArea = DataProvider.getAreaById(Integer.parseInt(itemID));
+    	AreaBean newArea = new AreaBean();
     	
     	newArea.setTitle(this.title);
     	newArea.setPriority(DataProvider.getPriorities().get(priority));
@@ -61,9 +62,11 @@ public class AreaUpdateAction  extends ActionSupport {
     	newArea.setStartDate(this.startDate);
     	newArea.setEndDate(this.endDate);
     	newArea.setTestersNumber(this.testersNumber);
-    	newArea.setWorkTime(this.workTime); 
+    	newArea.setWorkTime(this.workTime);
+    	newArea.setId(area.getId());
+    	newArea.setProject(area.getProject());
     	
-    	DataProvider.updateArea(area, area);
+    	DataProvider.updateArea(area, newArea);
     	return "update";
     }
 

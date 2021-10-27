@@ -63,7 +63,7 @@ public class TestEditAction  extends ActionSupport {
 	private List<String> priorityList = new ArrayList<String>(DataProvider.getPriorities().keySet());
 	private List<String> stateList = new ArrayList<String>(DataProvider.getStates().keySet());
 	private List<String> areaList = new ArrayList<String>();
-	private List<String> platformList = new ArrayList<String>(DataProvider.mapPlatforms.keySet());
+	private List<String> platformList = new ArrayList<String>(DataProvider.mapPlatforms.keySet()); //TYMCZASOWEEEE
 	private List<String> accountList = new ArrayList<String>();
 	private List<String> resultList = new ArrayList<String>(DataProvider.mapResults.keySet());
 	private List<String> buildList = new ArrayList<String>(DataProvider.mapBuilds.keySet());
@@ -92,7 +92,7 @@ public class TestEditAction  extends ActionSupport {
     	
     	TestBean test = DataProvider.getTestById(Integer.parseInt(itemID));
     	
-    	platformList = test.getArea().getProject().getPlatformsStringList();
+    	//platformList = test.getArea().getProject().getPlatformsStringList();
     	
     	title = test.getTitle(); 
     	account = test.getUser().getEmail();
@@ -106,9 +106,9 @@ public class TestEditAction  extends ActionSupport {
     	workTime = test.getWorkTime();
     	state = test.getState().getName(); 
     	priority = test.getPriority().getName();
-    	platforms = test.getPlatformList();
-    	version = test.getVersion().getName();
-    	build = test.getVersion().getType().getName();
+    	//platforms = test.getPlatformList();
+    	version = test.getVersion();
+    	build = test.getBuild().getName();
     	
     	return "editTest";
     }

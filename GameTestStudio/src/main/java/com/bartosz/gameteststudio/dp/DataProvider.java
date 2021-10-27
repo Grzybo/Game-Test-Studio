@@ -22,11 +22,14 @@ import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.beans.VersionBean;
 import com.bartosz.gameteststudio.exceptions.GSException;
 import com.bartosz.gameteststudio.repositories.AreaRepository;
+import com.bartosz.gameteststudio.repositories.BuildRepository;
 import com.bartosz.gameteststudio.repositories.PlatformRepository;
 import com.bartosz.gameteststudio.repositories.PriorityRepository;
 import com.bartosz.gameteststudio.repositories.ProjectRepository;
+import com.bartosz.gameteststudio.repositories.ResultRepository;
 import com.bartosz.gameteststudio.repositories.RoleRepository;
 import com.bartosz.gameteststudio.repositories.StateRepository;
+import com.bartosz.gameteststudio.repositories.TestRepository;
 import com.bartosz.gameteststudio.repositories.UserRepository;
 
 /**
@@ -58,15 +61,26 @@ public class DataProvider {
 // Results
 // ##################################################################################################################################################################################################
 	
+	public static List<ResultBean> getAllResults() {
+		List<ResultBean> lstResult = ResultRepository.findAll();
+		return lstResult;
+	}
+	
 	/**
 	 * Słownik wyników. 
 	 */
 	public static  Map<String, ResultBean> mapResults = new LinkedHashMap<>() {
 		private static final long serialVersionUID = 1L;
 		{
+			for(ResultBean rb : getAllResults()) {
+				put(rb.getName(), rb);
+			}
+			/**
 			put("Positive", new ResultBean("Positive"));
 			put("Negative", new ResultBean("Negative"));
-			put("Blocked", new ResultBean("Blocked"));
+			put("Blocked", new ResultBean("Blocked")); 
+			 */
+			
 		}
 	}; 
 // ##################################################################################################################################################################################################
@@ -100,16 +114,27 @@ public class DataProvider {
 // ##################################################################################################################################################################################################
 // Build
 // ##################################################################################################################################################################################################
+	public static List<BuildBean> getAllBuilds() {
+		List<BuildBean> lstResult = BuildRepository.findAll();
+		return lstResult;
+	}
+	
 	/**
 	 * Słownik typu wersji (Build type).
 	 */
 	public static  Map<String, BuildBean> mapBuilds = new LinkedHashMap<>() {
 		private static final long serialVersionUID = 1L;
 		{
+			for(BuildBean pb : getAllBuilds()) {
+				put(pb.getName(), pb);
+			}
+			/**
 			put("Release Candidate", new BuildBean("Release Candidate"));
 			put("Alpha", new BuildBean("Alpha"));
 			put("Beta", new BuildBean("Beta"));
 			put("Release", new BuildBean("Release"));
+			 * 
+			 */
 		}
 	};
 	
@@ -152,7 +177,7 @@ public class DataProvider {
 	}
 	
 // ##################################################################################################################################################################################################
-// Proejct 
+// Project 
 // ##################################################################################################################################################################################################
 	
 	//TODO przepisanie do innych 
@@ -421,7 +446,7 @@ public class DataProvider {
 			throw new GSException("Project id is null or out of range.");
 		} 
 		
-		public static UserBean getUserByTitle(String title) throws GSException {
+		public static UserBean getUserByEmail(String title) throws GSException {
 			if (title != null ) {
 				UserBean db = UserRepository.findByEmail(title); 
 				return db;
@@ -516,12 +541,61 @@ public class DataProvider {
 // ##################################################################################################################################################################################################
 // Test
 // ##################################################################################################################################################################################################
-	
+		public static List<TestBean> getAllTests() {
+			List<TestBean> lstResult = TestRepository.findAll();
+			return lstResult;
+		}
+
+		public static TestBean getTestByID(Long id) throws GSException {
+			if (id != null && id.intValue() > 0) {
+				TestBean db = TestRepository.findById(id); 
+				return db;
+			} else
+				log.error(" Test id is null or out of range."); 
+			throw new GSException("Test id is null or out of range.");
+		} 
+		
+		public static TestBean getTestByTitle(String title) throws GSException {
+			if (title != null ) {
+				TestBean db = TestRepository.findByTitle(title); 
+				return db;
+			} else
+				log.error(" Test id is null."); 
+			
+			throw new GSException("Test is null.");
+		}
+		
+		public static void saveTest(TestBean test) {
+			if (test != null) {
+				TestRepository.save(test);
+				mapTests.put(test.getTitle(), test);
+				mapTestsId.put(test.getId(), test.getTitle());
+			} else
+				log.error("Test is null.");
+		} 
+		
+		public static void updateTest(TestBean old, TestBean newTest) {
+			if (old != null && newTest != null) {
+				mapTestsId.replace(old.getId(), old.getTitle(), newTest.getTitle());
+				mapTests.remove(old.getTitle());
+				TestRepository.update(old, newTest);
+				mapTests.put(newTest.getTitle(), newTest);
+			} else
+				log.error("User is null.");
+		}
+		
+		
+		
 		public static  Map<String, TestBean> mapTests = new LinkedHashMap<>() {
 			private static final long serialVersionUID = 1L;
 			{
 
-				put("Stadiums - New - Radomiak - Model and Functionality", new TestBean((long)1, 
+				for(TestBean tb : getAllTests()) {
+					put(tb.getTitle(), tb);
+				}
+				
+				/**
+				 * put("Stadiums - New - Radomiak - Model and Functionality", new TestBean((long)1, 
 						"Stadiums - New - Radomiak - Model and Functionality", 
 						mapUsers.get("hp@griffindor.uk"),
 						"Remamber to read all scenario before starting the test.....", 
@@ -578,6 +652,8 @@ public class DataProvider {
 						Arrays.asList(mapPlatforms.get("Xbox One"), 
 								mapPlatforms.get("Xbox One X")), 
 						new VersionBean(1.23, mapBuilds.get("Alpha"))));
+				 */
+				
 			}
 		};
 		
@@ -585,12 +661,19 @@ public class DataProvider {
 		public static  Map<Long, String> mapTestsId = new LinkedHashMap<>() {
 			private static final long serialVersionUID = 1L;
 			{
+				for(TestBean tb : getAllTests()) {
+					put(tb.getId(), tb.getTitle());
+				}
+	
+				/**
 				put((long)1, "Stadiums - New - Radomiak - Model and Functionality");
 				put((long)2, "Stadiums - New - Legia - Model and Functionality");
 				put((long)3, "Players - New - Marcin Gortat");
 				put((long)4, "Teams - New - Toronto Raptors");
 				put((long)5, "Cinematics - New - Overall");
 				put((long)6, "Gameplay Modes - New - Overall");
+				 * 
+				 */
 			} 
 		};
 		

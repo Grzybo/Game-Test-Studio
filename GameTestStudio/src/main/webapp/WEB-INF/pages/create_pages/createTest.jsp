@@ -36,8 +36,7 @@
 						<s:select label="Area"
 	    					name="area"
 	    					list="areaList"/>		
-						<s:checkboxlist label="Platform" list="platformList" 
-	 						name="selectedPlatforms" />
+						<s:checkboxlist label="Platform" list="platformList" name="selectedPlatforms" />
 					</tr>
 					<tr>
 						<s:textfield class="text" size="100%" name="estimatedTime" label="Estimated Test Time" 
@@ -64,7 +63,7 @@
 					</tr>
 					<tr>
 						<s:textfield class="text" size="100%" label="Testers Number" name="testersNumber" 
-										type="number"  />
+										type="number" step="0.01" />
 					</tr>
 						<s:submit class= "button"  method="execute" key="Submit" form = "editTest"/>
 	 			</table>

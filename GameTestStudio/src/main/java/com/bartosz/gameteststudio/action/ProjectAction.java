@@ -71,9 +71,7 @@ public class ProjectAction  extends ActionSupport {
 		else {
 			session.setAttribute("userProject", selectedProject);
 		}
-		
-		System.out.print(" TEST : " + session.getAttribute("userProject").toString());
-		 
+ 
 		fillLists();  
 
 		//System.out.print(JSPTabControlUtil.getTabPageState(ServletActionContext.getRequest(), "ProjectsTabs", "TestTab"));
@@ -107,9 +105,9 @@ public class ProjectAction  extends ActionSupport {
 			}
 	
 		  for (String el :DataProvider.mapTests.keySet()) {
-			//  if(DataProvider.mapTests.get(el).getArea().getProject().getTitle().equals(selectedProject)) {
-				//  testObjList.add(DataProvider.mapTests.get(el));
-			//	}
+			  if(DataProvider.mapTests.get(el).getArea().getProject().getTitle().equals(selectedProject)) {
+				  testObjList.add(DataProvider.mapTests.get(el));
+				}
 			}
 		  
 	   
@@ -120,39 +118,6 @@ public class ProjectAction  extends ActionSupport {
 			//}
 		  }
 	 } 
-	 
-	 private void sortDsc(String element) {
-		 List<String> tmpList = new ArrayList<String>();
-		 switch(element) {
-		 	case "sortBug": 
-		 		for (BugBean el : bugObjList) tmpList.add(el.getTitle());
-				 Collections.reverse(tmpList); 
-				 bugObjList.clear(); 
-				 for (String str : tmpList) bugObjList.add(DataProvider.mapBugs.get(str));
-				 this.tab= "bug";
-				 System.out.print(tab); 
-				
-			 break;
-		 	case "sortTest":
-				 for (TestBean el : testObjList) tmpList.add(el.getTitle());
-				 Collections.reverse(tmpList); 
-				 testObjList.clear(); 
-				 for (String str : tmpList) testObjList.add(DataProvider.mapTests.get(str));
-				 this.tab= "test";
-				 System.out.print(tab); 
-			 break;
-		 	case "sortArea":
-				 for (AreaBean el : areaObjList) tmpList.add(el.getTitle());
-				 Collections.reverse(tmpList); 
-				 areaObjList.clear(); 
-				 for (String str : tmpList) areaObjList.add(DataProvider.mapAreas.get(str));
-				 this.tab= "area";
-				 System.out.print(tab); 
-			 break;	
-		 } 
-	 }
-	 
-	 
 
 	public List<BugBean> getBugObjList() {
 		return bugObjList;

@@ -40,7 +40,7 @@ public class LoginAction extends SecureAction {
         UserBean user = new UserBean();
         
         try {
-        	user = DataProvider.mapUsers.get(this.email);
+        	user = DataProvider.getUserByEmail(this.email);
         	
         	if(user.getPassword().equals(this.password)) {
         		session.setAttribute("loginedUsername", user.getDisplayName());

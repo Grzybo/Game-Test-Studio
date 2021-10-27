@@ -29,8 +29,6 @@ public class AccountEditAction  extends ActionSupport {
     private String role;
     private List<String> projects;
     
-
-    
     private List<String> rolesList = new ArrayList<String>(DataProvider.mapRoles.keySet());
     private List<String>  projectsList = new ArrayList<String>(DataProvider.mapProjects.keySet());
     private List<ProjectBean> pL = new ArrayList<ProjectBean>();
@@ -39,9 +37,11 @@ public class AccountEditAction  extends ActionSupport {
     @Override
     public String execute() {
           
-    	
+    		
     	
     		UserBean user = DataProvider.getUserById(Integer.parseInt(itemID)); 
+    		
+    		projects = user.getProjectsList();
     		
     		firstName = user.getFirstName(); 
     		lastName = user.getLastName(); 
@@ -53,23 +53,17 @@ public class AccountEditAction  extends ActionSupport {
     	return "editAccount";
     }
 
-    public List<String> getPermissionsList() {
+    public List<String> getProjects() {
+		return projects;
+	}
+
+	public List<String> getPermissionsList() {
 		return permissionsList;
 	}
 
 	public void setPermissionsList(List<String> permissionsList) {
 		this.permissionsList = permissionsList;
 	}
-
-
-
-
-
-
-
-
-
-
 
 
 	public String getItemID() {

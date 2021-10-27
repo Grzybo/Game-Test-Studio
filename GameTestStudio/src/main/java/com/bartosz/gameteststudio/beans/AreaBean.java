@@ -3,6 +3,7 @@ package com.bartosz.gameteststudio.beans;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -44,7 +45,7 @@ public class AreaBean {
 	@Column(name = "work_time")
 	private Integer workTime;
 	
-	@ManyToOne (cascade = CascadeType.ALL) // dodalem to bo byl bląd przy update Projektu 
+	@ManyToOne // (fetch = FetchType.LAZY) //(cascade = CascadeType.ALL) // dodalem to bo byl bląd przy update Projektu 
 	@JoinColumn(name="fk_dic_states_id", nullable = false ) //  fk_dic_s
 	private StateBean state; 
 	

@@ -18,6 +18,7 @@ C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\beans\BuildBean.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\action\NewUserInfoAction.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\create\action\AreaCreateAction.java
+C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\repositories\TestRepository.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\edit\action\AreaEditAction.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\create\action\PlatformCreateAction.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\edit\action\BugUpdateAction.java
@@ -25,6 +26,7 @@ C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\repositories\PlatformRepository.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\edit\action\TestUpdateAction.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\action\LoginAction.java
+C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\repositories\ResultRepository.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\beans\AreaBean.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\beans\StateBean.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\beans\VersionBean.java
@@ -36,6 +38,7 @@ C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\repositories\ProjectRepository.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\decorators\ProjectDecorator.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\net\sourceforge\jsptabcontrol\config\TabPageStateConfig.java
+C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\repositories\BuildRepository.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\action\ContactAction.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\beans\TestBean.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\action\HelloAction.java

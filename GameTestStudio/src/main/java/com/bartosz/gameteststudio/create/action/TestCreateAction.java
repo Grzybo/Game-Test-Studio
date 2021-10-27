@@ -11,10 +11,15 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
 import com.bartosz.gameteststudio.beans.PlatformBean;
+import com.bartosz.gameteststudio.beans.PriorityBean;
 import com.bartosz.gameteststudio.beans.ProjectBean;
+import com.bartosz.gameteststudio.beans.ResultBean;
+import com.bartosz.gameteststudio.beans.StateBean;
 import com.bartosz.gameteststudio.beans.TestBean;
+import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.beans.VersionBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
+import com.bartosz.gameteststudio.exceptions.GSException;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "createTest", //
@@ -48,20 +53,19 @@ public class TestCreateAction  extends ActionSupport {
     private List<String> priorityList = new ArrayList<String>(DataProvider.getPriorities().keySet());
 	private List<String> stateList = new ArrayList<String>(DataProvider.getStates().keySet());
 	private List<String> areaList = new ArrayList<String>();
-	private List<String> platformList;
+	private List<String> platformList = new ArrayList<String>(DataProvider.mapPlatforms.keySet()); // TYMCZASOWO
 	private List<String> accountList = new ArrayList<String>();
 	private List<String> resultList = new ArrayList<String>(DataProvider.mapResults.keySet());
 	private List<String> buildList = new ArrayList<String>(DataProvider.mapBuilds.keySet());
 	
     
     @Override
-    public String execute() {
+    public String execute() throws GSException {
           
     	HttpSession session = ServletActionContext.getRequest().getSession();
     	
     	ProjectBean project = DataProvider.mapProjects.get(session.getAttribute("userProject").toString());
-    	
-    	platformList = project.getPlatformsStringList();
+    	//platformList = project.getPlatformsStringList();
     	
     	for (String el : DataProvider.mapUsers.keySet()) {
     		if(DataProvider.mapUsers.get(el).getProjects() != null) {
@@ -78,33 +82,15 @@ public class TestCreateAction  extends ActionSupport {
 				areaList.add(el);
 			}
 		}
-    	
-    	if(!selectedPlatforms.isEmpty()) {
-    		for (String pl : selectedPlatforms) {
-        		selectedPlatformsList.add(DataProvider.mapPlatforms.get(pl));
-    		}
-        	
-    	}
-    	
+
     	if (title != null) {
-    		TestBean test = DataProvider.mapTests.get("Players - New - Marcin Gortat");
-        	
-    		test.setTitle(title);
-        	test.setUser(DataProvider.mapUsers.get(account));
-        	test.setDescription(description);
-        	test.setArea(DataProvider.mapAreas.get(area));
-        	test.setResult(DataProvider.mapResults.get(result));
-        	test.setEstimatedTime(estimatedTime);
-        	test.setStartDate(startDate);
-        	test.setEndDate(endDate);
-        	test.setTestersNumber(testersNumber); 
-        	test.setWorkTime(workTime);
-        	test.setState(DataProvider.getStates().get(state));
-        	test.setPriority(DataProvider.getPriorities().get(priority));
-        	test.setPlatforms(selectedPlatformsList);
-        	test.setVersion(new VersionBean(version, DataProvider.mapBuilds.get(build)));
-        	
-        	DataProvider.mapTests.put(test.getTitle(), test); 
+    		TestBean test = new TestBean(title, DataProvider.mapUsers.get(account), description,
+    				DataProvider.mapAreas.get(area), DataProvider.mapResults.get(result),
+    				estimatedTime, startDate, endDate, testersNumber, workTime, 
+    				DataProvider.getStates().get(state),
+    				DataProvider.getPriorities().get(priority), version, DataProvider.mapBuilds.get(build));
+
+        	DataProvider.saveTest(test);
         	
         	addActionError("Test created!");
     	}

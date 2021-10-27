@@ -79,6 +79,10 @@
 						<display:column property="priority.name" title="Priority"  sortable="true"/>
 						<display:column property="startDate" title="Start Date"  sortable="true"/>
 						<display:column property="endDate" title="End Date"  sortable="true"/>
+						<display:column property="estimatedTime" title="Estimated Time [h]"  sortable="true"/>
+					  	<display:column property="workTime" title="Time Spent [h]" sortable="true"/>
+					  	<display:column property="testersNumber" title="Testers" sortable="true"/>
+						
 					</display:table>	
 				</div> 						      
 			</jsptabcontrol:tabPage>  

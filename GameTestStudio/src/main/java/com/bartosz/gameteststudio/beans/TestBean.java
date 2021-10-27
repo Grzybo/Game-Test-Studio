@@ -4,30 +4,94 @@ import java.util.ArrayList;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import com.bartosz.gameteststudio.dp.DataProvider;
+import com.bartosz.gameteststudio.exceptions.GSException;
+
+
+@Entity
+@Table(name = "TESTS")
 public class TestBean {
 	
+	@Id
+	@GeneratedValue (strategy = GenerationType.IDENTITY)
+	@Column(name = "id", unique = true)
 	private Long id;
+	
+	@Column(name = "title", nullable = false)
 	private String title;
+	
+	@ManyToOne (cascade = CascadeType.ALL) 
+	@JoinColumn(name="fk_users_id", nullable = false ) 
 	private UserBean user; 
-	private String description; 
-	private AreaBean area; 
+	
+	@Column(name = "description", nullable = false)
+	private String description;
+	
+	@ManyToOne (cascade = CascadeType.ALL) 
+	@JoinColumn(name="fk_areas_id", nullable = false ) 
+	private AreaBean area;
+	
+	@ManyToOne (cascade = CascadeType.ALL) 
+	@JoinColumn(name="fk_dic_results_id", nullable = false ) 
 	private ResultBean result; 
+	
+	@Column(name = "estimated_time")
 	private Integer estimatedTime; 
+	
+	@Column(name = "start_date")
 	private String startDate;
+	
+	@Column(name = "end_date")
 	private String endDate;
+	
+	@Column(name = "testers_number")
 	private Integer testersNumber;
+	
+	@Column(name = "work_time")
 	private Integer workTime;
+	
+	@ManyToOne 
+	@JoinColumn(name="fk_dic_states_id", nullable = false )
 	private StateBean state; 
+	
+	@ManyToOne 
+	@JoinColumn(name="fk_dic_priorities_id", nullable = false ) 
 	private PriorityBean priority;
+	
+	@ManyToOne 
+	@JoinColumn(name="fk_dic_builds_id") 
+	private BuildBean build;
+	
+	@Column(name = "version")
+	private double version;  
+	
+	
+	@ManyToMany  (cascade = { CascadeType.ALL }) // (fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "TEST_DIC_PLATFORMS", 
+        joinColumns = { @JoinColumn(name = "FK_TESTS_ID") }, 
+        inverseJoinColumns = { @JoinColumn(name = "FK_PLATFORMS_ID") })
 	private List<PlatformBean> platforms;
-	private VersionBean version; 
+	//private VersionBean version; 
 	
 	public TestBean() {}
 
-	public TestBean(Long id ,String title, UserBean user, String description,
+	public TestBean(String title, UserBean user, String description,
 			com.bartosz.gameteststudio.beans.AreaBean area, ResultBean result,
 			Integer estimatedTime, String startDate, String endDate, Integer testersNumber, Integer workTime, StateBean state,
-			PriorityBean priority, List<PlatformBean> platforms, VersionBean version) {
+			PriorityBean priority, List<String> platforms, double version , BuildBean build) throws GSException {
 		this.title = title;
 		this.user = user;
 		this.description = description;
@@ -40,11 +104,50 @@ public class TestBean {
 		this.workTime = workTime;
 		this.state = state;
 		this.priority = priority;
-		this.platforms = platforms;
+		setPlatforms(platforms);
 		this.version = version;
-		this.id = id;
+		this.build = build;
+	} 
+	
+	public TestBean(String title, UserBean user, String description,
+			com.bartosz.gameteststudio.beans.AreaBean area, ResultBean result,
+			Integer estimatedTime, String startDate, String endDate, Integer testersNumber, Integer workTime, StateBean state,
+			PriorityBean priority, double version , BuildBean build) throws GSException {
+		this.title = title;
+		this.user = user;
+		this.description = description;
+		this.area = area;
+		this.result = result;
+		this.estimatedTime = estimatedTime;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.testersNumber = testersNumber;
+		this.workTime = workTime;
+		this.state = state;
+		this.priority = priority;
+		this.version = version;
+		this.build = build;
 	}
 
+	
+	public void setAllFields(TestBean test) {
+		this.title = test.title;
+		this.user = test.user;
+		this.description = test.description;
+		this.area = test.area;
+		this.result = test.result;
+		this.estimatedTime = test.estimatedTime;
+		this.startDate = test.startDate;
+		this.endDate = test.endDate;
+		this.testersNumber = test.testersNumber;
+		this.workTime = test.workTime;
+		this.state = test.state;
+		this.priority = test.priority;
+		this.platforms = test.platforms;;
+		this.version = test.version; 
+		this.id = test.id;
+	}
+	
 
 	public List<String> getPlatformList(){
 		List<String> list = new ArrayList<String>();
@@ -65,6 +168,26 @@ public class TestBean {
 
 	public String getTitle() {
 		return title;
+	}
+
+	public BuildBean getBuild() {
+		return build;
+	}
+
+	public void setBuild(BuildBean build) {
+		this.build = build;
+	}
+
+	public void setEstimatedTime(Integer estimatedTime) {
+		this.estimatedTime = estimatedTime;
+	}
+
+	public void setTestersNumber(Integer testersNumber) {
+		this.testersNumber = testersNumber;
+	}
+
+	public void setWorkTime(Integer workTime) {
+		this.workTime = workTime;
 	}
 
 	public void setTitle(String title) {
@@ -163,15 +286,23 @@ public class TestBean {
 		return platforms;
 	}
 
-	public void setPlatforms(List<PlatformBean> platforms) {
+	//public void setPlatforms(List<PlatformBean> platforms) {
+	//	this.platforms = platforms;
+	//} 
+	
+	public void setPlatforms(List<String> list) throws GSException {
+		List<PlatformBean> platforms = new ArrayList<PlatformBean>();
+		for(String str : list) {
+			platforms.add(DataProvider.getPlatformByTitle(str));
+		}
 		this.platforms = platforms;
 	}
 
-	public VersionBean getVersion() {
+	public double getVersion() {
 		return version;
 	}
 
-	public void setVersion(VersionBean version) {
+	public void setVersion(double version) {
 		this.version = version;
 	} 
 	

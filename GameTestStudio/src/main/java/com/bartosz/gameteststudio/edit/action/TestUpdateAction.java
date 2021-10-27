@@ -11,6 +11,7 @@ import org.apache.struts2.convention.annotation.Result;
 
 import com.bartosz.gameteststudio.beans.TestBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
+import com.bartosz.gameteststudio.exceptions.GSException;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "updateTest", //
@@ -29,7 +30,7 @@ public class TestUpdateAction  extends ActionSupport {
     private String state;
     private String description; 
     private String area;
-    private String platform;
+    private List<String> selectedPlatforms;
     private Integer estimatedTime; 
     private Integer testersNumber;
 	private Integer workTime;
@@ -38,19 +39,19 @@ public class TestUpdateAction  extends ActionSupport {
 	private String result;
 	private String build;
 	private Double version;
-	
+
     
     private List<String> priorityList = new ArrayList<String>(DataProvider.getPriorities().keySet());
 	private List<String> stateList = new ArrayList<String>(DataProvider.getStates().keySet());
 	private List<String> areaList = new ArrayList<String>();
-	private List<String> platformList;
+	private List<String> platformList = new ArrayList<String>(DataProvider.mapPlatforms.keySet()); // TYMCZASOWO
 	private List<String> accountList = new ArrayList<String>();
 	private List<String> resultList = new ArrayList<String>(DataProvider.mapResults.keySet());
 	private List<String> buildList = new ArrayList<String>(DataProvider.mapBuilds.keySet());
 	
     
     @Override
-    public String execute() {
+    public String execute() throws GSException {
           
     	HttpSession session = ServletActionContext.getRequest().getSession();
     	
@@ -69,25 +70,29 @@ public class TestUpdateAction  extends ActionSupport {
 				areaList.add(el);
 			}
 		}
-    	System.out.println("  ID:  " + itemID + "   ");
+
     	TestBean test = DataProvider.getTestById(Integer.parseInt(itemID));
-    	platformList = test.getArea().getProject().getPlatformsStringList(); 
-    	DataProvider.mapTests.remove(test.getTitle());
-    	DataProvider.mapTestsId.remove(test.getId());
+    	TestBean newTest = new TestBean();
     	
-    	test.setUser(DataProvider.mapUsers.get(account));
-    	test.setPriority(DataProvider.getPriorities().get(priority));
-    	test.setState(DataProvider.getStates().get(state));
-    	test.setDescription(description);
-    	test.setArea(DataProvider.mapAreas.get(area));
-    	test.setEstimatedTime(estimatedTime);
-    	test.setWorkTime(workTime);
-    	test.setTestersNumber(testersNumber);
-    	test.setStartDate(startDate);
-    	test.setEndDate(endDate);
+    	newTest.setTitle(title);
+    	newTest.setUser(DataProvider.mapUsers.get(account));
+    	newTest.setPriority(DataProvider.getPriorities().get(priority));
+    	newTest.setState(DataProvider.getStates().get(state));
+    	newTest.setDescription(description);
+    	newTest.setArea(DataProvider.mapAreas.get(area));
+    	newTest.setEstimatedTime(estimatedTime);
+    	newTest.setWorkTime(workTime);
+    	newTest.setTestersNumber(testersNumber);
+    	newTest.setStartDate(startDate);
+    	newTest.setEndDate(endDate);
+    	newTest.setId(test.getId());
+    	newTest.setBuild(DataProvider.mapBuilds.get(build));
+    	newTest.setResult(DataProvider.mapResults.get(result));
+    	//newTest.setPlatforms(selectedPlatforms);
     	
-    	DataProvider.mapTests.put(test.getTitle(), test);
-    	DataProvider.mapTestsId.put(test.getId(), test.getTitle());
+    	DataProvider.updateTest(test, newTest);
+    	
+    	addActionError("Test Updated!");
     	
     	return "update";
     	
@@ -154,13 +159,13 @@ public class TestUpdateAction  extends ActionSupport {
 	}
 
 
-	public String getPlatform() {
-		return platform;
+	public List<String> getPlatform() {
+		return selectedPlatforms;
 	}
 
 
-	public void setPlatform(String platform) {
-		this.platform = platform;
+	public void setPlatform(List<String> platform) {
+		this.selectedPlatforms = platform;
 	}
 
 
