@@ -46,7 +46,7 @@ public abstract class ProjectRepository {
 		final Query<ProjectBean> query = session.createQuery("from ProjectBean where title =: title", ProjectBean.class);
 		query.setParameter("title", title);
 		ProjectBean project = query.uniqueResult();
-		session.close();
+		//session.close();
 		return project;
 	}
 	
@@ -56,7 +56,8 @@ public abstract class ProjectRepository {
 		final Query<ProjectBean> query = session.createQuery("from ProjectBean where id =: id", ProjectBean.class);
 		query.setParameter("id", id);
 		ProjectBean project = query.uniqueResult();
-		session.close();
+		session.getTransaction().commit();
+		//session.close(); // wczytywanie platform nie dziala jak zamykamy /TODO dziala wczytanie ale nie dziala update, jak to odkomentujemy to dziala update ale nie dziala wczytanie platform 
 		return project;
 	}
 	

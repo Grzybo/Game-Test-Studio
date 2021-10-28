@@ -44,14 +44,16 @@ public class ProjectEditAction  extends ActionSupport {
 			
 			ProjectBean project = DataProvider.getProjectByID(Long.parseLong(itemID)); 
 			
-			//System.out.println(project.getPlatformsStringList()); 
-			//TODO naprawic relacje projects-platforms
+			
+			
+
+			//TODO naprawic relacje projects-platforms - chyba naprawione
 			
 			title = project.getTitle(); 
 			description = project.getDescription();
 		    testers_numbers = project.getTestersNumber();
 		    estimate_time = project.getEstimatedTime(); 
-		    //selectedPlatforms = project.getPlatformsStringList();
+		    selectedPlatforms = project.getPlatformsStringList();
 		    work_time = project.getWorkTime(); 
 		    startDate = project.getStartDate();
 		    endDate = project.getEndDate();

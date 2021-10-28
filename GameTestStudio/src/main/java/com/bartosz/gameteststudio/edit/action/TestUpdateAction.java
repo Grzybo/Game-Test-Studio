@@ -30,7 +30,7 @@ public class TestUpdateAction  extends ActionSupport {
     private String state;
     private String description; 
     private String area;
-    private List<String> selectedPlatforms;
+    private List<String> selectedPlatforms = new ArrayList<String>();
     private Integer estimatedTime; 
     private Integer testersNumber;
 	private Integer workTime;
@@ -44,7 +44,7 @@ public class TestUpdateAction  extends ActionSupport {
     private List<String> priorityList = new ArrayList<String>(DataProvider.getPriorities().keySet());
 	private List<String> stateList = new ArrayList<String>(DataProvider.getStates().keySet());
 	private List<String> areaList = new ArrayList<String>();
-	private List<String> platformList = new ArrayList<String>(DataProvider.mapPlatforms.keySet()); // TYMCZASOWO
+	private List<String> platformList = new ArrayList<String>(); //DataProvider.mapPlatforms.keySet()); // TYMCZASOWO
 	private List<String> accountList = new ArrayList<String>();
 	private List<String> resultList = new ArrayList<String>(DataProvider.mapResults.keySet());
 	private List<String> buildList = new ArrayList<String>(DataProvider.mapBuilds.keySet());
@@ -73,6 +73,8 @@ public class TestUpdateAction  extends ActionSupport {
 
     	TestBean test = DataProvider.getTestById(Integer.parseInt(itemID));
     	TestBean newTest = new TestBean();
+    	platformList = test.getArea().getProject().getPlatformsStringList();
+    	
     	
     	newTest.setTitle(title);
     	newTest.setUser(DataProvider.mapUsers.get(account));
@@ -88,7 +90,7 @@ public class TestUpdateAction  extends ActionSupport {
     	newTest.setId(test.getId());
     	newTest.setBuild(DataProvider.mapBuilds.get(build));
     	newTest.setResult(DataProvider.mapResults.get(result));
-    	//newTest.setPlatforms(selectedPlatforms);
+    	newTest.setPlatforms(selectedPlatforms);
     	
     	DataProvider.updateTest(test, newTest);
     	
@@ -159,13 +161,16 @@ public class TestUpdateAction  extends ActionSupport {
 	}
 
 
-	public List<String> getPlatform() {
+	
+
+
+	public List<String> getSelectedPlatforms() {
 		return selectedPlatforms;
 	}
 
 
-	public void setPlatform(List<String> platform) {
-		this.selectedPlatforms = platform;
+	public void setSelectedPlatforms(List<String> selectedPlatforms) {
+		this.selectedPlatforms = selectedPlatforms;
 	}
 
 

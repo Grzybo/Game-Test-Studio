@@ -46,7 +46,8 @@ public class ProjectCreateAction extends ActionSupport {
     		 */
     		
     		addActionError("Project created."); 
-    		ProjectBean newProject = new ProjectBean(title, description, estimate_time, work_time, startDate, endDate, testers_numbers, StateRepository.findByName("New"));
+    		//ProjectBean newProject = new ProjectBean(title, description, estimate_time, work_time, startDate, endDate, testers_numbers, StateRepository.findByName("New"));
+    		ProjectBean newProject = new ProjectBean(title, description, estimate_time, work_time, startDate, endDate, testers_numbers, StateRepository.findByName("New"), selectedPlatforms);
     		//newProject.setPlatforms(selectedPlatforms); 
     		//System.out.println(selectedPlatforms);
     		DataProvider.saveProject(newProject);

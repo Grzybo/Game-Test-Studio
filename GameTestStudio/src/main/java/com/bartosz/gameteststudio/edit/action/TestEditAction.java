@@ -39,18 +39,10 @@ public class TestEditAction  extends ActionSupport {
 	private String result;
 	private String build;
 	private Double version;
-	private List<String> platforms;
+	private List<String> selectedPlatforms;
 	
     
-    public List<String> getPlatforms() {
-		return platforms;
-	}
-
-
-
-	public void setPlatforms(List<String> platforms) {
-		this.platforms = platforms;
-	}
+   
 
 
 
@@ -63,7 +55,7 @@ public class TestEditAction  extends ActionSupport {
 	private List<String> priorityList = new ArrayList<String>(DataProvider.getPriorities().keySet());
 	private List<String> stateList = new ArrayList<String>(DataProvider.getStates().keySet());
 	private List<String> areaList = new ArrayList<String>();
-	private List<String> platformList = new ArrayList<String>(DataProvider.mapPlatforms.keySet()); //TYMCZASOWEEEE
+	private List<String> platformList = new ArrayList<String>();//DataProvider.mapPlatforms.keySet()); //TYMCZASOWEEEE
 	private List<String> accountList = new ArrayList<String>();
 	private List<String> resultList = new ArrayList<String>(DataProvider.mapResults.keySet());
 	private List<String> buildList = new ArrayList<String>(DataProvider.mapBuilds.keySet());
@@ -92,7 +84,9 @@ public class TestEditAction  extends ActionSupport {
     	
     	TestBean test = DataProvider.getTestById(Integer.parseInt(itemID));
     	
-    	//platformList = test.getArea().getProject().getPlatformsStringList();
+    	System.out.println(test.getPlatformList());
+    	
+    	platformList = test.getArea().getProject().getPlatformsStringList();
     	
     	title = test.getTitle(); 
     	account = test.getUser().getEmail();
@@ -106,9 +100,11 @@ public class TestEditAction  extends ActionSupport {
     	workTime = test.getWorkTime();
     	state = test.getState().getName(); 
     	priority = test.getPriority().getName();
-    	//platforms = test.getPlatformList();
+    	selectedPlatforms = test.getPlatformList();
     	version = test.getVersion();
     	build = test.getBuild().getName();
+    	
+    	//TODO jak wracamy do testu po update platform to error
     	
     	return "editTest";
     }
@@ -138,6 +134,18 @@ public class TestEditAction  extends ActionSupport {
 
 	public Integer getWorkTime() {
 		return workTime;
+	}
+
+
+
+	public List<String> getSelectedPlatforms() {
+		return selectedPlatforms;
+	}
+
+
+
+	public void setSelectedPlatforms(List<String> selectedPlatforms) {
+		this.selectedPlatforms = selectedPlatforms;
 	}
 
 

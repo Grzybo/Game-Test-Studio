@@ -36,8 +36,7 @@
 						<s:select label="Area"
 	    					name="area"
 	    					list="areaList"/>		
-						<s:checkboxlist label="Platform" list="platformList" 
-	 						name="platform" />
+						<s:checkboxlist label="Platform" list="platformList" name="selectedPlatforms" />
 					</tr>
 					<tr>
 						<s:textfield class="text" size="100%" name="estimatedTime" label="Estimated Test Time" 

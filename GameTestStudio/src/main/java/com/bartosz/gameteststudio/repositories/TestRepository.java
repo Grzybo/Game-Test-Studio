@@ -24,7 +24,7 @@ public class TestRepository {
 		oldTest.setAllFields(newTest);
 		session.update(oldTest);
 		session.getTransaction().commit();
-		session.close(); 
+		//session.close(); 
 		
 	
 	} 
@@ -33,7 +33,7 @@ public class TestRepository {
 		final Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		List<TestBean> list = session.createQuery("SELECT a FROM TestBean a", TestBean.class).getResultList();
-		session.close();
+		//session.close();
 		return list; 
 	}
 
@@ -53,7 +53,7 @@ public class TestRepository {
 		final Query<TestBean> query = session.createQuery("from TestBean where id =: id", TestBean.class);
 		query.setParameter("id", id);
 		TestBean test = query.uniqueResult();
-		session.close();
+		//session.close();
 		return test;
 	}
 }

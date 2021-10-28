@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,7 +14,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
@@ -52,16 +57,21 @@ public class ProjectBean {
 	@JoinColumn(name="fk_dic_states_id", nullable = false ) //  fk_dic_states_id BIGINT NOT NULL REFERENCES dic_states(id) ON DELETE CASCADE
 	private StateBean state;
 	
+	//@ManyToMany (mappedBy = "projects") //cascade = CascadeType.ALL)
+	//private List<PlatformBean> platforms;
+	
 	@ManyToMany (mappedBy = "projects", cascade = CascadeType.ALL) //(cascade = { CascadeType.ALL })
 	private List<UserBean> users; 
 	
-	
-	@ManyToMany  (cascade = { CascadeType.ALL }) // (fetch = FetchType.EAGER)
+	/**
+	 */
+	@ManyToMany (cascade = { CascadeType.ALL })//( fetch = FetchType.LAZY)//(  cascade = {CascadeType.MERGE, CascadeType.PERSIST},fetch = FetchType.EAGER)//  // 
     @JoinTable(
         name = "PROJECT_DIC_PLATFORMS", 
         joinColumns = { @JoinColumn(name = "FK_PROJECTS_ID") }, 
-        inverseJoinColumns = { @JoinColumn(name = "FK_PLATFORMS_ID") })
+        inverseJoinColumns = { @JoinColumn(name = "FK_DIC_PLATFORMS_ID") })
 	private List<PlatformBean> platforms; // 
+	
 	
 	public ProjectBean() {}
 	
@@ -97,6 +107,20 @@ public class ProjectBean {
 		this.state = state;
 		this.id = id;
 		this.platforms = platforms;
+	} 
+	
+	public ProjectBean(String title, String description, int estimatedTime, 
+			int workTime, String startDate, String endDate,
+			int testersNumber, StateBean state, List<String> platforms) throws GSException {
+		this.title = title;
+		this.description = description;
+		this.estimatedTime = estimatedTime;
+		this.workTime = workTime;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.testersNumber = testersNumber;
+		this.state = state;
+		setPlatforms(platforms);
 	}
 
 

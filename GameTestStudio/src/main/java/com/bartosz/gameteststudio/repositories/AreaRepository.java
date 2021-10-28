@@ -25,7 +25,7 @@ public class AreaRepository {
 		oldArea.setAllFields(newArea);
 		session.update(oldArea);
 		session.getTransaction().commit();
-		session.close(); 
+		//session.close(); 
 		
 	
 	} 
@@ -34,7 +34,7 @@ public class AreaRepository {
 		final Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		List<AreaBean> list = session.createQuery("SELECT a FROM AreaBean a", AreaBean.class).getResultList();
-		session.close();
+		//session.close();
 		return list; 
 	}
 
@@ -44,7 +44,7 @@ public class AreaRepository {
 		final Query<AreaBean> query = session.createQuery("from AreaBean where title =: title", AreaBean.class);
 		query.setParameter("title", title);
 		AreaBean project = query.uniqueResult();
-		session.close();
+		//session.close();
 		return project;
 	}
 	
@@ -54,7 +54,7 @@ public class AreaRepository {
 		final Query<AreaBean> query = session.createQuery("from AreaBean where id =: id", AreaBean.class);
 		query.setParameter("id", id);
 		AreaBean area = query.uniqueResult();
-		session.close();
+		//session.close();
 		return area;
 	}
 }

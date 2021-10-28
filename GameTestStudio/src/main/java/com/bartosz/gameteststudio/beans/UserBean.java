@@ -49,11 +49,6 @@ public class UserBean {
         inverseJoinColumns = { @JoinColumn(name = "FK_PROJECTS_ID") })
 	private List<ProjectBean> projects; 
 	
-	//private PermissionBean bugPremission;
-	
-	//private PermissionBean areaPremission;
-	//private PermissionBean testPremission;
-	
 	
 	public UserBean(String firstName, String lastName, String email, 
 			String password, RoleBean role, List<String> projects) {

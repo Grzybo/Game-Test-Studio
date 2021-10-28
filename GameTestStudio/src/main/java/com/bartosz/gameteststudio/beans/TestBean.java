@@ -32,18 +32,18 @@ public class TestBean {
 	@Column(name = "title", nullable = false)
 	private String title;
 	
-	@ManyToOne (cascade = CascadeType.ALL) 
+	@ManyToOne //(cascade = CascadeType.ALL) 
 	@JoinColumn(name="fk_users_id", nullable = false ) 
 	private UserBean user; 
 	
 	@Column(name = "description", nullable = false)
 	private String description;
 	
-	@ManyToOne (cascade = CascadeType.ALL) 
+	@ManyToOne //(cascade = CascadeType.ALL) 
 	@JoinColumn(name="fk_areas_id", nullable = false ) 
 	private AreaBean area;
 	
-	@ManyToOne (cascade = CascadeType.ALL) 
+	@ManyToOne //(cascade = CascadeType.ALL) 
 	@JoinColumn(name="fk_dic_results_id", nullable = false ) 
 	private ResultBean result; 
 	
@@ -78,11 +78,11 @@ public class TestBean {
 	private double version;  
 	
 	
-	@ManyToMany  (cascade = { CascadeType.ALL }) // (fetch = FetchType.EAGER)
+	@ManyToMany //  (cascade = { CascadeType.ALL }) // (fetch = FetchType.EAGER)
     @JoinTable(
         name = "TEST_DIC_PLATFORMS", 
         joinColumns = { @JoinColumn(name = "FK_TESTS_ID") }, 
-        inverseJoinColumns = { @JoinColumn(name = "FK_PLATFORMS_ID") })
+        inverseJoinColumns = { @JoinColumn(name = "FK_DIC_PLATFORMS_ID") })
 	private List<PlatformBean> platforms;
 	//private VersionBean version; 
 	

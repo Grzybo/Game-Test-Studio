@@ -249,8 +249,7 @@ public class DataProvider {
 				/**
 				 * 
 				put("FIFA 21", new ProjectBean("FIFA 21", "New features in FIFA 21...", 700, 900, "2020-01-01", "2020-10-11", 50 , getStates().get("Closed"), 
-						(long)20, Arrays.asList(mapPlatforms.get("PlayStation 4"), mapPlatforms.get("PlayStation 5"),
-								mapPlatforms.get("Xbox Series S"), mapPlatforms.get("Xbox Series X"))));
+						(long)20, Arrays.asList(mapPlatforms.get("PlayStation 4"), mapPlatforms.get("PlayStation 5"))));
 				put("FIFA 22", new ProjectBean("FIFA 22", "New features in FIFA 22...", 500, 0, "2021-10-01", null, 10 , getStates().get("New"), (long)10, 
 						Arrays.asList(mapPlatforms.get("PlayStation 4"), mapPlatforms.get("PlayStation 5"),
 								mapPlatforms.get("Xbox Series S"), mapPlatforms.get("Xbox Series X")))) ;
