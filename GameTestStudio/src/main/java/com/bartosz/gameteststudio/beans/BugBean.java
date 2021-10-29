@@ -3,32 +3,88 @@ package com.bartosz.gameteststudio.beans;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
 import com.bartosz.gameteststudio.dp.DataProvider;
 
+@Entity
+@Table(name = "BUGS")
 public class BugBean {
 
-		private Long id;
-		private String title;
-		
-		private UserBean user; 
-		private String description;
-		private String reproSteps;
-		private StateBean state; 
-		private PriorityBean priority;
-		private List<PlatformBean> platforms;
-		private VersionBean version;
-		private TestBean test;
-		//private Area area;
-		private int minKitNumber;
-		private AttachmentBean attachment;   
+	@Id
+	@GeneratedValue (strategy = GenerationType.IDENTITY)
+	@Column(name = "id", unique = true)
+	private Long id;
+	
+	@Column(name = "title", nullable = false)
+	private String title;
+	
+	@ManyToOne (cascade = CascadeType.ALL) 
+	@JoinColumn(name="fk_users_id", nullable = false ) 
+	private UserBean user; 
+	
+	@Column(name = "description", nullable = false)
+	private String description;
+	
+	@Column(name = "steps_to_reproduction", nullable = false)
+	private String reproSteps;
+	
+	@ManyToOne 
+	@JoinColumn(name="fk_dic_states_id", nullable = false )
+	private StateBean state; 
+	
+	@ManyToOne 
+	@JoinColumn(name="fk_dic_priorities_id", nullable = false ) 
+	private PriorityBean priority; 
+	
+	@ManyToOne 
+	@JoinColumn(name="fk_dic_builds_id") 
+	private BuildBean build;
+	
+	@ManyToMany //  (cascade = { CascadeType.ALL }) // (fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "BUG_DIC_PLATFORMS", 
+        joinColumns = { @JoinColumn(name = "FK_BUGS_ID") }, 
+        inverseJoinColumns = { @JoinColumn(name = "FK_DIC_PLATFORMS_ID") })
+	private List<PlatformBean> platforms;
+	
+	@Column(name = "version")
+	private double version; 
+	
+	@ManyToOne //(cascade = CascadeType.ALL) 
+	@JoinColumn(name="fk_tests_id", nullable = false ) 
+	private TestBean test;
+
+	@Column(name = "min_kit_number", nullable = false)
+	private int minKitNumber;
+	
+	@Column(name = "repro_frequency", nullable = false)
+	private int reproFrequency; 
+	
+	@ManyToOne 
+	@JoinColumn(name="fk_dic_issues_id", nullable = false ) 
+	private IssueTypeBean issueType;
+	
+	//private AttachmentBean attachment;   
 		
 		
 		
 		public BugBean() {}
 		
-		public BugBean(Long id, String title, UserBean user, String description, String reproSteps,
-				StateBean state, PriorityBean priority,
-				List<PlatformBean> platforms,  VersionBean version, int minKitNumber, TestBean test) {
+		public BugBean(String title, UserBean user, String description, String reproSteps,
+				StateBean state, PriorityBean priority, List<PlatformBean> platforms,  
+				double version, int minKitNumber, TestBean test, IssueTypeBean issueType, 
+				int reproFrequency, BuildBean build) {
 			this.title = title;
 			this.user = user;
 			this.description = description;
@@ -39,7 +95,27 @@ public class BugBean {
 			this.version = version;
 			this.minKitNumber = minKitNumber;
 			this.test = test;
-			this.id = id;
+			this.issueType = issueType;
+			this.reproFrequency = reproFrequency;
+			this.build = build;
+		} 
+		
+		public BugBean(String title, UserBean user, String description, String reproSteps,
+				StateBean state, PriorityBean priority,  
+				double version, int minKitNumber, TestBean test, IssueTypeBean issueType, 
+				int reproFrequency, BuildBean build) {
+			this.title = title;
+			this.user = user;
+			this.description = description;
+			this.reproSteps = reproSteps;
+			this.state = state;
+			this.priority = priority;
+			this.version = version;
+			this.minKitNumber = minKitNumber;
+			this.test = test;
+			this.issueType = issueType;
+			this.reproFrequency = reproFrequency;
+			this.build = build;
 		}
 
 		
@@ -68,15 +144,16 @@ public class BugBean {
 			this.test = test;
 		}
 
-		/*
-		public Area getArea() {
-			return area;
+		
+		
+		public int getReproFrequency() {
+			return reproFrequency;
 		}
 
-		public void setArea(Area area) {
-			this.area = area;
+		public void setReproFrequency(int reproFrequency) {
+			this.reproFrequency = reproFrequency;
 		}
-		*/
+
 		@Override
 		public String toString() {
 			return "Bug [title=" + title + "]";
@@ -147,11 +224,11 @@ public class BugBean {
 		}
 
 
-		public VersionBean getVersion() {
+		public double getVersion() {
 			return version;
 		}
 
-		public void setVersion(VersionBean version) {
+		public void setVersion(double version) {
 			this.version = version;
 		}
 
@@ -163,13 +240,50 @@ public class BugBean {
 			this.minKitNumber = minKitNumber;
 		}
 
-		public AttachmentBean getAttachment() {
+		public BuildBean getBuild() {
+			return build;
+		}
+
+		public void setBuild(BuildBean build) {
+			this.build = build;
+		}
+
+		public IssueTypeBean getIssueType() {
+			return issueType;
+		}
+
+		public void setIssueType(IssueTypeBean issueType) {
+			this.issueType = issueType;
+		}
+
+		public void setAllFields(BugBean newBug) {
+			this.title = newBug.title;
+			this.user = newBug.user;
+			this.description = newBug.description;
+			this.reproSteps = newBug.reproSteps;
+			this.state = newBug.state;
+			this.priority = newBug.priority;
+			this.platforms = newBug.platforms;
+			this.version = newBug.version;
+			this.minKitNumber = newBug.minKitNumber;
+			this.test = newBug.test;
+			this.id = newBug.id;
+			this.issueType = newBug.issueType;
+			this.reproFrequency = newBug.reproFrequency;
+			this.build = newBug.build;
+		}
+
+		/**
+		 * public AttachmentBean getAttachment() {
 			return attachment;
 		}
 
 		public void setAttachment(AttachmentBean attachment) {
 			this.attachment = attachment;
 		}  
+		 * @return
+		 */
+		
 		
 		
 		

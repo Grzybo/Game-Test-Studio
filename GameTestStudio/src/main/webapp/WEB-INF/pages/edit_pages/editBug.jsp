@@ -23,7 +23,8 @@
 	 		<h2>Edit Bug</h2>
 	 		
 	 	
-	 		<div class = "content">
+	 		<div class = "content"> 
+	 		<s:actionerror />
 	 		<s:form id="editBug" action="/updateBug" >
 	 		<table style="width:100%">
 	 			<tr>
@@ -39,7 +40,10 @@
 	     					list="priorityList"/>
 	     			<s:select label="State"
 	     					name="state"
-	     					list="stateList"/>	
+	     					list="stateList"/>
+   					<s:select label="Issue Type"
+	     					name="issue"
+	     					list="issuesList"/>	
 				</tr>
 
 				<tr>
@@ -65,13 +69,13 @@
 		     					list="buildList"/>
    					<s:textfield class="text" name="version" 
    								key="Version"  size="100%" type="number"/>
-					<s:select label="Result"
-	     						name="result"
-	     						list="resultList"/>
 				</tr>
 				<tr>
-  						<s:textfield class="text" name="minKitNumber" 
-   								key="Minimum Kit Number"  size="100%" type="number"/>
+					<s:textfield class="text" name="minKitNumber" 
+								key="Minimum Kit Number"  size="100%" type="number"/> 
+					<s:select label="Repro Frequency [%]"
+   							name="reproStr"
+   								list="reproList"/>	
 				</tr>
 
 				<s:submit class= "button"  method="execute" key="Submit" form = "editBug"/>			

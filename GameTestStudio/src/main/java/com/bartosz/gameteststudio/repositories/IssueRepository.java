@@ -5,27 +5,26 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
-import com.bartosz.gameteststudio.beans.StateBean;
+import com.bartosz.gameteststudio.beans.IssueTypeBean;
 import com.bartosz.gameteststudio.dp.HibernateUtil;
 
-public class StateRepository {
+public class IssueRepository {
 
-	
-	public static List<StateBean> findAllStates(){
+	public static List<IssueTypeBean> findAll(){
 		final Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
-		List<StateBean> list = session.createQuery("SELECT a FROM StateBean a", StateBean.class).getResultList();
+		List<IssueTypeBean> list = session.createQuery("SELECT a FROM IssueTypeBean a", IssueTypeBean.class).getResultList();
 		session.close();
 		return list; 
 	} 
 	
-	public static StateBean findByName(String name) {
+	public static IssueTypeBean findByName(String name) {
 		final Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction(); 
-		final Query<StateBean> query = session.createQuery("from StateBean where name =: name", StateBean.class);
+		final Query<IssueTypeBean> query = session.createQuery("from IssueTypeBean where name =: name", IssueTypeBean.class);
 		query.setParameter("name", name);
-		StateBean state = query.uniqueResult();
+		IssueTypeBean i = query.uniqueResult();
 		session.close();
-		return state;
+		return i;
 	}
 }

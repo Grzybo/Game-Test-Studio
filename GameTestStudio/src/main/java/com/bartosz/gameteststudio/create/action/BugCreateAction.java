@@ -2,6 +2,7 @@ package com.bartosz.gameteststudio.create.action;
  
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -12,8 +13,14 @@ import org.apache.struts2.convention.annotation.Result;
 
 import com.bartosz.gameteststudio.beans.AttachmentBean;
 import com.bartosz.gameteststudio.beans.BugBean;
+import com.bartosz.gameteststudio.beans.BuildBean;
+import com.bartosz.gameteststudio.beans.IssueTypeBean;
 import com.bartosz.gameteststudio.beans.PlatformBean;
+import com.bartosz.gameteststudio.beans.PriorityBean;
 import com.bartosz.gameteststudio.beans.ProjectBean;
+import com.bartosz.gameteststudio.beans.StateBean;
+import com.bartosz.gameteststudio.beans.TestBean;
+import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.beans.VersionBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.opensymphony.xwork2.ActionSupport;
@@ -35,8 +42,26 @@ public class BugCreateAction  extends ActionSupport {
     private String reproSteps;
     private String test;
     private String platform;
+    private String issue;
+    private int reproFrequency;
+    private String reproStr;
+    private List<String> reproList = Arrays.asList("100", "75", "50", "25");
    
-    private List<String> selectedPlatforms = new ArrayList<String>();
+    public int getReproFrequency() {
+		return reproFrequency;
+	}
+
+
+
+
+
+
+
+	public void setReproFrequency(int reproFrequency) {
+		this.reproFrequency = reproFrequency;
+	}
+
+	private List<String> selectedPlatforms = new ArrayList<String>();
     private List<PlatformBean> selectedPlatformsList;
     
     private String build;
@@ -53,10 +78,11 @@ public class BugCreateAction  extends ActionSupport {
     private List<String> priorityList = new ArrayList<String>(DataProvider.getPriorities().keySet());
 	private List<String> stateList = new ArrayList<String>(DataProvider.getStates().keySet());
 	private List<String> testList = new ArrayList<String>();
-	private List<String> platformList;
+	private List<String> platformList = new ArrayList<String>(DataProvider.mapPlatforms.keySet());
 	private List<String> accountList = new ArrayList<String>();
 	private List<String> resultList = new ArrayList<String>(DataProvider.mapResults.keySet());
 	private List<String> buildList = new ArrayList<String>(DataProvider.mapBuilds.keySet());
+	private List<String> issuesList = new ArrayList<String>(DataProvider.getIssues().keySet());
     
     @Override
     public String execute() {
@@ -64,7 +90,7 @@ public class BugCreateAction  extends ActionSupport {
     	HttpSession session = ServletActionContext.getRequest().getSession();
     	ProjectBean project = DataProvider.mapProjects.get(session.getAttribute("userProject").toString());
     	
-    	platformList = project.getPlatformsStringList();
+    	//platformList = project.getPlatformsStringList();
     	
     	for (String el : DataProvider.mapUsers.keySet()) {
     		if(DataProvider.mapUsers.get(el).getProjects() != null) {
@@ -90,22 +116,19 @@ public class BugCreateAction  extends ActionSupport {
     	}
     	
     	
+    	
+    	
     	if(title != null) {
-    		BugBean bug = new BugBean();
+    		BugBean bug = new BugBean(title, DataProvider.mapUsers.get(account), description, reproSteps,
+    				DataProvider.getStates().get(state), DataProvider.getPriorities().get(priority),  
+    				version, minKitNumber, DataProvider.mapTests.get(test), DataProvider.getIssues().get(issue),
+    				Integer.parseInt(reproStr), DataProvider.mapBuilds.get(build));
         	
-    		bug.setId((long)DataProvider.mapBugsId.keySet().size() + 1);  
-    		bug.setTitle(title);
-        	bug.setUser(DataProvider.mapUsers.get(account));
-        	bug.setDescription(description);
-        	bug.setReproSteps(reproSteps);
-        	bug.setState(DataProvider.getStates().get(state));
-        	bug.setPriority(DataProvider.getPriorities().get(priority));
+
         	bug.setPlatforms(selectedPlatformsList);
-        	bug.setVersion(new VersionBean(version, DataProvider.mapBuilds.get(build)));
-        	bug.setTest(DataProvider.mapTests.get(test));
-        	bug.setAttachment(att);
+
           	
-        	DataProvider.mapBugs.put(bug.getTitle(), bug);
+        	DataProvider.saveBug(bug);
         	
         	addActionError("Bug created!");
     	}else {
@@ -122,6 +145,126 @@ public class BugCreateAction  extends ActionSupport {
     
     
     
+
+	public String getIssue() {
+		return issue;
+	}
+
+
+
+
+
+
+
+	public void setIssue(String issue) {
+		this.issue = issue;
+	}
+
+
+
+
+
+
+
+	public String getReproStr() {
+		return reproStr;
+	}
+
+
+
+
+
+
+
+	public void setReproStr(String reproStr) {
+		this.reproStr = reproStr;
+	}
+
+
+
+
+
+
+
+	public List<String> getReproList() {
+		return reproList;
+	}
+
+
+
+
+
+
+
+	public void setReproList(List<String> reproList) {
+		this.reproList = reproList;
+	}
+
+
+
+
+
+
+
+	public List<String> getSelectedPlatforms() {
+		return selectedPlatforms;
+	}
+
+
+
+
+
+
+
+	public void setSelectedPlatforms(List<String> selectedPlatforms) {
+		this.selectedPlatforms = selectedPlatforms;
+	}
+
+
+
+
+
+
+
+	public List<PlatformBean> getSelectedPlatformsList() {
+		return selectedPlatformsList;
+	}
+
+
+
+
+
+
+
+	public void setSelectedPlatformsList(List<PlatformBean> selectedPlatformsList) {
+		this.selectedPlatformsList = selectedPlatformsList;
+	}
+
+
+
+
+
+
+
+	public List<String> getIssuesList() {
+		return issuesList;
+	}
+
+
+
+
+
+
+
+	public void setIssuesList(List<String> issuesList) {
+		this.issuesList = issuesList;
+	}
+
+
+
+
+
+
 
 	public List<String> getList() {
 		return selectedPlatforms;

@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import com.bartosz.gameteststudio.beans.AreaBean;
 import com.bartosz.gameteststudio.beans.BugBean;
 import com.bartosz.gameteststudio.beans.BuildBean;
+import com.bartosz.gameteststudio.beans.IssueTypeBean;
 import com.bartosz.gameteststudio.beans.PermissionBean;
 import com.bartosz.gameteststudio.beans.PlatformBean;
 import com.bartosz.gameteststudio.beans.PriorityBean;
@@ -22,7 +23,9 @@ import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.beans.VersionBean;
 import com.bartosz.gameteststudio.exceptions.GSException;
 import com.bartosz.gameteststudio.repositories.AreaRepository;
+import com.bartosz.gameteststudio.repositories.BugRepository;
 import com.bartosz.gameteststudio.repositories.BuildRepository;
+import com.bartosz.gameteststudio.repositories.IssueRepository;
 import com.bartosz.gameteststudio.repositories.PlatformRepository;
 import com.bartosz.gameteststudio.repositories.PriorityRepository;
 import com.bartosz.gameteststudio.repositories.ProjectRepository;
@@ -319,6 +322,25 @@ public class DataProvider {
 		return mapStates;
 	} 
 // ##################################################################################################################################################################################################
+// Issue
+// ##################################################################################################################################################################################################
+	public static List<IssueTypeBean> getAllIssues() {
+		List<IssueTypeBean> lstResult = IssueRepository.findAll();
+		return lstResult;
+	}
+
+	/**
+	 * Słownik typów błędów.
+	 * @return
+	 */
+	public static Map<String, IssueTypeBean> getIssues(){
+		Map<String, IssueTypeBean> mapStates = new LinkedHashMap<>();
+		for(IssueTypeBean i : getAllIssues()) {
+			mapStates.put(i.getName(), i);
+		}
+		return mapStates;
+	} 	
+// ##################################################################################################################################################################################################
 // Area
 // ##################################################################################################################################################################################################
 	public static List<AreaBean> getAllAreas() {
@@ -485,8 +507,8 @@ public class DataProvider {
 					put(sb.getEmail(), sb);
 				}
 				
-				put("hp@griffindor.uk", new UserBean("Harry", "Potter", "hp@griffindor.uk",
-						"hogwart", mapRoles.get("Developer"), Arrays.asList("LEGO Star Wars")));
+				//put("hp@griffindor.uk", new UserBean("Harry", "Potter", "hp@griffindor.uk",
+					//	"hogwart", mapRoles.get("Developer"), Arrays.asList("LEGO Star Wars")));
 				
 				/**
 				put("admin@admin.com", new UserBean((long)1, "Admin", "Administrator", "admin@admin.com", 
@@ -692,11 +714,59 @@ public class DataProvider {
 // ##################################################################################################################################################################################################
 // Bug 
 // ##################################################################################################################################################################################################
-	public static Map<String, BugBean> mapBugs = new LinkedHashMap<>() {
+		public static List<BugBean> getAllBugs() {
+			List<BugBean> lstResult = BugRepository.findAll();
+			return lstResult;
+		}
+
+		public static BugBean getBugByID(Long id) throws GSException {
+			if (id != null && id.intValue() > 0) {
+				BugBean db = BugRepository.findById(id); 
+				return db;
+			} else
+				log.error(" Bug id is null or out of range."); 
+			throw new GSException("Bug id is null or out of range.");
+		} 
+		
+		public static BugBean getBugByTitle(String title) throws GSException {
+			if (title != null ) {
+				BugBean db =BugRepository.findByTitle(title); 
+				return db;
+			} else
+				log.error(" Bug id is null."); 
+			
+			throw new GSException("Bug is null.");
+		}
+		
+		public static void saveBug(BugBean bug) {
+			if (bug != null) {
+				BugRepository.save(bug);
+				mapBugs.put(bug.getTitle(), bug);
+				mapBugsId.put(bug.getId(), bug.getTitle());
+			} else
+				log.error("Bug is null.");
+		} 
+		
+		public static void updateBug(BugBean old, BugBean newBug) {
+			if (old != null && newBug != null) {
+				mapBugsId.replace(old.getId(), old.getTitle(), newBug.getTitle());
+				mapBugs.remove(old.getTitle());
+				BugRepository.update(old, newBug);
+				mapBugs.put(newBug.getTitle(), newBug);
+			} else
+				log.error("Bug is null.");
+		}
+		
+		public static Map<String, BugBean> mapBugs = new LinkedHashMap<>() {
 
 		private static final long serialVersionUID = 1L;
 		{
-			put("Stadiums - Radomiak - Stadium is not available in Quick Match Mode", 
+			for(BugBean b : getAllBugs()) {
+				put(b.getTitle(), b);
+			}
+			
+			/**
+			 * put("Stadiums - Radomiak - Stadium is not available in Quick Match Mode", 
 					new BugBean((long)1, "Stadiums - Radomiak - Stadium is not available in Quick Match Mode", 
 								mapUsers.get("donald@disney.com"),
 								"Stadion im. Marszałka J.Piłsudskiego w Radomiu\" (Radomiak) is not available in Quick Match Mode. \r\n"
@@ -794,6 +864,9 @@ public class DataProvider {
 								getPriorities().get("Important"), Arrays.asList(mapPlatforms.get("PC"), mapPlatforms.get("PlayStation 4")), 
 								new VersionBean(1.23, mapBuilds.get("Alpha")), 1, 
 								getTestById(6)));
+			 */
+			
+			
 			
 		} 
 	};
@@ -803,12 +876,20 @@ public class DataProvider {
 		
 		private static final long serialVersionUID = 1L;
 		{
-			put((long)1, "Stadiums - Radomiak - Stadium is not available in Quick Match Mode");
+			
+			for(BugBean b : getAllBugs()) {
+				put(b.getId() , b.getTitle());
+			}
+			
+			/**
+			 * put((long)1, "Stadiums - Radomiak - Stadium is not available in Quick Match Mode");
 			put((long)2, "Players - Marcin Gortat - Player is not available in Quick Match Mode");
 			put((long)3, "Teams - Toronto Raptors - Team Logo is not implemented in the game");
 			put((long)4, "Gameplay Modes - Quick Match - Quick Match Mode is not available");
 			put((long)5, "Cinematics - Multiple Issues at Welcome Back Cinematic");
 			put((long)6, "Gameplay Modes - Career Mode - Progres in Career Mode cannot be saved");
+			 */
+			
 		} 
 	};
 	
@@ -821,5 +902,5 @@ public class DataProvider {
 		return mapBugs.get(mapBugsId.get((long)id));
 	} 
 	
-	// bug.setId((long)DataProvider.mapBugsId.keySet().size() + 1);
+	
 }

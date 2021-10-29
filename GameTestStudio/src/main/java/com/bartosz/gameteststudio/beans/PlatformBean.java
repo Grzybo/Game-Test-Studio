@@ -32,6 +32,9 @@ public class PlatformBean {
 	@ManyToMany (mappedBy = "platforms") //, cascade = CascadeType.ALL)
 	private List<TestBean> tests; 
 	
+	@ManyToMany (mappedBy = "platforms") //, cascade = CascadeType.ALL)
+	private List<BugBean> bugs; 
+	
 	public PlatformBean() {}
 	
 	public PlatformBean(String name) {this.name = name;}

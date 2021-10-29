@@ -2,6 +2,7 @@ package com.bartosz.gameteststudio.edit.action;
  
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -34,12 +35,44 @@ public class BugUpdateAction  extends ActionSupport {
     private String reproSteps;
     private String area;
     private List<String> platforms;
-    private String test; 
+    private String test;
+    private String issue;
     //file
     private String build;
 	private Double version;
-	private int minKitNumber;
+	private int minKitNumber; 
 	
+	private String reproStr;
+    private List<String> reproList = Arrays.asList("100", "75", "50", "25");
+	
+	public String getReproStr() {
+		return reproStr;
+	}
+
+
+
+
+
+	public void setReproStr(String reproStr) {
+		this.reproStr = reproStr;
+	}
+
+
+
+
+
+	public List<String> getReproList() {
+		return reproList;
+	}
+
+
+
+
+
+	public void setReproList(List<String> reproList) {
+		this.reproList = reproList;
+	}
+
 	private File fileUpload;
 	private String fileUploadContentType;
 	private String fileUploadFileName;
@@ -52,6 +85,7 @@ public class BugUpdateAction  extends ActionSupport {
 	private List<String> resultList = new ArrayList<String>(DataProvider.mapResults.keySet());
 	private List<String> buildList = new ArrayList<String>(DataProvider.mapBuilds.keySet());
 	private List<String> testList = new ArrayList<String>();
+	private List<String> issuesList = new ArrayList<String>(DataProvider.getIssues().keySet());
     
     @Override
     public String execute() {
@@ -75,45 +109,66 @@ public class BugUpdateAction  extends ActionSupport {
 		}
     	
     	BugBean bug = DataProvider.getBugById(Integer.parseInt(itemID));
-    	platformList = bug.getTest().getArea().getProject().getPlatformsStringList();
-    	DataProvider.mapBugs.remove(bug.getTitle());
-    	DataProvider.mapBugsId.remove(Long.parseLong(itemID));
+    	BugBean newBug = new BugBean(); 
     	
-    	bug.setTitle(title);
-    	bug.setUser(DataProvider.mapUsers.get(account));
-    	bug.setDescription(description);
-    	bug.setReproSteps(reproSteps);
-    	bug.setState(DataProvider.getStates().get(state));
-    	bug.setPriority(DataProvider.getPriorities().get(priority));
-    	bug.setPlatformsList(platforms);
-    	bug.setTest(DataProvider.mapTests.get(test));
-    	bug.setVersion(new VersionBean(version, DataProvider.mapBuilds.get(build)));
-    	bug.setTest(DataProvider.mapTests.get(test));
+    	platformList = bug.getTest().getArea().getProject().getPlatformsStringList();
+    	
+    	newBug.setTitle(title);
+    	newBug.setUser(DataProvider.mapUsers.get(account));
+    	newBug.setDescription(description);
+    	newBug.setReproSteps(reproSteps);
+    	newBug.setState(DataProvider.getStates().get(state));
+    	newBug.setPriority(DataProvider.getPriorities().get(priority));
+    	newBug.setPlatformsList(platforms);
+    	newBug.setTest(DataProvider.mapTests.get(test));
+    	newBug.setVersion(version);
+    	newBug.setBuild(DataProvider.mapBuilds.get(build));
+    	newBug.setTest(DataProvider.mapTests.get(test)); 
+    	newBug.setId(bug.getId());
+    	newBug.setIssueType(DataProvider.getIssues().get(issue));
+    	newBug.setReproFrequency(Integer.parseInt(reproStr));
+    	newBug.setMinKitNumber(minKitNumber);
     	//fileUpload = bug.getAttachment().getFile();
     	//fileUploadContentType = bug.getAttachment().getFileType();
     	//fileUploadFileName = bug.getAttachment().getFileName();
     	//TODO files
-    	DataProvider.mapBugs.put(bug.getTitle(), bug);
-    	DataProvider.mapBugsId.put(bug.getId(), bug.getTitle());
-    	
+    	DataProvider.updateBug(bug, newBug);
+    	addActionError("Bug Updated!");
     	
     	return "update";
     }
 
-
-    
-    
-    
     public List<String> getPlatforms() {
 		return platforms;
+	}
+
+
+	public void setPlatforms(List<String> platforms) {
+		this.platforms = platforms;
+	}
+
+	public String getIssue() {
+		return issue;
+	}
+
+	public void setIssue(String issue) {
+		this.issue = issue;
 	}
 
 
 
 
 
-	public void setPlatforms(List<String> platforms) {
-		this.platforms = platforms;
+	public List<String> getIssuesList() {
+		return issuesList;
+	}
+
+
+
+
+
+	public void setIssuesList(List<String> issuesList) {
+		this.issuesList = issuesList;
 	}
 
 

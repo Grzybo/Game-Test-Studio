@@ -12,7 +12,6 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
 import com.bartosz.gameteststudio.beans.ProjectBean;
-import com.bartosz.gameteststudio.beans.ProjectDbTest;
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.repositories.ProjectRepository;
@@ -29,7 +28,6 @@ public class AdminPageAction  extends ActionSupport {
     private static final long serialVersionUID = 1L;
     
     private List<ProjectBean> projectObjList;
-    private List<ProjectDbTest> projectsDbList;  //= ProjectRepository.findAllProjects();
     private List<UserBean> userObjList = new ArrayList<UserBean>(DataProvider.getAllUsers());
     private String sort;
     
@@ -84,16 +82,7 @@ public class AdminPageAction  extends ActionSupport {
 	public String getSort() {
 		return sort;
 	}
-
 	
-	public List<ProjectDbTest> getProjectsDbList() {
-		return projectsDbList;
-	}
-
-	public void setProjectsDbList(List<ProjectDbTest> projectsDbList) {
-		this.projectsDbList = projectsDbList;
-	}
-
 	public void setSort(String sort) {
 		this.sort = sort;
 	}

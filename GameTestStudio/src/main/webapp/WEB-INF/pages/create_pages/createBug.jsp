@@ -27,6 +27,9 @@
 	     			<s:select label="State"
 	     					name="state"
 	     					list="stateList"/>	
+   					<s:select label="Issue Type"
+	     					name="issue"
+	     					list="issuesList"/>	
 				</tr>
 
 				<tr>
@@ -52,13 +55,14 @@
 		     					list="buildList"/>
    					<s:textfield class="text" name="version" 
    								key="Version"  size="100%" type="number"/>
-					<s:select label="Result"
-	     						name="result"
-	     						list="resultList"/>
 				</tr>
 				<tr>
   						<s:textfield class="text" name="minKitNumber" 
    								key="Minimum Kit Number"  size="100%" type="number"/>
+						<s:select label="Repro Frequency [%]"
+	     							name="reproStr"
+	     							list="reproList"/>	
+
 				</tr>
 
 				<s:submit class= "button"  method="execute" key="Submit" form = "bug"/>			

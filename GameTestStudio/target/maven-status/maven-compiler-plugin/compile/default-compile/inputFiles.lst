@@ -1,5 +1,6 @@
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\beans\ProjectDbTest.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\create\action\BugCreateAction.java
+C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\beans\IssueTypeBean.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\utils\Utils.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\net\sourceforge\jsptabcontrol\config\InsertStyleClass.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\dp\HibernateUtil.java
@@ -10,6 +11,7 @@ C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\action\LogoutAction.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\action\PlatformsDeleteAction.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\net\sourceforge\jsptabcontrol\JSPTabControlConstants.java
+C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\repositories\IssueRepository.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\beans\AttachmentBean.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\repositories\PriorityRepository.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\net\sourceforge\jsptabcontrol\config\InsertJavascript.java
@@ -61,6 +63,7 @@ C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\net\sourceforge\jsptabcontrol\characteristics\TabControlCharacteristics.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\decorators\BugDecorator.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\exceptions\GSException.java
+C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\repositories\BugRepository.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\beans\UserBean.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\repositories\AreaRepository.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\repositories\RoleRepository.java

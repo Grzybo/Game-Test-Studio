@@ -10,6 +10,7 @@ com\bartosz\gameteststudio\create\action\TestCreateAction.class
 com\bartosz\gameteststudio\edit\action\TestUpdateAction.class
 com\bartosz\gameteststudio\action\LogoutAction.class
 com\bartosz\decorators\AreaDecorator.class
+com\bartosz\gameteststudio\beans\ProjectDbTest.class
 com\bartosz\gameteststudio\action\PlatformsDeleteAction.class
 com\bartosz\decorators\ProjectDecorator.class
 com\bartosz\gameteststudio\create\action\BugCreateAction.class

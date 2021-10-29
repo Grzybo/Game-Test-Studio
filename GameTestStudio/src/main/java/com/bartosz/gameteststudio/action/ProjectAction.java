@@ -112,10 +112,9 @@ public class ProjectAction  extends ActionSupport {
 		  
 	   
 		  for (String el : DataProvider.mapBugs.keySet()) {
-			  //	if(DataProvider.mapBugs.get(el).getTest().getArea().getProject().getTitle().equals(selectedProject)) {
-			  	//	bugObjList.add(DataProvider.mapBugs.get(el));
-				
-			//}
+			  	if(DataProvider.mapBugs.get(el).getTest().getArea().getProject().getTitle().equals(selectedProject)) {
+			  		bugObjList.add(DataProvider.mapBugs.get(el));	
+			}
 		  }
 	 } 
 

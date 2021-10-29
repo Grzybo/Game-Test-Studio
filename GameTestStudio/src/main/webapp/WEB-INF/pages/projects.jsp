@@ -43,8 +43,11 @@
 							<display:column property="state.name" title="State" sortable="true"/>
 							<display:column property="priority.name" title="Priority" sortable="true"/>
 							<display:column property="user.email" title="Assigned To" sortable="true"/>
-							<display:column property="test.area.title" title="Area" sortable="true"/>	
-						  
+							<display:column property="test.title" title="Test" sortable="true"/>
+							<display:column property="test.area.title" title="Area" sortable="true"/>
+							<display:column property="minKitNumber" title="Min. Kits" sortable="true"/>	
+						  	<display:column property="reproFrequency" title="Repro Frequency[%]" sortable="true"/>
+						  	<display:column property="issueType.name" title="Issue Type" sortable="true"/>		
 						</display:table> 
 					</div>  
 				</jsptabcontrol:tabPage>    
