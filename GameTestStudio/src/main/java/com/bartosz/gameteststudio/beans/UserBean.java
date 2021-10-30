@@ -3,6 +3,7 @@ package com.bartosz.gameteststudio.beans;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -42,7 +43,7 @@ public class UserBean {
 	@Column(name = "password", nullable = false)
 	private String password;
 	
-	@ManyToMany (fetch = FetchType.EAGER) //(cascade = { CascadeType.ALL })
+	@ManyToMany (fetch = FetchType.LAZY)// cascade = CascadeType.ALL)  // nie ruszać bo inaczej nie działa Edit User
     @JoinTable(
         name = "PROJECTS_USERS", 
         joinColumns = { @JoinColumn(name = "FK_USERS_ID") }, 

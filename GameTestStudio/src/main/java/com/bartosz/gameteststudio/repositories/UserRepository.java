@@ -24,7 +24,7 @@ public class UserRepository {
 		final Query<UserBean> query = session.createQuery("from UserBean where email =: email", UserBean.class);
 		query.setParameter("email", email);
 		UserBean user = query.uniqueResult();
-		session.close();
+		//session.close();
 		return user;
 	}  
 	
@@ -32,7 +32,7 @@ public class UserRepository {
 		final Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		List<UserBean> list = session.createQuery("SELECT a FROM UserBean a", UserBean.class).getResultList();
-		session.close();
+		//session.close();
 		return list; 
 	} 
 	
@@ -42,7 +42,7 @@ public class UserRepository {
 		final Query<UserBean> query = session.createQuery("from UserBean where id =: id", UserBean.class);
 		query.setParameter("id", id);
 		UserBean project = query.uniqueResult();
-		session.close();
+		//session.close();
 		return project;
 	}
 	

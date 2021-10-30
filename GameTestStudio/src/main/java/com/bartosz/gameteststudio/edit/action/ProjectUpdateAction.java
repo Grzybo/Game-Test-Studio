@@ -49,16 +49,17 @@ public class ProjectUpdateAction  extends ActionSupport {
 	    		
 	    		//System.out.println(selectedPlatforms);
 	    		
+	    		newProject.setId(project.getId());
 	    		newProject.setTitle(title);
 	    		newProject.setDescription(description);
-	    		newProject.setTestersNumber(testers_numbers);
 	    		newProject.setEstimatedTime(estimate_time);
 	    		newProject.setWorkTime(work_time); 
 	    		newProject.setStartDate(startDate);
 	    		newProject.setEndDate(endDate);
-	    		newProject.setPlatforms(selectedPlatforms);
+	    		newProject.setTestersNumber(testers_numbers);
 	    		newProject.setState(StateRepository.findByName(state));     // DataProvider.getStates().get(state));
-	    		newProject.setId(project.getId());
+	    		newProject.setUsers(project.getUsers());
+	    		newProject.setPlatforms(selectedPlatforms);
 	        	
 	        	DataProvider.updateProject(project, newProject);
 	        	

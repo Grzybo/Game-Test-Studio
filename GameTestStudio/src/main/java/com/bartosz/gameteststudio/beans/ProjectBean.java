@@ -53,19 +53,19 @@ public class ProjectBean {
 	@Column(name = "testers_number")
 	private int testersNumber;
 	
-	@ManyToOne (cascade = CascadeType.ALL) // dodalem to bo byl bląd przy update Projektu 
+	@ManyToOne //(cascade = CascadeType.ALL) // dodalem to bo byl bląd przy update Projektu  -- XD? 
 	@JoinColumn(name="fk_dic_states_id", nullable = false ) //  fk_dic_states_id BIGINT NOT NULL REFERENCES dic_states(id) ON DELETE CASCADE
 	private StateBean state;
 	
 	//@ManyToMany (mappedBy = "projects") //cascade = CascadeType.ALL)
 	//private List<PlatformBean> platforms;
 	
-	@ManyToMany (mappedBy = "projects") // , cascade = CascadeType.ALL) //(cascade = { CascadeType.ALL })
+	@ManyToMany (mappedBy = "projects" , cascade = {CascadeType.MERGE, CascadeType.PERSIST})// , fetch = FetchType.EAGER) // , cascade = CascadeType.ALL)
 	private List<UserBean> users; 
 	
 	/**
 	 */
-	@ManyToMany //(cascade = { CascadeType.ALL })//( fetch = FetchType.LAZY)//(  cascade = {CascadeType.MERGE, CascadeType.PERSIST},fetch = FetchType.EAGER)//  // 
+	@ManyToMany (fetch = FetchType.EAGER)//(cascade = { CascadeType.ALL })//( //(  cascade = {CascadeType.MERGE, CascadeType.PERSIST},fetch = FetchType.EAGER)//  // 
     @JoinTable(
         name = "PROJECT_DIC_PLATFORMS", 
         joinColumns = { @JoinColumn(name = "FK_PROJECTS_ID") }, 
@@ -121,6 +121,7 @@ public class ProjectBean {
 		this.testersNumber = testersNumber;
 		this.state = state;
 		setPlatforms(platforms);
+		//this.users = users;
 	}
 
 

@@ -29,7 +29,7 @@ public class BugBean {
 	@Column(name = "title", nullable = false)
 	private String title;
 	
-	@ManyToOne (cascade = CascadeType.ALL) 
+	@ManyToOne //(cascade = CascadeType.ALL) 
 	@JoinColumn(name="fk_users_id", nullable = false ) 
 	private UserBean user; 
 	

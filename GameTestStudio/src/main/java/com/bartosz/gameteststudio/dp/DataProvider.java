@@ -281,9 +281,9 @@ public class DataProvider {
 		 * @param id
 		 * @return
 		 */
-		//public static ProjectBean getProjectById(int id) {
-		//	return mapProjects.get(mapProjectsId.get((long)id));
-		//} 
+		public static ProjectBean getProjectById(int id) {
+			return mapProjects.get(mapProjectsId.get((long)id));
+		} 
 		
 		// (long)DataProvider.mapProjectsId.keySet().size() + 1 
 // ##################################################################################################################################################################################################

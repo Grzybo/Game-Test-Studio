@@ -40,26 +40,22 @@ public class ProjectEditAction  extends ActionSupport {
 	@Override
     public String execute() {
         	
-		try {
-			
-			ProjectBean project = DataProvider.getProjectByID(Long.parseLong(itemID)); 
-			
-			
-			
+		ProjectBean project = DataProvider.getProjectById(Integer.parseInt(itemID)); 
+		//ProjectBean project = DataProvider.getProjectByID(Long.parseLong(itemID)); 
+		
+		
 
-			//TODO naprawic relacje projects-platforms - chyba naprawione
-			
-			title = project.getTitle(); 
-			description = project.getDescription();
-		    testers_numbers = project.getTestersNumber();
-		    estimate_time = project.getEstimatedTime(); 
-		    selectedPlatforms = project.getPlatformsStringList();
-		    work_time = project.getWorkTime(); 
-		    startDate = project.getStartDate();
-		    endDate = project.getEndDate();
-			state = project.getState().getName();
-		}
-		catch(GSException e){}
+		//TODO naprawic relacje projects-platforms - chyba naprawione
+		
+		title = project.getTitle(); 
+		description = project.getDescription();
+		testers_numbers = project.getTestersNumber();
+		estimate_time = project.getEstimatedTime(); 
+		selectedPlatforms = project.getPlatformsStringList();
+		work_time = project.getWorkTime(); 
+		startDate = project.getStartDate();
+		endDate = project.getEndDate();
+		state = project.getState().getName();
 		
     	return "editProject";
     }

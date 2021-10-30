@@ -22,6 +22,7 @@ public abstract class ProjectRepository {
 	
 	public static void update(ProjectBean oldProject, ProjectBean newProject) {
 		final Session session = HibernateUtil.getSessionFactory().openSession();
+		//final Session session = HibernateUtil.getSessionFactory().getCurrentSession().merge(newProject);
 		session.beginTransaction();
 		oldProject.setAllFields(newProject);
 		session.update(oldProject);
@@ -56,7 +57,7 @@ public abstract class ProjectRepository {
 		query.setParameter("id", id);
 		ProjectBean project = query.uniqueResult();
 		session.getTransaction().commit();
-		//session.close(); // wczytywanie platform nie dziala jak zamykamy /TODO dziala wczytanie ale nie dziala update, jak to odkomentujemy to dziala update ale nie dziala wczytanie platform 
+		session.close(); // wczytywanie platform nie dziala jak zamykamy /TODO dziala wczytanie ale nie dziala update, jak to odkomentujemy to dziala update ale nie dziala wczytanie platform 
 		return project;
 	}
 	

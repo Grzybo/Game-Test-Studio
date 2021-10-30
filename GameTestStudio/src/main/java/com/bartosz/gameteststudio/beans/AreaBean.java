@@ -1,9 +1,7 @@
 package com.bartosz.gameteststudio.beans;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -49,7 +47,7 @@ public class AreaBean {
 	@JoinColumn(name="fk_dic_states_id", nullable = false ) //  fk_dic_s
 	private StateBean state; 
 	
-	@ManyToOne (cascade = CascadeType.ALL) 
+	@ManyToOne //(cascade = CascadeType.ALL) 
 	@JoinColumn(name="fk_dic_priorities_id", nullable = false ) 
 	private PriorityBean priority;
 	
