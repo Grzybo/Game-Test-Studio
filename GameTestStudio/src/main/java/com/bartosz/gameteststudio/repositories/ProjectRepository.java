@@ -26,7 +26,7 @@ public abstract class ProjectRepository {
 		oldProject.setAllFields(newProject);
 		session.update(oldProject);
 		session.getTransaction().commit();
-		session.close(); 
+		//session.close(); 
 		
 	
 	}
@@ -35,7 +35,7 @@ public abstract class ProjectRepository {
 		final Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		List<ProjectBean> list = session.createQuery("SELECT a FROM ProjectBean a", ProjectBean.class).getResultList();
-		session.close();
+		//session.close();
 		return list; 
 	}
 

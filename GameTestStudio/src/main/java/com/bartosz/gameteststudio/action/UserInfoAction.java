@@ -44,16 +44,34 @@ public class UserInfoAction  extends ActionSupport {
 	HttpSession session = request.getSession();  
 	
 	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());
-	firstName = user.getFirstName(); 
-	lastName = user.getLastName();
+
 	
-	if(this.firstName != user.getFirstName() && this.lastName != user.getLastName()) {
+	if(this.firstName != null) {
+		user.setFirstName(firstName); 
+		DataProvider.updateUser(user, user); 
+		addActionError("First Name updated.");
+	}
+	else firstName = user.getFirstName();
+	
+	if(this.lastName != null) {
+		user.setLastName(lastName); 
+		DataProvider.updateUser(user, user); 
+		addActionError("Last Name updated.");
+	} 
+	else lastName = user.getLastName();
+	
+	
+	
+	/**
+	 * if(this.firstName != user.getFirstName() || this.lastName != user.getLastName()) {
+		
 		user.setFirstName(firstName);
 		user.setLastName(lastName);
-		DataProvider.updateUser(user, user); 
-		
+		//DataProvider.updateUser(user, user); 
 		addActionError("Personal Data updated.");
 	}
+	 */
+	
 	
 	if(oldPassword != null && newPassword1 != null && newPassword2 != null) { 
         if(user.getPassword().equals(oldPassword)) {

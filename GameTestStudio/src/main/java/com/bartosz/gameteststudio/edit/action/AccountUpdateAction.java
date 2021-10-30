@@ -51,6 +51,8 @@ public class AccountUpdateAction  extends ActionSupport {
     	newUser.setPassword(user.getPassword());
     	
     	DataProvider.updateUser(user, newUser);
+    	
+    	addActionError("User Updated!");
 
     	return "editAccount";
     }

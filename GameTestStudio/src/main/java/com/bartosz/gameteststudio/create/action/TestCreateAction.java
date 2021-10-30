@@ -10,6 +10,7 @@ import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
+import com.bartosz.gameteststudio.beans.BuildBean;
 import com.bartosz.gameteststudio.beans.PlatformBean;
 import com.bartosz.gameteststudio.beans.PriorityBean;
 import com.bartosz.gameteststudio.beans.ProjectBean;
@@ -65,7 +66,8 @@ public class TestCreateAction  extends ActionSupport {
     	HttpSession session = ServletActionContext.getRequest().getSession();
     	
     	ProjectBean project = DataProvider.mapProjects.get(session.getAttribute("userProject").toString());
-    	//platformList = project.getPlatformsStringList();
+    	platformList = project.getPlatformsStringList();
+    	//System.out.pr
     	
     	for (String el : DataProvider.mapUsers.keySet()) {
     		if(DataProvider.mapUsers.get(el).getProjects() != null) {
@@ -86,9 +88,8 @@ public class TestCreateAction  extends ActionSupport {
     	if (title != null) {
     		TestBean test = new TestBean(title, DataProvider.mapUsers.get(account), description,
     				DataProvider.mapAreas.get(area), DataProvider.mapResults.get(result),
-    				estimatedTime, startDate, endDate, testersNumber, workTime, 
-    				DataProvider.getStates().get(state),
-    				DataProvider.getPriorities().get(priority), version, DataProvider.mapBuilds.get(build));
+    				estimatedTime, startDate, endDate, testersNumber, workTime, DataProvider.getStates().get(state),
+    				DataProvider.getPriorities().get(priority), selectedPlatforms, version , DataProvider.mapBuilds.get(build));
 
         	DataProvider.saveTest(test);
         	

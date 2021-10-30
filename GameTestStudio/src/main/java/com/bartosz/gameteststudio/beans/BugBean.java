@@ -82,7 +82,7 @@ public class BugBean {
 		public BugBean() {}
 		
 		public BugBean(String title, UserBean user, String description, String reproSteps,
-				StateBean state, PriorityBean priority, List<PlatformBean> platforms,  
+				StateBean state, PriorityBean priority, List<String> platforms,  
 				double version, int minKitNumber, TestBean test, IssueTypeBean issueType, 
 				int reproFrequency, BuildBean build) {
 			this.title = title;
@@ -91,7 +91,7 @@ public class BugBean {
 			this.reproSteps = reproSteps;
 			this.state = state;
 			this.priority = priority;
-			this.platforms = platforms;
+			setPlatformsList(platforms);
 			this.version = version;
 			this.minKitNumber = minKitNumber;
 			this.test = test;
@@ -116,7 +116,9 @@ public class BugBean {
 			this.issueType = issueType;
 			this.reproFrequency = reproFrequency;
 			this.build = build;
-		}
+		} 
+		
+		
 
 		
 

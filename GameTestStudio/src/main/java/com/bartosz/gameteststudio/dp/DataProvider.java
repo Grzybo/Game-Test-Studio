@@ -397,10 +397,10 @@ public class DataProvider {
 			for(AreaBean sb : getAllAreas()) {
 				put(sb.getTitle(), sb);
 			}
+			/**
 			put("Stadiums", new AreaBean((long)10, "Stadiums", "New Stadiums...", 
 					mapProjects.get("FIFA 22"), 100, "2020-01-01", "2020-10-11", 30, 6, 
 					getStates().get("Active"), getPriorities().get("Important")));
-			/**
 			put("Goalkeepers", new AreaBean((long)2, "Goalkeepers", "New Goalkeepers Models...", 
 					mapProjects.get("FIFA 22"), 150, "2020-01-01", "2020-10-11", 60, 40, 
 					getStates().get("Active") , getPriorities().get("Critical")));
@@ -428,8 +428,8 @@ public class DataProvider {
 			for(AreaBean sb : getAllAreas()) {
 				put(sb.getId(), sb.getTitle());
 			}
-			put((long)10, "Stadiums");
 			/**
+			put((long)10, "Stadiums");
 			 
 			put((long)2, "Goalkeepers");
 			put((long)3, "Players");

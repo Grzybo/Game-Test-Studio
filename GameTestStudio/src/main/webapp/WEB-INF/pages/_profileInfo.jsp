@@ -21,7 +21,7 @@
        			 placeholder="Leave empty, if not changing" size="100%" /> 						
 		</tr>
 		<tr>
-			<s:password class="text" name="oldPassword" key="Actual Password" size="100%" />
+			<s:password class="text" name="oldPassword" key="Current Password" size="100%" />
 	        <s:password class="text" name="newPassword1" key="New Password" size="100%" />
 	        <s:password class="text" name="newPassword2" key="New Password"  size="100%"/>    
 		</tr>

@@ -60,17 +60,17 @@ public class ProjectBean {
 	//@ManyToMany (mappedBy = "projects") //cascade = CascadeType.ALL)
 	//private List<PlatformBean> platforms;
 	
-	@ManyToMany (mappedBy = "projects", cascade = CascadeType.ALL) //(cascade = { CascadeType.ALL })
+	@ManyToMany (mappedBy = "projects") // , cascade = CascadeType.ALL) //(cascade = { CascadeType.ALL })
 	private List<UserBean> users; 
 	
 	/**
 	 */
-	@ManyToMany (cascade = { CascadeType.ALL })//( fetch = FetchType.LAZY)//(  cascade = {CascadeType.MERGE, CascadeType.PERSIST},fetch = FetchType.EAGER)//  // 
+	@ManyToMany //(cascade = { CascadeType.ALL })//( fetch = FetchType.LAZY)//(  cascade = {CascadeType.MERGE, CascadeType.PERSIST},fetch = FetchType.EAGER)//  // 
     @JoinTable(
         name = "PROJECT_DIC_PLATFORMS", 
         joinColumns = { @JoinColumn(name = "FK_PROJECTS_ID") }, 
         inverseJoinColumns = { @JoinColumn(name = "FK_DIC_PLATFORMS_ID") })
-	private List<PlatformBean> platforms; // 
+	private List<PlatformBean> platforms;  
 	
 	
 	public ProjectBean() {}

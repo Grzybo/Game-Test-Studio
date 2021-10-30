@@ -78,7 +78,7 @@ public class BugCreateAction  extends ActionSupport {
     private List<String> priorityList = new ArrayList<String>(DataProvider.getPriorities().keySet());
 	private List<String> stateList = new ArrayList<String>(DataProvider.getStates().keySet());
 	private List<String> testList = new ArrayList<String>();
-	private List<String> platformList = new ArrayList<String>(DataProvider.mapPlatforms.keySet());
+	private List<String> platformList = new ArrayList<String>();//DataProvider.mapPlatforms.keySet());
 	private List<String> accountList = new ArrayList<String>();
 	private List<String> resultList = new ArrayList<String>(DataProvider.mapResults.keySet());
 	private List<String> buildList = new ArrayList<String>(DataProvider.mapBuilds.keySet());
@@ -90,7 +90,7 @@ public class BugCreateAction  extends ActionSupport {
     	HttpSession session = ServletActionContext.getRequest().getSession();
     	ProjectBean project = DataProvider.mapProjects.get(session.getAttribute("userProject").toString());
     	
-    	//platformList = project.getPlatformsStringList();
+    	platformList = project.getPlatformsStringList();
     	
     	for (String el : DataProvider.mapUsers.keySet()) {
     		if(DataProvider.mapUsers.get(el).getProjects() != null) {
@@ -108,24 +108,12 @@ public class BugCreateAction  extends ActionSupport {
 			}
 		}
     	
-    	if(!selectedPlatforms.isEmpty()) {
-    		for (String pl : selectedPlatforms) {
-        		selectedPlatformsList.add(DataProvider.mapPlatforms.get(pl));
-    		}
-        	
-    	}
-    	
-    	
-    	
-    	
     	if(title != null) {
     		BugBean bug = new BugBean(title, DataProvider.mapUsers.get(account), description, reproSteps,
-    				DataProvider.getStates().get(state), DataProvider.getPriorities().get(priority),  
+    				DataProvider.getStates().get(state), DataProvider.getPriorities().get(priority), selectedPlatforms,  
     				version, minKitNumber, DataProvider.mapTests.get(test), DataProvider.getIssues().get(issue),
     				Integer.parseInt(reproStr), DataProvider.mapBuilds.get(build));
         	
-
-        	bug.setPlatforms(selectedPlatformsList);
 
           	
         	DataProvider.saveBug(bug);

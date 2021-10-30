@@ -12,6 +12,7 @@ import org.apache.struts2.convention.annotation.Result;
 import com.bartosz.gameteststudio.beans.AreaBean;
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
+import com.bartosz.gameteststudio.exceptions.GSException;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "updateArea", //
@@ -43,7 +44,7 @@ public class AreaUpdateAction  extends ActionSupport {
 	
 	
     @Override
-    public String execute() {
+    public String execute() throws NumberFormatException, GSException {
           
     	HttpSession session = ServletActionContext.getRequest().getSession();
     	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString()); 
@@ -51,7 +52,7 @@ public class AreaUpdateAction  extends ActionSupport {
     	projectsList = user.getProjectsList(); 
     	project = session.getAttribute("userProject").toString();
     	
-    	AreaBean area = DataProvider.getAreaById(Integer.parseInt(itemID));
+    	AreaBean area = DataProvider.getAreaByID(Long.parseLong(itemID));
     	AreaBean newArea = new AreaBean();
     	
     	newArea.setTitle(this.title);
@@ -66,7 +67,9 @@ public class AreaUpdateAction  extends ActionSupport {
     	newArea.setId(area.getId());
     	newArea.setProject(area.getProject());
     	
-    	DataProvider.updateArea(area, newArea);
+    	DataProvider.updateArea(area, newArea); 
+    	
+    	addActionError("Area Updated!");
     	return "update";
     }
 

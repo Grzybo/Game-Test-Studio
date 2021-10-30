@@ -104,7 +104,9 @@ public class TestEditAction  extends ActionSupport {
     	version = test.getVersion();
     	build = test.getBuild().getName();
     	
-    	//TODO jak wracamy do testu po update platform to error
+    	//TODO jak wracamy do testu po update platform to error 
+    	
+    	
     	
     	return "editTest";
     }

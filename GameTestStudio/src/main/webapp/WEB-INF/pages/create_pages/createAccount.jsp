@@ -21,15 +21,7 @@
 	     					name="role"
 	     					list="rolesList"/> 
 	     					
-		<s:select label="Bug Permission"
-	     					name="bugPer"
-	     					list="permissionsList"/>
-		<s:select label="Test Permission"
-	     					name="testPer"
-	     					list="permissionsList"/>
-		<s:select label="Area Permission"
-	     					name="areaPer"
-	     					list="permissionsList"/>
+		
 		<s:checkboxlist label="Project" list="projectsList" 
 	 						name="projects" />    		
 		    		

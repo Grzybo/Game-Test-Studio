@@ -49,6 +49,7 @@ public class AccountEditAction  extends ActionSupport {
     		role = user.getRole().getName();
     		projects = user.getProjectsList(); 
     		
+    		
     	
     	return "editAccount";
     }

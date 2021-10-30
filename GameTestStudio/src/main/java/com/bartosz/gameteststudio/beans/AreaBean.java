@@ -26,7 +26,7 @@ public class AreaBean {
 	@Column(name = "description", nullable = false)
 	private String description;
 	
-	@ManyToOne (cascade = CascadeType.ALL) 
+	@ManyToOne //(cascade = CascadeType.ALL) 
 	@JoinColumn(name="fk_projects_id", nullable = false )
 	private ProjectBean project;
 	

@@ -11,6 +11,7 @@
 	 	
 	 		<h2>Edit Test</h2>
 	 		<div class = "content">
+	 		<s:actionerror />
 		 		<s:form id="editTest" action="/updateTest" >
 		 		<table style="width:100%">
 		 			<tr>
