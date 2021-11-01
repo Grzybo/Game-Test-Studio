@@ -374,6 +374,15 @@ public class DataProvider {
 			mapAreasId.put(area.getId(), area.getTitle());
 		} else
 			log.error("Area is null.");
+	}  
+	
+	public static void deleteArea(AreaBean area) {
+		if (area != null) {
+			AreaRepository.delete(area);
+			mapAreas.remove(area.getTitle());
+			mapAreasId.remove(area.getId());
+		} else
+			log.error("Area is null.");
 	} 
 	
 	public static void updateArea(AreaBean old, AreaBean newArea) {
@@ -447,8 +456,18 @@ public class DataProvider {
 	 * @return
 	 */
 	public static AreaBean getAreaById(int id) {
-		return mapAreas.get(mapAreasId.get((long)id));
+		return mapAreas.get(mapAreasId.get((long)id)); 	
 	} 
+	
+	public static void updateAreaMaps() {
+		mapAreasId.clear();
+		mapAreas.clear();
+		for(AreaBean b : getAllAreas()) {
+			mapAreasId.put(b.getId() , b.getTitle());
+			mapAreas.put(b.getTitle(), b);
+		}
+		
+	}
 // ##################################################################################################################################################################################################
 // User 
 // ##################################################################################################################################################################################################
@@ -604,6 +623,15 @@ public class DataProvider {
 				log.error("Test is null.");
 		} 
 		
+		public static void deleteTest(TestBean test) {
+			if (test != null) {
+				TestRepository.delete(test);
+				mapTests.remove(test.getTitle());
+				mapTestsId.remove(test.getId());
+			} else
+				log.error("Test is null.");
+		} 
+		
 		public static void updateTest(TestBean old, TestBean newTest) {
 			if (old != null && newTest != null) {
 				mapTestsId.replace(old.getId(), old.getTitle(), newTest.getTitle());
@@ -716,7 +744,15 @@ public class DataProvider {
 			return mapTests.get(mapTestsId.get((long)id));
 		}  
 	
-	
+		public static void updateTestMaps() {
+			mapTestsId.clear();
+			mapTests.clear();
+			for(TestBean b : getAllTests()) {
+				mapTestsId.put(b.getId() , b.getTitle());
+				mapTests.put(b.getTitle(), b);
+			}
+			
+		}
 	
 	
 	
@@ -911,7 +947,17 @@ public class DataProvider {
 			 */
 			
 		} 
-	};
+	}; 
+	
+	public static void updateBugMaps() {
+		mapBugsId.clear();
+		mapBugs.clear();
+		for(BugBean b : getAllBugs()) {
+			mapBugsId.put(b.getId() , b.getTitle());
+			mapBugs.put(b.getTitle(), b);
+		}
+		
+	}
 	
 		/**
 	 * Metoda zwracająca obiekt BugBean po id.  

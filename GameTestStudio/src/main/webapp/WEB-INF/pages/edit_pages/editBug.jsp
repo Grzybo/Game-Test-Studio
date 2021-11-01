@@ -84,7 +84,7 @@
  			<s:form action="/deleteBug" id = "form2"  method="post">
     			<s:hidden name="itemID"/>
     		<s:submit class= "deleteBtn"  method="execute" key="Delete Bug" form = "form2"/>
-    	</s:form> 
+    		</s:form> 
  			
 	 	</div>
 	 	<div class="center">

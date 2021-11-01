@@ -14,12 +14,12 @@ import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
 import com.opensymphony.xwork2.ActionSupport;
  
-@Action(value = "updateTest", //
+@Action(value = "deleteTest", //
 results = { //
-        @Result(name = "update", location = "/WEB-INF/pages/edit_pages/editTest.jsp")
+        @Result(name = "delete", location = "/WEB-INF/pages/edit_pages/editTest.jsp")
 } //
 )
-public class TestUpdateAction  extends ActionSupport {
+public class TestDeleteAction  extends ActionSupport {
   
     private static final long serialVersionUID = 1L;
  
@@ -72,31 +72,13 @@ public class TestUpdateAction  extends ActionSupport {
 		}
 
     	TestBean test = DataProvider.getTestByID(Long.parseLong(itemID));
-    	TestBean newTest = new TestBean();
-    	platformList = test.getArea().getProject().getPlatformsStringList();
     	
     	
-    	newTest.setTitle(title);
-    	newTest.setUser(DataProvider.mapUsers.get(account));
-    	newTest.setPriority(DataProvider.getPriorities().get(priority));
-    	newTest.setState(DataProvider.getStates().get(state));
-    	newTest.setDescription(description);
-    	newTest.setArea(DataProvider.mapAreas.get(area));
-    	newTest.setEstimatedTime(estimatedTime);
-    	newTest.setWorkTime(workTime);
-    	newTest.setTestersNumber(testersNumber);
-    	newTest.setStartDate(startDate);
-    	newTest.setEndDate(endDate);
-    	newTest.setId(test.getId());
-    	newTest.setBuild(DataProvider.mapBuilds.get(build));
-    	newTest.setResult(DataProvider.mapResults.get(result));
-    	newTest.setPlatforms(selectedPlatforms);
+    	DataProvider.deleteTest(test);
     	
-    	DataProvider.updateTest(test, newTest);
+    	addActionError("Test Deleted!");
     	
-    	addActionError("Test Updated!");
-    	
-    	return "update";
+    	return "delete";
     	
     }
 

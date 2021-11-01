@@ -67,7 +67,11 @@
 					</tr>
 						<s:submit class= "button"  method="execute" key="Submit" form = "editTest"/>
 	 			</table>
-	 			</s:form>	
+	 			</s:form>
+	 			<s:form action="/deleteTest" id = "form2"  method="post">
+    				<s:hidden name="itemID"/>
+    				<s:submit class= "deleteBtn"  method="execute" key="Delete Test" form = "form2"/>
+    			</s:form> 	
 	 			
 	 	</div>
 	 	<div class="center">

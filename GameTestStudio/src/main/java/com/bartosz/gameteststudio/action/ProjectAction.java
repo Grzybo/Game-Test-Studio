@@ -98,6 +98,11 @@ public class ProjectAction  extends ActionSupport {
 	
 	 
 	 private void fillLists() {
+		 
+		 DataProvider.updateBugMaps();
+		 DataProvider.updateTestMaps();
+		 DataProvider.updateAreaMaps();
+		 
 		 for (String el : DataProvider.mapAreas.keySet()) {
 			  if(DataProvider.mapAreas.get(el).getProject().getTitle().equals(selectedProject)) {
 				  areaObjList.add(DataProvider.mapAreas.get(el));

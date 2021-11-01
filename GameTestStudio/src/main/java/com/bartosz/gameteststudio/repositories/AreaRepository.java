@@ -7,6 +7,7 @@ import org.hibernate.query.Query;
 
 import com.bartosz.gameteststudio.beans.AreaBean;
 import com.bartosz.gameteststudio.beans.ProjectBean;
+import com.bartosz.gameteststudio.beans.TestBean;
 import com.bartosz.gameteststudio.dp.HibernateUtil;
 
 public class AreaRepository {
@@ -56,5 +57,14 @@ public class AreaRepository {
 		AreaBean area = query.uniqueResult();
 		//session.close();
 		return area;
+	} 
+	// delete 
+
+	public static void delete(AreaBean area) {
+		final Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		session.delete(area); 
+		session.getTransaction().commit();
+		session.close();
 	}
 }

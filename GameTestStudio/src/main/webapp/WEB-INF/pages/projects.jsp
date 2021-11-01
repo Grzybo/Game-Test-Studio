@@ -33,7 +33,6 @@
 				<jsptabcontrol:tabPage name="BugTab" title="Bug" width="100%" >
 		    		<div class="center">
 						<a class="button" href="${pageContext.request.contextPath}/createBug">New Bug</a>
-						<a class="button" href="${pageContext.request.contextPath}/deleteItem">Delete Bug</a>
 					</div>
 					<div class = "projectContent"> 
 						<display:table name="bugObjList" id="bugTable" decorator="com.bartosz.decorators.BugDecorator" sort="list"

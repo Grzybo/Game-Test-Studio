@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
+import com.bartosz.gameteststudio.beans.BugBean;
 import com.bartosz.gameteststudio.beans.TestBean;
 import com.bartosz.gameteststudio.dp.HibernateUtil;
 
@@ -53,7 +54,17 @@ public class TestRepository {
 		final Query<TestBean> query = session.createQuery("from TestBean where id =: id", TestBean.class);
 		query.setParameter("id", id);
 		TestBean test = query.uniqueResult();
-		//session.close();
+		session.close();
 		return test;
 	}
+	
+	// delete 
+	
+		public static void delete(TestBean test) {
+			final Session session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
+			session.delete(test); 
+			session.getTransaction().commit();
+			session.close();
+		}
 }
