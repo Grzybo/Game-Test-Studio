@@ -6,6 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import com.bartosz.gameteststudio.beans.IssueTypeBean;
+import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.HibernateUtil;
 
 public class IssueRepository {
@@ -26,5 +27,21 @@ public class IssueRepository {
 		IssueTypeBean i = query.uniqueResult();
 		session.close();
 		return i;
-	}
+	} 
+	
+	// TEST of DELETE 
+	
+	public static void delate(IssueTypeBean issue) {
+		final Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		session.delete(issue);
+		session.getTransaction().commit();
+		session.close();
+	} 
+	/**
+	 * IssueTypeBean issue = IssueRepository.findByName("TEST1");
+		IssueRepository.delate(issue);
+	 */
+	
+	// działa bardzo ładnie  
 }

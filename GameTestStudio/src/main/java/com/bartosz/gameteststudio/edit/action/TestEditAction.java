@@ -88,8 +88,11 @@ public class TestEditAction  extends ActionSupport {
     	
     	platformList = test.getArea().getProject().getPlatformsStringList();
     	
-    	title = test.getTitle(); 
-    	account = test.getUser().getEmail();
+    	title = test.getTitle();
+    	if(test.getUser() == null) {
+    		account = "None";
+    	}
+    	else account = test.getUser().getEmail();
     	description = test.getDescription(); 
     	area = test.getArea().getTitle(); 
     	result = test.getResult().getName(); 

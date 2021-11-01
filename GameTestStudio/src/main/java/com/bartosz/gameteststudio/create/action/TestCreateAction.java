@@ -85,6 +85,8 @@ public class TestCreateAction  extends ActionSupport {
 			}
 		}
 
+    	
+    	
     	if (title != null) {
     		TestBean test = new TestBean(title, DataProvider.mapUsers.get(account), description,
     				DataProvider.mapAreas.get(area), DataProvider.mapResults.get(result),

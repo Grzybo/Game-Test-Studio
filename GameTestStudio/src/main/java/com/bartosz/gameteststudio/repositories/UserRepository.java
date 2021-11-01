@@ -42,7 +42,7 @@ public class UserRepository {
 		final Query<UserBean> query = session.createQuery("from UserBean where id =: id", UserBean.class);
 		query.setParameter("id", id);
 		UserBean project = query.uniqueResult();
-		//session.close();
+		session.close();
 		return project;
 	}
 	
@@ -53,5 +53,16 @@ public class UserRepository {
 		session.update(oldUser);
 		session.getTransaction().commit();
 		session.close();
+	} 
+	
+	// delete 
+	
+	public static void delete(UserBean user) {
+		final Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		session.delete(user); 
+		session.getTransaction().commit();
+		session.close();
 	}
+	
 }

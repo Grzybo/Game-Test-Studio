@@ -6,6 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import com.bartosz.gameteststudio.beans.BugBean;
+import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.HibernateUtil;
 
 public class BugRepository {
@@ -53,7 +54,17 @@ public class BugRepository {
 		final Query<BugBean> query = session.createQuery("from BugBean where id =: id", BugBean.class);
 		query.setParameter("id", id);
 		BugBean bug = query.uniqueResult();
-		//session.close();
+		session.close();
 		return bug;
-	}
+	} 
+	
+	// delete 
+	
+		public static void delete(BugBean bug) {
+			final Session session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
+			session.delete(bug); 
+			session.getTransaction().commit();
+			session.close();
+		}
 }

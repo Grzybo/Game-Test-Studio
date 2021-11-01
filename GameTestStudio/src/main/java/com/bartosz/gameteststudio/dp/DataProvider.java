@@ -486,6 +486,15 @@ public class DataProvider {
 				log.error("User is null.");
 		} 
 		
+		public static void deleteUser(UserBean user) {
+			if (user != null) {
+				UserRepository.delete(user);
+				mapUsers.remove(user.getEmail());
+				mapUsersId.remove(user.getId());
+			} else
+				log.error("User is null.");
+		} 
+		
 		public static void updateUser(UserBean old, UserBean newUser) {
 			if (old != null && newUser != null) {
 				mapUsersId.replace(old.getId(), old.getEmail(), newUser.getEmail());
@@ -738,11 +747,22 @@ public class DataProvider {
 			throw new GSException("Bug is null.");
 		}
 		
+		
+		
 		public static void saveBug(BugBean bug) {
 			if (bug != null) {
 				BugRepository.save(bug);
 				mapBugs.put(bug.getTitle(), bug);
 				mapBugsId.put(bug.getId(), bug.getTitle());
+			} else
+				log.error("Bug is null.");
+		} 
+		
+		public static void deleteBug(BugBean bug) {
+			if (bug != null) {
+				BugRepository.delete(bug);
+				mapBugs.remove(bug.getTitle());
+				mapBugsId.remove(bug.getId());
 			} else
 				log.error("Bug is null.");
 		} 

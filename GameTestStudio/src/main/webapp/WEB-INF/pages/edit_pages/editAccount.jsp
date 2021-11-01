@@ -29,7 +29,11 @@
 	   		<s:select label="Role" name="role" list="rolesList"/>
 			<s:checkboxlist label="Project" list="projectsList" name="projects" />    		
 	   		<s:submit class= "button"  method="execute" key="Update Account" form = "form"/>
-    	</s:form>
+    	</s:form> 
+    	<s:form action="/deleteAccount" id = "form2"  method="post">
+    		<s:hidden name="itemID"/>
+    		<s:submit class= "deleteBtn"  method="execute" key="Delete Account" form = "form2"/>
+    	</s:form> 
 	</div> 
 	<div class="center">
 		<a class="button" href="${pageContext.request.contextPath}/adminPage"> Return</a>

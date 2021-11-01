@@ -6,7 +6,16 @@
 	color: #ffffff;
 	background-color: #33ccff;
 	border-radius: 6px;
-	outline: none;}   
+	outline: none;}
+.deleteBtn {
+	display: inline-block;
+	padding: 10px 20px;
+	text-align: center;
+	text-decoration: none;
+	color: #ffffff;
+	background-color: #FF0000;
+	border-radius: 6px;
+	outline: none;}     
 .center {
 	text-align: center;} 
 .user {

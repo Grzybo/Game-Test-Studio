@@ -81,6 +81,10 @@
 				<s:submit class= "button"  method="execute" key="Submit" form = "editBug"/>			
  			</table>
  			</s:form>
+ 			<s:form action="/deleteBug" id = "form2"  method="post">
+    			<s:hidden name="itemID"/>
+    		<s:submit class= "deleteBtn"  method="execute" key="Delete Bug" form = "form2"/>
+    	</s:form> 
  			
 	 	</div>
 	 	<div class="center">

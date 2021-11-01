@@ -17,10 +17,11 @@ import org.displaytag.util.ParamEncoder;
 import net.sourceforge.jsptabcontrol.util.JSPTabControlUtil;
 import com.bartosz.gameteststudio.beans.AreaBean;
 import com.bartosz.gameteststudio.beans.BugBean;
-
+import com.bartosz.gameteststudio.beans.IssueTypeBean;
 import com.bartosz.gameteststudio.beans.TestBean;
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
+import com.bartosz.gameteststudio.repositories.IssueRepository;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "projects", //
