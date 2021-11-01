@@ -109,6 +109,11 @@ public class BugCreateAction  extends ActionSupport {
 		}
     	
     	if(title != null) {
+    		
+    		if(test == null) {
+    			addActionError("Bug must be assigned to Test!");
+    			return "createBug";
+    		}
     		BugBean bug = new BugBean(title, DataProvider.mapUsers.get(account), description, reproSteps,
     				DataProvider.getStates().get(state), DataProvider.getPriorities().get(priority), selectedPlatforms,  
     				version, minKitNumber, DataProvider.mapTests.get(test), DataProvider.getIssues().get(issue),

@@ -28,6 +28,10 @@
         	<s:checkboxlist label="Platforms" list="platformList" name="selectedPlatforms" />
     		<s:submit class= "button" method="execute" key="Update Project"/>
     	</s:form>
+    	<s:form action="/deleteProject" id = "form2"  method="post">
+    			<s:hidden name="itemID"/>
+    		<s:submit class= "deleteBtn"  method="execute" key="Delete Project" form = "form2"/>
+    		</s:form> 
 	</div>		
 	<div class="center">
 		<a class="button" href="${pageContext.request.contextPath}/adminPage"> Return</a>

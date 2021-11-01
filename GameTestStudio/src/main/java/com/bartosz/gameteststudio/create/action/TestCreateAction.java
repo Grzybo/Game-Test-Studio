@@ -63,7 +63,10 @@ public class TestCreateAction  extends ActionSupport {
     @Override
     public String execute() throws GSException {
           
-    	HttpSession session = ServletActionContext.getRequest().getSession();
+    	HttpSession session = ServletActionContext.getRequest().getSession(); 
+    	
+    	//UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString()); 
+    	
     	
     	ProjectBean project = DataProvider.mapProjects.get(session.getAttribute("userProject").toString());
     	platformList = project.getPlatformsStringList();
@@ -88,6 +91,11 @@ public class TestCreateAction  extends ActionSupport {
     	
     	
     	if (title != null) {
+    		
+    		if(area == null) {
+    			addActionError("Test must be assigned to Area!");
+    			return "createTest";
+    		}
     		TestBean test = new TestBean(title, DataProvider.mapUsers.get(account), description,
     				DataProvider.mapAreas.get(area), DataProvider.mapResults.get(result),
     				estimatedTime, startDate, endDate, testersNumber, workTime, DataProvider.getStates().get(state),

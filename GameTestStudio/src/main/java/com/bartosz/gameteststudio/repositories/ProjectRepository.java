@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
+import com.bartosz.gameteststudio.beans.BugBean;
 import com.bartosz.gameteststudio.beans.ProjectBean;
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.HibernateUtil;
@@ -28,8 +29,6 @@ public abstract class ProjectRepository {
 		session.update(oldProject);
 		session.getTransaction().commit();
 		//session.close(); 
-		
-	
 	}
 	
 	public static List<ProjectBean> findAll(){
@@ -61,5 +60,12 @@ public abstract class ProjectRepository {
 		return project;
 	}
 	
+	public static void delete(ProjectBean project) {
+		final Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		session.delete(project); 
+		session.getTransaction().commit();
+		session.close();
+	}
 	
 }

@@ -27,9 +27,8 @@ public class AdminPageAction  extends ActionSupport {
   
     private static final long serialVersionUID = 1L;
     
-    private List<ProjectBean> projectObjList;
+    private List<ProjectBean> projectObjList; // = new ArrayList<ProjectBean>(DataProvider.mapProjects.values());
     private List<UserBean> userObjList = new ArrayList<UserBean>(DataProvider.getAllUsers());
-    private String sort;
     
     
     @Override
@@ -38,15 +37,9 @@ public class AdminPageAction  extends ActionSupport {
     	HttpServletRequest request = ServletActionContext.getRequest();
         HttpSession session = request.getSession();
     	
-    	projectObjList = new ArrayList<ProjectBean>(DataProvider.mapProjects.values());// DataProvider.getAllProjects(); //= new ArrayList<ProjectBean>(); 
-    	//userObjList = new ArrayList<UserBean>(); 
+        DataProvider.updateProjectMaps();
+        projectObjList = new ArrayList<ProjectBean>(DataProvider.mapProjects.values());
     	
-    	  //for (String el : DataProvider.mapProjects.keySet()) projectObjList.add(DataProvider.mapProjects.get(el));
-    	  //for (String el : DataProvider.mapUsers.keySet()) userObjList.add(DataProvider.mapUsers.get(el));
-
-    	  if(sort != null) {
- 			 sortDsc(sort);			
-    	  }
     	  
     	  if(session.getAttribute("loginedUsername") == null ){
     		  return "login";
@@ -54,38 +47,12 @@ public class AdminPageAction  extends ActionSupport {
     	  
     	  if(DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString()).isAdmin()){	
     		  return "admin";
-    	  }
-    	
+    	  } 
+    	  
     	return "login";
     }
-
-    private void sortDsc(String element) {
-		 List<String> tmpList = new ArrayList<String>();
-		 switch(element) {
-		 	case "sortProject": 
-		 		for (ProjectBean el : projectObjList) tmpList.add(el.getTitle());
-				 Collections.reverse(tmpList); 
-				 projectObjList.clear(); 
-				 for (String str : tmpList) projectObjList.add(DataProvider.mapProjects.get(str));
-			 break;
-		 	case "sortUser":
-				 for (UserBean el : userObjList) tmpList.add(el.getEmail());
-				 Collections.reverse(tmpList); 
-				 userObjList.clear(); 
-				 for (String str : tmpList) userObjList.add(DataProvider.mapUsers.get(str));
-			 break;
-		 } 
-	 }
     
-    
-    
-	public String getSort() {
-		return sort;
-	}
 	
-	public void setSort(String sort) {
-		this.sort = sort;
-	}
 
 	public List<ProjectBean> getProjectObjList() {
 		return projectObjList;

@@ -62,7 +62,7 @@ public class BugBean {
 	private double version; 
 	
 	@ManyToOne //(cascade = CascadeType.ALL) 
-	@JoinColumn(name="fk_tests_id", nullable = false ) 
+	@JoinColumn(name="fk_tests_id" ) 
 	private TestBean test;
 
 	@Column(name = "min_kit_number", nullable = false)

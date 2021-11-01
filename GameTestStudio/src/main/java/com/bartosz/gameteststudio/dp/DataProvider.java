@@ -183,7 +183,7 @@ public class DataProvider {
 // Project 
 // ##################################################################################################################################################################################################
 	
-	//TODO przepisanie do innych 
+	
 	
 	public static void saveProject(ProjectBean project) {
 		if (project != null) {
@@ -191,6 +191,15 @@ public class DataProvider {
 			ProjectRepository.save(project);
 			mapProjects.put(project.getTitle(), project);
 			mapProjectsId.put(project.getId(), project.getTitle());
+		} else
+			log.error("Project is null.");
+	} 
+	
+	public static void deleteProject(ProjectBean project) {
+		if (project != null) {	
+			ProjectRepository.delete(project);
+			mapProjects.remove(project.getTitle(), project);
+			mapProjectsId.remove(project.getId(), project.getTitle());
 		} else
 			log.error("Project is null.");
 	} 
@@ -283,7 +292,17 @@ public class DataProvider {
 		 */
 		public static ProjectBean getProjectById(int id) {
 			return mapProjects.get(mapProjectsId.get((long)id));
-		} 
+		}
+		
+		public static void updateProjectMaps() {
+			mapProjectsId.clear();
+			mapProjects.clear();
+			for(ProjectBean b : getAllProjects()) {
+				mapProjectsId.put(b.getId() , b.getTitle());
+				mapProjects.put(b.getTitle(), b);
+			}
+			
+		}
 		
 		// (long)DataProvider.mapProjectsId.keySet().size() + 1 
 // ##################################################################################################################################################################################################

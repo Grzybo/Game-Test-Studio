@@ -60,11 +60,11 @@ public class BugRepository {
 	
 	// delete 
 	
-		public static void delete(BugBean bug) {
-			final Session session = HibernateUtil.getSessionFactory().openSession();
-			session.beginTransaction();
-			session.delete(bug); 
-			session.getTransaction().commit();
-			session.close();
-		}
+	public static void delete(BugBean bug) {
+		final Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		session.delete(bug); 
+		session.getTransaction().commit();
+		session.close();
+	}
 }
