@@ -1,4 +1,4 @@
-package com.bartosz.gameteststudio.edit.action;
+package com.bartosz.gameteststudio.update.action;
  
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +36,7 @@ public class AreaUpdateAction  extends ActionSupport {
 	private Integer testersNumber;
 	private Integer workTime; 
 	
-	private List<String> projectsList;
+	private List<String> projectsList = new ArrayList<String>();
 	private List<String> priorityList = new ArrayList<String>(DataProvider.getPriorities().keySet());
 	private List<String> stateList = new ArrayList<String>(DataProvider.getStates().keySet()); 
 	
@@ -46,8 +46,16 @@ public class AreaUpdateAction  extends ActionSupport {
     @Override
     public String execute() throws NumberFormatException, GSException {
           
-    	HttpSession session = ServletActionContext.getRequest().getSession();
-    	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString()); 
+    	// Walidacja uprawnień ------------------------------------------------------------------------------------------------------
+    	HttpSession session = ServletActionContext.getRequest().getSession();    	
+    	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());
+    	
+    	// kto moze: Tester Manager 
+    	if (!user.getRole().getName().equals("Tester Manager")) {
+    		addActionError("Your Account do not have permission to perform this action.");
+    		return "update";
+    	}
+    	//------------------------------------------------------------------------------------------------------------------------------
     	
     	projectsList = user.getProjectsList(); 
     	project = session.getAttribute("userProject").toString();

@@ -13,6 +13,7 @@
 	 		<h2>Edit Area</h2>
 	 		
 	 		<div class = "content">	
+	 		<s:actionerror />
 	 		<s:form id="editArea" action="/updateArea" method="post">
 	 		
 	 		<table style="width:100%">

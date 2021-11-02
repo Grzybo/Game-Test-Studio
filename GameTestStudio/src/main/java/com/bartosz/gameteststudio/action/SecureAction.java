@@ -27,9 +27,9 @@ public abstract class SecureAction  extends ActionSupport {
     	
     	System.out.println(" SECURE K ");
     	
-    	//HttpSession session = ServletActionContext.getRequest().getSession();
+    	HttpSession session = ServletActionContext.getRequest().getSession();
     	
-    	//UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());
+    	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());
     	
     	//session.setAttribute("loginedUser", user); 
     	//UserBean user2 = DataProvider.mapUsers.get(session.getAttribute("loginedUser")); 

@@ -86,10 +86,21 @@ public class BugCreateAction  extends ActionSupport {
     
     @Override
     public String execute() {
-          
-    	HttpSession session = ServletActionContext.getRequest().getSession();
-    	ProjectBean project = DataProvider.mapProjects.get(session.getAttribute("userProject").toString());
+        
+    	// Walidacja uprawnień ------------------------------------------------------------------------------------------------------
+    	HttpSession session = ServletActionContext.getRequest().getSession();    	
+    	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());
     	
+    	// kto moze: Tester, Tester Manager 
+    	if (!user.getRole().getName().equals("Tester") && !user.getRole().getName().equals("Tester Manager")) {
+    		addActionError("Your Account do not have permission to perform this action.");
+    		return "createBug";
+    	}
+    	//------------------------------------------------------------------------------------------------------------------------------
+    	
+    	
+    	
+    	ProjectBean project = DataProvider.mapProjects.get(session.getAttribute("userProject").toString());
     	platformList = project.getPlatformsStringList();
     	
     	for (String el : DataProvider.mapUsers.keySet()) {
@@ -109,7 +120,6 @@ public class BugCreateAction  extends ActionSupport {
 		}
     	
     	if(title != null) {
-    		
     		if(test == null) {
     			addActionError("Bug must be assigned to Test!");
     			return "createBug";

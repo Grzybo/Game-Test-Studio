@@ -11,6 +11,7 @@
     	<h2>Edit Platform</h2>
     	
     	<div class = "content">
+    	<s:actionerror />
 	    	<s:form action="/editPlatforms">
 	    		<s:textfield class="text" name="platformName" key="New Platform Name" size="100%"/>
 	    		<s:submit class= "button" method="execute" key="Create"/>

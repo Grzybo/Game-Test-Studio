@@ -1,4 +1,4 @@
-package com.bartosz.gameteststudio.edit.action;
+package com.bartosz.gameteststudio.update.action;
  
 import java.util.ArrayList;
 import java.util.List;
@@ -10,16 +10,17 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
 import com.bartosz.gameteststudio.beans.TestBean;
+import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
 import com.opensymphony.xwork2.ActionSupport;
  
-@Action(value = "deleteTest", //
+@Action(value = "updateTest", //
 results = { //
-        @Result(name = "delete", location = "/WEB-INF/pages/edit_pages/editTest.jsp")
+        @Result(name = "update", location = "/WEB-INF/pages/edit_pages/editTest.jsp")
 } //
 )
-public class TestDeleteAction  extends ActionSupport {
+public class TestUpdateAction  extends ActionSupport {
   
     private static final long serialVersionUID = 1L;
  
@@ -53,7 +54,19 @@ public class TestDeleteAction  extends ActionSupport {
     @Override
     public String execute() throws GSException {
           
-    	HttpSession session = ServletActionContext.getRequest().getSession();
+    	// Walidacja uprawnień ------------------------------------------------------------------------------------------------------
+    	HttpSession session = ServletActionContext.getRequest().getSession();    	
+    	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());
+    	System.out.println(user.getRole().getName());
+    	// kto moze: Tester, Tester Manager 
+    	if ((!user.getRole().getName().equals("Tester")) && (!user.getRole().getName().equals("Tester Manager"))) {
+    		addActionError("Your Account do not have permission to perform this action."); 
+    		
+    		return "update";
+    	}
+    	//------------------------------------------------------------------------------------------------------------------------------
+    	
+    	
     	
     	for (String el : DataProvider.mapUsers.keySet()) {
     		if(DataProvider.mapUsers.get(el).getProjects() != null) {
@@ -72,13 +85,31 @@ public class TestDeleteAction  extends ActionSupport {
 		}
 
     	TestBean test = DataProvider.getTestByID(Long.parseLong(itemID));
+    	TestBean newTest = new TestBean();
+    	platformList = test.getArea().getProject().getPlatformsStringList();
     	
     	
-    	DataProvider.deleteTest(test);
+    	newTest.setTitle(title);
+    	newTest.setUser(DataProvider.mapUsers.get(account));
+    	newTest.setPriority(DataProvider.getPriorities().get(priority));
+    	newTest.setState(DataProvider.getStates().get(state));
+    	newTest.setDescription(description);
+    	newTest.setArea(DataProvider.mapAreas.get(area));
+    	newTest.setEstimatedTime(estimatedTime);
+    	newTest.setWorkTime(workTime);
+    	newTest.setTestersNumber(testersNumber);
+    	newTest.setStartDate(startDate);
+    	newTest.setEndDate(endDate);
+    	newTest.setId(test.getId());
+    	newTest.setBuild(DataProvider.mapBuilds.get(build));
+    	newTest.setResult(DataProvider.mapResults.get(result));
+    	newTest.setPlatforms(selectedPlatforms);
     	
-    	addActionError("Test Deleted!");
+    	DataProvider.updateTest(test, newTest);
     	
-    	return "delete";
+    	addActionError("Test Updated!");
+    	
+    	return "update";
     	
     }
 

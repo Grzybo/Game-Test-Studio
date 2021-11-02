@@ -1,4 +1,4 @@
-package com.bartosz.gameteststudio.edit.action;
+package com.bartosz.gameteststudio.update.action;
  
 import java.io.File;
 import java.util.ArrayList;
@@ -14,15 +14,14 @@ import org.apache.struts2.convention.annotation.Result;
 import com.bartosz.gameteststudio.beans.BugBean;
 import com.bartosz.gameteststudio.beans.VersionBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
-import com.bartosz.gameteststudio.exceptions.GSException;
 import com.opensymphony.xwork2.ActionSupport;
  
-@Action(value = "deleteBug", //
+@Action(value = "updateBug", //
 results = { //
-        @Result(name = "delete", location = "/WEB-INF/pages/edit_pages/editBug.jsp")
+        @Result(name = "update", location = "/WEB-INF/pages/edit_pages/editBug.jsp")
 } //
 )
-public class BugDeleteAction  extends ActionSupport {
+public class BugUpdateAction  extends ActionSupport {
   
     private static final long serialVersionUID = 1L;
  
@@ -89,7 +88,7 @@ public class BugDeleteAction  extends ActionSupport {
 	private List<String> issuesList = new ArrayList<String>(DataProvider.getIssues().keySet());
     
     @Override
-    public String execute() throws NumberFormatException, GSException {
+    public String execute() {
           
     	HttpSession session = ServletActionContext.getRequest().getSession();
     	
@@ -109,14 +108,34 @@ public class BugDeleteAction  extends ActionSupport {
 			}
 		}
     	
-    	BugBean bug = DataProvider.getBugByID(Long.parseLong(itemID));
+    	BugBean bug = DataProvider.getBugById(Integer.parseInt(itemID));
+    	BugBean newBug = new BugBean(); 
     	
     	platformList = bug.getTest().getArea().getProject().getPlatformsStringList();
-
-    	DataProvider.deleteBug(bug);
-    	addActionError("Bug Deleted!");
     	
-    	return "delete";
+    	newBug.setTitle(title);
+    	newBug.setUser(DataProvider.mapUsers.get(account));
+    	newBug.setDescription(description);
+    	newBug.setReproSteps(reproSteps);
+    	newBug.setState(DataProvider.getStates().get(state));
+    	newBug.setPriority(DataProvider.getPriorities().get(priority));
+    	newBug.setPlatformsList(platforms);
+    	newBug.setTest(DataProvider.mapTests.get(test));
+    	newBug.setVersion(version);
+    	newBug.setBuild(DataProvider.mapBuilds.get(build));
+    	newBug.setTest(DataProvider.mapTests.get(test)); 
+    	newBug.setId(bug.getId());
+    	newBug.setIssueType(DataProvider.getIssues().get(issue));
+    	newBug.setReproFrequency(Integer.parseInt(reproStr));
+    	newBug.setMinKitNumber(minKitNumber);
+    	//fileUpload = bug.getAttachment().getFile();
+    	//fileUploadContentType = bug.getAttachment().getFileType();
+    	//fileUploadFileName = bug.getAttachment().getFileName();
+    	//TODO files
+    	DataProvider.updateBug(bug, newBug);
+    	addActionError("Bug Updated!");
+    	
+    	return "update";
     }
 
     public List<String> getPlatforms() {

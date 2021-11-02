@@ -19,7 +19,7 @@ import com.opensymphony.xwork2.ActionSupport;
                 @Result(name = "admin", type="redirect", location= "/adminPage") //
         } //
 )
-public class LoginAction extends SecureAction {
+public class LoginAction extends ActionSupport {
  
     private static final long serialVersionUID = 7299264265184515893L;
     private String email;

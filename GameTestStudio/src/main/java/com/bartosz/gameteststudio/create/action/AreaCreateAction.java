@@ -45,8 +45,16 @@ public class AreaCreateAction  extends ActionSupport {
     @Override
     public String execute() {
           
-    	HttpSession session = ServletActionContext.getRequest().getSession();
-    	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString()); 
+    	// Walidacja uprawnień ------------------------------------------------------------------------------------------------------
+    	HttpSession session = ServletActionContext.getRequest().getSession();    	
+    	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());
+    	
+    	// kto moze: Tester Manager 
+    	if (!user.getRole().getName().equals("Tester Manager")) {
+    		addActionError("Your Account do not have permission to perform this action.");
+    		return "createArea";
+    	}
+    	//------------------------------------------------------------------------------------------------------------------------------
     	
     	projectsList = user.getProjectsList(); 
     	

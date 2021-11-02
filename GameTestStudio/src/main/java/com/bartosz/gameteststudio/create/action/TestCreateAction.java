@@ -63,10 +63,16 @@ public class TestCreateAction  extends ActionSupport {
     @Override
     public String execute() throws GSException {
           
-    	HttpSession session = ServletActionContext.getRequest().getSession(); 
+    	// Walidacja uprawnień ------------------------------------------------------------------------------------------------------
+    	HttpSession session = ServletActionContext.getRequest().getSession();    	
+    	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());
     	
-    	//UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString()); 
-    	
+    	// kto moze: Tester Manager 
+    	if (!user.getRole().getName().equals("Tester Manager")) {
+    		addActionError("Your Account do not have permission to perform this action.");
+    		return "createTest";
+    	}
+    	//------------------------------------------------------------------------------------------------------------------------------
     	
     	ProjectBean project = DataProvider.mapProjects.get(session.getAttribute("userProject").toString());
     	platformList = project.getPlatformsStringList();

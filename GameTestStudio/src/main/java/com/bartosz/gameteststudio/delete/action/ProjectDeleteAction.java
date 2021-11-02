@@ -1,4 +1,4 @@
-package com.bartosz.gameteststudio.edit.action;
+package com.bartosz.gameteststudio.delete.action;
  
 import java.util.ArrayList;
 import java.util.List;
