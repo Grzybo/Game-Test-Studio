@@ -99,7 +99,7 @@ public class BugDeleteAction  extends ActionSupport {
     	// kto moze: Tester Manager 
     	if (!user.getRole().getName().equals("Tester Manager")) {
     		addActionError("Your Account do not have permission to perform this action.");
-    		return "createArea";
+    		return "delete";
     	}
     	//------------------------------------------------------------------------------------------------------------------------------
     	

@@ -3,11 +3,15 @@ package com.bartosz.gameteststudio.update.action;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
 import com.bartosz.gameteststudio.beans.PlatformBean;
 import com.bartosz.gameteststudio.beans.ProjectBean;
+import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
 import com.bartosz.gameteststudio.repositories.StateRepository;
@@ -15,7 +19,8 @@ import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "updateProject", //
 results = { //
-        @Result(name = "updateProject", location = "/WEB-INF/pages/edit_pages/editProject.jsp")
+        @Result(name = "updateProject", location = "/WEB-INF/pages/edit_pages/editProject.jsp"),
+        @Result(name = "projects", type="redirect",  location = "/projects")
 } //
 )
 public class ProjectUpdateAction  extends ActionSupport {
@@ -39,12 +44,29 @@ public class ProjectUpdateAction  extends ActionSupport {
     @Override
     public String execute() {
           
+    	// Walidacja uprawnień ------------------------------------------------------------------------------------------------------
+    	HttpSession session = ServletActionContext.getRequest().getSession();    	
+    	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());
+    	
+    	// kto moze: Tester Manager 
+    	if (!user.getRole().getName().equals("Tester Manager") && !user.isAdmin()) {
+    		addActionError("Your Account do not have permission to perform this action.");
+    		return "projects";
+    	}
+    	//------------------------------------------------------------------------------------------------------------------------------
     	
 		try {
 			if (title != null) {
 	    		
+				System.out.println(itemID);
 				
-	    		ProjectBean project = DataProvider.getProjectByID(Long.parseLong(itemID));
+	    		ProjectBean project; 
+	    		if(itemID.equals(null)) {
+	    			project = DataProvider.mapProjects.get(session.getAttribute("userProject")); 
+	    		}
+	    		else project = DataProvider.getProjectByID(Long.parseLong(itemID));
+	    		
+	    		
 	    		ProjectBean newProject = new ProjectBean(); 
 	    		
 	    		//System.out.println(selectedPlatforms);
@@ -74,9 +96,11 @@ public class ProjectUpdateAction  extends ActionSupport {
     	
     	
     	
+    	if(user.isAdmin()) {
+    		return "updateProject";
+    	}
     	
-    	
-    	return "updateProject";
+    	return "projects";
     }
 
 	public String getSearchTitle() {

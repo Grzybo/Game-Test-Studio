@@ -18,6 +18,7 @@ import net.sourceforge.jsptabcontrol.util.JSPTabControlUtil;
 import com.bartosz.gameteststudio.beans.AreaBean;
 import com.bartosz.gameteststudio.beans.BugBean;
 import com.bartosz.gameteststudio.beans.IssueTypeBean;
+import com.bartosz.gameteststudio.beans.ProjectBean;
 import com.bartosz.gameteststudio.beans.TestBean;
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
@@ -40,9 +41,25 @@ public class ProjectAction  extends ActionSupport {
 	private List<String> projectsList;
 	private String selectedProject; 
 	
-	private List<BugBean> bugObjList; 
-	private List<TestBean> testObjList;
-	private List<AreaBean> areaObjList;
+	private List<BugBean> bugObjList = new ArrayList<BugBean>();
+	private List<TestBean> testObjList = new ArrayList<TestBean>();
+	private List<AreaBean> areaObjList  = new ArrayList<AreaBean>();  
+	
+ 	
+
+
+	private String itemID;
+    private String title; 
+    private String description; 
+    private Integer testers_numbers;
+    private Integer estimate_time; 
+    private Integer work_time;
+    private String startDate;
+    private String endDate;
+    private String state;
+    private List<String> platformList = new ArrayList<String>(DataProvider.mapPlatforms.keySet()); 
+    private List<String> selectedPlatforms = new ArrayList<String>();
+    private List<String> stateList = new ArrayList<String>(DataProvider.getStates().keySet());
 	
 
 	HttpServletRequest request = ServletActionContext.getRequest();
@@ -51,11 +68,12 @@ public class ProjectAction  extends ActionSupport {
 	 @Override
 	    public String execute() {
 		 
-		bugObjList = new ArrayList<BugBean>();
-		testObjList = new ArrayList<TestBean>();
-		areaObjList = new ArrayList<AreaBean>(); 
-			
-		UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());
+		UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString()); 
+		
+		if (!user.getRole().getName().equals("Tester Manager")) {
+			addActionError("Your Account do not have permission to perform this action.");
+		}
+		
 
 		projectsList = user.getProjectsList();
 		
@@ -72,6 +90,19 @@ public class ProjectAction  extends ActionSupport {
 		else {
 			session.setAttribute("userProject", selectedProject);
 		}
+		
+		ProjectBean project = DataProvider.mapProjects.get(session.getAttribute("userProject")); 
+		
+		itemID = Long.toString(project.getId());
+		title = project.getTitle(); 
+		description = project.getDescription();
+		testers_numbers = project.getTestersNumber();
+		estimate_time = project.getEstimatedTime(); 
+		selectedPlatforms = project.getPlatformsStringList();
+		work_time = project.getWorkTime(); 
+		startDate = project.getStartDate();
+		endDate = project.getEndDate();
+		state = project.getState().getName();
  
 		fillLists();  
 
@@ -205,5 +236,182 @@ public class ProjectAction  extends ActionSupport {
 		this.selectedProject = selectedProject;
 	} 
 	 
-	 
+	public String getTab() {
+		return tab;
+	}
+
+
+
+
+	public void setTab(String tab) {
+		this.tab = tab;
+	}
+
+
+
+
+	public String getItemID() {
+		return itemID;
+	}
+
+
+
+
+	public void setItemID(String itemID) {
+		this.itemID = itemID;
+	}
+
+
+
+
+	public String getTitle() {
+		return title;
+	}
+
+
+
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+
+
+
+	public String getDescription() {
+		return description;
+	}
+
+
+
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+
+
+
+	public Integer getTesters_numbers() {
+		return testers_numbers;
+	}
+
+
+
+
+	public void setTesters_numbers(Integer testers_numbers) {
+		this.testers_numbers = testers_numbers;
+	}
+
+
+
+
+	public Integer getEstimate_time() {
+		return estimate_time;
+	}
+
+
+
+
+	public void setEstimate_time(Integer estimate_time) {
+		this.estimate_time = estimate_time;
+	}
+
+
+
+
+	public Integer getWork_time() {
+		return work_time;
+	}
+
+
+
+
+	public void setWork_time(Integer work_time) {
+		this.work_time = work_time;
+	}
+
+
+
+
+	public String getStartDate() {
+		return startDate;
+	}
+
+
+
+
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+
+
+
+
+	public String getEndDate() {
+		return endDate;
+	}
+
+
+
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+
+
+
+
+	public String getState() {
+		return state;
+	}
+
+
+
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+
+
+
+	public List<String> getPlatformList() {
+		return platformList;
+	}
+
+
+
+
+	public void setPlatformList(List<String> platformList) {
+		this.platformList = platformList;
+	}
+
+
+
+
+	public List<String> getSelectedPlatforms() {
+		return selectedPlatforms;
+	}
+
+
+
+
+	public void setSelectedPlatforms(List<String> selectedPlatforms) {
+		this.selectedPlatforms = selectedPlatforms;
+	}
+
+
+
+
+	public List<String> getStateList() {
+		return stateList;
+	}
+
+
+
+
+	public void setStateList(List<String> stateList) {
+		this.stateList = stateList;
+	}
 }

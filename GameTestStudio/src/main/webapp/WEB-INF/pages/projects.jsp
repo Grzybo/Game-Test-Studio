@@ -87,6 +87,10 @@
 						
 					</display:table>	
 				</div> 						      
+			</jsptabcontrol:tabPage>
+			<jsptabcontrol:tabPage name="ProjectTab" title="Project" width="100%" >
+			<br>
+				<jsp:include page="/WEB-INF/pages/edit_pages/projectView.jsp"/>
 			</jsptabcontrol:tabPage>  
 		  </jsptabcontrol:tabControl> 
 		</div> 
