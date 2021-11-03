@@ -14,7 +14,8 @@ import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "deleteAccount", //
 results = { //
-        @Result(name = "editAccount", location = "/WEB-INF/pages/edit_pages/editAccount.jsp")
+        @Result(name = "editAccount", location = "/WEB-INF/pages/edit_pages/editAccount.jsp"), 
+        @Result(name = "deleted", type="redirect", location = "/adminPage")
 } //
 )
 public class AccountDeleteAction  extends ActionSupport {
@@ -44,7 +45,7 @@ public class AccountDeleteAction  extends ActionSupport {
     	
     	addActionError("User Deleted!");
 
-    	return "editAccount";
+    	return "deleted";
     }
 
 	public String getSearchEmail() {

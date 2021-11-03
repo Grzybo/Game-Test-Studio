@@ -16,7 +16,8 @@ import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "createProject", //
 results = { //
-        @Result(name = "project_create", location = "/WEB-INF/pages/create_pages/createProject.jsp")
+        @Result(name = "project_create", location = "/WEB-INF/pages/create_pages/createProject.jsp"),
+        @Result(name = "project_created", type="redirect", location = "/adminPage")
 } //
 )
 public class ProjectCreateAction extends ActionSupport {
@@ -54,7 +55,7 @@ public class ProjectCreateAction extends ActionSupport {
     		//System.out.println(selectedPlatforms);
     		DataProvider.saveProject(newProject);
     		
-    		return "project_create";
+    		return "project_created";
     	}else {
     		addActionError("Title cannot be empty.");
     		return "project_create";

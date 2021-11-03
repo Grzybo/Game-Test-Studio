@@ -27,7 +27,8 @@ import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "createBug", //
 results = { //
-        @Result(name = "createBug", location = "/WEB-INF/pages/create_pages/createBug.jsp")
+        @Result(name = "createBug", location = "/WEB-INF/pages/create_pages/createBug.jsp"),
+        @Result(name = "created", type="redirect", location = "/projects")
 } //
 )
 public class BugCreateAction  extends ActionSupport {
@@ -135,12 +136,11 @@ public class BugCreateAction  extends ActionSupport {
         	DataProvider.saveBug(bug);
         	
         	addActionError("Bug created!");
+        	return "created";
     	}else {
     		addActionError("Title field cannot be empty");
     	}
-    	
-    	
-    	
+
     	return "createBug";
     } 
     

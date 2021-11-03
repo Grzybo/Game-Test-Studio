@@ -25,7 +25,8 @@ import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "createTest", //
 results = { //
-        @Result(name = "createTest", location = "/WEB-INF/pages/create_pages/createTest.jsp")
+        @Result(name = "createTest", location = "/WEB-INF/pages/create_pages/createTest.jsp"),
+        @Result(name = "created", type="redirect", location = "/projects")
 } //
 )
 public class TestCreateAction  extends ActionSupport {
@@ -110,6 +111,7 @@ public class TestCreateAction  extends ActionSupport {
         	DataProvider.saveTest(test);
         	
         	addActionError("Test created!");
+        	return "created";
     	}
     	else addActionError("Title field cannot be empty");
     	

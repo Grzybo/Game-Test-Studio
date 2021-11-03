@@ -19,7 +19,8 @@ import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "createArea", //
 results = { //
-        @Result(name = "createArea", location = "/WEB-INF/pages/create_pages/createArea.jsp")
+        @Result(name = "createArea", location = "/WEB-INF/pages/create_pages/createArea.jsp"), 
+        @Result(name = "created", type="redirect", location = "/projects")
 } //
 )
 public class AreaCreateAction  extends ActionSupport {
@@ -73,6 +74,8 @@ public class AreaCreateAction  extends ActionSupport {
     				DataProvider.getStates().get(state), DataProvider.getPriorities().get(priority));
         	DataProvider.saveArea(area);
         	addActionError("Area created!");
+        	return "created";
+        	
     	}else addActionError("Title field cannot be empty");
 
     	

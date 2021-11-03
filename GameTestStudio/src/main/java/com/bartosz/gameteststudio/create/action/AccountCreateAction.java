@@ -27,7 +27,8 @@ import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "createAccount", //
 results = { //
-        @Result(name = "account_create", location = "/WEB-INF/pages/create_pages/createAccount.jsp")
+        @Result(name = "account_create", location = "/WEB-INF/pages/create_pages/createAccount.jsp"),
+        @Result(name = "created", type="redirect", location = "/adminPage")
 } //
 )
 public class AccountCreateAction  extends ActionSupport {
@@ -88,7 +89,7 @@ public class AccountCreateAction  extends ActionSupport {
 
         		addActionError("Account created.");
         		
-                return "account_create";
+                return "created";
     		}
     		addActionError("Acccount with this email already exists.");
     		return "account_create"; 

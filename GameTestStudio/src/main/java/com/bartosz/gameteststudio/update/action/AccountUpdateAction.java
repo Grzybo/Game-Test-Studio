@@ -2,6 +2,8 @@ package com.bartosz.gameteststudio.update.action;
  
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
@@ -10,6 +12,7 @@ import com.bartosz.gameteststudio.beans.ProjectBean;
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
+import com.bartosz.gameteststudio.utils.Utils;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "updateAccount", //
@@ -39,21 +42,28 @@ public class AccountUpdateAction  extends ActionSupport {
     @Override
     public String execute() throws NumberFormatException, GSException {
           
-    	UserBean user = DataProvider.getUserByID(Long.parseLong(itemID));
-    	UserBean newUser = new UserBean();
+		UserBean user = DataProvider.getUserByID(Long.parseLong(itemID));
+		UserBean newUser = new UserBean();
     	
-    	newUser.setFirstName(firstName);
-    	newUser.setLastName(lastName);
-    	newUser.setEmail(email);
-    	newUser.setRole(DataProvider.mapRoles.get(role));
-    	newUser.setProjectsList(projects);
-    	newUser.setId(user.getId());
-    	newUser.setPassword(user.getPassword());
+		 String email = this.email;
+		 Pattern pattern = Pattern.compile(Utils.emailPattern);
+		 Matcher match = pattern.matcher(email); 
+		 
+		 if(match.matches()) {
+			 newUser.setFirstName(firstName);
+		 	newUser.setLastName(lastName);
+		 	newUser.setEmail(email);
+		 	newUser.setRole(DataProvider.mapRoles.get(role));
+		 	newUser.setProjectsList(projects);
+		 	newUser.setId(user.getId());
+		 	newUser.setPassword(user.getPassword());
+		 	
+		 	DataProvider.updateUser(user, newUser);
+		 	
+		 	addActionError("User Updated!");
+		 }
+		 else addActionError("Email is not valid!");
     	
-    	DataProvider.updateUser(user, newUser);
-    	
-    	addActionError("User Updated!");
-
     	return "editAccount";
     }
 

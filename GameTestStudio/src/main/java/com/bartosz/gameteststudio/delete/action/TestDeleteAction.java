@@ -17,7 +17,8 @@ import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "deleteTest", //
 results = { //
-        @Result(name = "delete", location = "/WEB-INF/pages/edit_pages/editTest.jsp")
+        @Result(name = "delete", location = "/WEB-INF/pages/edit_pages/editTest.jsp"), 
+        @Result(name = "deleted", type="redirect", location = "/projects")
 } //
 )
 public class TestDeleteAction  extends ActionSupport {
@@ -88,7 +89,7 @@ public class TestDeleteAction  extends ActionSupport {
     	
     	addActionError("Test Deleted!");
     	
-    	return "delete";
+    	return "deleted";
     	
     }
 

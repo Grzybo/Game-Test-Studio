@@ -14,7 +14,7 @@ import com.opensymphony.xwork2.ActionSupport;
 @Action(value = "deleteProject", //
 results = { //
        @Result(name = "deleteProject", location = "/WEB-INF/pages/edit_pages/editProject.jsp"), 
-       // @Result(name = "deleteProject", type="redirect", location = "/WEB-INF/pages/adminPage.jsp")
+       @Result(name = "deleted", type="redirect", location = "/adminPage")
 } //
 )
 public class ProjectDeleteAction  extends ActionSupport {
@@ -44,7 +44,7 @@ public class ProjectDeleteAction  extends ActionSupport {
     	
     	addActionError("Project Deleted.");
 
-    	return "deleteProject";
+    	return "deleted";
     }
 
 	public String getSearchTitle() {

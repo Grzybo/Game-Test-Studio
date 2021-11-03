@@ -20,7 +20,8 @@ import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "deleteBug", //
 results = { //
-        @Result(name = "delete", location = "/WEB-INF/pages/edit_pages/editBug.jsp")
+        @Result(name = "delete", location = "/WEB-INF/pages/edit_pages/editBug.jsp"), 
+        @Result(name = "deleted", type="redirect", location = "/projects")
 } //
 )
 public class BugDeleteAction  extends ActionSupport {
@@ -47,33 +48,7 @@ public class BugDeleteAction  extends ActionSupport {
 	private String reproStr;
     private List<String> reproList = Arrays.asList("100", "75", "50", "25");
 	
-	public String getReproStr() {
-		return reproStr;
-	}
-
-
-
-
-
-	public void setReproStr(String reproStr) {
-		this.reproStr = reproStr;
-	}
-
-
-
-
-
-	public List<String> getReproList() {
-		return reproList;
-	}
-
-
-
-
-
-	public void setReproList(List<String> reproList) {
-		this.reproList = reproList;
-	}
+	
 
 	private File fileUpload;
 	private String fileUploadContentType;
@@ -126,7 +101,7 @@ public class BugDeleteAction  extends ActionSupport {
     	DataProvider.deleteBug(bug);
     	addActionError("Bug Deleted!");
     	
-    	return "delete";
+    	return "deleted";
     }
 
     public List<String> getPlatforms() {
@@ -148,7 +123,33 @@ public class BugDeleteAction  extends ActionSupport {
 
 
 
+	public String getReproStr() {
+		return reproStr;
+	}
 
+
+
+
+
+	public void setReproStr(String reproStr) {
+		this.reproStr = reproStr;
+	}
+
+
+
+
+
+	public List<String> getReproList() {
+		return reproList;
+	}
+
+
+
+
+
+	public void setReproList(List<String> reproList) {
+		this.reproList = reproList;
+	}
 
 	public List<String> getIssuesList() {
 		return issuesList;

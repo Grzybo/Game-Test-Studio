@@ -1,6 +1,5 @@
 package com.bartosz.gameteststudio.dp;
 
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +19,6 @@ import com.bartosz.gameteststudio.beans.RoleBean;
 import com.bartosz.gameteststudio.beans.StateBean;
 import com.bartosz.gameteststudio.beans.TestBean;
 import com.bartosz.gameteststudio.beans.UserBean;
-import com.bartosz.gameteststudio.beans.VersionBean;
 import com.bartosz.gameteststudio.exceptions.GSException;
 import com.bartosz.gameteststudio.repositories.AreaRepository;
 import com.bartosz.gameteststudio.repositories.BugRepository;

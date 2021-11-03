@@ -17,7 +17,8 @@ import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "deleteArea", //
 results = { //
-        @Result(name = "delete", location = "/WEB-INF/pages/edit_pages/editArea.jsp")
+        @Result(name = "delete", location = "/WEB-INF/pages/edit_pages/editArea.jsp"),
+        @Result(name = "deleted", type="redirect", location = "/projects")
 } //
 )
 public class AreaDeleteAction  extends ActionSupport {
@@ -64,7 +65,7 @@ public class AreaDeleteAction  extends ActionSupport {
     	DataProvider.deleteArea(area); 
     	
     	addActionError("Area Deleted!");
-    	return "delete";
+    	return "deleted";
     }
 
 
