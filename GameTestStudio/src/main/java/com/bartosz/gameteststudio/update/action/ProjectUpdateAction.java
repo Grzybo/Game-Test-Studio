@@ -47,8 +47,9 @@ public class ProjectUpdateAction  extends ActionSupport {
     	// Walidacja uprawnień ------------------------------------------------------------------------------------------------------
     	HttpSession session = ServletActionContext.getRequest().getSession();    	
     	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());
+    	session.setAttribute("selectedTab", "ProjectTab");
     	
-    	// kto moze: Tester Manager 
+    	// kto moze: Tester Manager i Admin
     	if (!user.getRole().getName().equals("Tester Manager") && !user.isAdmin()) {
     		addActionError("Your Account do not have permission to perform this action.");
     		return "projects";

@@ -45,6 +45,7 @@ public class AreaEditAction  extends ActionSupport {
     public String execute() throws Exception, GSException {
           
     	HttpSession session = ServletActionContext.getRequest().getSession();
+    	session.setAttribute("selectedTab", "AreaTab");
     	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString()); 
     	
     	projectsList = user.getProjectsList(); 

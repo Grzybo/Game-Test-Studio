@@ -4,6 +4,7 @@ package com.bartosz.gameteststudio.create.action;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
@@ -36,6 +37,7 @@ public class ProjectCreateAction extends ActionSupport {
     @Override
     public String execute() throws GSException {
           
+    	ServletActionContext.getRequest().getSession().setAttribute("selectedTab", "ProjectsTab");
     	if(title != null) {
     		/**
     		ProjectBean project = new ProjectBean(title, description, estimate_time, 

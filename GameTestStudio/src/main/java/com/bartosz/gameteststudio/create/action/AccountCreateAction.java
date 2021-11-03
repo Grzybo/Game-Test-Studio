@@ -65,12 +65,15 @@ public class AccountCreateAction  extends ActionSupport {
     
     @Override
     public String execute() {
-          
+    	
+    	HttpServletRequest request = ServletActionContext.getRequest();
+        HttpSession session = request.getSession();  
+    	session.setAttribute("selectedTab", "AccountsTab");
     	
     	if(this.firstName != null && this.lastName != null && this.email != null ) {
     		if(!DataProvider.mapUsers.keySet().contains(email)) {
-    			HttpServletRequest request = ServletActionContext.getRequest();
-                HttpSession session = request.getSession(); 
+    			
+               
                 
                 this.password = generateRandomPassword();
                 session.setAttribute("generatedPassword", this.password);

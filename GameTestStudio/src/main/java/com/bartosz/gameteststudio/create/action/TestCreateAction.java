@@ -66,7 +66,7 @@ public class TestCreateAction  extends ActionSupport {
     	// Walidacja uprawnień ------------------------------------------------------------------------------------------------------
     	HttpSession session = ServletActionContext.getRequest().getSession();    	
     	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());
-    	
+    	session.setAttribute("selectedTab", "TestTab");
     	// kto moze: Tester Manager 
     	if (!user.getRole().getName().equals("Tester Manager")) {
     		addActionError("Your Account do not have permission to perform this action.");

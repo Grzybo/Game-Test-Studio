@@ -44,10 +44,13 @@ public class AreaCreateAction  extends ActionSupport {
 	
     @Override
     public String execute() {
-          
+        
+    	
+    	
     	// Walidacja uprawnień ------------------------------------------------------------------------------------------------------
     	HttpSession session = ServletActionContext.getRequest().getSession();    	
     	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());
+    	session.setAttribute("selectedTab", "AreaTab");
     	
     	// kto moze: Tester Manager 
     	if (!user.getRole().getName().equals("Tester Manager")) {

@@ -65,6 +65,7 @@ public class TestEditAction  extends ActionSupport {
     public String execute() {
           
     	HttpSession session = ServletActionContext.getRequest().getSession();
+    	session.setAttribute("selectedTab", "TestTab");
     	
     	for (String el : DataProvider.mapUsers.keySet()) {
     		if(DataProvider.mapUsers.get(el).getProjects() != null) {

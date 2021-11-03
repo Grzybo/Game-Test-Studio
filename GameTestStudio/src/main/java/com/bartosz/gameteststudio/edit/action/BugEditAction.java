@@ -64,7 +64,7 @@ public class BugEditAction  extends ActionSupport {
     public String execute() {
           
     	HttpSession session = ServletActionContext.getRequest().getSession();
-    	
+    	session.setAttribute("selectedTab", "BugTab");
     	
     	
     	for (String el : DataProvider.mapUsers.keySet()) {

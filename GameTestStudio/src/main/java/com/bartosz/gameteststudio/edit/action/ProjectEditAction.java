@@ -3,6 +3,10 @@ package com.bartosz.gameteststudio.edit.action;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 import com.bartosz.gameteststudio.beans.ProjectBean;
@@ -29,14 +33,16 @@ public class ProjectEditAction  extends ActionSupport {
     private String state;
     private List<String> platformList = new ArrayList<String>(DataProvider.mapPlatforms.keySet()); 
     private List<String> selectedPlatforms = new ArrayList<String>();
-    private List<String> stateList = new ArrayList<String>(DataProvider.getStates().keySet());
+    private List<String> stateList = new ArrayList<String>(DataProvider.getStates().keySet()); 
+    
+	private HttpSession session = ServletActionContext.getRequest().getSession();
   
 	@Override
     public String execute() {
         	
 		ProjectBean project = DataProvider.getProjectById(Integer.parseInt(itemID)); 
 		//ProjectBean project = DataProvider.getProjectByID(Long.parseLong(itemID)); 
-		
+		session.setAttribute("selectedTab", "ProjectsTab");
 		
 
 		//TODO naprawic relacje projects-platforms - chyba naprawione

@@ -3,6 +3,7 @@ package com.bartosz.gameteststudio.edit.action;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
@@ -37,20 +38,18 @@ public class AccountEditAction  extends ActionSupport {
     @Override
     public String execute() {
           
-    		
+    	ServletActionContext.getRequest().getSession().setAttribute("selectedTab", "AccountsTab");
     	
-    		UserBean user = DataProvider.getUserById(Integer.parseInt(itemID)); 
+		UserBean user = DataProvider.getUserById(Integer.parseInt(itemID)); 
+		
+		projects = user.getProjectsList();
+		
+		firstName = user.getFirstName(); 
+		lastName = user.getLastName(); 
+		email = user.getEmail(); 
+		role = user.getRole().getName();
+		projects = user.getProjectsList(); 
     		
-    		projects = user.getProjectsList();
-    		
-    		firstName = user.getFirstName(); 
-    		lastName = user.getLastName(); 
-    		email = user.getEmail(); 
-    		role = user.getRole().getName();
-    		projects = user.getProjectsList(); 
-    		
-    		
-    	
     	return "editAccount";
     }
 

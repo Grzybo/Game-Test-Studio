@@ -90,6 +90,7 @@ public class BugCreateAction  extends ActionSupport {
     	// Walidacja uprawnień ------------------------------------------------------------------------------------------------------
     	HttpSession session = ServletActionContext.getRequest().getSession();    	
     	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());
+    	session.setAttribute("selectedTab", "BugTab");
     	
     	// kto moze: Tester, Tester Manager 
     	if (!user.getRole().getName().equals("Tester") && !user.getRole().getName().equals("Tester Manager")) {

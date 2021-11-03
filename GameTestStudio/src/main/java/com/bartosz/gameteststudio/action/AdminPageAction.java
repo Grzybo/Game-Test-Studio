@@ -10,12 +10,17 @@ import javax.servlet.http.HttpSession;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
+import org.displaytag.tags.TableTagParameters;
+import org.displaytag.util.ParamEncoder;
 
 import com.bartosz.gameteststudio.beans.ProjectBean;
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.repositories.ProjectRepository;
+import com.bartosz.gameteststudio.utils.Utils;
 import com.opensymphony.xwork2.ActionSupport;
+
+import net.sourceforge.jsptabcontrol.util.JSPTabControlUtil;
  
 @Action(value = "adminPage", 
 		results = { 
@@ -29,7 +34,10 @@ public class AdminPageAction  extends ActionSupport {
     
     private List<ProjectBean> projectObjList; // = new ArrayList<ProjectBean>(DataProvider.mapProjects.values());
     private List<UserBean> userObjList = new ArrayList<UserBean>(DataProvider.getAllUsers());
-    
+    private HttpServletRequest request = ServletActionContext.getRequest();
+	private HttpSession session = request.getSession(); 
+	private String projectSort = request.getParameter((new ParamEncoder("projectsTable")).encodeParameterName(TableTagParameters.PARAMETER_SORT));
+	private String userSort = request.getParameter((new ParamEncoder("accountsTable")).encodeParameterName(TableTagParameters.PARAMETER_SORT));
     
     @Override
     public String execute() {
@@ -37,6 +45,8 @@ public class AdminPageAction  extends ActionSupport {
     	HttpServletRequest request = ServletActionContext.getRequest();
         HttpSession session = request.getSession();
     	
+        setTabs();
+        
         DataProvider.updateProjectMaps();
         projectObjList = new ArrayList<ProjectBean>(DataProvider.mapProjects.values());
     	
@@ -52,7 +62,31 @@ public class AdminPageAction  extends ActionSupport {
     	return "login";
     }
     
-	
+    // ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    
+    private void setTabs() {
+		 if(session.getAttribute("selectedTab") == null) {
+				session.setAttribute("selectedTab", "ProjectsTab"); 
+			}
+		 else if(Utils.projectTabState == null && Utils.userTabState == null) {
+			 	Utils.projectTabState = "1";
+				Utils.userTabState = "1";
+		 }
+		 else {
+			 {	
+				if(projectSort != null && !Utils.projectTabState.equals(projectSort)) {
+					session.setAttribute("selectedTab", "ProjectsTab");
+					Utils.bugTabState = projectSort;
+				}
+				if(userSort != null && !Utils.userTabState.equals(userSort)) {
+					session.setAttribute("selectedTab", "AccountsTab");
+					Utils.testTabState = userSort;
+				}
+		 	} 
+		 }
+		 JSPTabControlUtil.setSelectedTabPageName(request, "AdminTabs", session.getAttribute("selectedTab").toString());	
+		 
+	 }
 
 	public List<ProjectBean> getProjectObjList() {
 		return projectObjList;
