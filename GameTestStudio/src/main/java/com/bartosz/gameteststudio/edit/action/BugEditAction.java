@@ -1,18 +1,27 @@
 package com.bartosz.gameteststudio.edit.action;
  
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
 import com.bartosz.gameteststudio.beans.BugBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
+import com.google.common.io.Files;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "editBug", //
@@ -45,7 +54,9 @@ public class BugEditAction  extends ActionSupport {
 	
 	private File fileUpload;
 	private String fileUploadContentType;
-	private String fileUploadFileName; 
+	private String fileUploadFileName;
+	private String filePath; 
+	private String fileID;
 	
 	private String reproStr;
     private List<String> reproList = Arrays.asList("100", "75", "50", "25");
@@ -61,7 +72,7 @@ public class BugEditAction  extends ActionSupport {
 	private List<String> issuesList = new ArrayList<String>(DataProvider.getIssues().keySet());
     
     @Override
-    public String execute() {
+    public String execute() throws IOException {
           
     	HttpSession session = ServletActionContext.getRequest().getSession();
     	session.setAttribute("selectedTab", "BugTab");
@@ -94,7 +105,7 @@ public class BugEditAction  extends ActionSupport {
     	reproSteps = bug.getReproSteps();
     	state = bug.getState().getName(); 
     	priority = bug.getPriority().getName();
-    	//platforms = bug.getPlatformList();
+    	platforms = bug.getPlatformList();
     	version = bug.getVersion();
     	build = bug.getBuild().getName();
     	test = bug.getTest().getTitle(); 
@@ -102,11 +113,16 @@ public class BugEditAction  extends ActionSupport {
     	platforms = bug.getPlatformList();
     	reproStr = String.valueOf(bug.getReproFrequency());
     	issue = bug.getIssueType().getName();
+
     	
-    	//fileUpload = bug.getAttachment().getFile();
-    	//fileUploadContentType = bug.getAttachment().getFileType();
-    	//fileUploadFileName = bug.getAttachment().getFileName();
+    	if(bug.getAttachment() != null) {
+    		fileUploadFileName = bug.getAttachment().getFileName();
+        	fileUploadContentType = bug.getAttachment().getFileType();
+        	filePath = bug.getAttachment().getFilePath(); 
+        	fileID = bug.getAttachment().getId().toString();
+    	}
     	
+
     	return "editBug";
     }
 
@@ -123,6 +139,28 @@ public class BugEditAction  extends ActionSupport {
 
 	public String getTest() {
 		return test;
+	}
+
+  
+	
+	
+	public String getFileID() {
+		return fileID;
+	}
+
+
+	public void setFileID(String fileID) {
+		this.fileID = fileID;
+	}
+
+
+	public String getFilePath() {
+		return filePath;
+	}
+
+
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
 	}
 
 

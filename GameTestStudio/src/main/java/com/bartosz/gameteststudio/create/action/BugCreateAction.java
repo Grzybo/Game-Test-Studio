@@ -1,12 +1,14 @@
 package com.bartosz.gameteststudio.create.action;
  
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
@@ -23,6 +25,8 @@ import com.bartosz.gameteststudio.beans.TestBean;
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.beans.VersionBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
+import com.bartosz.gameteststudio.repositories.AttachmentRepository;
+import com.google.common.io.Files;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "createBug", //
@@ -47,21 +51,7 @@ public class BugCreateAction  extends ActionSupport {
     private int reproFrequency;
     private String reproStr;
     private List<String> reproList = Arrays.asList("100", "75", "50", "25");
-   
-    public int getReproFrequency() {
-		return reproFrequency;
-	}
-
-
-
-
-
-
-
-	public void setReproFrequency(int reproFrequency) {
-		this.reproFrequency = reproFrequency;
-	}
-
+  
 	private List<String> selectedPlatforms = new ArrayList<String>();
     private List<PlatformBean> selectedPlatformsList;
     
@@ -72,6 +62,7 @@ public class BugCreateAction  extends ActionSupport {
 	private File fileUpload;
 	private String fileUploadContentType;
 	private String fileUploadFileName;
+	private String filePath = ServletActionContext.getServletContext().getRealPath("/").concat("userFiles");
 	
 	private AttachmentBean att;
 	//private Version ver; 
@@ -84,9 +75,10 @@ public class BugCreateAction  extends ActionSupport {
 	private List<String> resultList = new ArrayList<String>(DataProvider.mapResults.keySet());
 	private List<String> buildList = new ArrayList<String>(DataProvider.mapBuilds.keySet());
 	private List<String> issuesList = new ArrayList<String>(DataProvider.getIssues().keySet());
+	List<AttachmentBean> listAtt = new ArrayList<AttachmentBean>();
     
     @Override
-    public String execute() {
+    public String execute() throws IOException {
         
     	// Walidacja uprawnień ------------------------------------------------------------------------------------------------------
     	HttpSession session = ServletActionContext.getRequest().getSession();    	
@@ -125,16 +117,27 @@ public class BugCreateAction  extends ActionSupport {
     		if(test == null) {
     			addActionError("Bug must be assigned to Test!");
     			return "createBug";
-    		}
-    		BugBean bug = new BugBean(title, DataProvider.mapUsers.get(account), description, reproSteps,
-    				DataProvider.getStates().get(state), DataProvider.getPriorities().get(priority), selectedPlatforms,  
-    				version, minKitNumber, DataProvider.mapTests.get(test), DataProvider.getIssues().get(issue),
-    				Integer.parseInt(reproStr), DataProvider.mapBuilds.get(build));
-        	
+    		} 
+    		
+    		if(fileUpload != null) {
 
-          	
-        	DataProvider.saveBug(bug);
-        	
+    			String filePath = ServletActionContext.getServletContext().getRealPath("/").concat("userFiles");  
+    			File file = new File(filePath + "/" + fileUploadFileName); 
+    			System.out.println(file.getPath());
+    	    	FileUtils.copyFile(fileUpload, file);
+
+    	    	AttachmentBean att = new AttachmentBean(fileUploadFileName, fileUploadContentType, filePath);  
+     			AttachmentRepository.save(att);
+    	    	
+    	    	
+    			BugBean bug = new BugBean(title, DataProvider.mapUsers.get(account), description, reproSteps,
+        				DataProvider.getStates().get(state), DataProvider.getPriorities().get(priority), selectedPlatforms,  
+        				version, minKitNumber, DataProvider.mapTests.get(test), DataProvider.getIssues().get(issue),
+        				Integer.parseInt(reproStr), DataProvider.mapBuilds.get(build), AttachmentRepository.findById(att.getId()));
+            	
+            	DataProvider.saveBug(bug);
+    		}
+    		
         	addActionError("Bug created!");
         	return "created";
     	}else {
@@ -160,12 +163,44 @@ public class BugCreateAction  extends ActionSupport {
 
 
 
+	public String getFilePath() {
+		return filePath;
+	}
+
+
+
+
+
+
+
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+	}
+
+
+
+
+
+
+
 	public void setIssue(String issue) {
 		this.issue = issue;
 	}
 
 
+	public int getReproFrequency() {
+		return reproFrequency;
+	}
 
+
+
+
+
+
+
+	public void setReproFrequency(int reproFrequency) {
+		this.reproFrequency = reproFrequency;
+	}
 
 
 

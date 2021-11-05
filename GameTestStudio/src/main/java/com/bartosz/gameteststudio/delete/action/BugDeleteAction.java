@@ -98,7 +98,10 @@ public class BugDeleteAction  extends ActionSupport {
     	
     	platformList = bug.getTest().getArea().getProject().getPlatformsStringList();
 
-    	DataProvider.deleteBug(bug);
+    	
+    	DataProvider.deleteAttachment(bug.getAttachment());
+    	DataProvider.deleteBug(bug); 
+    	
     	addActionError("Bug Deleted!");
     	
     	return "deleted";

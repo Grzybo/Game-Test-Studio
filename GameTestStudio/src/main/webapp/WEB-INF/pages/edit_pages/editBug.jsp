@@ -25,7 +25,7 @@
 	 	
 	 		<div class = "content"> 
 	 		<s:actionerror />
-	 		<s:form id="editBug" action="/updateBug" >
+	 		<s:form id="editBug" action="/updateBug" enctype="multipart/form-data">
 	 		<table style="width:100%">
 	 			<tr>
 					<s:hidden name="itemID"/>
@@ -60,8 +60,10 @@
 	 						name="platforms" />
 				</tr>
 				<tr>
-					<s:file name="fileUpload" label="Select a File to upload" 
-							size="100%" /> 
+					
+					<s:file name="fileUpload" label="Select a File to upload" size="100%" />
+					
+							 
 				</tr>
 				<tr>
 					<s:select label="Build Type"
@@ -85,10 +87,17 @@
     			<s:hidden name="itemID"/>
     		<s:submit class= "deleteBtn"  method="execute" key="Delete Bug" form = "form2"/>
     		</s:form> 
- 			
+    		<div class="center">
+    		<s:set var="id" value="fileID"/>
+			<s:if test="%{#id!=null}">
+				<a class= "button" href="${pageContext.request.contextPath}/image?fileID=<s:property value="fileID"/>">Attachment File</a>
+			</s:if>
+			 
+			</div>		
 	 	</div>
 	 	<div class="center">
-		<a class="button" href="${pageContext.request.contextPath}/projects">Return</a>
-		</div> 	
+		<a class="button" href="${pageContext.request.contextPath}/projects"> Return</a>
+		</div> 	 
+	 	
 	</body>
 </html>

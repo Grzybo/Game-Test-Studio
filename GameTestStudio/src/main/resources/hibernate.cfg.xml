@@ -27,5 +27,6 @@
         <mapping class="com.bartosz.gameteststudio.beans.TestBean"></mapping> 
         <mapping class="com.bartosz.gameteststudio.beans.IssueTypeBean"></mapping> 
         <mapping class="com.bartosz.gameteststudio.beans.BugBean"></mapping> 
+        <mapping class="com.bartosz.gameteststudio.beans.AttachmentBean"></mapping> 
     </session-factory>
 </hibernate-configuration>

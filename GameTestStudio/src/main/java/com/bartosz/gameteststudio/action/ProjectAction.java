@@ -88,29 +88,9 @@ public class ProjectAction  extends ActionSupport {
 		endDate = project.getEndDate();
 		state = project.getState().getName();
  
-		setLists();  
-
-		//System.out.print(JSPTabControlUtil.getTabPageState(ServletActionContext.getRequest(), "ProjectsTabs", "TestTab"));
-		//JSPTabControlUtil.getTabPageState(ServletActionContext.getRequest(), "ProjectsTabs", "TestTab");
-		//JSPTabControlUtil.setSelectedTabPageName(request, "ProjectsTabs", "BugTab");
-		
-		
-		
-		
-		
-		
-		
-		String state  = JSPTabControlUtil.getTabPageState(ServletActionContext.getRequest(), "ProjectsTabs", "TestTab");
-		
-		
-		System.out.println("bug: " + bugSort);
-		System.out.println("test: " + testSort);
-		System.out.println("area: " + areaSort);
-		System.out.println("state: " + state); 
-		
+		setLists();  		
 		setTabs();
-		//System.out.print(JSPTabControlUtil.getSelectedTabPageName(ServletActionContext.getRequest(), "ProjectsTabs"));
-
+		
 		return "projects";
 	 }
 
@@ -144,7 +124,6 @@ public class ProjectAction  extends ActionSupport {
 			 Utils.bugTabState = "1";
 				Utils.testTabState = "1";
 				Utils.areaTabState = "1";
-				System.out.println("Test 1");
 		 }
 		 else {
 			 {

@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import com.bartosz.gameteststudio.beans.AreaBean;
+import com.bartosz.gameteststudio.beans.AttachmentBean;
 import com.bartosz.gameteststudio.beans.BugBean;
 import com.bartosz.gameteststudio.beans.BuildBean;
 import com.bartosz.gameteststudio.beans.IssueTypeBean;
@@ -21,6 +22,7 @@ import com.bartosz.gameteststudio.beans.TestBean;
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.exceptions.GSException;
 import com.bartosz.gameteststudio.repositories.AreaRepository;
+import com.bartosz.gameteststudio.repositories.AttachmentRepository;
 import com.bartosz.gameteststudio.repositories.BugRepository;
 import com.bartosz.gameteststudio.repositories.BuildRepository;
 import com.bartosz.gameteststudio.repositories.IssueRepository;
@@ -176,7 +178,33 @@ public class DataProvider {
 		
 		throw new GSException("Project id is null or out of range.");
 	}
+
+// ##################################################################################################################################################################################################
+// Attachment 
+// ##################################################################################################################################################################################################
+	public static AttachmentBean getAttchmentByID(Long id) throws GSException {
+		if (id != null && id.intValue() > 0) {
+			AttachmentBean db = AttachmentRepository.findById(id); 
+			return db;
+		} else
+			log.error(" Attachment id is null or out of range."); 
+		
+		throw new GSException(" Attachment id is null or out of range.");
+	} 
 	
+	public static void saveAttachment(AttachmentBean att) {
+		if (att != null) {
+			AttachmentRepository.save(att);
+		} else
+			log.error("Attachment is null.");
+	} 
+	
+	public static void deleteAttachment(AttachmentBean att) {
+		if (att != null) {	
+			AttachmentRepository.delete(att);
+		} else
+			log.error("Attachment is null.");
+	} 
 // ##################################################################################################################################################################################################
 // Project 
 // ##################################################################################################################################################################################################

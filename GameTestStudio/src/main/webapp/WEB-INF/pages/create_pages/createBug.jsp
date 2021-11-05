@@ -46,8 +46,7 @@
 	 						name="selectedPlatforms" />
 				</tr>
 				<tr>
-					<s:file name="fileUpload" label="Select a File to upload" 
-							size="100%" /> 
+					<s:file name="fileUpload" label="Select a File to upload" size="100%" />  
 				</tr>
 				<tr>
 					<s:select label="Build Type"
@@ -73,7 +72,6 @@
 	 	</div>
 	 	<div class="center">
 		<a class="button" href="${pageContext.request.contextPath}/projects"> Return</a>
-		</div> 		
-	 	
+		</div> 	 
 	</body>
 </html>

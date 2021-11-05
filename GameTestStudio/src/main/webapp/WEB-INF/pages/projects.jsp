@@ -36,7 +36,7 @@
 					</div>
 					<div class = "projectContent"> 
 						<display:table name="bugObjList" id="bugTable" decorator="com.bartosz.decorators.BugDecorator" sort="list"
-						  		pagesize="3" requestURI="#bugTable">
+						  		pagesize="50" requestURI="#bugTable">
 							<display:column property="id" title="ID"/>
 							<display:column property="titleLink" title="Title" sortable="true" sortName="sortTitle"/> 
 							<display:column property="state.name" title="State" sortable="true"/>
@@ -56,7 +56,7 @@
 					</div> 
 						<div class = "projectContent"> 
 							<display:table name="testObjList" id="testTable" decorator="com.bartosz.decorators.TestDecorator" sort="list" 
-											requestURI="#testTable">
+											pagesize="50" requestURI="#testTable">
 								<display:column property="id" title="ID"/>
 								<display:column property="titleLink" title="Title" sortable="true" />
 								<display:column property="state.name" title="State" sortable="true"/>
@@ -74,7 +74,7 @@
 				</div> 
 				<div class = "projectContent"> 
 					<display:table name="areaObjList" id="areaTable" decorator="com.bartosz.decorators.AreaDecorator" sort="list" 
-									requestURI="#areaTable"	>
+									pagesize="50" requestURI="#areaTable"	>
 						<display:column property="id" title="ID" />
 						<display:column  property="titleLink" title="Title"  sortable="true" />
 						<display:column property="state.name" title="State"  sortable="true"/>
@@ -93,7 +93,7 @@
 				<jsp:include page="/WEB-INF/pages/edit_pages/projectView.jsp"/>
 			</jsptabcontrol:tabPage>  
 		  </jsptabcontrol:tabControl> 
-		</div> 
+		</div>  
 	</body>
 </html>
 			

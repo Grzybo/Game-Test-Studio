@@ -13,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.bartosz.gameteststudio.dp.DataProvider;
@@ -75,10 +77,12 @@ public class BugBean {
 	@JoinColumn(name="fk_dic_issues_id", nullable = false ) 
 	private IssueTypeBean issueType;
 	
-	//private AttachmentBean attachment;   
+	@OneToOne //(cascade = CascadeType.ALL)
+    @JoinColumn(name = "fk_attachments_id")
+	private AttachmentBean attachment;   
 		
 		
-		
+			
 		public BugBean() {}
 		
 		public BugBean(String title, UserBean user, String description, String reproSteps,
@@ -98,6 +102,26 @@ public class BugBean {
 			this.issueType = issueType;
 			this.reproFrequency = reproFrequency;
 			this.build = build;
+		}  
+		//  z att 
+		public BugBean(String title, UserBean user, String description, String reproSteps,
+				StateBean state, PriorityBean priority, List<String> platforms,  
+				double version, int minKitNumber, TestBean test, IssueTypeBean issueType, 
+				int reproFrequency, BuildBean build, AttachmentBean attachment) {
+			this.title = title;
+			this.user = user;
+			this.description = description;
+			this.reproSteps = reproSteps;
+			this.state = state;
+			this.priority = priority;
+			setPlatformsList(platforms);
+			this.version = version;
+			this.minKitNumber = minKitNumber;
+			this.test = test;
+			this.issueType = issueType;
+			this.reproFrequency = reproFrequency;
+			this.build = build;
+			this.attachment = attachment;
 		} 
 		
 		public BugBean(String title, UserBean user, String description, String reproSteps,
@@ -118,9 +142,13 @@ public class BugBean {
 			this.build = build;
 		} 
 		
-		
+		public AttachmentBean getAttachment() {
+			return attachment;
+		}
 
-		
+		public void setAttachment(AttachmentBean attachment) {
+			this.attachment = attachment;
+		}
 
 		public Long getId() {
 			return id;

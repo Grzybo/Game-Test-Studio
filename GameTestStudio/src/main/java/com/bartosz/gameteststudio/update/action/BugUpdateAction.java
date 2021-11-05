@@ -1,19 +1,25 @@
 package com.bartosz.gameteststudio.update.action;
  
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
+import com.bartosz.gameteststudio.beans.AttachmentBean;
 import com.bartosz.gameteststudio.beans.BugBean;
 import com.bartosz.gameteststudio.beans.VersionBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
+import com.bartosz.gameteststudio.exceptions.GSException;
+import com.bartosz.gameteststudio.repositories.AttachmentRepository;
+import com.google.common.io.Files;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "updateBug", //
@@ -45,6 +51,125 @@ public class BugUpdateAction  extends ActionSupport {
 	private String reproStr;
     private List<String> reproList = Arrays.asList("100", "75", "50", "25");
 	
+	
+
+	private File fileUpload;
+	private String fileUploadContentType;
+	private String fileUploadFileName;
+	private String filePath = ServletActionContext.getServletContext().getRealPath("/").concat("userFiles");  
+	private String fileID;
+	
+    private List<String> priorityList = new ArrayList<String>(DataProvider.getPriorities().keySet());
+	private List<String> stateList = new ArrayList<String>(DataProvider.getStates().keySet());
+	private List<String> areaList = new ArrayList<String>();
+	private List<String> platformList;
+	private List<String> accountList = new ArrayList<String>();
+	private List<String> resultList = new ArrayList<String>(DataProvider.mapResults.keySet());
+	private List<String> buildList = new ArrayList<String>(DataProvider.mapBuilds.keySet());
+	private List<String> testList = new ArrayList<String>();
+	private List<String> issuesList = new ArrayList<String>(DataProvider.getIssues().keySet());
+    
+    @Override
+    public String execute() throws IOException, GSException {
+          
+    	HttpSession session = ServletActionContext.getRequest().getSession();
+    	
+    	for (String el : DataProvider.mapUsers.keySet()) {
+    		if(DataProvider.mapUsers.get(el).getProjects() != null) {
+    			if(DataProvider.mapUsers.get(el).getProjectsList().
+    					contains(session.getAttribute("userProject"))) {
+    				accountList.add(el);
+    			}
+    		}	
+		} 
+    	
+    	for (String el : DataProvider.mapTests.keySet()) {
+			if(DataProvider.mapTests.get(el).getArea().getProject().getTitle()
+					.equals(session.getAttribute("userProject").toString())){
+				testList.add(el);
+			}
+		}  
+    	
+    	BugBean bug = DataProvider.getBugById(Integer.parseInt(itemID));
+    	BugBean newBug = new BugBean(); 
+    	
+    	platformList = bug.getTest().getArea().getProject().getPlatformsStringList();
+    	
+    	newBug.setTitle(title);
+    	newBug.setUser(DataProvider.mapUsers.get(account));
+    	newBug.setDescription(description);
+    	newBug.setReproSteps(reproSteps);
+    	newBug.setState(DataProvider.getStates().get(state));
+    	newBug.setPriority(DataProvider.getPriorities().get(priority));
+    	newBug.setPlatformsList(platforms);
+    	newBug.setTest(DataProvider.mapTests.get(test));
+    	newBug.setVersion(version);
+    	newBug.setBuild(DataProvider.mapBuilds.get(build));
+    	newBug.setTest(DataProvider.mapTests.get(test)); 
+    	newBug.setId(bug.getId());
+    	newBug.setIssueType(DataProvider.getIssues().get(issue));
+    	newBug.setReproFrequency(Integer.parseInt(reproStr));
+    	newBug.setMinKitNumber(minKitNumber);
+    	
+
+    	if(fileUpload != null) {
+
+    		
+			String filePath = ServletActionContext.getServletContext().getRealPath("/").concat("userFiles");  
+			File file = new File(filePath + "/" + fileUploadFileName); 
+
+	    	FileUtils.copyFile(fileUpload, file);
+
+	    	AttachmentBean att = new AttachmentBean(fileUploadFileName, fileUploadContentType, filePath);  
+ 			AttachmentRepository.save(att); 
+ 			newBug.setAttachment(DataProvider.getAttchmentByID(att.getId())); 
+ 			fileID = att.getId().toString();
+    	}
+    	
+
+
+    	DataProvider.updateBug(bug, newBug);
+    	addActionError("Bug Updated!"); 
+    	
+    	
+    	
+    	return "update";
+    }
+
+    public List<String> getPlatforms() {
+		return platforms;
+	}
+
+
+	public void setPlatforms(List<String> platforms) {
+		this.platforms = platforms;
+	}
+
+	public String getIssue() {
+		return issue;
+	}
+
+	public void setIssue(String issue) {
+		this.issue = issue;
+	}
+
+
+	public String getFileID() {
+		return fileID;
+	}
+
+	public void setFileID(String fileID) {
+		this.fileID = fileID;
+	}
+
+	public String getFilePath() {
+		return filePath;
+	}
+
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+	}
+
 	public String getReproStr() {
 		return reproStr;
 	}
@@ -72,91 +197,6 @@ public class BugUpdateAction  extends ActionSupport {
 	public void setReproList(List<String> reproList) {
 		this.reproList = reproList;
 	}
-
-	private File fileUpload;
-	private String fileUploadContentType;
-	private String fileUploadFileName;
-    
-    private List<String> priorityList = new ArrayList<String>(DataProvider.getPriorities().keySet());
-	private List<String> stateList = new ArrayList<String>(DataProvider.getStates().keySet());
-	private List<String> areaList = new ArrayList<String>();
-	private List<String> platformList;
-	private List<String> accountList = new ArrayList<String>();
-	private List<String> resultList = new ArrayList<String>(DataProvider.mapResults.keySet());
-	private List<String> buildList = new ArrayList<String>(DataProvider.mapBuilds.keySet());
-	private List<String> testList = new ArrayList<String>();
-	private List<String> issuesList = new ArrayList<String>(DataProvider.getIssues().keySet());
-    
-    @Override
-    public String execute() {
-          
-    	HttpSession session = ServletActionContext.getRequest().getSession();
-    	
-    	for (String el : DataProvider.mapUsers.keySet()) {
-    		if(DataProvider.mapUsers.get(el).getProjects() != null) {
-    			if(DataProvider.mapUsers.get(el).getProjectsList().
-    					contains(session.getAttribute("userProject"))) {
-    				accountList.add(el);
-    			}
-    		}	
-		} 
-    	
-    	for (String el : DataProvider.mapTests.keySet()) {
-			if(DataProvider.mapTests.get(el).getArea().getProject().getTitle()
-					.equals(session.getAttribute("userProject").toString())){
-				testList.add(el);
-			}
-		}
-    	
-    	BugBean bug = DataProvider.getBugById(Integer.parseInt(itemID));
-    	BugBean newBug = new BugBean(); 
-    	
-    	platformList = bug.getTest().getArea().getProject().getPlatformsStringList();
-    	
-    	newBug.setTitle(title);
-    	newBug.setUser(DataProvider.mapUsers.get(account));
-    	newBug.setDescription(description);
-    	newBug.setReproSteps(reproSteps);
-    	newBug.setState(DataProvider.getStates().get(state));
-    	newBug.setPriority(DataProvider.getPriorities().get(priority));
-    	newBug.setPlatformsList(platforms);
-    	newBug.setTest(DataProvider.mapTests.get(test));
-    	newBug.setVersion(version);
-    	newBug.setBuild(DataProvider.mapBuilds.get(build));
-    	newBug.setTest(DataProvider.mapTests.get(test)); 
-    	newBug.setId(bug.getId());
-    	newBug.setIssueType(DataProvider.getIssues().get(issue));
-    	newBug.setReproFrequency(Integer.parseInt(reproStr));
-    	newBug.setMinKitNumber(minKitNumber);
-    	//fileUpload = bug.getAttachment().getFile();
-    	//fileUploadContentType = bug.getAttachment().getFileType();
-    	//fileUploadFileName = bug.getAttachment().getFileName();
-    	//TODO files
-    	DataProvider.updateBug(bug, newBug);
-    	addActionError("Bug Updated!");
-    	
-    	return "update";
-    }
-
-    public List<String> getPlatforms() {
-		return platforms;
-	}
-
-
-	public void setPlatforms(List<String> platforms) {
-		this.platforms = platforms;
-	}
-
-	public String getIssue() {
-		return issue;
-	}
-
-	public void setIssue(String issue) {
-		this.issue = issue;
-	}
-
-
-
 
 
 	public List<String> getIssuesList() {
