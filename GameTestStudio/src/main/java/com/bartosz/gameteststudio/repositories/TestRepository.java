@@ -5,7 +5,6 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
-import com.bartosz.gameteststudio.beans.BugBean;
 import com.bartosz.gameteststudio.beans.TestBean;
 import com.bartosz.gameteststudio.dp.HibernateUtil;
 

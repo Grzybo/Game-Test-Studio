@@ -65,6 +65,9 @@
 								<display:column property="startDate" title="Start Date" sortable="true"/>
 								<display:column property="endDate" title="End Date" sortable="true"/>
 								<display:column property="area.title" title="Area" sortable="true"/>
+								<display:column property="version" title="Version" sortable="true"/>
+								<display:column property="build.name" title="Build" sortable="true"/>
+								<display:column property="result.name" title="Result" sortable="true"/>
 							</display:table>	
 						</div>  
 		    	</jsptabcontrol:tabPage>

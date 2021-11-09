@@ -30,11 +30,11 @@ public class AreaEditAction  extends ActionSupport {
     private String priority; 
     private String state;
     private String description; 
-	private Integer estimatedTime; 
+	private Double estimatedTime; 
 	private String startDate;
 	private String endDate;
 	private Integer testersNumber;
-	private Integer workTime; 
+	private Double workTime; 
 	
 	private List<String> projectsList;
 	private List<String> priorityList = new ArrayList<String>(DataProvider.getPriorities().keySet());
@@ -144,12 +144,12 @@ public class AreaEditAction  extends ActionSupport {
 	}
 
 
-	public int getEstimatedTime() {
+	public Double getEstimatedTime() {
 		return estimatedTime;
 	}
 
 
-	public void setEstimatedTime(int estimatedTime) {
+	public void setEstimatedTime(Double estimatedTime) {
 		this.estimatedTime = estimatedTime;
 	}
 
@@ -184,12 +184,12 @@ public class AreaEditAction  extends ActionSupport {
 	}
 
 
-	public int getWorkTime() {
+	public Double getWorkTime() {
 		return workTime;
 	}
 
 
-	public void setWorkTime(int workTime) {
+	public void setWorkTime(Double workTime) {
 		this.workTime = workTime;
 	}
 

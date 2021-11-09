@@ -1,8 +1,6 @@
 package com.bartosz.gameteststudio.action;
  
 import java.util.ArrayList;
-
-import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,17 +12,16 @@ import org.apache.struts2.convention.annotation.Result;
 import org.displaytag.tags.TableTagParameters;
 import org.displaytag.util.ParamEncoder;
 
-import net.sourceforge.jsptabcontrol.util.JSPTabControlUtil;
 import com.bartosz.gameteststudio.beans.AreaBean;
 import com.bartosz.gameteststudio.beans.BugBean;
-import com.bartosz.gameteststudio.beans.IssueTypeBean;
 import com.bartosz.gameteststudio.beans.ProjectBean;
 import com.bartosz.gameteststudio.beans.TestBean;
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
-import com.bartosz.gameteststudio.repositories.IssueRepository;
 import com.bartosz.gameteststudio.utils.Utils;
 import com.opensymphony.xwork2.ActionSupport;
+
+import net.sourceforge.jsptabcontrol.util.JSPTabControlUtil;
  
 @Action(value = "projects", //
 results = { //
@@ -56,8 +53,8 @@ public class ProjectAction  extends ActionSupport {
     private String title; 
     private String description; 
     private Integer testers_numbers;
-    private Integer estimate_time; 
-    private Integer work_time;
+    private Double estimate_time; 
+    private Double work_time;
     private String startDate;
     private String endDate;
     private String state;
@@ -104,7 +101,6 @@ public class ProjectAction  extends ActionSupport {
 			if(selectedProject == null) {
 				if(session.getAttribute("userProject") != null) {
 					selectedProject = session.getAttribute("userProject").toString();
-					
 				}
 				else {
 					selectedProject = projectsList.get(0);
@@ -117,17 +113,16 @@ public class ProjectAction  extends ActionSupport {
 	 }
 	 
 	 private void setTabs() {
-		 if(session.getAttribute("selectedTab") == null) {
+		 if(session.getAttribute("selectedTab") == null) { // po zalogowaniu, ustawia domyślnie na Bug Tab
 				session.setAttribute("selectedTab", "BugTab"); 
 			}
-		 else if(Utils.bugTabState == null && Utils.testTabState == null && Utils.areaTabState == null) {
-			 Utils.bugTabState = "1";
-				Utils.testTabState = "1";
-				Utils.areaTabState = "1";
+		 else if(Utils.bugTabState == null && Utils.testTabState == null && Utils.areaTabState == null) { // ustwiawia pomocnicze zmianne na 1 czyli na sortowanie drugą kolumną
+			 Utils.bugTabState = "0"; 																		//(pierwsza jest ID po ktorej nie da sie sortowac )
+				Utils.testTabState = "0";
+				Utils.areaTabState = "0";
 		 }
 		 else {
 			 {
- 				
  				if(bugSort != null && !Utils.bugTabState.equals(bugSort)) {
  					session.setAttribute("selectedTab", "BugTab");
  					Utils.bugTabState = bugSort;
@@ -153,15 +148,33 @@ public class ProjectAction  extends ActionSupport {
 		 
 		 DataProvider.updateBugMaps();
 		 DataProvider.updateTestMaps();
-		 DataProvider.updateAreaMaps();
+		 DataProvider.updateAreaMaps(); 
+		 
+		/**
+		 * System.out.println("AREAS");
+		 System.out.println(DataProvider.mapAreas.keySet());
+		 System.out.println("TESTS");
+		 System.out.println(DataProvider.mapTests.keySet());
+		 System.out.println("BUGS");
+		 System.out.println(DataProvider.mapBugs.keySet()); 
+		 
+		 System.out.println(DataProvider.mapAreasId.values());
+		 */
+		 
+		 
 		 
 		 for (String el : DataProvider.mapAreas.keySet()) {
 			  if(DataProvider.mapAreas.get(el).getProject().getTitle().equals(selectedProject)) {
-				  areaObjList.add(DataProvider.mapAreas.get(el));
-				  
+				  areaObjList.add(DataProvider.mapAreas.get(el));	  
 				}
 			}
-	
+		  
+		// for (AreaBean area : DataProvider.getAllAreas()) {
+		//	  if(area.getProject().getTitle().equals(selectedProject)) {
+		//		  areaObjList.add(area);	  
+		//		}
+		//	}
+		 
 		  for (String el :DataProvider.mapTests.keySet()) {
 			  if(DataProvider.mapTests.get(el).getArea().getProject().getTitle().equals(selectedProject)) {
 				  testObjList.add(DataProvider.mapTests.get(el));
@@ -298,28 +311,28 @@ public class ProjectAction  extends ActionSupport {
 
 
 
-	public Integer getEstimate_time() {
+	public Double getEstimate_time() {
 		return estimate_time;
 	}
 
 
 
 
-	public void setEstimate_time(Integer estimate_time) {
+	public void setEstimate_time(Double estimate_time) {
 		this.estimate_time = estimate_time;
 	}
 
 
 
 
-	public Integer getWork_time() {
+	public Double getWork_time() {
 		return work_time;
 	}
 
 
 
 
-	public void setWork_time(Integer work_time) {
+	public void setWork_time(Double work_time) {
 		this.work_time = work_time;
 	}
 

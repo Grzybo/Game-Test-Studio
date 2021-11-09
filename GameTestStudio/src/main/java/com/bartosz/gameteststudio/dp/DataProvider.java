@@ -439,6 +439,7 @@ public class DataProvider {
 		} else
 			log.error("User is null.");
 	}
+	
 	/**
 	 * Słowink obszarów. (klasa AreaBean)
 	 * @return
@@ -493,7 +494,16 @@ public class DataProvider {
 			 */
 			
 		}	
-	};
+	}; 
+	
+	public static Map<Long, AreaBean> mapAreasObj = new LinkedHashMap<>() {
+		private static final long serialVersionUID = 1L;
+		{
+			for(AreaBean sb : getAllAreas()) {
+				put(sb.getId(), sb);
+			}			
+		}	
+	}; 
 	
 	/**
 	 * Metoda zwracająca obiekt AreaBean po id z metody getAreasId().  

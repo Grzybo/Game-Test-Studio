@@ -34,26 +34,18 @@
 							cols="61"  id="newBug"/> <br>
 					</tr>
 					<tr>
-						<s:select label="Area"
-	    					name="area"
-	    					list="areaList"/>		
+						<s:select label="Area" name="area" list="areaList"/>		
 						<s:checkboxlist label="Platform" list="platformList" name="selectedPlatforms" />
 					</tr>
 					<tr>
-						<s:textfield class="text" size="100%" name="estimatedTime" label="Estimated Test Time" 
-											type="number"/>
+						<s:textfield class="text" size="100%" name="estimatedTime" label="Estimated Test Time" type="number" step="0.001"/>
 						<s:textfield  class="text" size="100%" name="workTime" 
-							label="Test Time" type="number" />
+							label="Test Time" type="number" step="0.001"/>
 					</tr>
 					<tr>
-						<s:select label="Build Type"
-		     					name="build"
-		     					list="buildList"/>
-	   					<s:textfield class="text" name="version" 
-	   						key="Version"  size="100%" type="number"/>
-						<s:select label="Result"
-		     					name="result"
-		     					list="resultList"/>
+						<s:select label="Build Type" name="build" list="buildList"/>
+	   					<s:textfield class="text" name="version" key="Version"  size="100%" type="number"  step="0.000001"/>
+						<s:select label="Result" name="result" list="resultList"/>
 					</tr>
 					<tr>
 						<s:textfield  class="text" size="100%" name="startDate" 
@@ -65,7 +57,7 @@
 						<s:textfield class="text" size="100%" label="Testers Number" name="testersNumber" 
 										type="number"  />
 					</tr>
-						<s:submit class= "button"  method="execute" key="Submit" form = "editTest"/>
+						<s:submit class= "button"  method="execute" key="Save" form = "editTest"/>
 	 			</table>
 	 			</s:form>
 	 			<s:form action="/deleteTest" id = "form2"  method="post">

@@ -6,7 +6,6 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import com.bartosz.gameteststudio.beans.BugBean;
-import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.HibernateUtil;
 
 public class BugRepository {

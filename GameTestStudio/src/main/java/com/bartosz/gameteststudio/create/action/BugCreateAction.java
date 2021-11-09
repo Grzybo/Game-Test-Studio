@@ -15,18 +15,11 @@ import org.apache.struts2.convention.annotation.Result;
 
 import com.bartosz.gameteststudio.beans.AttachmentBean;
 import com.bartosz.gameteststudio.beans.BugBean;
-import com.bartosz.gameteststudio.beans.BuildBean;
-import com.bartosz.gameteststudio.beans.IssueTypeBean;
 import com.bartosz.gameteststudio.beans.PlatformBean;
-import com.bartosz.gameteststudio.beans.PriorityBean;
 import com.bartosz.gameteststudio.beans.ProjectBean;
-import com.bartosz.gameteststudio.beans.StateBean;
-import com.bartosz.gameteststudio.beans.TestBean;
 import com.bartosz.gameteststudio.beans.UserBean;
-import com.bartosz.gameteststudio.beans.VersionBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.repositories.AttachmentRepository;
-import com.google.common.io.Files;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "createBug", //
@@ -80,6 +73,11 @@ public class BugCreateAction  extends ActionSupport {
     @Override
     public String execute() throws IOException {
         
+    	//ActionInvocation actionInvocation = new ActionInvocation();
+    	//Action action = (Action) actionInvocation.getAction();
+    	//TODO ogarnąć invocatiuon
+    	
+    	
     	// Walidacja uprawnień ------------------------------------------------------------------------------------------------------
     	HttpSession session = ServletActionContext.getRequest().getSession();    	
     	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());
@@ -129,14 +127,26 @@ public class BugCreateAction  extends ActionSupport {
     	    	AttachmentBean att = new AttachmentBean(fileUploadFileName, fileUploadContentType, filePath);  
      			AttachmentRepository.save(att);
     	    	
-    	    	
-    			BugBean bug = new BugBean(title, DataProvider.mapUsers.get(account), description, reproSteps,
+     			BugBean bug = new BugBean(title, DataProvider.mapUsers.get(account), description, reproSteps,
         				DataProvider.getStates().get(state), DataProvider.getPriorities().get(priority), selectedPlatforms,  
         				version, minKitNumber, DataProvider.mapTests.get(test), DataProvider.getIssues().get(issue),
         				Integer.parseInt(reproStr), DataProvider.mapBuilds.get(build), AttachmentRepository.findById(att.getId()));
+        		
+        		DataProvider.saveBug(bug);
+    			
             	
-            	DataProvider.saveBug(bug);
+            	
     		}
+    		else {
+    			BugBean bug = new BugBean(title, DataProvider.mapUsers.get(account), description, reproSteps,
+        				DataProvider.getStates().get(state), DataProvider.getPriorities().get(priority), selectedPlatforms,  
+        				version, minKitNumber, DataProvider.mapTests.get(test), DataProvider.getIssues().get(issue),
+        				Integer.parseInt(reproStr), DataProvider.mapBuilds.get(build));
+        		
+        		DataProvider.saveBug(bug);
+    		}
+    		
+    		
     		
         	addActionError("Bug created!");
         	return "created";

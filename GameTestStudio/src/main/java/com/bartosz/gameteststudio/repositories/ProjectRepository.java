@@ -5,9 +5,7 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
-import com.bartosz.gameteststudio.beans.BugBean;
 import com.bartosz.gameteststudio.beans.ProjectBean;
-import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.HibernateUtil;
 
 public abstract class ProjectRepository {
@@ -56,7 +54,7 @@ public abstract class ProjectRepository {
 		query.setParameter("id", id);
 		ProjectBean project = query.uniqueResult();
 		session.getTransaction().commit();
-		session.close(); // wczytywanie platform nie dziala jak zamykamy /TODO dziala wczytanie ale nie dziala update, jak to odkomentujemy to dziala update ale nie dziala wczytanie platform 
+		session.close(); // wczytywanie platform nie dziala jak zamykamy 
 		return project;
 	}
 	

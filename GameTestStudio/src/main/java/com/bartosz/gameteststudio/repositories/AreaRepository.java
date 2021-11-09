@@ -6,8 +6,6 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import com.bartosz.gameteststudio.beans.AreaBean;
-import com.bartosz.gameteststudio.beans.ProjectBean;
-import com.bartosz.gameteststudio.beans.TestBean;
 import com.bartosz.gameteststudio.dp.HibernateUtil;
 
 public class AreaRepository {

@@ -34,7 +34,7 @@ public abstract class SecureAction  extends ActionSupport {
     	//session.setAttribute("loginedUser", user); 
     	//UserBean user2 = DataProvider.mapUsers.get(session.getAttribute("loginedUser")); 
     	
-    	execute();
+
     	
     }
     

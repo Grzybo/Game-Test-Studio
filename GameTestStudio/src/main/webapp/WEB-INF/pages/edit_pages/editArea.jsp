@@ -42,9 +42,9 @@
 				<tr>
 					
 					<s:textfield class="text" size="100%" name="estimatedTime" label="Estimated Test Time" 
-									type="number"/>
+									type="number" step="0.001"/>
 					<s:textfield  class="text" size="100%" name="workTime" 
-						label="Test Time" type="number" />
+						label="Test Time" type="number" step="0.001"/>
 					
 				</tr>
 				<tr>
@@ -58,7 +58,7 @@
 					<s:textfield class="text" size="100%" label="Testers Number" name="testersNumber" 
 									type="number"  />
 				</tr>
-					<s:submit class= "button"  method="execute" key="Submit" form="editArea"/>
+					<s:submit class= "button"  method="execute" key="Save" form="editArea"/>
  			</table>
  			</s:form>
  			<s:form action="/deleteArea" id = "form2"  method="post">

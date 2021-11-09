@@ -26,7 +26,7 @@
         	<s:textfield class="text" name="estimate_time" key="Estimated Time (hours)" size="100%" type="number" />
         	<s:textfield class="text" name="work_time" key="Work Time" size="100%" type="number" /> 
         	<s:checkboxlist label="Platforms" list="platformList" name="selectedPlatforms" />
-    		<s:submit class= "button" method="execute" key="Update Project"/>
+    		<s:submit class= "button" method="execute" key="Save"/>
     	</s:form>
     	<s:form action="/deleteProject" id = "form2"  method="post">
     			<s:hidden name="itemID"/>

@@ -48,7 +48,7 @@ public class TestBean {
 	private ResultBean result; 
 	
 	@Column(name = "estimated_time")
-	private Integer estimatedTime; 
+	private Double estimatedTime; 
 	
 	@Column(name = "start_date")
 	private String startDate;
@@ -60,7 +60,7 @@ public class TestBean {
 	private Integer testersNumber;
 	
 	@Column(name = "work_time")
-	private Integer workTime;
+	private Double workTime;
 	
 	@ManyToOne 
 	@JoinColumn(name="fk_dic_states_id", nullable = false )
@@ -75,7 +75,7 @@ public class TestBean {
 	private BuildBean build;
 	
 	@Column(name = "version")
-	private double version;  
+	private Double version;  
 	
 	
 	@ManyToMany //  (cascade = { CascadeType.ALL }) // (fetch = FetchType.EAGER)
@@ -90,7 +90,7 @@ public class TestBean {
 
 	public TestBean(String title, UserBean user, String description,
 			com.bartosz.gameteststudio.beans.AreaBean area, ResultBean result,
-			Integer estimatedTime, String startDate, String endDate, Integer testersNumber, Integer workTime, StateBean state,
+			Double  estimatedTime, String startDate, String endDate, Integer testersNumber, Double  workTime, StateBean state,
 			PriorityBean priority, List<String> platforms, double version , BuildBean build) throws GSException {
 		this.title = title;
 		this.user = user;
@@ -111,7 +111,7 @@ public class TestBean {
 	
 	public TestBean(String title, UserBean user, String description,
 			com.bartosz.gameteststudio.beans.AreaBean area, ResultBean result,
-			Integer estimatedTime, String startDate, String endDate, Integer testersNumber, Integer workTime, StateBean state,
+			Double  estimatedTime, String startDate, String endDate, Integer testersNumber, Double  workTime, StateBean state,
 			PriorityBean priority, double version , BuildBean build) throws GSException {
 		this.title = title;
 		this.user = user;
@@ -178,7 +178,7 @@ public class TestBean {
 		this.build = build;
 	}
 
-	public void setEstimatedTime(Integer estimatedTime) {
+	public void setEstimatedTime(Double  estimatedTime) {
 		this.estimatedTime = estimatedTime;
 	}
 
@@ -186,7 +186,7 @@ public class TestBean {
 		this.testersNumber = testersNumber;
 	}
 
-	public void setWorkTime(Integer workTime) {
+	public void setWorkTime(Double  workTime) {
 		this.workTime = workTime;
 	}
 
@@ -226,13 +226,10 @@ public class TestBean {
 		this.result = result;
 	}
 
-	public int getEstimatedTime() {
+	public Double  getEstimatedTime() {
 		return estimatedTime;
 	}
 
-	public void setEstimatedTime(int estimatedTime) {
-		this.estimatedTime = estimatedTime;
-	}
 
 	public String getStartDate() {
 		return startDate;
@@ -258,13 +255,10 @@ public class TestBean {
 		this.testersNumber = testersNumber;
 	}
 
-	public int getWorkTime() {
+	public Double  getWorkTime() {
 		return workTime;
 	}
 
-	public void setWorkTime(int workTime) {
-		this.workTime = workTime;
-	}
 
 	public StateBean getState() {
 		return state;

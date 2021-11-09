@@ -9,6 +9,7 @@ import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
+import com.bartosz.gameteststudio.beans.AreaBean;
 import com.bartosz.gameteststudio.beans.TestBean;
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
@@ -32,9 +33,9 @@ public class TestUpdateAction  extends ActionSupport {
     private String description; 
     private String area;
     private List<String> selectedPlatforms = new ArrayList<String>();
-    private Integer estimatedTime; 
+    private Double  estimatedTime; 
     private Integer testersNumber;
-	private Integer workTime;
+	private Double  workTime;
 	private String startDate;
 	private String endDate;
 	private String result;
@@ -76,13 +77,13 @@ public class TestUpdateAction  extends ActionSupport {
     			}
     		}	
 		} 
+    	    	
+    	for(AreaBean area : DataProvider.getAllAreas()) {
+    		if(area.getProject().getTitle().equals(session.getAttribute("userProject").toString())) {
+    			areaList.add(area.getTitle());
+    		}
+    	}
     	
-    	for (String el : DataProvider.mapAreas.keySet()) {
-			if(DataProvider.mapAreas.get(el).getProject().getTitle()
-					.equals(session.getAttribute("userProject").toString())){
-				areaList.add(el);
-			}
-		}
 
     	TestBean test = DataProvider.getTestByID(Long.parseLong(itemID));
     	TestBean newTest = new TestBean();
@@ -94,7 +95,8 @@ public class TestUpdateAction  extends ActionSupport {
     	newTest.setPriority(DataProvider.getPriorities().get(priority));
     	newTest.setState(DataProvider.getStates().get(state));
     	newTest.setDescription(description);
-    	newTest.setArea(DataProvider.mapAreas.get(area));
+    	//newTest.setArea(DataProvider.mapAreas.get(area));
+    	newTest.setArea(DataProvider.getAreaByTitle(area));
     	newTest.setEstimatedTime(estimatedTime);
     	newTest.setWorkTime(workTime);
     	newTest.setTestersNumber(testersNumber);
@@ -102,7 +104,8 @@ public class TestUpdateAction  extends ActionSupport {
     	newTest.setEndDate(endDate);
     	newTest.setId(test.getId());
     	newTest.setBuild(DataProvider.mapBuilds.get(build));
-    	newTest.setResult(DataProvider.mapResults.get(result));
+    	newTest.setResult(DataProvider.mapResults.get(result)); 
+    	newTest.setVersion(version);
     	newTest.setPlatforms(selectedPlatforms);
     	
     	DataProvider.updateTest(test, newTest);
@@ -187,12 +190,12 @@ public class TestUpdateAction  extends ActionSupport {
 	}
 
 
-	public Integer getEstimatedTime() {
+	public Double  getEstimatedTime() {
 		return estimatedTime;
 	}
 
 
-	public void setEstimatedTime(Integer estimatedTime) {
+	public void setEstimatedTime(Double  estimatedTime) {
 		this.estimatedTime = estimatedTime;
 	}
 
@@ -207,12 +210,12 @@ public class TestUpdateAction  extends ActionSupport {
 	}
 
 
-	public Integer getWorkTime() {
+	public Double  getWorkTime() {
 		return workTime;
 	}
 
 
-	public void setWorkTime(Integer workTime) {
+	public void setWorkTime(Double  workTime) {
 		this.workTime = workTime;
 	}
 

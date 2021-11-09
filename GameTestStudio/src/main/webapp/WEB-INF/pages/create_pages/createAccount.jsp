@@ -6,29 +6,17 @@
 	</head>
 	<body> 
     	<jsp:include page="../_adminMenu.jsp"/>
-	 
-    	
     	<h2>Create Account</h2> 
     	<div class = "content" >
     	<s:actionerror />
     	<s:form action="/createAccount" id = "form"  method="post"> 
         	<s:textfield class="text" name="firstName" key="First Name" size="100%" />
         	<s:textfield class="text" name="lastName" key="Last Name" size="100%" />
-        	<s:textfield class="text" name="email" key="E-Mail" size="100%" />
-        
-    		
-   		<s:select label="Role"
-	     					name="role"
-	     					list="rolesList"/> 
-	     					
-		
-		<s:checkboxlist label="Project" list="projectsList" 
-	 						name="projects" />    		
-		    		
-		    		
-   		<s:submit class= "button"  method="execute" key="Create Account" form = "form"/>
+        	<s:textfield class="text" name="email" key="E-Mail" size="100%" />	
+   			<s:select label="Role" name="role" list="rolesList"/> 
+			<s:checkboxlist label="Project" list="projectsList" name="projects" />    			
+   			<s:submit class= "button"  method="execute" key="Create Account" form = "form"/>
     	</s:form>
-    	
 	</div>
 	<div class="center">
 		<a class="button" href="${pageContext.request.contextPath}/adminPage"> Return</a>

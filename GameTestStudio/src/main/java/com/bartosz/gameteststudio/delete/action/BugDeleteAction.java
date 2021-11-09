@@ -13,7 +13,6 @@ import org.apache.struts2.convention.annotation.Result;
 
 import com.bartosz.gameteststudio.beans.BugBean;
 import com.bartosz.gameteststudio.beans.UserBean;
-import com.bartosz.gameteststudio.beans.VersionBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
 import com.opensymphony.xwork2.ActionSupport;

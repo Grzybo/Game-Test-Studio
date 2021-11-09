@@ -1,7 +1,6 @@
 package com.bartosz.gameteststudio.action;
  
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +15,6 @@ import org.displaytag.util.ParamEncoder;
 import com.bartosz.gameteststudio.beans.ProjectBean;
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
-import com.bartosz.gameteststudio.repositories.ProjectRepository;
 import com.bartosz.gameteststudio.utils.Utils;
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -45,7 +43,7 @@ public class AdminPageAction  extends ActionSupport {
     	HttpServletRequest request = ServletActionContext.getRequest();
         HttpSession session = request.getSession();
     	
-        setTabs();
+        
         
         DataProvider.updateProjectMaps();
         projectObjList = new ArrayList<ProjectBean>(DataProvider.mapProjects.values());
@@ -59,6 +57,8 @@ public class AdminPageAction  extends ActionSupport {
     		  return "admin";
     	  } 
     	  
+    	  setTabs();
+    	  
     	return "login";
     }
     
@@ -69,18 +69,18 @@ public class AdminPageAction  extends ActionSupport {
 				session.setAttribute("selectedTab", "ProjectsTab"); 
 			}
 		 else if(Utils.projectTabState == null && Utils.userTabState == null) {
-			 	Utils.projectTabState = "1";
-				Utils.userTabState = "1";
+			 	Utils.projectTabState = "0";
+				Utils.userTabState = "0";
 		 }
 		 else {
 			 {	
 				if(projectSort != null && !Utils.projectTabState.equals(projectSort)) {
 					session.setAttribute("selectedTab", "ProjectsTab");
-					Utils.bugTabState = projectSort;
+					Utils.projectTabState = projectSort;
 				}
 				if(userSort != null && !Utils.userTabState.equals(userSort)) {
 					session.setAttribute("selectedTab", "AccountsTab");
-					Utils.testTabState = userSort;
+					Utils.userTabState = userSort;
 				}
 		 	} 
 		 }

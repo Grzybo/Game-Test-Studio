@@ -27,8 +27,8 @@ public class ProjectCreateAction extends ActionSupport {
     private String title; 
     private String description; 
     private Integer testers_numbers;
-    private Integer estimate_time; 
-    private Integer work_time;
+    private Double estimate_time; 
+    private Double work_time;
     private String startDate;
     private String endDate;
     private List<String> platformList = new ArrayList<String>(DataProvider.mapPlatforms.keySet()); 
@@ -132,22 +132,22 @@ public class ProjectCreateAction extends ActionSupport {
 	}
 
 
-	public Integer getEstimate_time() {
+	public Double getEstimate_time() {
 		return estimate_time;
 	}
 
 
-	public void setEstimate_time(Integer estimate_time) {
+	public void setEstimate_time(Double estimate_time) {
 		this.estimate_time = estimate_time;
 	}
 
 
-	public Integer getWork_time() {
+	public Double getWork_time() {
 		return work_time;
 	}
 
 
-	public void setWork_time(Integer work_time) {
+	public void setWork_time(Double work_time) {
 		this.work_time = work_time;
 	}
 }

@@ -6,7 +6,6 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import com.bartosz.gameteststudio.beans.PlatformBean;
-import com.bartosz.gameteststudio.beans.StateBean;
 import com.bartosz.gameteststudio.dp.HibernateUtil;
 
 public class PlatformRepository {

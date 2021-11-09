@@ -39,10 +39,10 @@ public class ProjectBean {
 	private String description; 
 	
 	@Column(name = "estimated_time")
-	private int estimatedTime; 
+	private Double estimatedTime; 
 	
 	@Column(name = "work_time")
-	private int workTime;
+	private Double workTime;
 	
 	@Column(name = "start_date")
 	private String startDate;
@@ -82,7 +82,7 @@ public class ProjectBean {
 		this.title = title; 
 	}
 	
-	public ProjectBean(String title, String description, int estimatedTime, int workTime, String startDate,String endDate, int testersNumber, StateBean state) {
+	public ProjectBean(String title, String description, Double estimatedTime, Double workTime, String startDate,String endDate, int testersNumber, StateBean state) {
 		this.title = title;
 		this.description = description;
 		this.estimatedTime = estimatedTime;
@@ -94,8 +94,8 @@ public class ProjectBean {
 	}
 
 	
-	public ProjectBean(String title, String description, int estimatedTime, 
-			int workTime, String startDate, String endDate,
+	public ProjectBean(String title, String description, Double estimatedTime, 
+			Double workTime, String startDate, String endDate,
 			int testersNumber, StateBean state, Long id, List<PlatformBean> platforms) {
 		this.title = title;
 		this.description = description;
@@ -109,8 +109,8 @@ public class ProjectBean {
 		this.platforms = platforms;
 	} 
 	
-	public ProjectBean(String title, String description, int estimatedTime, 
-			int workTime, String startDate, String endDate,
+	public ProjectBean(String title, String description, Double estimatedTime, 
+			Double workTime, String startDate, String endDate,
 			int testersNumber, StateBean state, List<String> platforms) throws GSException {
 		this.title = title;
 		this.description = description;
@@ -171,19 +171,19 @@ public class ProjectBean {
 		this.description = description;
 	}
 
-	public int getEstimatedTime() {
+	public Double getEstimatedTime() {
 		return estimatedTime;
 	}
 
-	public void setEstimatedTime(int estimatedTime) {
+	public void setEstimatedTime(Double estimatedTime) {
 		this.estimatedTime = estimatedTime;
 	}
 
-	public int getWorkTime() {
+	public Double getWorkTime() {
 		return workTime;
 	}
 
-	public void setWorkTime(int workTime) {
+	public void setWorkTime(Double workTime) {
 		this.workTime = workTime;
 	}
 

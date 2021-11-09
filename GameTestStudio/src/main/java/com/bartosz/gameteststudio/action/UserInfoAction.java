@@ -34,8 +34,6 @@ public class UserInfoAction  extends ActionSupport {
  
     @Override
     public String execute() {
-
-	
     	
 	if(Utils.isNotLogged()) {System.out.print(" NOT LOGGED ");  return "logout"; }
     	

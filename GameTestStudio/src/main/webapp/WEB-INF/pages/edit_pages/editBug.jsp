@@ -70,7 +70,7 @@
 		     					name="build"
 		     					list="buildList"/>
    					<s:textfield class="text" name="version" 
-   								key="Version"  size="100%" type="number"/>
+   								key="Version"  size="100%" type="number" step="0.000001"/>
 				</tr>
 				<tr>
 					<s:textfield class="text" name="minKitNumber" 
@@ -80,7 +80,7 @@
    								list="reproList"/>	
 				</tr>
 
-				<s:submit class= "button"  method="execute" key="Submit" form = "editBug"/>			
+				<s:submit class= "button"  method="execute" key="Save" form = "editBug"/>			
  			</table>
  			</s:form>
  			<s:form action="/deleteBug" id = "form2"  method="post">

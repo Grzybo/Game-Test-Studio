@@ -1,27 +1,19 @@
 package com.bartosz.gameteststudio.edit.action;
  
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.DataInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
 import com.bartosz.gameteststudio.beans.BugBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
-import com.google.common.io.Files;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "editBug", //

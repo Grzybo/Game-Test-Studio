@@ -20,8 +20,8 @@
 					</div>
 					<div class = "projectContent">
 						<display:table name="projectObjList" decorator="com.bartosz.decorators.ProjectDecorator" id="projectsTable"
-										sort="list" requestURI="#projectsTable">
-							<display:column property="id" title="ID" sortable="true"/>
+										sort="list"  pagesize="50" requestURI="#projectsTable">
+							<display:column property="id" title="ID"/>
 						  	<display:column property="titleLink" title="Title" sortable="true"/>
 						  	<display:column property="state.name" title="State" sortable="true"/>
 						  	<display:column property="estimatedTime" title="Estimated Time [h]"  sortable="true"/>
@@ -38,7 +38,7 @@
 					</div>
 			    	<div class = "projectContent">
 				    	<display:table name="userObjList" decorator="com.bartosz.decorators.UserDecorator" id="accountsTable"
-				    					 sort="list" requestURI="#accountsTable">
+				    					 sort="list"  pagesize="50" requestURI="#accountsTable">
 							  <display:column property="id" title="ID" />
 							  <display:column property="emailLink"  title="Email" sortable="true"/>
 							  <display:column property="firstName" title="First Name" sortable="true"/>

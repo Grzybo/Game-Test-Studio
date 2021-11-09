@@ -1,7 +1,6 @@
 package com.bartosz.gameteststudio.create.action;
  
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -10,15 +9,10 @@ import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
-import com.bartosz.gameteststudio.beans.BuildBean;
 import com.bartosz.gameteststudio.beans.PlatformBean;
-import com.bartosz.gameteststudio.beans.PriorityBean;
 import com.bartosz.gameteststudio.beans.ProjectBean;
-import com.bartosz.gameteststudio.beans.ResultBean;
-import com.bartosz.gameteststudio.beans.StateBean;
 import com.bartosz.gameteststudio.beans.TestBean;
 import com.bartosz.gameteststudio.beans.UserBean;
-import com.bartosz.gameteststudio.beans.VersionBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
 import com.opensymphony.xwork2.ActionSupport;
@@ -40,9 +34,9 @@ public class TestCreateAction  extends ActionSupport {
     private String description; 
     private String area;
     private String platform;
-    private Integer estimatedTime; 
+    private Double  estimatedTime; 
     private Integer testersNumber;
-	private Integer workTime;
+	private Double  workTime;
 	private String startDate;
 	private String endDate;
 	private String result;
@@ -209,12 +203,12 @@ public class TestCreateAction  extends ActionSupport {
 	}
 
 
-	public Integer getEstimatedTime() {
+	public Double  getEstimatedTime() {
 		return estimatedTime;
 	}
 
 
-	public void setEstimatedTime(Integer estimatedTime) {
+	public void setEstimatedTime(Double  estimatedTime) {
 		this.estimatedTime = estimatedTime;
 	}
 
@@ -229,12 +223,12 @@ public class TestCreateAction  extends ActionSupport {
 	}
 
 
-	public Integer getWorkTime() {
+	public Double  getWorkTime() {
 		return workTime;
 	}
 
 
-	public void setWorkTime(Integer workTime) {
+	public void setWorkTime(Double  workTime) {
 		this.workTime = workTime;
 	}
 

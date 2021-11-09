@@ -29,7 +29,7 @@ public class AreaBean {
 	private ProjectBean project;
 	
 	@Column(name = "estimated_time")
-	private Integer estimatedTime; 
+	private Double estimatedTime; 
 	
 	@Column(name = "start_date")
 	private String startDate;
@@ -41,7 +41,7 @@ public class AreaBean {
 	private Integer testersNumber;
 	
 	@Column(name = "work_time")
-	private Integer workTime;
+	private Double workTime;
 	
 	@ManyToOne // (fetch = FetchType.LAZY) //(cascade = CascadeType.ALL) // dodalem to bo byl bląd przy update Projektu 
 	@JoinColumn(name="fk_dic_states_id", nullable = false ) //  fk_dic_s
@@ -54,8 +54,8 @@ public class AreaBean {
 	
 	public AreaBean() {}
 	
-	public AreaBean(Long id, String title, String description, ProjectBean project, Integer estimatedTime, String startDate, String endDate,
-			Integer testersNumber, Integer workTime, StateBean state, PriorityBean priority) {
+	public AreaBean(Long id, String title, String description, ProjectBean project, Double estimatedTime, String startDate, String endDate,
+			Integer testersNumber, Double workTime, StateBean state, PriorityBean priority) {
 		super();
 		this.title = title;
 		this.description = description;
@@ -70,8 +70,8 @@ public class AreaBean {
 		this.id = id;
 	} 
 	
-	public AreaBean(String title, String description, ProjectBean project, Integer estimatedTime, String startDate, String endDate,
-			Integer testersNumber, Integer workTime, StateBean state, PriorityBean priority) {
+	public AreaBean(String title, String description, ProjectBean project, Double estimatedTime, String startDate, String endDate,
+			Integer testersNumber, Double workTime, StateBean state, PriorityBean priority) {
 		super();
 		this.title = title;
 		this.description = description;
@@ -123,7 +123,7 @@ public class AreaBean {
 		this.testersNumber = testersNumber;
 	}
 
-	public void setWorkTime(Integer workTime) {
+	public void setWorkTime(Double workTime) {
 		this.workTime = workTime;
 	}
 
@@ -142,10 +142,10 @@ public class AreaBean {
 	public void setProject(ProjectBean project) {
 		this.project = project;
 	}
-	public int getEstimatedTime() {
+	public Double getEstimatedTime() {
 		return estimatedTime;
 	}
-	public void setEstimatedTime(int estimatedTime) {
+	public void setEstimatedTime(Double estimatedTime) {
 		this.estimatedTime = estimatedTime;
 	}
 	public String getStartDate() {
@@ -166,12 +166,10 @@ public class AreaBean {
 	public void setTestersNumber(int testersNumber) {
 		this.testersNumber = testersNumber;
 	}
-	public int getWorkTime() {
+	public Double getWorkTime() {
 		return workTime;
 	}
-	public void setWorkTime(int workTime) {
-		this.workTime = workTime;
-	}
+
 	public StateBean getState() {
 		return state;
 	}

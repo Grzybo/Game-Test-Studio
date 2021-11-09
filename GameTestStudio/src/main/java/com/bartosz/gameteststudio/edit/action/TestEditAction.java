@@ -9,6 +9,7 @@ import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
+import com.bartosz.gameteststudio.beans.AreaBean;
 import com.bartosz.gameteststudio.beans.TestBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.opensymphony.xwork2.ActionSupport;
@@ -31,9 +32,9 @@ public class TestEditAction  extends ActionSupport {
     private String description; 
     private String area;
     private String platform;
-    private Integer estimatedTime; 
+    private Double  estimatedTime; 
     private Integer testersNumber;
-	private Integer workTime;
+	private Double  workTime;
 	private String startDate;
 	private String endDate;
 	private String result;
@@ -76,12 +77,22 @@ public class TestEditAction  extends ActionSupport {
     		}	
 		} 
     	
-    	for (String el :DataProvider.mapAreas.keySet()) {
+    	/**
+    	 *for (String el :DataProvider.mapAreas.keySet()) {
 			if(DataProvider.mapAreas.get(el).getProject().getTitle()
 					.equals(session.getAttribute("userProject").toString())){
 				areaList.add(el);
 			}
-		}
+		} 
+    	 */
+    	
+    	
+    	for(AreaBean area : DataProvider.getAllAreas()) {
+    		if(area.getProject().getTitle().equals(session.getAttribute("userProject").toString())) {
+    			areaList.add(area.getTitle());
+    		}
+    	}
+    	
     	
     	TestBean test = DataProvider.getTestById(Integer.parseInt(itemID));
     	
@@ -105,11 +116,7 @@ public class TestEditAction  extends ActionSupport {
     	selectedPlatforms = test.getPlatformList();
     	version = test.getVersion();
     	build = test.getBuild().getName();
-    	
-    	//TODO jak wracamy do testu po update platform to error 
-    	
-    	
-    	
+    	    	
     	return "editTest";
     }
 
@@ -136,7 +143,7 @@ public class TestEditAction  extends ActionSupport {
 
 
 
-	public Integer getWorkTime() {
+	public Double  getWorkTime() {
 		return workTime;
 	}
 
@@ -154,7 +161,7 @@ public class TestEditAction  extends ActionSupport {
 
 
 
-	public void setWorkTime(Integer workTime) {
+	public void setWorkTime(Double  workTime) {
 		this.workTime = workTime;
 	}
 
@@ -286,13 +293,13 @@ public class TestEditAction  extends ActionSupport {
 
 
 
-	public Integer getEstimatedTime() {
+	public Double  getEstimatedTime() {
 		return estimatedTime;
 	}
 
 
 
-	public void setEstimatedTime(Integer estimatedTime) {
+	public void setEstimatedTime(Double  estimatedTime) {
 		this.estimatedTime = estimatedTime;
 	}
 

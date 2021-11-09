@@ -10,11 +10,7 @@
     	<jsp:include page="../_adminMenu.jsp" />
     	
     	<h2>Create Project</h2>
-	 <div class = "content">
-				
-				
-				
-				
+	 <div class = "content">			
 		<s:actionerror />
     	<s:form action="/createProject" > 
         	<s:textfield class="text" name="title" key="Title" size="100%" />
