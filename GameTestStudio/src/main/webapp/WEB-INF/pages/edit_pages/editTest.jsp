@@ -5,6 +5,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Edit Test</title>
+		<script><%@include file="/js/index.js"%></script> <!-- THIS IS THE RIGHT WAYYYYY -->
 	</head>
 	<body>
 		<jsp:include page="../_userMenu.jsp" />
@@ -12,7 +13,7 @@
 	 		<h2>Edit Test</h2>
 	 		<div class = "content">
 	 		<s:actionerror />
-		 		<s:form id="editTest" action="/updateTest" >
+		 		<s:form id="editTest" action="/updateTest" enctype="multipart/form-data">
 		 		<table style="width:100%">
 		 			<tr>
 						<s:hidden name="itemID"/>
@@ -59,11 +60,8 @@
 					</tr>
 						<s:submit class= "button"  method="execute" key="Save" form = "editTest"/>
 	 			</table>
-	 			</s:form>
-	 			<s:form action="/deleteTest" id = "form2"  method="post">
-    				<s:hidden name="itemID"/>
-    				<s:submit class= "deleteBtn"  method="execute" key="Delete Test" form = "form2"/>
-    			</s:form> 	
+	 			</s:form> 
+    			<s:submit class= "deleteBtn"  method="execute" key="Delete" onclick="deleteConfirm(\"Test\")"></s:submit>		
 	 			
 	 	</div>
 	 	<div class="center">

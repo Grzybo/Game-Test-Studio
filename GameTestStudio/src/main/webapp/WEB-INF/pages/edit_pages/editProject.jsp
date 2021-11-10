@@ -4,6 +4,7 @@
 <html>
 	<head>
 		<title>Game Test Studio - Manage Project</title>
+		<script><%@include file="/js/index.js"%></script> <!-- THIS IS THE RIGHT WAYYYYY -->
 	</head>
 	<body>
     	<jsp:include page="../_adminMenu.jsp"/>
@@ -13,7 +14,7 @@
 		 <div class = "content">
 <s:hidden name="itemID"/>
 		<s:actionerror />
-    	<s:form action="/updateProject" > 
+    	<s:form action="/updateProject" enctype="multipart/form-data"> 
     	<s:hidden name="itemID"/>
         	<s:textfield class="text" name="title" key="Title" size="100%" />
         	<s:textarea class="text" name="description" key="Description" rows="4" cols="61" size="100%" />
@@ -28,10 +29,7 @@
         	<s:checkboxlist label="Platforms" list="platformList" name="selectedPlatforms" />
     		<s:submit class= "button" method="execute" key="Save"/>
     	</s:form>
-    	<s:form action="/deleteProject" id = "form2"  method="post">
-    			<s:hidden name="itemID"/>
-    		<s:submit class= "deleteBtn"  method="execute" key="Delete Project" form = "form2"/>
-    		</s:form> 
+    		<s:submit class= "deleteBtn"  method="execute" key="Delete" onclick="deleteConfirm(\"Project\")"></s:submit>	
 	</div>		
 	<div class="center">
 		<a class="button" href="${pageContext.request.contextPath}/adminPage"> Return</a>

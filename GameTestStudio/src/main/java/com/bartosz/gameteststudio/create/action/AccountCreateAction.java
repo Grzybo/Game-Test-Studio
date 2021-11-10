@@ -53,7 +53,7 @@ public class AccountCreateAction  extends ActionSupport {
     private String emailPassword = "Pa$$word1!"; 
     private String body;
 
-	
+    // TODO osobna klasa do wysylania maila (Mailer)
     
 	static Properties properties = new Properties();
     static {

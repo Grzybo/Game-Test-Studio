@@ -47,7 +47,7 @@ public class AreaDeleteAction  extends ActionSupport {
     @Override
     public String execute() throws NumberFormatException, GSException {
           
-    	// Walidacja uprawnień ------------------------------------------------------------------------------------------------------
+    	// Walidacja uprawnień -------------------------------------------------------------------------------------------------------
     	HttpSession session = ServletActionContext.getRequest().getSession();    	
     	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());
     	
@@ -57,6 +57,7 @@ public class AreaDeleteAction  extends ActionSupport {
     		return "delete";
     	}
     	//------------------------------------------------------------------------------------------------------------------------------
+    	// TODO klasa do walidacji (zwraca true / false)
     	
     	projectsList = user.getProjectsList(); 
     	project = session.getAttribute("userProject").toString();

@@ -6,7 +6,7 @@
  * @author <a href="mailto:angelo.zerr@gmail.com">Angelo ZERR</a>
  *
  */
- 
+ console.log("U MNIE DZIALA2")
 var HTML_TABPAGEHEADER_KEY = "tabPageheader";
 var HTML_TABCONTROLBODY_KEY = "tabControlBody";
 var HTML_TABPAGEBODY_KEY = "tabPageBody";

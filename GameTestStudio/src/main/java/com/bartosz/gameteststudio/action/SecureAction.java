@@ -1,13 +1,8 @@
 package com.bartosz.gameteststudio.action;
  
-import javax.servlet.http.HttpSession;
-
-import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
-import com.bartosz.gameteststudio.beans.UserBean;
-import com.bartosz.gameteststudio.dp.DataProvider;
 import com.opensymphony.xwork2.ActionSupport;
 
 @Action(value = "secure", //
@@ -25,11 +20,11 @@ public abstract class SecureAction  extends ActionSupport {
     
     public SecureAction() {
     	
-    	System.out.println(" SECURE K ");
+    	//System.out.println(" SECURE K ");
     	
-    	HttpSession session = ServletActionContext.getRequest().getSession();
+    	//HttpSession session = ServletActionContext.getRequest().getSession();
     	
-    	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());
+    	//UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());
     	
     	//session.setAttribute("loginedUser", user); 
     	//UserBean user2 = DataProvider.mapUsers.get(session.getAttribute("loginedUser")); 
