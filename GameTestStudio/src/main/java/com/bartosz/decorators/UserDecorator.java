@@ -7,7 +7,7 @@ import com.bartosz.gameteststudio.beans.UserBean;
 public class UserDecorator extends TableDecorator {
 
 	private String emailLink;
-	
+	private String deleteLink;
 	
 	public String getEmailLink() {
 		UserBean user = (UserBean)getCurrentRowObject();
@@ -15,8 +15,9 @@ public class UserDecorator extends TableDecorator {
 	}
 
 	
+	public String getDeleteLink() {
+		UserBean user = (UserBean)getCurrentRowObject();
+		return "<button class=\"deleteBtn\" onclick=\"deleteConfirm('UserFromAdmin', " + user.getId() + ")\">Delete</button>"; 
+	}
 
-
-
-	
 }

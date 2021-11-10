@@ -18,8 +18,9 @@ public class BugDecorator extends TableDecorator {
 		this.titleLink = titleLink;
 	}
 	
+
 	public String getDeleteLink() {
 		BugBean bug = (BugBean)getCurrentRowObject();
-		return "<a href=\"${pageContext.request.contextPath}/delete?itemID=" + bug.getId() + "?itemType=bug" + "\">" + "Delete" + "</a>";
+		return "<button class=\"deleteBtn\" onclick=\"deleteConfirm('BugFromProjects', " + bug.getId() + ")\">Delete</button>"; 
 	}
 }

@@ -11,7 +11,7 @@
 	<body>
 		<jsp:include page="../_userMenu.jsp" />
 	 	
-	 		<h2>Edit Area</h2>
+	 		<h2>Area</h2>
 	 		
 	 		<div class = "content">	
 	 		<s:actionerror />
@@ -59,11 +59,11 @@
 					<s:textfield class="text" size="100%" label="Testers Number" name="testersNumber" 
 									type="number"  />
 				</tr>
-					<s:submit class= "button"  method="execute" key="Save" form="editArea"/>
+					<s:if test="%{#session.userRole == 'Tester Manager'}"> <s:submit class= "button"  method="execute" key="Save" form="editArea"></s:submit> </s:if>
+					
  			</table>
- 			</s:form>
- 			<s:submit class= "deleteBtn"  method="execute" key="Delete" onclick="deleteConfirm(\"Area\")"></s:submit>	
- 			
+ 			<s:if test="%{#session.userRole == 'Tester Manager'}"> <s:submit class= "deleteBtn"  method="execute" key="Delete" onclick="deleteConfirm(\"Area\")"></s:submit> </s:if>
+			</s:form>
 	 	</div> 
 	 	<div class="center">
 		<a class="button" href="${pageContext.request.contextPath}/projects"> Return</a>

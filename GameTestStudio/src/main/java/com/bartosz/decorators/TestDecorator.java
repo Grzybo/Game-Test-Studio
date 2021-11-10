@@ -7,6 +7,7 @@ import com.bartosz.gameteststudio.beans.TestBean;
 public class TestDecorator extends TableDecorator {
 
 	private String titleLink;
+	private String deleteLink;
 	
 	public String getTitleLink() {
 		TestBean test = (TestBean)getCurrentRowObject();
@@ -18,7 +19,10 @@ public class TestDecorator extends TableDecorator {
 		this.titleLink = titleLink;
 	}
 
-
+	public String getDeleteLink() {
+		TestBean test = (TestBean)getCurrentRowObject();
+		return "<button class=\"deleteBtn\" onclick=\"deleteConfirm('TestFromProjects', " + test.getId() + ")\">Delete</button>"; 
+	}
 
 	
 }

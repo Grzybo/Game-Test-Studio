@@ -49,8 +49,6 @@ public class BugUpdateAction  extends ActionSupport {
 	private String reproStr;
     private List<String> reproList = Arrays.asList("100", "75", "50", "25");
 	
-	
-
 	private File fileUpload;
 	private String fileUploadContentType;
 	private String fileUploadFileName;
@@ -109,10 +107,7 @@ public class BugUpdateAction  extends ActionSupport {
     	newBug.setReproFrequency(Integer.parseInt(reproStr));
     	newBug.setMinKitNumber(minKitNumber);
     	
-
     	if(fileUpload != null) {
-
-    		
 			String filePath = ServletActionContext.getServletContext().getRealPath("/").concat("userFiles");  
 			File file = new File(filePath + "/" + fileUploadFileName); 
 
@@ -124,8 +119,6 @@ public class BugUpdateAction  extends ActionSupport {
  			fileID = att.getId().toString();
     	}
     	
-
-
     	DataProvider.updateBug(bug, newBug);
     	addActionError("Bug Updated!"); 
     	

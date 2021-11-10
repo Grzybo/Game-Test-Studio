@@ -23,7 +23,7 @@
 					</tr>
 					<tr>
 						<s:textarea name="description" key="Test Scenario" rows="4" 
-							cols="61"  id="newBug"/> <br>
+							cols="61"  id="newBug"/> 
 					</tr>
 					<tr>
 						<s:select label="Area" name="area" list="areaList"/>		

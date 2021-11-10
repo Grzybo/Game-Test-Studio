@@ -8,10 +8,12 @@
 		<title>Game Test Studio - Admin Page</title>
 		<style><%@include file="/WEB-INF/index.css"%></style>
 		<script type="text/javascript" src="js/jsptabcontrol.js" ></script>
+		<script><%@include file="/js/index.js"%></script> <!-- THIS IS THE RIGHT WAYYYYY -->
 		<link href="/css/my-jsptabcontrol.css" rel="stylesheet" type="text/css"/>
 	</head>
 	<body>    	
     	<jsp:include page="_adminMenu.jsp" />
+    	<s:form id = "adminForm" action="/adminPage" method="post"></s:form>
 		 <div class="center">
 		 	<jsptabcontrol:tabControl name="AdminTabs" >
 			    <jsptabcontrol:tabPage name="ProjectsTab" title="Projects"  width="100%">
@@ -19,8 +21,7 @@
 						<a class="button" href="${pageContext.request.contextPath}/createProject">New Project</a>
 					</div>
 					<div class = "projectContent">
-						<display:table name="projectObjList" decorator="com.bartosz.decorators.ProjectDecorator" id="projectsTable"
-										sort="list"  pagesize="50" requestURI="#projectsTable">
+						<display:table name="projectObjList" decorator="com.bartosz.decorators.ProjectDecorator" id="projectsTable" sort="list"  pagesize="50" requestURI="#projectsTable">
 							<display:column property="id" title="ID"/>
 						  	<display:column property="titleLink" title="Title" sortable="true"/>
 						  	<display:column property="state.name" title="State" sortable="true"/>
@@ -28,7 +29,8 @@
 						  	<display:column property="workTime" title="Time Spent [h]" sortable="true"/>
 						  	<display:column property="startDate" title="Start Date" sortable="true"/>
 						  	<display:column property="endDate" title="End Date" sortable="true"/>
-						  	<display:column property="testersNumber" title="Testers" sortable="true"/>
+						  	<display:column property="testersNumber" title="Testers" sortable="true"/>	  	
+							<display:column property="deleteLink" title="X" ></display:column>
 						</display:table>	
 					</div>
 			    </jsptabcontrol:tabPage>
@@ -37,13 +39,13 @@
 						<a class="button" href="${pageContext.request.contextPath}/createAccount">New Account</a>
 					</div>
 			    	<div class = "projectContent">
-				    	<display:table name="userObjList" decorator="com.bartosz.decorators.UserDecorator" id="accountsTable"
-				    					 sort="list"  pagesize="50" requestURI="#accountsTable">
+				    	<display:table name="userObjList" decorator="com.bartosz.decorators.UserDecorator" id="accountsTable" sort="list"  pagesize="50" requestURI="#accountsTable">
 							  <display:column property="id" title="ID" />
 							  <display:column property="emailLink"  title="Email" sortable="true"/>
 							  <display:column property="firstName" title="First Name" sortable="true"/>
 							  <display:column property="lastName" title="Last Name" sortable="true"/>
 							  <display:column property="role.name" title="Role" sortable="true"/>
+							  <display:column property="deleteLink" title="X" ></display:column>
 						</display:table>
 			    	</div>
 			    </jsptabcontrol:tabPage>

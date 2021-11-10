@@ -54,8 +54,9 @@
 				<s:submit class= "button"  method="execute" key="Save" form = "editBug"/>			
  			</table>
  			</s:form>
- 			
-    		<s:submit class= "deleteBtn"  method="execute" key="Delete" onclick="deleteConfirm(\"Bug\")"></s:submit>		
+ 			<s:if test="%{#session.userRole == 'Tester Manager' || #session.userRole == 'Tester'}">	
+				<s:submit class= "deleteBtn"  method="execute" key="Delete" onclick="deleteConfirm(\"Bug\")"></s:submit>		
+			</s:if>
     		<div class="center">
     		<s:set var="id" value="fileID"/>
 			<s:if test="%{#id!=null}">

@@ -57,7 +57,6 @@ public class BugCreateAction  extends ActionSupport {
 	private String fileUploadFileName;
 	private String filePath = ServletActionContext.getServletContext().getRealPath("/").concat("userFiles");
 	
-	private AttachmentBean att;
 	//private Version ver; 
     
     private List<String> priorityList = new ArrayList<String>(DataProvider.getPriorities().keySet());
@@ -73,11 +72,6 @@ public class BugCreateAction  extends ActionSupport {
     @Override
     public String execute() throws IOException {
         
-    	//ActionInvocation actionInvocation = new ActionInvocation();
-    	//Action action = (Action) actionInvocation.getAction();
-    	//TODO ogarnąć invocatiuon
-    	
-    	
     	// Walidacja uprawnień ------------------------------------------------------------------------------------------------------
     	HttpSession session = ServletActionContext.getRequest().getSession();    	
     	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());

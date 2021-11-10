@@ -48,17 +48,20 @@ public class AreaDeleteAction  extends ActionSupport {
     public String execute() throws NumberFormatException, GSException {
           
     	// Walidacja uprawnień -------------------------------------------------------------------------------------------------------
-    	HttpSession session = ServletActionContext.getRequest().getSession();    	
-    	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());
+    	/**
+    	 * 
     	
     	// kto moze: Tester Manager 
     	if (!user.getRole().getName().equals("Tester Manager")) {
     		addActionError("Your Account do not have permission to perform this action.");
     		return "delete";
     	}
-    	//------------------------------------------------------------------------------------------------------------------------------
-    	// TODO klasa do walidacji (zwraca true / false)
+    	 */
     	
+    	//------------------------------------------------------------------------------------------------------------------------------
+    	
+    	HttpSession session = ServletActionContext.getRequest().getSession();    	
+    	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());
     	projectsList = user.getProjectsList(); 
     	project = session.getAttribute("userProject").toString();
     	

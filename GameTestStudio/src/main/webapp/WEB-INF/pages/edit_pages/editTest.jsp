@@ -32,7 +32,7 @@
 					</tr>
 					<tr>
 						<s:textarea name="description" key="Test Scenario" rows="4" 
-							cols="61"  id="newBug"/> <br>
+							cols="61"  id="newBug"/>
 					</tr>
 					<tr>
 						<s:select label="Area" name="area" list="areaList"/>		
@@ -58,10 +58,12 @@
 						<s:textfield class="text" size="100%" label="Testers Number" name="testersNumber" 
 										type="number"  />
 					</tr>
-						<s:submit class= "button"  method="execute" key="Save" form = "editTest"/>
+						<s:if test="%{#session.userRole == 'Tester Manager' || #session.userRole == 'Tester'}">	
+							<s:submit class= "button"  method="execute" key="Save" form = "editTest"/>	
+						</s:if>	
 	 			</table>
-	 			</s:form> 
-    			<s:submit class= "deleteBtn"  method="execute" key="Delete" onclick="deleteConfirm(\"Test\")"></s:submit>		
+	 			</s:form>
+				<s:if test="%{#session.userRole == 'Tester Manager'}"> <s:submit class= "deleteBtn"  method="execute" key="Delete" onclick="deleteConfirm(\"Test\")"></s:submit> </s:if>	
 	 			
 	 	</div>
 	 	<div class="center">

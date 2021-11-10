@@ -39,7 +39,7 @@
 					
 							<s:textfield class="text" size="100%" name="estimatedTime" label="Estimated Test Time" 
 											type="number" step="0.001"/>
-						<a> </a>
+
 							<s:textfield  class="text" size="100%" name="workTime" 
 								label="Test Time" type="number" step="0.001"/>
 					

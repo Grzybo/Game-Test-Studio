@@ -19,6 +19,7 @@
 		<title>Projects</title>
 		<style><%@include file="/WEB-INF/index.css"%></style>
 	  	<script type="text/javascript" src="js/jsptabcontrol.js" ></script>
+	  	<script><%@include file="/js/index.js"%></script> <!-- THIS IS THE RIGHT WAYYYYY -->
 	   	<link href="/css/my-jsptabcontrol.css" rel="stylesheet" type="text/css"/>
 	</head>
 	<body>
@@ -32,7 +33,9 @@
 			<jsptabcontrol:tabControl name="ProjectsTabs" > 
 				<jsptabcontrol:tabPage name="BugTab" title="Bug" width="100%" >
 		    		<div class="center">
+						<s:if test="%{#session.userRole == 'Tester Manager' || #session.userRole == 'Tester'}">	
 						<a class="button" href="${pageContext.request.contextPath}/createBug">New Bug</a>
+						</s:if>
 					</div>
 					<div class = "projectContent"> 
 						<display:table name="bugObjList" id="bugTable" decorator="com.bartosz.decorators.BugDecorator" sort="list"
@@ -46,13 +49,18 @@
 							<display:column property="test.area.title" title="Area" sortable="true"/>
 							<display:column property="minKitNumber" title="Min. Kits" sortable="true"/>	
 						  	<display:column property="reproFrequency" title="Repro Frequency[%]" sortable="true"/>
-						  	<display:column property="issueType.name" title="Issue Type" sortable="true"/>		
+						  	<display:column property="issueType.name" title="Issue Type" sortable="true"/>
+						  	<s:if test="%{#session.userRole == 'Tester Manager' || #session.userRole == 'Tester'}">
+						  		<display:column property="deleteLink" title="X" ></display:column>
+						  	</s:if>
 						</display:table> 
 					</div>  
 				</jsptabcontrol:tabPage>    
 			    <jsptabcontrol:tabPage name="TestTab" title="Test" width="100%"  >     
 			     	<div class="center">
+						<s:if test="%{#session.userRole == 'Tester Manager'}"> 	
 						<a class="button" href="${pageContext.request.contextPath}/createTest">New Test</a>
+						</s:if>
 					</div> 
 						<div class = "projectContent"> 
 							<display:table name="testObjList" id="testTable" decorator="com.bartosz.decorators.TestDecorator" sort="list" 
@@ -68,16 +76,20 @@
 								<display:column property="version" title="Version" sortable="true"/>
 								<display:column property="build.name" title="Build" sortable="true"/>
 								<display:column property="result.name" title="Result" sortable="true"/>
+								<s:if test="%{#session.userRole == 'Tester Manager'}">
+						  			<display:column property="deleteLink" title="X" ></display:column>
+						  		</s:if>
 							</display:table>	
 						</div>  
 		    	</jsptabcontrol:tabPage>
 			    <jsptabcontrol:tabPage name="AreaTab" title="Area" width="100%" >
 				<div class="center">
+				<s:if test="%{#session.userRole == 'Tester Manager'}"> 	
 					<a class="button" href="${pageContext.request.contextPath}/createArea">New Area</a>
+				</s:if>
 				</div> 
 				<div class = "projectContent"> 
-					<display:table name="areaObjList" id="areaTable" decorator="com.bartosz.decorators.AreaDecorator" sort="list" 
-									pagesize="50" requestURI="#areaTable"	>
+					<display:table name="areaObjList" id="areaTable" decorator="com.bartosz.decorators.AreaDecorator" sort="list" pagesize="50" requestURI="#areaTable"	>
 						<display:column property="id" title="ID" />
 						<display:column  property="titleLink" title="Title"  sortable="true" />
 						<display:column property="state.name" title="State"  sortable="true"/>
@@ -86,8 +98,10 @@
 						<display:column property="endDate" title="End Date"  sortable="true"/>
 						<display:column property="estimatedTime" title="Estimated Time [h]"  sortable="true"/>
 					  	<display:column property="workTime" title="Time Spent [h]" sortable="true"/>
-					  	<display:column property="testersNumber" title="Testers" sortable="true"/>
-						
+					  	<display:column property="testersNumber" title="Testers" sortable="true"/>		
+					  	<s:if test="%{#session.userRole == 'Tester Manager'}">
+				  			<display:column property="deleteLink" title="X" ></display:column>
+				  		</s:if>				
 					</display:table>	
 				</div> 						      
 			</jsptabcontrol:tabPage>
