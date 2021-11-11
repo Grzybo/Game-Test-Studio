@@ -1,5 +1,6 @@
 package com.bartosz.gameteststudio.dp;
 
+import java.io.File;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -202,9 +203,18 @@ public class DataProvider {
 	public static void deleteAttachment(AttachmentBean att) {
 		if (att != null) {	
 			AttachmentRepository.delete(att);
+			File f = new File(att.getFilePath() + "\\" + att.getFileName()); 
+			f.delete();
 		} else
 			log.error("Attachment is null.");
-	} 
+	}
+	
+	public static void updateAttachmentName(AttachmentBean old, String newName) {
+		if (old != null && newName != null) {
+			AttachmentRepository.updateName(old, newName);
+		} else
+			log.error("Project is null.");
+	}
 // ##################################################################################################################################################################################################
 // Project 
 // ##################################################################################################################################################################################################

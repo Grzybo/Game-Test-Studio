@@ -41,8 +41,9 @@
 					<s:checkboxlist label="Platform" list="platformList" name="platforms" />
 				</tr>
 				<tr>
-					<s:file name="fileUpload" label="Select a File to upload" size="100%" />		 
+						
 				</tr>
+					<s:file name="fileUpload" label="Select a File to upload" size="100%" />  
 				<tr>
 					<s:select label="Build Type" name="build" list="buildList"/>
    					<s:textfield class="text" name="version" key="Version"  size="100%" type="number" step="0.000001"/>
@@ -51,6 +52,7 @@
 					<s:textfield class="text" name="minKitNumber" key="Minimum Kit Number"  size="100%" type="number"/> 
 					<s:select label="Repro Frequency [%]" name="reproStr" list="reproList"/>	
 				</tr>
+				
 				<s:submit class= "button"  method="execute" key="Save" form = "editBug"/>			
  			</table>
  			</s:form>
@@ -60,7 +62,8 @@
     		<div class="center">
     		<s:set var="id" value="fileID"/>
 			<s:if test="%{#id!=null}">
-				<a class= "button" href="${pageContext.request.contextPath}/image?fileID=<s:property value="fileID"/>">Attachment File</a>
+				<a class= "button" href="${pageContext.request.contextPath}/image?fileID=<s:property value="fileID"/>">View attached file</a>
+				<a class= "deleteBtn" href="${pageContext.request.contextPath}/deleteAtt?itemID=<s:property value="itemID"/>">Delete attached file</a>
 			</s:if>
 			 
 			</div>		

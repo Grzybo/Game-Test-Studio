@@ -30,6 +30,7 @@ public class AttachmentBean {
 	
 	
 	public AttachmentBean(String fileName, String fileType, String filePath) {
+		
 		this.fileName = fileName;
 		this.fileType = fileType;
 		this.filePath = filePath;

@@ -54,6 +54,7 @@ public class BugUpdateAction  extends ActionSupport {
 	private String fileUploadFileName;
 	private String filePath = ServletActionContext.getServletContext().getRealPath("/").concat("userFiles");  
 	private String fileID;
+	AttachmentBean att;
 	
     private List<String> priorityList = new ArrayList<String>(DataProvider.getPriorities().keySet());
 	private List<String> stateList = new ArrayList<String>(DataProvider.getStates().keySet());
@@ -108,13 +109,8 @@ public class BugUpdateAction  extends ActionSupport {
     	newBug.setMinKitNumber(minKitNumber);
     	
     	if(fileUpload != null) {
-			String filePath = ServletActionContext.getServletContext().getRealPath("/").concat("userFiles");  
-			File file = new File(filePath + "/" + fileUploadFileName); 
-
-	    	FileUtils.copyFile(fileUpload, file);
-
-	    	AttachmentBean att = new AttachmentBean(fileUploadFileName, fileUploadContentType, filePath);  
- 			AttachmentRepository.save(att); 
+    		
+    		createAttachment();
  			newBug.setAttachment(DataProvider.getAttchmentByID(att.getId())); 
  			fileID = att.getId().toString();
     	}
@@ -125,6 +121,16 @@ public class BugUpdateAction  extends ActionSupport {
     	
     	
     	return "update";
+    }
+    
+    private void createAttachment() throws IOException {
+    	String filePath = ServletActionContext.getServletContext().getRealPath("/").concat("userFiles");  
+		att = new AttachmentBean(fileUploadFileName ,fileUploadContentType, filePath);
+		DataProvider.saveAttachment(att);
+		String name = att.getId() + "." + att.getFileType().split("/")[1];
+		File file = new File(filePath + "/" +  name);
+		DataProvider.updateAttachmentName(att, name);
+    	FileUtils.copyFile(fileUpload, file);
     }
 
     public List<String> getPlatforms() {

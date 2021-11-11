@@ -19,7 +19,9 @@ import com.bartosz.gameteststudio.beans.PlatformBean;
 import com.bartosz.gameteststudio.beans.ProjectBean;
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
+import com.bartosz.gameteststudio.exceptions.GSException;
 import com.bartosz.gameteststudio.repositories.AttachmentRepository;
+import com.google.common.base.Strings;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "createBug", //
@@ -49,8 +51,9 @@ public class BugCreateAction  extends ActionSupport {
     private List<PlatformBean> selectedPlatformsList;
     
     private String build;
-	private Double version;
+	private Double version = 0.0;
 	private int minKitNumber;
+	AttachmentBean att;
 	
 	private File fileUpload;
 	private String fileUploadContentType;
@@ -70,7 +73,7 @@ public class BugCreateAction  extends ActionSupport {
 	List<AttachmentBean> listAtt = new ArrayList<AttachmentBean>();
     
     @Override
-    public String execute() throws IOException {
+    public String execute() throws IOException, NumberFormatException, GSException {
         
     	// Walidacja uprawnień ------------------------------------------------------------------------------------------------------
     	HttpSession session = ServletActionContext.getRequest().getSession();    	
@@ -83,9 +86,7 @@ public class BugCreateAction  extends ActionSupport {
     		return "createBug";
     	}
     	//------------------------------------------------------------------------------------------------------------------------------
-    	
-    	
-    	
+
     	ProjectBean project = DataProvider.mapProjects.get(session.getAttribute("userProject").toString());
     	platformList = project.getPlatformsStringList();
     	
@@ -104,54 +105,60 @@ public class BugCreateAction  extends ActionSupport {
 				testList.add(el);
 			}
 		}
+
+    	String ret = "createBug";
     	
-    	if(title != null) {
-    		if(test == null) {
-    			addActionError("Bug must be assigned to Test!");
-    			return "createBug";
-    		} 
-    		
-    		if(fileUpload != null) {
-
-    			String filePath = ServletActionContext.getServletContext().getRealPath("/").concat("userFiles");  
-    			File file = new File(filePath + "/" + fileUploadFileName); 
-    			System.out.println(file.getPath());
-    	    	FileUtils.copyFile(fileUpload, file);
-
-    	    	AttachmentBean att = new AttachmentBean(fileUploadFileName, fileUploadContentType, filePath);  
-     			AttachmentRepository.save(att);
-    	    	
-     			BugBean bug = new BugBean(title, DataProvider.mapUsers.get(account), description, reproSteps,
-        				DataProvider.getStates().get(state), DataProvider.getPriorities().get(priority), selectedPlatforms,  
-        				version, minKitNumber, DataProvider.mapTests.get(test), DataProvider.getIssues().get(issue),
-        				Integer.parseInt(reproStr), DataProvider.mapBuilds.get(build), AttachmentRepository.findById(att.getId()));
+    	if(!Strings.isNullOrEmpty(title)) {
+    		if(!Strings.isNullOrEmpty(this.description)) {
+    			if(!Strings.isNullOrEmpty(this.reproSteps)) {
+    				createBug();
+    				ret = "created";
+            		
+            	}else {
+            		addActionError("Repro Steps field cannot be empty.");
+            		ret = "createBug";
+            	}
         		
-        		DataProvider.saveBug(bug);
-    			
-            	
-            	
-    		}
-    		else {
-    			BugBean bug = new BugBean(title, DataProvider.mapUsers.get(account), description, reproSteps,
-        				DataProvider.getStates().get(state), DataProvider.getPriorities().get(priority), selectedPlatforms,  
-        				version, minKitNumber, DataProvider.mapTests.get(test), DataProvider.getIssues().get(issue),
-        				Integer.parseInt(reproStr), DataProvider.mapBuilds.get(build));
-        		
-        		DataProvider.saveBug(bug);
-    		}
+        	}else {
+        		addActionError("Description field cannot be empty.");
+        		ret = "createBug";
+        	}
     		
-    		
-    		
-        	addActionError("Bug created!");
-        	return "created";
     	}else {
-    		addActionError("Title field cannot be empty");
+    		addActionError("Title field cannot be empty.");
+    		ret = "createBug";
     	}
-
-    	return "createBug";
+    	
+    	return ret;
     } 
     
+    private void createAttachment() throws IOException {
+    	String filePath = ServletActionContext.getServletContext().getRealPath("/").concat("userFiles");  
+		att = new AttachmentBean(fileUploadFileName ,fileUploadContentType, filePath);
+		DataProvider.saveAttachment(att);
+		String name = att.getId() + "." + att.getFileType().split("/")[1];
+		File file = new File(filePath + "/" +  name);
+		DataProvider.updateAttachmentName(att, name);
+    	FileUtils.copyFile(fileUpload, file);
+    }
     
+    private void createBug() throws IOException, NumberFormatException, GSException {
+    	if(this.fileUpload != null) {
+    		createAttachment();
+        	
+    		DataProvider.saveBug(new BugBean(title, DataProvider.mapUsers.get(account), description, reproSteps,
+    				DataProvider.getStates().get(state), DataProvider.getPriorities().get(priority), selectedPlatforms,  
+    				version, minKitNumber, DataProvider.mapTests.get(test), DataProvider.getIssues().get(issue),
+    				Integer.parseInt(reproStr), DataProvider.mapBuilds.get(build),
+    				DataProvider.getAttchmentByID(this.att.getId())));
+    	}
+    	else {    		
+    		DataProvider.saveBug(new BugBean(title, DataProvider.mapUsers.get(account), description, reproSteps,
+    				DataProvider.getStates().get(state), DataProvider.getPriorities().get(priority), selectedPlatforms,  
+    				version, minKitNumber, DataProvider.mapTests.get(test), DataProvider.getIssues().get(issue),
+    				Integer.parseInt(reproStr), DataProvider.mapBuilds.get(build)));
+    	}
+    }
     
     
     

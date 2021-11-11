@@ -299,6 +299,7 @@ public class BugBean {
 			this.issueType = newBug.issueType;
 			this.reproFrequency = newBug.reproFrequency;
 			this.build = newBug.build;
+			this.attachment = newBug.getAttachment();
 		}
 
 		/**
