@@ -15,6 +15,7 @@ import com.bartosz.gameteststudio.beans.TestBean;
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
+import com.google.common.base.Strings;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "createTest", //
@@ -35,13 +36,13 @@ public class TestCreateAction  extends ActionSupport {
     private String area;
     private String platform;
     private Double  estimatedTime; 
-    private Integer testersNumber;
+    private Integer testersNumber = 0;
 	private Double  workTime;
 	private String startDate;
 	private String endDate;
 	private String result;
 	private String build;
-	private Double version;
+	private Double version = 0.0;
 	private List<PlatformBean> selectedPlatformsList = new ArrayList<PlatformBean>();
 	private List<String> selectedPlatforms = new ArrayList<String>();
 	
@@ -59,15 +60,16 @@ public class TestCreateAction  extends ActionSupport {
     public String execute() throws GSException {
           
     	// Walidacja uprawnień ------------------------------------------------------------------------------------------------------
-    	HttpSession session = ServletActionContext.getRequest().getSession();    	
-    	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());
-    	session.setAttribute("selectedTab", "TestTab");
+    	
     	// kto moze: Tester Manager 
-    	if (!user.getRole().getName().equals("Tester Manager")) {
-    		addActionError("Your Account do not have permission to perform this action.");
-    		return "createTest";
-    	}
+    	//if (!user.getRole().getName().equals("Tester Manager")) {
+    	//	addActionError("Your Account do not have permission to perform this action.");
+    	//	return "createTest";
+    	//}
     	//------------------------------------------------------------------------------------------------------------------------------
+    	HttpSession session = ServletActionContext.getRequest().getSession();    	
+    	//UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());
+    	session.setAttribute("selectedTab", "TestTab");
     	
     	ProjectBean project = DataProvider.mapProjects.get(session.getAttribute("userProject").toString());
     	platformList = project.getPlatformsStringList();
@@ -88,29 +90,25 @@ public class TestCreateAction  extends ActionSupport {
 				areaList.add(el);
 			}
 		}
+    	
+    	String ret = "createTest";
+    	
+    	
+    	if(!Strings.isNullOrEmpty(title)) {
+    		if(!Strings.isNullOrEmpty(this.description)) {
+    			TestBean test = new TestBean(title, DataProvider.mapUsers.get(account), description,
+        				DataProvider.mapAreas.get(area), DataProvider.mapResults.get(result),
+        				estimatedTime, startDate, endDate, testersNumber, workTime, DataProvider.getStates().get(state),
+        				DataProvider.getPriorities().get(priority), selectedPlatforms, version , DataProvider.mapBuilds.get(build));
 
-    	
-    	
-    	if (title != null) {
-    		
-    		if(area == null) {
-    			addActionError("Test must be assigned to Area!");
-    			return "createTest";
-    		}
-    		TestBean test = new TestBean(title, DataProvider.mapUsers.get(account), description,
-    				DataProvider.mapAreas.get(area), DataProvider.mapResults.get(result),
-    				estimatedTime, startDate, endDate, testersNumber, workTime, DataProvider.getStates().get(state),
-    				DataProvider.getPriorities().get(priority), selectedPlatforms, version , DataProvider.mapBuilds.get(build));
+            	DataProvider.saveTest(test);
+            	ret = "created";
+        		
+        	}else addActionError("Description field cannot be empty.");
+    	}else addActionError("Title field cannot be empty.");
 
-        	DataProvider.saveTest(test);
-        	
-        	addActionError("Test created!");
-        	return "created";
-    	}
-    	else addActionError("Title field cannot be empty");
-    	
-    	
-    	return "createTest";
+    
+    	return ret;
     }
 
 

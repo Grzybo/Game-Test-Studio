@@ -3,6 +3,9 @@ package com.bartosz.gameteststudio.action;
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.utils.Utils;
+import com.google.common.hash.Hashing;
+
+import java.nio.charset.StandardCharsets;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -59,29 +62,18 @@ public class UserInfoAction  extends ActionSupport {
 	else lastName = user.getLastName();
 	
 	
-	
-	/**
-	 * if(this.firstName != user.getFirstName() || this.lastName != user.getLastName()) {
-		
-		user.setFirstName(firstName);
-		user.setLastName(lastName);
-		//DataProvider.updateUser(user, user); 
-		addActionError("Personal Data updated.");
-	}
-	 */
-	
-	
 	if(oldPassword != null && newPassword1 != null && newPassword2 != null) { 
-        if(user.getPassword().equals(oldPassword)) {
-        	if(newPassword1.equals(newPassword2)) {
-        		user.setPassword(newPassword1);
+        //if(user.getPassword().equals(Hashing.sha256().hashString(oldPassword, StandardCharsets.UTF_8).toString())) {
+		if(user.getPassword().equals(oldPassword)) {	
+			if(newPassword1.equals(newPassword2)) {
+        		user.setPassword(Hashing.sha256().hashString(newPassword2, StandardCharsets.UTF_8).toString());
         		DataProvider.updateUser(user, user);
         		
         		addActionError("Password changed successfully.");	
         	}
         	else addActionError("New Passwords do not match.");
         }
-        else addActionError("Actual Password is not correct.");
+        else addActionError("Current Password is not correct.");
 	 }
          
 	if(user.isAdmin()) {

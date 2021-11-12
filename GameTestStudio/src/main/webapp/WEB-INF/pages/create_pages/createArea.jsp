@@ -11,6 +11,7 @@
 	 		<h2>New Area in ${userProject}</h2>
 	 		
 	 	<div class = "content">	
+	 	<s:actionerror />
 	 		<s:form id="editArea" action="/createArea" method="post">
 	 		
 	 		<table style="width:100%">
@@ -66,7 +67,7 @@
  			</table>
  			</s:form>
  			
- 			<s:actionerror />
+ 			
 	 	</div>
 	 	<div class="center">
 		<a class="button" href="${pageContext.request.contextPath}/projects"> Return</a>

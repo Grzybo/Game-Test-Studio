@@ -12,7 +12,6 @@
     	<h2>Manage Project</h2>
     	
 		 <div class = "content">
-<s:hidden name="itemID"/>
 		<s:actionerror />
     	<s:form action="/updateProject" enctype="multipart/form-data"> 
     	<s:hidden name="itemID"/>

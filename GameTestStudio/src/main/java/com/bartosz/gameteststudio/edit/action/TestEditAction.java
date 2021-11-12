@@ -95,7 +95,6 @@ public class TestEditAction  extends ActionSupport {
     	
     	
     	TestBean test = DataProvider.getTestById(Integer.parseInt(itemID));
-    	
     	platformList = test.getArea().getProject().getPlatformsStringList();
     	
     	title = test.getTitle();

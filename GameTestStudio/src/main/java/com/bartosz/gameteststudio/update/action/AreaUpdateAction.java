@@ -13,6 +13,7 @@ import com.bartosz.gameteststudio.beans.AreaBean;
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
+import com.google.common.base.Strings;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "updateArea", //
@@ -47,37 +48,44 @@ public class AreaUpdateAction  extends ActionSupport {
     public String execute() throws NumberFormatException, GSException {
           
     	// Walidacja uprawnień ------------------------------------------------------------------------------------------------------
-    	HttpSession session = ServletActionContext.getRequest().getSession();    	
-    	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());
+    	
     	
     	// kto moze: Tester Manager 
-    	if (!user.getRole().getName().equals("Tester Manager")) {
-    		addActionError("Your Account do not have permission to perform this action.");
-    		return "update";
-    	}
+    //	if (!user.getRole().getName().equals("Tester Manager")) {
+    //		addActionError("Your Account do not have permission to perform this action.");
+    //		return "update";
+    //	}
     	//------------------------------------------------------------------------------------------------------------------------------
     	
+    	HttpSession session = ServletActionContext.getRequest().getSession();    	
+    	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());
     	projectsList = user.getProjectsList(); 
     	project = session.getAttribute("userProject").toString();
     	
     	AreaBean area = DataProvider.getAreaByID(Long.parseLong(itemID));
     	AreaBean newArea = new AreaBean();
     	
-    	newArea.setTitle(this.title);
-    	newArea.setPriority(DataProvider.getPriorities().get(priority));
-    	newArea.setState(DataProvider.getStates().get(state));
-    	newArea.setDescription(this.description);
-    	newArea.setEstimatedTime(this.estimatedTime);
-    	newArea.setStartDate(this.startDate);
-    	newArea.setEndDate(this.endDate);
-    	newArea.setTestersNumber(this.testersNumber);
-    	newArea.setWorkTime(this.workTime);
-    	newArea.setId(area.getId());
-    	newArea.setProject(area.getProject());
     	
-    	DataProvider.updateArea(area, newArea); 
-    	
-    	addActionError("Area Updated!");
+    	if(!Strings.isNullOrEmpty(title)) {
+    		if(!Strings.isNullOrEmpty(this.description)) {
+    			newArea.setTitle(this.title);
+    	    	newArea.setPriority(DataProvider.getPriorities().get(priority));
+    	    	newArea.setState(DataProvider.getStates().get(state));
+    	    	newArea.setDescription(this.description);
+    	    	newArea.setEstimatedTime(this.estimatedTime);
+    	    	newArea.setStartDate(this.startDate);
+    	    	newArea.setEndDate(this.endDate);
+    	    	newArea.setTestersNumber(this.testersNumber);
+    	    	newArea.setWorkTime(this.workTime);
+    	    	newArea.setId(area.getId());
+    	    	newArea.setProject(area.getProject());
+    	    	
+    	    	DataProvider.updateArea(area, newArea); 
+    	    	addActionError("Area Updated!");
+        	
+    		}else addActionError("Description field cannot be empty.");
+    	}else addActionError("Title field cannot be empty.");
+
     	return "update";
     }
 

@@ -14,7 +14,6 @@ import org.apache.struts2.convention.annotation.Result;
 
 import com.bartosz.gameteststudio.beans.BugBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
-import com.bartosz.gameteststudio.repositories.AttachmentRepository;
 import com.opensymphony.xwork2.ActionSupport;
 
 @Action(value = "deleteAtt", //

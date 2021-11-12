@@ -19,7 +19,6 @@
         	<s:hidden name="itemID"/>
         	<s:textfield class="text" name="firstName" key="First Name" size="100%" />
         	<s:textfield class="text" name="lastName" key="Last Name" size="100%" />
-        	<s:textfield class="text" name="email" key="E-Mail" size="100%" />
 	   		<s:select label="Role" name="role" list="rolesList"/>
 			<s:checkboxlist label="Project" list="projectsList" name="projects" />    		
 	   		<s:submit class= "button"  method="execute" key="Update Account" form = "form"/>

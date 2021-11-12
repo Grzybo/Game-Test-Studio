@@ -1,7 +1,10 @@
 package com.bartosz.gameteststudio.create.action;
  
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -10,10 +13,14 @@ import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
+import com.bartosz.gameteststudio.beans.ProjectBean;
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
+import com.bartosz.gameteststudio.repositories.StateRepository;
 import com.bartosz.gameteststudio.utils.Mailer;
 import com.bartosz.gameteststudio.utils.Utils;
+import com.google.common.base.Strings;
+import com.google.common.hash.Hashing;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "createAccount", //
@@ -46,29 +53,34 @@ public class AccountCreateAction  extends ActionSupport {
         HttpSession session = request.getSession();  
     	session.setAttribute("selectedTab", "AccountsTab");
     	
-    	if(this.firstName != null && this.lastName != null && this.email != null ) {
-    		if(!DataProvider.mapUsers.keySet().contains(email)) {
-
-        		UserBean user = new UserBean(firstName, lastName, email, Utils.generateRandomPassword(), DataProvider.mapRoles.get(role), projects); 
-                Mailer.sendNewAccountMail(user);
-        		DataProvider.saveUser(user);
-
-        		addActionError("Account created.");
-        		
-                return "created";
-    		}
-    		addActionError("Acccount with this email already exists.");
-    		return "account_create"; 
-    	}
-    	else {
+    	String ret = "account_create";
     	
-    		addActionError("Fill all fields.");
-    		
-            return "account_create"; 
-    	}
-    	 
+    	if(!Strings.isNullOrEmpty(firstName)) {
+    		if(!Strings.isNullOrEmpty(this.lastName)) {        			
+    			if(!Strings.isNullOrEmpty(this.email)) { 
+    				Pattern pattern = Pattern.compile(Utils.emailPattern);
+    			    Matcher match = pattern.matcher(email);
+    				if(match.matches()) {
+    					
+    					//String sha256hex = Hashing.sha256().hashString(Utils.generateRandomPassword(), StandardCharsets.UTF_8).toString();
+    					String psw = Utils.generateRandomPassword();
+    					
+    					if(!DataProvider.mapUsers.keySet().contains(email)) {
+        					UserBean user = new UserBean(firstName, lastName, email, 
+        							Hashing.sha256().hashString(psw, StandardCharsets.UTF_8).toString(), // hashowanie hasla 
+        							DataProvider.mapRoles.get(role), projects); 
+        	                Mailer.sendNewAccountMail(user, psw);
+        	        		DataProvider.saveUser(user);
+        	        		ret = "created";
+        				}
+        	    		addActionError("Acccount with this email already exists.");
+    				}else addActionError("Email is not valid.");
+            	}else addActionError("Email Adress cannot be empty.");
+        	}else addActionError("Last Name cannot be empty.");
+    	}else addActionError("First Name cannot be empty.");
+
+    	return ret;		
     }
-    
     
     public String getFirstName() {return firstName;}
     

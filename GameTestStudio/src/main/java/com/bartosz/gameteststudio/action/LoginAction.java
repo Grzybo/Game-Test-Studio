@@ -1,5 +1,6 @@
 package com.bartosz.gameteststudio.action;
  
+import java.nio.charset.StandardCharsets;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -13,6 +14,7 @@ import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
 import com.bartosz.gameteststudio.utils.Utils;
+import com.google.common.hash.Hashing;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "login", //
@@ -53,7 +55,9 @@ public class LoginAction extends ActionSupport {
             		user = DataProvider.getUserByEmail(this.email); 
             		if(password != "") {
             		
-	            		if(user.getPassword().equals(this.password)) {
+            			
+            			if(user.getPassword().equals(Hashing.sha256().hashString(this.password, StandardCharsets.UTF_8).toString())){
+	            		//if(user.getPassword().equals(this.password)) {
 	            			
 	            			session.setAttribute("loginedUsername", user.getDisplayName());
 	        	    		session.setAttribute("loginedEmail", this.getEmail());

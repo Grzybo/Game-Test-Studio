@@ -14,6 +14,7 @@ import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
 import com.bartosz.gameteststudio.repositories.StateRepository;
+import com.google.common.base.Strings;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "updateProject", //
@@ -41,36 +42,18 @@ public class ProjectUpdateAction  extends ActionSupport {
     private List<String> stateList = new ArrayList<String>(DataProvider.getStates().keySet());
     
     @Override
-    public String execute() {
+    public String execute() throws GSException {
           
-    	// Walidacja uprawnień ------------------------------------------------------------------------------------------------------
-    	HttpSession session = ServletActionContext.getRequest().getSession();    	
-    	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());
-    	session.setAttribute("selectedTab", "ProjectTab");
+    	ServletActionContext.getRequest().getSession().setAttribute("selectedTab", "ProjectTab");
     	
-    	// kto moze: Tester Manager i Admin
-    	if (!user.getRole().getName().equals("Tester Manager") && !user.isAdmin()) {
-    		addActionError("Your Account do not have permission to perform this action.");
-    		return "projects";
-    	}
-    	//------------------------------------------------------------------------------------------------------------------------------
+    	ProjectBean project = DataProvider.getProjectByID(Long.parseLong(itemID));
+		ProjectBean newProject = new ProjectBean();
+		
+    	String ret = "updateProject";
     	
-		try {
-			if (title != null) {
-	    		
-				System.out.println(itemID);
-				
-	    		ProjectBean project; 
-	    		if(itemID.equals(null)) {
-	    			project = DataProvider.mapProjects.get(session.getAttribute("userProject")); 
-	    		}
-	    		else project = DataProvider.getProjectByID(Long.parseLong(itemID));
-	    		
-	    		
-	    		ProjectBean newProject = new ProjectBean(); 
-	    		
-	    		//System.out.println(selectedPlatforms);
-	    		
+    	if(!Strings.isNullOrEmpty(title)) {
+    		if(!Strings.isNullOrEmpty(this.description)) {        			
+    			 
 	    		newProject.setId(project.getId());
 	    		newProject.setTitle(title);
 	    		newProject.setDescription(description);
@@ -79,28 +62,21 @@ public class ProjectUpdateAction  extends ActionSupport {
 	    		newProject.setStartDate(startDate);
 	    		newProject.setEndDate(endDate);
 	    		newProject.setTestersNumber(testers_numbers);
-	    		newProject.setState(StateRepository.findByName(state));     // DataProvider.getStates().get(state));
+	    		newProject.setState(DataProvider.getStates().get(state));     
 	    		newProject.setUsers(project.getUsers());
 	    		newProject.setPlatforms(selectedPlatforms);
 	        	
 	        	DataProvider.updateProject(project, newProject);
-	        	
-	        	addActionError("Project Updated.");
-				
-			}
-			else {
-	    		addActionError("Title cannot be empty.");
-	    	}
-		}
-			catch(GSException e){		}
-    	
-    	
-    	
-    	if(user.isAdmin()) {
-    		return "updateProject";
+    			
+        	}else addActionError("Description field cannot be empty.");
+    	}else addActionError("Title field cannot be empty.");
+
+    
+    	if(!DataProvider.mapUsers.get(ServletActionContext.getRequest().getSession().getAttribute("loginedEmail").toString()).isAdmin()) {
+    		ret = "projects";
     	}
+    	return ret;	
     	
-    	return "projects";
     }
 
 	public String getSearchTitle() {

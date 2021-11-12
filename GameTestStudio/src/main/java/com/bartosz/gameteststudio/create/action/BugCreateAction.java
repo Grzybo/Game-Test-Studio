@@ -113,21 +113,10 @@ public class BugCreateAction  extends ActionSupport {
     			if(!Strings.isNullOrEmpty(this.reproSteps)) {
     				createBug();
     				ret = "created";
-            		
-            	}else {
-            		addActionError("Repro Steps field cannot be empty.");
-            		ret = "createBug";
-            	}
-        		
-        	}else {
-        		addActionError("Description field cannot be empty.");
-        		ret = "createBug";
-        	}
-    		
-    	}else {
-    		addActionError("Title field cannot be empty.");
-    		ret = "createBug";
-    	}
+            	}else addActionError("Repro Steps field cannot be empty.");
+        	}else addActionError("Description field cannot be empty.");
+    	}else addActionError("Title field cannot be empty.");
+
     	
     	return ret;
     } 

@@ -43,7 +43,11 @@
 				<tr>
 						
 				</tr>
+				<s:set var="id" value="fileID"/>
+				<s:if test="%{#id==null}">
 					<s:file name="fileUpload" label="Select a File to upload" size="100%" />  
+				</s:if>
+					
 				<tr>
 					<s:select label="Build Type" name="build" list="buildList"/>
    					<s:textfield class="text" name="version" key="Version"  size="100%" type="number" step="0.000001"/>

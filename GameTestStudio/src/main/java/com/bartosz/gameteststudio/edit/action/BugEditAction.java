@@ -12,6 +12,7 @@ import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
+import com.bartosz.gameteststudio.beans.AttachmentBean;
 import com.bartosz.gameteststudio.beans.BugBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.opensymphony.xwork2.ActionSupport;
@@ -49,6 +50,7 @@ public class BugEditAction  extends ActionSupport {
 	private String fileUploadFileName;
 	private String filePath; 
 	private String fileID;
+	AttachmentBean att;
 	
 	private String reproStr;
     private List<String> reproList = Arrays.asList("100", "75", "50", "25");
@@ -108,6 +110,7 @@ public class BugEditAction  extends ActionSupport {
 
     	
     	if(bug.getAttachment() != null) {
+    		att = bug.getAttachment();
     		fileUploadFileName = bug.getAttachment().getFileName();
         	fileUploadContentType = bug.getAttachment().getFileType();
         	filePath = bug.getAttachment().getFilePath(); 
@@ -136,6 +139,16 @@ public class BugEditAction  extends ActionSupport {
   
 	
 	
+	public AttachmentBean getAtt() {
+		return att;
+	}
+
+
+	public void setAtt(AttachmentBean att) {
+		this.att = att;
+	}
+
+
 	public String getFileID() {
 		return fileID;
 	}

@@ -14,6 +14,7 @@ import com.bartosz.gameteststudio.beans.TestBean;
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
+import com.google.common.base.Strings;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "updateTest", //
@@ -89,28 +90,31 @@ public class TestUpdateAction  extends ActionSupport {
     	TestBean newTest = new TestBean();
     	platformList = test.getArea().getProject().getPlatformsStringList();
     	
-    	
-    	newTest.setTitle(title);
-    	newTest.setUser(DataProvider.mapUsers.get(account));
-    	newTest.setPriority(DataProvider.getPriorities().get(priority));
-    	newTest.setState(DataProvider.getStates().get(state));
-    	newTest.setDescription(description);
-    	//newTest.setArea(DataProvider.mapAreas.get(area));
-    	newTest.setArea(DataProvider.getAreaByTitle(area));
-    	newTest.setEstimatedTime(estimatedTime);
-    	newTest.setWorkTime(workTime);
-    	newTest.setTestersNumber(testersNumber);
-    	newTest.setStartDate(startDate);
-    	newTest.setEndDate(endDate);
-    	newTest.setId(test.getId());
-    	newTest.setBuild(DataProvider.mapBuilds.get(build));
-    	newTest.setResult(DataProvider.mapResults.get(result)); 
-    	newTest.setVersion(version);
-    	newTest.setPlatforms(selectedPlatforms);
-    	
-    	DataProvider.updateTest(test, newTest);
-    	
-    	addActionError("Test Updated!");
+    	if(!Strings.isNullOrEmpty(title)) {
+    		if(!Strings.isNullOrEmpty(this.description)) {
+    			newTest.setTitle(title);
+    	    	newTest.setUser(DataProvider.mapUsers.get(account));
+    	    	newTest.setPriority(DataProvider.getPriorities().get(priority));
+    	    	newTest.setState(DataProvider.getStates().get(state));
+    	    	newTest.setDescription(description);
+    	    	newTest.setArea(DataProvider.getAreaByTitle(area));
+    	    	newTest.setEstimatedTime(estimatedTime);
+    	    	newTest.setWorkTime(workTime);
+    	    	newTest.setTestersNumber(testersNumber);
+    	    	newTest.setStartDate(startDate);
+    	    	newTest.setEndDate(endDate);
+    	    	newTest.setId(test.getId());
+    	    	newTest.setBuild(DataProvider.mapBuilds.get(build));
+    	    	newTest.setResult(DataProvider.mapResults.get(result)); 
+    	    	newTest.setVersion(version);
+    	    	newTest.setPlatforms(selectedPlatforms);
+    	    	
+    	    	DataProvider.updateTest(test, newTest);
+    	    	
+    	    	addActionError("Test Updated!");
+        		
+        	}else addActionError("Description field cannot be empty.");
+    	}else addActionError("Title field cannot be empty.");
     	
     	return "update";
     	

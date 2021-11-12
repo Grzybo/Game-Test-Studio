@@ -12,6 +12,7 @@ import com.bartosz.gameteststudio.beans.ProjectBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
 import com.bartosz.gameteststudio.repositories.StateRepository;
+import com.google.common.base.Strings;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "createProject", //
@@ -26,7 +27,7 @@ public class ProjectCreateAction extends ActionSupport {
  
     private String title; 
     private String description; 
-    private Integer testers_numbers;
+    private Integer testers_numbers = 0;
     private Double estimate_time; 
     private Double work_time;
     private String startDate;
@@ -39,29 +40,21 @@ public class ProjectCreateAction extends ActionSupport {
     public String execute() throws GSException {
           
     	ServletActionContext.getRequest().getSession().setAttribute("selectedTab", "ProjectsTab");
-    	if(title != null) {
-    		/**
-    		ProjectBean project = new ProjectBean(title, description, estimate_time, 
-    				work_time, startDate, endDate, testers_numbers, 
-    				DataProvider.getStates().get("New"), 
-    				(long)DataProvider.mapProjectsId.keySet().size() + 1, null);
-    		 * 
-    		 */
-    		
-    		addActionError("Project created."); 
-    		//ProjectBean newProject = new ProjectBean(title, description, estimate_time, work_time, startDate, endDate, testers_numbers, StateRepository.findByName("New"));
-    		ProjectBean newProject = new ProjectBean(title, description, estimate_time, work_time, startDate, endDate, testers_numbers, StateRepository.findByName("New"), selectedPlatforms);
-    		//newProject.setPlatforms(selectedPlatforms); 
-    		//System.out.println(selectedPlatforms);
-    		DataProvider.saveProject(newProject);
-    		
-    		return "project_created";
-    	}else {
-    		addActionError("Title cannot be empty.");
-    		return "project_create";
-    	}
-    }
+    
+    		String ret = "project_create";
+        	
+        	if(!Strings.isNullOrEmpty(title)) {
+        		if(!Strings.isNullOrEmpty(this.description)) {        			
+        			ProjectBean newProject = new ProjectBean(title, description, estimate_time, work_time, startDate, 
+        					endDate, testers_numbers, StateRepository.findByName("New"), selectedPlatforms);
+        			DataProvider.saveProject(newProject);
+        			
+        			ret = "project_created";
+            	}else addActionError("Description field cannot be empty.");
+        	}else addActionError("Title field cannot be empty.");
 
+        	return ret;		
+    }
 
 	public String getTitle() {
 		return title;

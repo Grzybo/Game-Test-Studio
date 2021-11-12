@@ -18,6 +18,7 @@ import com.bartosz.gameteststudio.beans.BugBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
 import com.bartosz.gameteststudio.repositories.AttachmentRepository;
+import com.google.common.base.Strings;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "updateBug", //
@@ -44,7 +45,8 @@ public class BugUpdateAction  extends ActionSupport {
     //file
     private String build;
 	private Double version;
-	private int minKitNumber; 
+	private int minKitNumber;
+	private BugBean newBug;
 	
 	private String reproStr;
     private List<String> reproList = Arrays.asList("100", "75", "50", "25");
@@ -88,11 +90,47 @@ public class BugUpdateAction  extends ActionSupport {
 		}  
     	
     	BugBean bug = DataProvider.getBugById(Integer.parseInt(itemID));
-    	BugBean newBug = new BugBean(); 
+    	newBug = new BugBean(); 
     	
     	platformList = bug.getTest().getArea().getProject().getPlatformsStringList();
     	
-    	newBug.setTitle(title);
+    	
+    	
+    	if(!Strings.isNullOrEmpty(title)) {
+    		if(!Strings.isNullOrEmpty(this.description)) {
+    			if(!Strings.isNullOrEmpty(this.reproSteps)) {
+    				newBug(bug);
+    				if(fileUpload != null) {
+    		    		
+    		    		createAttachment();
+    		 			newBug.setAttachment(DataProvider.getAttchmentByID(att.getId())); 
+    		 			fileID = att.getId().toString();
+    		    	}
+    				
+    				DataProvider.updateBug(bug, newBug);
+    				addActionError("Bug Updated!"); 
+    				return "update";
+            		
+            	}else {
+            		addActionError("Repro Steps field cannot be empty.");
+            		return "update";
+            	}
+        		
+        	}else {
+        		addActionError("Description field cannot be empty.");
+        		return "update";
+        	}
+    		
+    	}else {
+    		addActionError("Title field cannot be empty.");
+    		return "update";
+    	}
+
+    
+    }
+    
+    private void newBug(BugBean oldBug) {
+    	newBug.setTitle(this.title);
     	newBug.setUser(DataProvider.mapUsers.get(account));
     	newBug.setDescription(description);
     	newBug.setReproSteps(reproSteps);
@@ -103,25 +141,14 @@ public class BugUpdateAction  extends ActionSupport {
     	newBug.setVersion(version);
     	newBug.setBuild(DataProvider.mapBuilds.get(build));
     	newBug.setTest(DataProvider.mapTests.get(test)); 
-    	newBug.setId(bug.getId());
+    	newBug.setId(oldBug.getId());
     	newBug.setIssueType(DataProvider.getIssues().get(issue));
     	newBug.setReproFrequency(Integer.parseInt(reproStr));
     	newBug.setMinKitNumber(minKitNumber);
-    	
-    	if(fileUpload != null) {
-    		
-    		createAttachment();
- 			newBug.setAttachment(DataProvider.getAttchmentByID(att.getId())); 
- 			fileID = att.getId().toString();
-    	}
-    	
-    	DataProvider.updateBug(bug, newBug);
-    	addActionError("Bug Updated!"); 
-    	
-    	
-    	
-    	return "update";
+    	newBug.setAttachment(att);
     }
+    
+    
     
     private void createAttachment() throws IOException {
     	String filePath = ServletActionContext.getServletContext().getRealPath("/").concat("userFiles");  
@@ -174,6 +201,14 @@ public class BugUpdateAction  extends ActionSupport {
 
 
 
+
+	public AttachmentBean getAtt() {
+		return att;
+	}
+
+	public void setAtt(AttachmentBean att) {
+		this.att = att;
+	}
 
 	public void setReproStr(String reproStr) {
 		this.reproStr = reproStr;

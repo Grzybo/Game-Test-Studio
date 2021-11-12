@@ -12,7 +12,9 @@ import com.bartosz.gameteststudio.beans.ProjectBean;
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
+import com.bartosz.gameteststudio.utils.Mailer;
 import com.bartosz.gameteststudio.utils.Utils;
+import com.google.common.base.Strings;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "updateAccount", //
@@ -32,7 +34,6 @@ public class AccountUpdateAction  extends ActionSupport {
     private String itemID;
 
     private List<String> projects;
-    private String searchEmail;
     private List<String> rolesList = new ArrayList<String>(DataProvider.mapRoles.keySet());
     private List<String>  projectsList = new ArrayList<String>(DataProvider.mapProjects.keySet());
     private List<ProjectBean> pL = new ArrayList<ProjectBean>();
@@ -43,37 +44,28 @@ public class AccountUpdateAction  extends ActionSupport {
     public String execute() throws NumberFormatException, GSException {
           
 		UserBean user = DataProvider.getUserByID(Long.parseLong(itemID));
-		UserBean newUser = new UserBean();
-    	
-		 String email = this.email;
-		 Pattern pattern = Pattern.compile(Utils.emailPattern);
-		 Matcher match = pattern.matcher(email); 
-		 
-		 if(match.matches()) {
-			 newUser.setFirstName(firstName);
-		 	newUser.setLastName(lastName);
-		 	newUser.setEmail(email);
-		 	newUser.setRole(DataProvider.mapRoles.get(role));
-		 	newUser.setProjectsList(projects);
-		 	newUser.setId(user.getId());
-		 	newUser.setPassword(user.getPassword());
-		 	
-		 	DataProvider.updateUser(user, newUser);
-		 	
-		 	addActionError("User Updated!");
-		 }
-		 else addActionError("Email is not valid!");
-    	
-    	return "editAccount";
+		UserBean newUser = new UserBean();    
+		
+		String ret = "editAccount";
+			
+		if(!Strings.isNullOrEmpty(firstName)) {
+			if(!Strings.isNullOrEmpty(this.lastName)) {        			
+				newUser.setFirstName(firstName);
+			 	newUser.setLastName(lastName);
+			 	newUser.setRole(DataProvider.mapRoles.get(role));
+			 	newUser.setProjectsList(projects);
+			 	newUser.setId(user.getId());
+			 	newUser.setEmail(user.getEmail());
+			 	newUser.setPassword(user.getPassword());
+			 	
+			 	DataProvider.updateUser(user, newUser);
+					
+	    	}else addActionError("Last Name cannot be empty.");
+		}else addActionError("First Name cannot be empty.");
+		
+		return ret;	
     }
 
-	public String getSearchEmail() {
-		return searchEmail;
-	}
-
-	public void setSearchEmail(String searchEmail) {
-		this.searchEmail = searchEmail;
-	}
 
 	public String getFirstName() {
 		return firstName;

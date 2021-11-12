@@ -12,6 +12,7 @@ import org.apache.struts2.convention.annotation.Result;
 import com.bartosz.gameteststudio.beans.AreaBean;
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
+import com.google.common.base.Strings;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "createArea", //
@@ -32,7 +33,7 @@ public class AreaCreateAction  extends ActionSupport {
 	private Double estimatedTime; 
 	private String startDate;
 	private String endDate;
-	private Integer testersNumber;
+	private Integer testersNumber = 0;
 	private Double workTime; 
 	
 	private List<String> projectsList;
@@ -43,12 +44,14 @@ public class AreaCreateAction  extends ActionSupport {
     @Override
     public String execute() {
         
-    	
+    	/**
+    	 * 
+    	 
     	
     	// Walidacja uprawnień ------------------------------------------------------------------------------------------------------
-    	HttpSession session = ServletActionContext.getRequest().getSession();    	
-    	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());
-    	session.setAttribute("selectedTab", "AreaTab");
+    	
+    	
+    	
     	
     	// kto moze: Tester Manager 
     	if (!user.getRole().getName().equals("Tester Manager")) {
@@ -56,30 +59,33 @@ public class AreaCreateAction  extends ActionSupport {
     		return "createArea";
     	}
     	//------------------------------------------------------------------------------------------------------------------------------
+    	 * session.setAttribute("selectedTab", "AreaTab");
+    	 */
     	
+    	HttpSession session = ServletActionContext.getRequest().getSession(); 
+    	session.setAttribute("selectedTab", "AreaTab");
+    	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());
     	projectsList = user.getProjectsList(); 
+    	    	
+    	String ret = "createArea";
     	
-    	//Area area = AreaFabric.getArea(session.getAttribute("selectedArea").toString()); 
-    
-	
-		//endDate = newDate;
-    	//System.out.print(title.toString());
-    	project = session.getAttribute("userProject").toString();
-    	if(title != null && description != null) {
-    		AreaBean area = new AreaBean(this.title, this.description, DataProvider.mapProjects.get(session.getAttribute("userProject").toString()), 
-    				this.estimatedTime, this.startDate, this.endDate, this.testersNumber, this.workTime, 
-    				DataProvider.getStates().get(state), DataProvider.getPriorities().get(priority));
-        	DataProvider.saveArea(area);
-        	addActionError("Area created!");
-        	return "created";
+    	if(!Strings.isNullOrEmpty(title)) {
+    		if(!Strings.isNullOrEmpty(this.description)) {
+    			project = session.getAttribute("userProject").toString();
+    	    	
+    	    		AreaBean area = new AreaBean(this.title, this.description, DataProvider.mapProjects.get(session.getAttribute("userProject").toString()), 
+    	    				this.estimatedTime, this.startDate, this.endDate, this.testersNumber, this.workTime, 
+    	    				DataProvider.getStates().get(state), DataProvider.getPriorities().get(priority));
+    	        	DataProvider.saveArea(area);
+    	        	addActionError("Area created!");
+    			
+        		ret = "created";
         	
-    	}else addActionError("Title field cannot be empty");
-
-    	
-    	
-    	return "createArea";
-    }
-
+    	}else addActionError("Description field cannot be empty.");
+    }else addActionError("Title field cannot be empty.");
+	
+		return ret;
+}
 
 
 
