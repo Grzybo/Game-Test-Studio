@@ -63,8 +63,8 @@ public class UserInfoAction  extends ActionSupport {
 	
 	
 	if(oldPassword != null && newPassword1 != null && newPassword2 != null) { 
-        //if(user.getPassword().equals(Hashing.sha256().hashString(oldPassword, StandardCharsets.UTF_8).toString())) {
-		if(user.getPassword().equals(oldPassword)) {	
+        if(user.getPassword().equals(Hashing.sha256().hashString(oldPassword, StandardCharsets.UTF_8).toString())) {
+		//if(user.getPassword().equals(oldPassword)) {	
 			if(newPassword1.equals(newPassword2)) {
         		user.setPassword(Hashing.sha256().hashString(newPassword2, StandardCharsets.UTF_8).toString());
         		DataProvider.updateUser(user, user);

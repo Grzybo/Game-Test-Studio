@@ -64,7 +64,7 @@ public class AccountCreateAction  extends ActionSupport {
     					
     					//String sha256hex = Hashing.sha256().hashString(Utils.generateRandomPassword(), StandardCharsets.UTF_8).toString();
     					String psw = Utils.generateRandomPassword();
-    					
+    					System.out.println(psw); // aby wiedziec haslo 
     					if(!DataProvider.mapUsers.keySet().contains(email)) {
         					UserBean user = new UserBean(firstName, lastName, email, 
         							Hashing.sha256().hashString(psw, StandardCharsets.UTF_8).toString(), // hashowanie hasla 

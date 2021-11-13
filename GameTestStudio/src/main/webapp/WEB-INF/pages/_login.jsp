@@ -19,7 +19,9 @@
     </s:form>
     Admin: admin@admin.com, admin
     <br>
- 	Normal user: donald@disney.com, disney123 
+ 	Tester Manager: donald@disney.com, disney123 
+ 	<br>
+ 	Tester: mickey@disney.com, 123
  	 
  	</div>
 </body>

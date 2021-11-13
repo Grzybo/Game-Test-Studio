@@ -55,7 +55,7 @@ public class LoginAction extends ActionSupport {
             		user = DataProvider.getUserByEmail(this.email); 
             		if(password != "") {
             		
-            			
+            			//System.out.println(Hashing.sha256().hashString(this.password, StandardCharsets.UTF_8).toString());
             			if(user.getPassword().equals(Hashing.sha256().hashString(this.password, StandardCharsets.UTF_8).toString())){
 	            		//if(user.getPassword().equals(this.password)) {
 	            			
