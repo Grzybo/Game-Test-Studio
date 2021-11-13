@@ -52,7 +52,10 @@ public class LoginAction extends ActionSupport {
         	
     		if(match.matches()) {
             	if(DataProvider.mapUsers.containsKey(email)) {
-            		user = DataProvider.getUserByEmail(this.email); 
+            		user = DataProvider.getUserByEmail(this.email);
+            		if(user.getConfirmed()) {
+            			
+            		
             		if(password != "") {
             		
             			//System.out.println(Hashing.sha256().hashString(this.password, StandardCharsets.UTF_8).toString());
@@ -62,6 +65,7 @@ public class LoginAction extends ActionSupport {
 	            			session.setAttribute("loginedUsername", user.getDisplayName());
 	        	    		session.setAttribute("loginedEmail", this.getEmail());
 	        	    		session.setAttribute("userRole", user.getRole().getName());
+	        	    		session.setAttribute("userID", user.getId().toString());
 	        	    		
 	            			if(user.isAdmin()) {
 	        	    			session.setAttribute("admin", "admin");
@@ -78,6 +82,12 @@ public class LoginAction extends ActionSupport {
                     	addActionError("Password cannot be empty.");
                     	ret = "loginError";
                     }
+            		
+            		
+            		}else {
+            			addActionError("Your email adress is not confirmed. Please check your email.");
+            			ret = "loginError";
+            		}
             	}
             	else {
             		addActionError("Account with this email not exist.");

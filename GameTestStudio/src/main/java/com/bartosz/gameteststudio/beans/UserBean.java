@@ -47,7 +47,10 @@ public class UserBean {
         name = "PROJECTS_USERS", 
         joinColumns = { @JoinColumn(name = "FK_USERS_ID") }, 
         inverseJoinColumns = { @JoinColumn(name = "FK_PROJECTS_ID") })
-	private List<ProjectBean> projects; 
+	private List<ProjectBean> projects;  
+	
+	@Column(name = "confirmed") // do sprawdzenia emaila 
+	private Boolean confirmed;
 	
 	
 	public UserBean(String firstName, String lastName, String email, 
@@ -58,6 +61,7 @@ public class UserBean {
 		this.password = password;
 		this.role = role;
 		setProjectsList(projects);
+		this.confirmed = false;
 		
 	} 
 	
@@ -78,7 +82,7 @@ public class UserBean {
 	
 	@Override
 	public String toString() {
-		return " " + this.firstName + " " + this.lastName + " " + this.email;
+		return " " + this.firstName + " " + this.lastName + " " + this.email + " confirmed = "+ this.confirmed;
 	} 
 	
 	public boolean isAdmin() 
@@ -115,7 +119,8 @@ public class UserBean {
 		this.email = user.email; 
 		this.password = user.password;
 		this.role = user.role;
-		this.projects = user.projects; 
+		this.projects = user.projects;
+		this.confirmed = user.confirmed; 
 	}
 
 	public void setId(Long id) {
@@ -187,4 +192,22 @@ public class UserBean {
 		for(String p : projects) {list.add(DataProvider.mapProjects.get(p));}
 		this.projects = list;
 	}
+
+
+
+
+	public Boolean getConfirmed() {
+		return confirmed;
+	}
+
+
+
+
+	public void setConfirmed(Boolean confirmed) {
+		this.confirmed = confirmed;
+	} 
+	
+	
+	
+	
 }

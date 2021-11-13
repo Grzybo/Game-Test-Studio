@@ -2,6 +2,7 @@ package com.bartosz.gameteststudio.action;
  
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
+import com.bartosz.gameteststudio.exceptions.GSException;
 import com.bartosz.gameteststudio.utils.Utils;
 import com.google.common.hash.Hashing;
 
@@ -36,7 +37,7 @@ public class UserInfoAction  extends ActionSupport {
     private String newPassword2;
  
     @Override
-    public String execute() {
+    public String execute() throws NumberFormatException, GSException {
     	
 	if(Utils.isNotLogged()) {System.out.print(" NOT LOGGED ");  return "logout"; }
     	
@@ -44,8 +45,9 @@ public class UserInfoAction  extends ActionSupport {
 	HttpServletRequest request = ServletActionContext.getRequest();
 	HttpSession session = request.getSession();  
 	
-	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());
-
+	//UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());
+	UserBean user = DataProvider.getUserByID(Long.parseLong(session.getAttribute("userID").toString())); //TODO tu zmiana
+	
 	
 	if(this.firstName != null) {
 		user.setFirstName(firstName); 

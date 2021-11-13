@@ -18,6 +18,7 @@ import com.bartosz.gameteststudio.beans.ProjectBean;
 import com.bartosz.gameteststudio.beans.TestBean;
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
+import com.bartosz.gameteststudio.exceptions.GSException;
 import com.bartosz.gameteststudio.utils.Utils;
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -47,7 +48,7 @@ public class ProjectAction  extends ActionSupport {
 	private String testSort = request.getParameter((new ParamEncoder("testTable")).encodeParameterName(TableTagParameters.PARAMETER_SORT));
 	private String areaSort = request.getParameter((new ParamEncoder("areaTable")).encodeParameterName(TableTagParameters.PARAMETER_SORT));
 
-	private UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString()); 
+	private  UserBean user; // = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString()); 
 
 	private String itemID;
     private String title; 
@@ -64,8 +65,10 @@ public class ProjectAction  extends ActionSupport {
 	
     
 	 @Override
-	    public String execute() {
-		
+	    public String execute() throws NumberFormatException, GSException {
+		 user = DataProvider.getUserByID(Long.parseLong(session.getAttribute("userID").toString())); //TODO tu tez 
+		 
+		 
 		if (!user.getRole().getName().equals("Tester Manager")) {
 			addActionError("Your Account do not have permission to perform this action.");
 		}
@@ -102,9 +105,12 @@ public class ProjectAction  extends ActionSupport {
 				if(session.getAttribute("userProject") != null) {
 					selectedProject = session.getAttribute("userProject").toString();
 				}
-				else {
+				else if(projectsList.size() == 0) {
+					addActionError("Your Account is not added to any project yet. Contact system administrator.");
+								
+				}else {
 					selectedProject = projectsList.get(0);
-					session.setAttribute("userProject", selectedProject);			
+					session.setAttribute("userProject", selectedProject);
 				} 
 			}
 			else {

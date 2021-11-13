@@ -14,6 +14,7 @@
         <property name="show_sql">true</property>
         <property name="hbm2ddl.auto">none</property>
        	<property name="connection.pool_size">1000</property>
+       	<property name="hibernate.enable_lazy_load_no_trans">true</property>
         <mapping class="com.bartosz.gameteststudio.beans.ProjectBean"></mapping>
         <mapping class="com.bartosz.gameteststudio.beans.StateBean"></mapping>
         <mapping class="com.bartosz.gameteststudio.beans.RoleBean"></mapping>

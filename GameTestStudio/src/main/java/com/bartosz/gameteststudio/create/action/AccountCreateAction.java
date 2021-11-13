@@ -16,6 +16,7 @@ import org.apache.struts2.convention.annotation.Result;
 import com.bartosz.gameteststudio.beans.ProjectBean;
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
+import com.bartosz.gameteststudio.exceptions.GSException;
 import com.bartosz.gameteststudio.repositories.StateRepository;
 import com.bartosz.gameteststudio.utils.Mailer;
 import com.bartosz.gameteststudio.utils.Utils;
@@ -47,7 +48,7 @@ public class AccountCreateAction  extends ActionSupport {
     private List<String> permissionsList = new ArrayList<String>(DataProvider.mapPermissions.keySet());
     
     @Override
-    public String execute() {
+    public String execute() throws GSException {
     	
     	HttpServletRequest request = ServletActionContext.getRequest();
         HttpSession session = request.getSession();  
@@ -69,8 +70,8 @@ public class AccountCreateAction  extends ActionSupport {
         					UserBean user = new UserBean(firstName, lastName, email, 
         							Hashing.sha256().hashString(psw, StandardCharsets.UTF_8).toString(), // hashowanie hasla 
         							DataProvider.mapRoles.get(role), projects); 
-        	                Mailer.sendNewAccountMail(user, psw);
         	        		DataProvider.saveUser(user);
+        	        		Mailer.sendNewAccountMail(DataProvider.getUserByEmail(email), psw);
         	        		ret = "created";
         				}
         	    		addActionError("Acccount with this email already exists.");
