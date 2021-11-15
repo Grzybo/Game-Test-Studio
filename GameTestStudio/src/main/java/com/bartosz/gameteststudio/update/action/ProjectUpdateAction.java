@@ -3,17 +3,13 @@ package com.bartosz.gameteststudio.update.action;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
 import com.bartosz.gameteststudio.beans.ProjectBean;
-import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
-import com.bartosz.gameteststudio.repositories.StateRepository;
 import com.google.common.base.Strings;
 import com.opensymphony.xwork2.ActionSupport;
  

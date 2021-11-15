@@ -93,8 +93,8 @@ public class BugEditAction  extends ActionSupport {
     	
     	platformList = bug.getTest().getArea().getProject().getPlatformsStringList();
     	
-    	title = bug.getTitle(); 
-    	account = bug.getUser().getEmail();
+    	title = bug.getTitle();
+    	if(bug.getUser() != null) account = bug.getUser().getEmail();
     	description = bug.getDescription(); 
     	reproSteps = bug.getReproSteps();
     	state = bug.getState().getName(); 

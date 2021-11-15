@@ -33,9 +33,7 @@ public class AccountDeleteAction  extends ActionSupport {
     private String searchEmail;
     private List<String> rolesList = new ArrayList<String>(DataProvider.mapRoles.keySet());
     private List<String>  projectsList = new ArrayList<String>(DataProvider.mapProjects.keySet());
-    private List<ProjectBean> pL = new ArrayList<ProjectBean>();
-    private List<String> permissionsList = new ArrayList<String>(DataProvider.mapPermissions.keySet());
-    
+    private List<ProjectBean> pL = new ArrayList<ProjectBean>();    
     
     @Override
     public String execute() throws NumberFormatException, GSException {
@@ -139,13 +137,4 @@ public class AccountDeleteAction  extends ActionSupport {
 	public void setpL(List<ProjectBean> pL) {
 		this.pL = pL;
 	}
-
-	public List<String> getPermissionsList() {
-		return permissionsList;
-	}
-
-	public void setPermissionsList(List<String> permissionsList) {
-		this.permissionsList = permissionsList;
-	}
-    
 }

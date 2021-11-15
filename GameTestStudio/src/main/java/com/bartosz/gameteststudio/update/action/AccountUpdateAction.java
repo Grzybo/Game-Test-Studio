@@ -2,8 +2,6 @@ package com.bartosz.gameteststudio.update.action;
  
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
@@ -12,8 +10,6 @@ import com.bartosz.gameteststudio.beans.ProjectBean;
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
-import com.bartosz.gameteststudio.utils.Mailer;
-import com.bartosz.gameteststudio.utils.Utils;
 import com.google.common.base.Strings;
 import com.opensymphony.xwork2.ActionSupport;
  
@@ -37,8 +33,6 @@ public class AccountUpdateAction  extends ActionSupport {
     private List<String> rolesList = new ArrayList<String>(DataProvider.mapRoles.keySet());
     private List<String>  projectsList = new ArrayList<String>(DataProvider.mapProjects.keySet());
     private List<ProjectBean> pL = new ArrayList<ProjectBean>();
-    private List<String> permissionsList = new ArrayList<String>(DataProvider.mapPermissions.keySet());
-    
     
     @Override
     public String execute() throws NumberFormatException, GSException {
@@ -57,6 +51,7 @@ public class AccountUpdateAction  extends ActionSupport {
 			 	newUser.setId(user.getId());
 			 	newUser.setEmail(user.getEmail());
 			 	newUser.setPassword(user.getPassword());
+			 	newUser.setConfirmed(user.getConfirmed());
 			 	
 			 	DataProvider.updateUser(user, newUser);
 					
@@ -151,12 +146,4 @@ public class AccountUpdateAction  extends ActionSupport {
 		this.pL = pL;
 	}
 
-	public List<String> getPermissionsList() {
-		return permissionsList;
-	}
-
-	public void setPermissionsList(List<String> permissionsList) {
-		this.permissionsList = permissionsList;
-	}
-    
 }

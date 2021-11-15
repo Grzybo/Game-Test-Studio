@@ -51,8 +51,9 @@ public class ProjectEditAction  extends ActionSupport {
 		work_time = project.getWorkTime(); 
 		startDate = project.getStartDate();
 		endDate = project.getEndDate();
-		state = project.getState().getName();
-		
+		state = project.getState().getName(); 
+
+
     	return "editProject";
     }
 

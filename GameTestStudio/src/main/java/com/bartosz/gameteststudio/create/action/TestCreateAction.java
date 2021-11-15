@@ -12,7 +12,6 @@ import org.apache.struts2.convention.annotation.Result;
 import com.bartosz.gameteststudio.beans.PlatformBean;
 import com.bartosz.gameteststudio.beans.ProjectBean;
 import com.bartosz.gameteststudio.beans.TestBean;
-import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
 import com.google.common.base.Strings;
@@ -96,14 +95,15 @@ public class TestCreateAction  extends ActionSupport {
     	
     	if(!Strings.isNullOrEmpty(title)) {
     		if(!Strings.isNullOrEmpty(this.description)) {
-    			TestBean test = new TestBean(title, DataProvider.mapUsers.get(account), description,
-        				DataProvider.mapAreas.get(area), DataProvider.mapResults.get(result),
-        				estimatedTime, startDate, endDate, testersNumber, workTime, DataProvider.getStates().get(state),
-        				DataProvider.getPriorities().get(priority), selectedPlatforms, version , DataProvider.mapBuilds.get(build));
+    			if(!Strings.isNullOrEmpty(this.area)) {
+    				TestBean test = new TestBean(title, DataProvider.mapUsers.get(account), description,
+            				DataProvider.mapAreas.get(area), DataProvider.mapResults.get(result),
+            				estimatedTime, startDate, endDate, testersNumber, workTime, DataProvider.getStates().get(state),
+            				DataProvider.getPriorities().get(priority), selectedPlatforms, version , DataProvider.mapBuilds.get(build));
 
-            	DataProvider.saveTest(test);
-            	ret = "created";
-        		
+                	DataProvider.saveTest(test);
+                	ret = "created";
+    			}else addActionError("Test has to be assigned to area.");
         	}else addActionError("Description field cannot be empty.");
     	}else addActionError("Title field cannot be empty.");
 

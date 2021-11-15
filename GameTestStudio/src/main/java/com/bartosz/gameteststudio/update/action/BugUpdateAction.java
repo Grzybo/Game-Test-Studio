@@ -17,7 +17,6 @@ import com.bartosz.gameteststudio.beans.AttachmentBean;
 import com.bartosz.gameteststudio.beans.BugBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
-import com.bartosz.gameteststudio.repositories.AttachmentRepository;
 import com.google.common.base.Strings;
 import com.opensymphony.xwork2.ActionSupport;
  
@@ -94,23 +93,31 @@ public class BugUpdateAction  extends ActionSupport {
     	
     	platformList = bug.getTest().getArea().getProject().getPlatformsStringList();
     	
-    	
+    	if(bug.getAttachment() != null) {
+    		att = bug.getAttachment();
+    		fileUploadFileName = bug.getAttachment().getFileName();
+        	fileUploadContentType = bug.getAttachment().getFileType();
+        	filePath = bug.getAttachment().getFilePath(); 
+        	fileID = bug.getAttachment().getId().toString();
+    	}
     	
     	if(!Strings.isNullOrEmpty(title)) {
     		if(!Strings.isNullOrEmpty(this.description)) {
     			if(!Strings.isNullOrEmpty(this.reproSteps)) {
-    				newBug(bug);
-    				if(fileUpload != null) {
-    		    		
-    		    		createAttachment();
-    		 			newBug.setAttachment(DataProvider.getAttchmentByID(att.getId())); 
-    		 			fileID = att.getId().toString();
-    		    	}
-    				
-    				DataProvider.updateBug(bug, newBug);
-    				addActionError("Bug Updated!"); 
-    				return "update";
-            		
+    				if(version != null) {
+    					newBug(bug);
+        				if(fileUpload != null) {	
+        		    		createAttachment();
+        		 			newBug.setAttachment(DataProvider.getAttchmentByID(att.getId())); 
+        		 			fileID = att.getId().toString();
+        		    	}
+        				DataProvider.updateBug(bug, newBug);
+        				addActionError("Bug Updated!"); 
+        				return "update";
+    				}else {
+                		addActionError("Repro Steps field cannot be empty.");
+                		return "update";
+                	}
             	}else {
             		addActionError("Repro Steps field cannot be empty.");
             		return "update";

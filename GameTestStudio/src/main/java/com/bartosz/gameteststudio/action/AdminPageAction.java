@@ -43,11 +43,10 @@ public class AdminPageAction  extends ActionSupport {
     	HttpServletRequest request = ServletActionContext.getRequest();
         HttpSession session = request.getSession();
     	
-        
-        
         DataProvider.updateProjectMaps();
         projectObjList = new ArrayList<ProjectBean>(DataProvider.mapProjects.values());
     	
+        setTabs();
     	  
     	  if(session.getAttribute("loginedUsername") == null ){
     		  return "login";
@@ -57,7 +56,6 @@ public class AdminPageAction  extends ActionSupport {
     		  return "admin";
     	  } 
     	  
-    	  setTabs();
     	  
     	return "login";
     }

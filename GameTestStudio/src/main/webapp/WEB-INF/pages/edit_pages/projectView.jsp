@@ -9,7 +9,6 @@
 		 <div class = "content">
 		<s:actionerror />
     	<s:form action="/updateProject" > 
-    	<s:actionerror />
     	<s:hidden name="itemID"/>
         	<s:textfield class="text" name="title" key="Title" size="100%" />
         	<s:textarea class="text" name="description" key="Description" rows="4" cols="61" size="100%" />

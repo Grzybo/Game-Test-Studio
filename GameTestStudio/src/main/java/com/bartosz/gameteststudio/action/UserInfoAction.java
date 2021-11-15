@@ -46,7 +46,7 @@ public class UserInfoAction  extends ActionSupport {
 	HttpSession session = request.getSession();  
 	
 	//UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());
-	UserBean user = DataProvider.getUserByID(Long.parseLong(session.getAttribute("userID").toString())); //TODO tu zmiana
+	UserBean user = DataProvider.getUserByID(Long.parseLong(session.getAttribute("userID").toString()));
 	
 	
 	if(this.firstName != null) {

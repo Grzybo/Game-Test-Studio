@@ -12,7 +12,6 @@ import com.bartosz.gameteststudio.beans.AttachmentBean;
 import com.bartosz.gameteststudio.beans.BugBean;
 import com.bartosz.gameteststudio.beans.BuildBean;
 import com.bartosz.gameteststudio.beans.IssueTypeBean;
-import com.bartosz.gameteststudio.beans.PermissionBean;
 import com.bartosz.gameteststudio.beans.PlatformBean;
 import com.bartosz.gameteststudio.beans.PriorityBean;
 import com.bartosz.gameteststudio.beans.ProjectBean;
@@ -44,27 +43,16 @@ import com.bartosz.gameteststudio.repositories.UserRepository;
 
 public class DataProvider {
 
-	
 	protected static final Logger log = Logger.getLogger(DataProvider.class.getName());
-	
-// ##################################################################################################################################################################################################
-// Permissions
-// ##################################################################################################################################################################################################
-	/**
-	 * Słownik uprawnień. 
-	 */
-	public static  Map<String, PermissionBean> mapPermissions = new LinkedHashMap<>() {
-		private static final long serialVersionUID = 1L;
-		{
-			put("Read", new PermissionBean("Read"));
-			put("Edit", new PermissionBean("Edit"));
-			put("Create", new PermissionBean("Create"));
-		}
-	}; 
+
 // ##################################################################################################################################################################################################
 // Results
 // ##################################################################################################################################################################################################
 	
+	/**
+	 * Metoda zwraca listę rezultatów pobraną z bazy danych.
+	 * @return
+	 */
 	public static List<ResultBean> getAllResults() {
 		List<ResultBean> lstResult = ResultRepository.findAll();
 		return lstResult;
@@ -79,18 +67,16 @@ public class DataProvider {
 			for(ResultBean rb : getAllResults()) {
 				put(rb.getName(), rb);
 			}
-			/**
-			put("Positive", new ResultBean("Positive"));
-			put("Negative", new ResultBean("Negative"));
-			put("Blocked", new ResultBean("Blocked")); 
-			 */
-			
 		}
 	}; 
 // ##################################################################################################################################################################################################
 // Roles
 // ##################################################################################################################################################################################################
 	
+	/**
+	 * Metoda zwraca listę ról pobraną z bazy danych.
+	 * @return
+	 */
 	public static List<RoleBean> getAllRoles() {
 		List<RoleBean> lstResult = RoleRepository.findAll();
 		return lstResult;
@@ -105,19 +91,16 @@ public class DataProvider {
 			for(RoleBean rb : getAllRoles()) {
 				put(rb.getName(), rb);
 			}			
-			/**
-			put("Tester", new RoleBean("Tester"));
-			put("Developer", new RoleBean("Developer"));
-			put("Tester Manager", new RoleBean("Tester Manager"));
-			put("Developer Manager", new RoleBean("Developer Manager"));
-            put("Administrator", new RoleBean("Administrator")); 
-			 * 
-			 */
 		}
 	}; 
 // ##################################################################################################################################################################################################
 // Build
 // ##################################################################################################################################################################################################
+	
+	/**
+	 * Metoda zwraca listę buildów pobraną z bazy danych.
+	 * @return
+	 */
 	public static List<BuildBean> getAllBuilds() {
 		List<BuildBean> lstResult = BuildRepository.findAll();
 		return lstResult;
@@ -146,11 +129,17 @@ public class DataProvider {
 // Platforms 
 // ##################################################################################################################################################################################################	
 	
+	/**
+	 * Metoda zwraca listę platform pobraną z bazy danych.
+	 * @return
+	 */
 	public static List<PlatformBean> getAllPlatforms() {
 		List<PlatformBean> lstResult = PlatformRepository.findAll();
 		return lstResult;
 	}
-	
+	/**
+	 * Słownik platform.
+	 */
 	public static Map<String, PlatformBean> mapPlatforms = new LinkedHashMap<>() {
 		private static final long serialVersionUID = 1L;
 		{
@@ -169,7 +158,12 @@ public class DataProvider {
 			 */
 		}
 	}; 
-	
+	/**
+	 * Metoda zwraca platformę pobraną z bazy danych o padanej nazwie. 
+	 * @param title
+	 * @return
+	 * @throws GSException
+	 */
 	public static PlatformBean getPlatformByTitle(String title) throws GSException {
 		if (title != null ) {
 			PlatformBean db = PlatformRepository.findByName(title); 
@@ -183,6 +177,13 @@ public class DataProvider {
 // ##################################################################################################################################################################################################
 // Attachment 
 // ##################################################################################################################################################################################################
+	
+	/**
+	 * Metoda zwraca obiekt załączonego pliku pobranego z bazy danych o podanym id.
+	 * @param id
+	 * @return
+	 * @throws GSException
+	 */
 	public static AttachmentBean getAttchmentByID(Long id) throws GSException {
 		if (id != null && id.intValue() > 0) {
 			AttachmentBean db = AttachmentRepository.findById(id); 
@@ -193,6 +194,10 @@ public class DataProvider {
 		throw new GSException(" Attachment id is null or out of range.");
 	} 
 	
+	/**
+	 * Metoda zapisuje podany załącznik w bazie danych.
+	 * @param att
+	 */
 	public static void saveAttachment(AttachmentBean att) {
 		if (att != null) {
 			AttachmentRepository.save(att);
@@ -200,6 +205,10 @@ public class DataProvider {
 			log.error("Attachment is null.");
 	} 
 	
+	/**
+	 * Metoda usuwa z bazy danych podany załącznik oraz usuwa go z serwera.
+	 * @param att
+	 */
 	public static void deleteAttachment(AttachmentBean att) {
 		if (att != null) {	
 			AttachmentRepository.delete(att);
@@ -209,6 +218,11 @@ public class DataProvider {
 			log.error("Attachment is null.");
 	}
 	
+	/**
+	 * Metoda zmienia nazwę załącznika w bazie danych.
+	 * @param old
+	 * @param newName
+	 */
 	public static void updateAttachmentName(AttachmentBean old, String newName) {
 		if (old != null && newName != null) {
 			AttachmentRepository.updateName(old, newName);
@@ -220,7 +234,10 @@ public class DataProvider {
 // ##################################################################################################################################################################################################
 	
 	
-	
+	/**
+	 * Metoda zapisuje projekt w bazie danych oraz dodaje go do słowników.
+	 * @param project
+	 */
 	public static void saveProject(ProjectBean project) {
 		if (project != null) {
 			//ProjectDbTest db = new ProjectDbTest (project.getTitle(), project.getDescription(), project.getEstimatedTime(), project.getWorkTime(), project.getStartDate(), project.getEndDate(), project.getTestersNumber());	
@@ -231,6 +248,10 @@ public class DataProvider {
 			log.error("Project is null.");
 	} 
 	
+	/**
+	 * Metoda usuwa projekt z bazy danych oraz ze słowników.
+	 * @param project
+	 */
 	public static void deleteProject(ProjectBean project) {
 		if (project != null) {	
 			ProjectRepository.delete(project);
@@ -240,6 +261,12 @@ public class DataProvider {
 			log.error("Project is null.");
 	} 
 	
+	/**
+	 * Metoda aktualizuje projekt w bazie danych. W argumentach przyjmuje obiekt projektu który ma być zaktualizowany,
+	 * i obiekt projektu na który ma zostać podmieniony. 
+	 * @param oldProject
+	 * @param newProject
+	 */
 	public static void updateProject(ProjectBean oldProject, ProjectBean newProject) {
 		if (oldProject != null && newProject != null) {
 			mapProjectsId.replace(oldProject.getId(), oldProject.getTitle(), newProject.getTitle());
@@ -250,107 +277,104 @@ public class DataProvider {
 			log.error("Project is null.");
 	}
 	
+	/**
+	 * Metoda zwraca obiekt projektu o podanym id. 
+	 * @param id
+	 * @return
+	 * @throws GSException
+	 */
 	public static ProjectBean getProjectByID(Long id) throws GSException {
 		if (id != null && id.intValue() > 0) {
 			ProjectBean db = ProjectRepository.findById(id); 
-		//	ProjectBean bean = new ProjectBean(db.getTitle(), db.getDescription(), db.getEstimatedTime(), db.getWorkTime(), 
-			//									db.getStartDate(), db.getEndDate(), db.getTestersNumber()); 
 			return db;
 		} else
 			log.error(" Project id is null or out of range."); 
-		
 		throw new GSException("Project id is null or out of range.");
 	} 
 	
+	/**
+	 * Metoda zwraca obiekt projektu o podanym tytule.
+	 * @param title
+	 * @return
+	 * @throws GSException
+	 */
 	public static ProjectBean getProjectByTitle(String title) throws GSException {
 		if (title != null ) {
 			ProjectBean db = ProjectRepository.findByTitle(title); 
 			return db;
 		} else
 			log.error(" Project id is null."); 
-		
 		throw new GSException("Project id is null or out of range.");
 	}
 	
+	/**
+	 * Metoda zwraca listę obiektów wszystkich projektów.
+	 * @return
+	 */
 	public static List<ProjectBean> getAllProjects() {
 		List<ProjectBean> lstResult = ProjectRepository.findAll();
-		//List<ProjectDbTest> dblist = ProjectRepository.findAllProjects();
-		//for(ProjectDbTest db : dblist) {
-		//	lstResult.add(new ProjectBean(db.getTitle(), db.getDescription(), db.getEstimatedTime(), db.getWorkTime(), 
-			//				db.getStartDate(), db.getEndDate(), db.getTestersNumber()));
-		//}
 		return lstResult;
 	}
 	
-	
-	
+	/**
+	 * Słownik projektów z tytułami jako kluczem.
+	 */
+	public static  Map<String, ProjectBean> mapProjects = new LinkedHashMap<>() {
+		private static final long serialVersionUID = 1L;
+		{
+			for(ProjectBean pb : getAllProjects()) {
+				put(pb.getTitle(), pb);
+			}		
+		}
+	}; 
+		
+	/**
+	 * Słownik projektów z id jako kluczem.
+	 */
+	public static  Map<Long, String> mapProjectsId = new LinkedHashMap<>() {
+		private static final long serialVersionUID = 1L;
+		{
+			for(ProjectBean pb : getAllProjects()) {
+				put(pb.getId(), pb.getTitle());
+			} 
+		} 
+	};
+		
+	/**
+	 * Metoda zwracająca obiekt ProjectBean po id.  
+	 * @param id
+	 * @return
+	 */
+	public static ProjectBean getProjectById(int id) {
+		return mapProjects.get(mapProjectsId.get((long)id));
+	}
 	
 	/**
-		 * Słownik projektów.
-		 */
-		public static  Map<String, ProjectBean> mapProjects = new LinkedHashMap<>() {
-			private static final long serialVersionUID = 1L;
-			{
-				for(ProjectBean pb : getAllProjects()) {
-					put(pb.getTitle(), pb);
-				}
-				/**
-				 * 
-				put("FIFA 21", new ProjectBean("FIFA 21", "New features in FIFA 21...", 700, 900, "2020-01-01", "2020-10-11", 50 , getStates().get("Closed"), 
-						(long)20, Arrays.asList(mapPlatforms.get("PlayStation 4"), mapPlatforms.get("PlayStation 5"))));
-				put("FIFA 22", new ProjectBean("FIFA 22", "New features in FIFA 22...", 500, 0, "2021-10-01", null, 10 , getStates().get("New"), (long)10, 
-						Arrays.asList(mapPlatforms.get("PlayStation 4"), mapPlatforms.get("PlayStation 5"),
-								mapPlatforms.get("Xbox Series S"), mapPlatforms.get("Xbox Series X")))) ;
-				put("NBA2K 22", new ProjectBean("NBA2K 22", "New features in NBA2K 22...", 600, 45, "2021-10-01", null, 100 , getStates().get("Active"), 
-						(long)30,Arrays.asList(mapPlatforms.get("PlayStation 4"), mapPlatforms.get("PlayStation 5"),
-						mapPlatforms.get("Xbox Series S"), mapPlatforms.get("Xbox Series X"))));
-				 */
-			}
-		}; 
-		
-		/**
-		 * Słownik Id projektów.
-		 */
-		public static  Map<Long, String> mapProjectsId = new LinkedHashMap<>() {
-			private static final long serialVersionUID = 1L;
-			{
-				for(ProjectBean pb : getAllProjects()) {
-					put(pb.getId(), pb.getTitle());
-				} 
-				//put((long)20, "FIFA 21");
-			} 
-		};
-		
-		/**
-		 * Metoda zwracająca obiekt ProjectBean po id.  
-		 * @param id
-		 * @return
-		 */
-		public static ProjectBean getProjectById(int id) {
-			return mapProjects.get(mapProjectsId.get((long)id));
+	 * Metoda aktualizuje słowniki projektów.
+	 */
+	public static void updateProjectMaps() {
+		mapProjectsId.clear();
+		mapProjects.clear();
+		for(ProjectBean b : getAllProjects()) {
+			mapProjectsId.put(b.getId() , b.getTitle());
+			mapProjects.put(b.getTitle(), b);
 		}
+	}
 		
-		public static void updateProjectMaps() {
-			mapProjectsId.clear();
-			mapProjects.clear();
-			for(ProjectBean b : getAllProjects()) {
-				mapProjectsId.put(b.getId() , b.getTitle());
-				mapProjects.put(b.getTitle(), b);
-			}
-			
-		}
-		
-		// (long)DataProvider.mapProjectsId.keySet().size() + 1 
 // ##################################################################################################################################################################################################
 // Priorities 
 // ##################################################################################################################################################################################################
 	
+	/**
+	 * Metoda zwraca listę obiektów priorytetów pobraną z bazy danych.	
+	 * @return
+	 */
 	public static List<PriorityBean> getAllPriorities() {
 		List<PriorityBean> lstResult = PriorityRepository.findAll();
 		return lstResult;
 	}
 			
-		/**
+	/**
 	 * Pobiera słowink priorytetów. (PriorityBean)
 	 * @return
 	 */
@@ -364,11 +388,20 @@ public class DataProvider {
 // ##################################################################################################################################################################################################
 // State
 // ##################################################################################################################################################################################################
+	
+	/**
+	 * Metoda zwraca listę obiektów stanów pobraną z bazy danych.	
+	 * @return
+	 */
 	public static List<StateBean> getAllStates() {
 		List<StateBean> lstResult = StateRepository.findAllStates();
 		return lstResult;
 	}
 
+	/**
+	 * Pobiera słownik stanów. 
+	 * @return
+	 */
 	public static Map<String, StateBean> getStates(){
 		Map<String, StateBean> mapStates = new LinkedHashMap<>();
 		for(StateBean sb : getAllStates()) {
@@ -379,13 +412,18 @@ public class DataProvider {
 // ##################################################################################################################################################################################################
 // Issue
 // ##################################################################################################################################################################################################
+	
+	/**
+	 * Zwraca listę typów błędów 
+	 * @return
+	 */
 	public static List<IssueTypeBean> getAllIssues() {
 		List<IssueTypeBean> lstResult = IssueRepository.findAll();
 		return lstResult;
 	}
 
 	/**
-	 * Słownik typów błędów.
+	 * Zwraca słownik typów błędów.
 	 * @return
 	 */
 	public static Map<String, IssueTypeBean> getIssues(){
@@ -398,11 +436,22 @@ public class DataProvider {
 // ##################################################################################################################################################################################################
 // Area
 // ##################################################################################################################################################################################################
+	
+	/**
+	 * Zwraca listę obiektów obszarów z bazy danych.
+	 * @return
+	 */
 	public static List<AreaBean> getAllAreas() {
 		List<AreaBean> lstResult = AreaRepository.findAll();
 		return lstResult;
 	}
 	
+	/**
+	 * Zwraca obiekt obszaru o podanym id.
+	 * @param id
+	 * @return
+	 * @throws GSException
+	 */
 	public static AreaBean getAreaByID(Long id) throws GSException {
 		if (id != null && id.intValue() > 0) {
 			AreaBean a = AreaRepository.findById(id); 
@@ -412,6 +461,12 @@ public class DataProvider {
 		throw new GSException("Area id is null or out of range.");
 	} 
 	
+	/**
+	 * Zwraca obiekt obszaru o podanym w argumencie tytule.
+	 * @param title
+	 * @return
+	 * @throws GSException
+	 */
 	public static AreaBean getAreaByTitle(String title) throws GSException {
 		if (title != null ) {
 			AreaBean db = AreaRepository.findByTitle(title); 
@@ -422,6 +477,10 @@ public class DataProvider {
 		throw new GSException("Area is null.");
 	}
 	
+	/**
+	 * Zapisuje obszar w bazie danych.
+	 * @param area
+	 */
 	public static void saveArea(AreaBean area) {
 		if (area != null) {
 			AreaRepository.save(area);
@@ -431,6 +490,10 @@ public class DataProvider {
 			log.error("Area is null.");
 	}  
 	
+	/**
+	 * Usuwa obszar z bazy danych.
+	 * @param area
+	 */
 	public static void deleteArea(AreaBean area) {
 		if (area != null) {
 			AreaRepository.delete(area);
@@ -440,6 +503,12 @@ public class DataProvider {
 			log.error("Area is null.");
 	} 
 	
+	/**
+	 * Metoda aktualizuje obszar w bazie danych. W argumentach przyjmuje obiekt obszaru który ma być zaktualizowany,
+	 * i obiekt obzasu na który ma zostać podmieniony. 
+	 * @param old
+	 * @param newArea
+	 */
 	public static void updateArea(AreaBean old, AreaBean newArea) {
 		if (old != null && newArea != null) {
 			mapAreasId.replace(old.getId(), old.getTitle(), newArea.getTitle());
@@ -462,23 +531,6 @@ public class DataProvider {
 			for(AreaBean sb : getAllAreas()) {
 				put(sb.getTitle(), sb);
 			}
-			/**
-			put("Stadiums", new AreaBean((long)10, "Stadiums", "New Stadiums...", 
-					mapProjects.get("FIFA 22"), 100, "2020-01-01", "2020-10-11", 30, 6, 
-					getStates().get("Active"), getPriorities().get("Important")));
-			put("Goalkeepers", new AreaBean((long)2, "Goalkeepers", "New Goalkeepers Models...", 
-					mapProjects.get("FIFA 22"), 150, "2020-01-01", "2020-10-11", 60, 40, 
-					getStates().get("Active") , getPriorities().get("Critical")));
-			put("Gameplay Modes", new AreaBean((long)5,"Gameplay Modes", "New Gameplay Modes...", mapProjects.get("FIFA 22"), 550, "2020-01-01", "2020-10-11", 50, 100, 
-					getStates().get("Active") , getPriorities().get("Very Important")));
-			put("Cinematics", new AreaBean((long)6,"Cinematics", "Cinematics...", mapProjects.get("FIFA 22"), 550, "2020-01-01", "2020-10-11", 50, 100, 
-					getStates().get("Active") ,getPriorities().get("Very Important")));
-			put("Players", new AreaBean((long)3,"Players", "New Players Models...", mapProjects.get("NBA2K 22"), 550, "2020-01-01", "2020-10-11", 50, 100, 
-					getStates().get("New") , getPriorities().get("Very Important")));
-			put("Teams", new AreaBean((long)4,"Teams", "New Teams...", mapProjects.get("NBA2K 22"), 550, "2020-01-01", "2020-10-11", 50, 100, 
-					getStates().get("Closed") , getPriorities().get("Very Important"))); 
-			 */
-			
 		}
 	};  
 	
@@ -489,29 +541,9 @@ public class DataProvider {
 	public static Map<Long, String> mapAreasId = new LinkedHashMap<>() {
 		private static final long serialVersionUID = 1L;
 		{
-			
 			for(AreaBean sb : getAllAreas()) {
 				put(sb.getId(), sb.getTitle());
 			}
-			/**
-			put((long)10, "Stadiums");
-			 
-			put((long)2, "Goalkeepers");
-			put((long)3, "Players");
-			put((long)4, "Teams");
-			put((long)5, "Gameplay Modes");
-			put((long)6, "Cinematics"); 
-			 */
-			
-		}	
-	}; 
-	
-	public static Map<Long, AreaBean> mapAreasObj = new LinkedHashMap<>() {
-		private static final long serialVersionUID = 1L;
-		{
-			for(AreaBean sb : getAllAreas()) {
-				put(sb.getId(), sb);
-			}			
 		}	
 	}; 
 	
@@ -524,6 +556,9 @@ public class DataProvider {
 		return mapAreas.get(mapAreasId.get((long)id)); 	
 	} 
 	
+	/**
+	 * Aktualizuje słowniki obszarów.
+	 */
 	public static void updateAreaMaps() {
 		mapAreasId.clear();
 		mapAreas.clear();
@@ -537,483 +572,366 @@ public class DataProvider {
 // User 
 // ##################################################################################################################################################################################################
 	
-		public static List<UserBean> getAllUsers() {
-			List<UserBean> lstResult = UserRepository.findAll();
-			return lstResult;
-		}
-
-		public static UserBean getUserByID(Long id) throws GSException {
-			if (id != null && id.intValue() > 0) {
-				UserBean db = UserRepository.findById(id); 
-				return db;
-			} else
-				log.error(" User id is null or out of range."); 
-			throw new GSException("Project id is null or out of range.");
-		} 
+	/**
+	 * Zwraca listę obiektów użytkowników pobraną z bazy danych.
+	 * @return
+	 */
+	public static List<UserBean> getAllUsers() {
+		List<UserBean> lstResult = UserRepository.findAll();
+		return lstResult;
+	}
+	
+	/**
+	 * Zwraca obiekt użytkownika o podanym id. 
+	 * @param id
+	 * @return
+	 * @throws GSException
+	 */
+	public static UserBean getUserByID(Long id) throws GSException {
+		if (id != null && id.intValue() > 0) {
+			UserBean db = UserRepository.findById(id); 
+			return db;
+		} else
+			log.error(" User id is null or out of range."); 
+		throw new GSException("Project id is null or out of range.");
+	} 
+	
+	/**
+	 * Zwraca obiekt użytkownika o podanym emailu.
+	 * @param title
+	 * @return
+	 * @throws GSException
+	 */
+	public static UserBean getUserByEmail(String title) throws GSException {
+		if (title != null ) {
+			UserBean db = UserRepository.findByEmail(title); 
+			return db;
+		} else
+			log.error(" User id is null."); 
 		
-		public static UserBean getUserByEmail(String title) throws GSException {
-			if (title != null ) {
-				UserBean db = UserRepository.findByEmail(title); 
-				return db;
-			} else
-				log.error(" User id is null."); 
+		throw new GSException("User is null.");
+	}
+	
+	/**
+	 * Zapisuje danego użytkownika w bazie danych.
+	 * @param user
+	 */
+	public static void saveUser(UserBean user) {
+		if (user != null) {
+			UserRepository.save(user);
+			mapUsers.put(user.getEmail(), user);
+			mapUsersId.put(user.getId(), user.getEmail());
+		} else
+			log.error("User is null.");
+	} 
+	
+	/**
+	 * Usuwa danego użytkownika z bazy danych.
+	 * @param user
+	 */
+	public static void deleteUser(UserBean user) {
+		if (user != null) {
+			UserRepository.delete(user);
+			mapUsers.remove(user.getEmail());
+			mapUsersId.remove(user.getId());
+		} else
+			log.error("User is null.");
+	} 
+	
+	/**
+	 * Metoda aktualizuje użytkownika w bazie danych. W argumentach przyjmuje obiekt użytkownika który ma być zaktualizowany,
+	 * i obiekt użytkownika na który ma zostać podmieniony. 
+	 * @param old
+	 * @param newUser
+	 */
+	public static void updateUser(UserBean old, UserBean newUser) {
+		if (old != null && newUser != null) {
+			mapUsersId.replace(old.getId(), old.getEmail(), newUser.getEmail());
+			mapUsers.remove(old.getEmail());
+			UserRepository.update(old, newUser);
+			mapUsers.put(newUser.getEmail(), newUser);
+		} else
+			log.error("User is null.");
+	}
+	
+	/**
+	 * Słownik użytkowników.
+	 */
+	public static  Map<String, UserBean> mapUsers = new LinkedHashMap<>() {
+		private static final long serialVersionUID = 1L;
+		{			
 			
-			throw new GSException("User is null.");
-		}
-		
-		public static void saveUser(UserBean user) {
-			if (user != null) {
-				UserRepository.save(user);
-				mapUsers.put(user.getEmail(), user);
-				mapUsersId.put(user.getId(), user.getEmail());
-			} else
-				log.error("User is null.");
-		} 
-		
-		public static void deleteUser(UserBean user) {
-			if (user != null) {
-				UserRepository.delete(user);
-				mapUsers.remove(user.getEmail());
-				mapUsersId.remove(user.getId());
-			} else
-				log.error("User is null.");
-		} 
-		
-		public static void updateUser(UserBean old, UserBean newUser) {
-			if (old != null && newUser != null) {
-				mapUsersId.replace(old.getId(), old.getEmail(), newUser.getEmail());
-				mapUsers.remove(old.getEmail());
-				UserRepository.update(old, newUser);
-				mapUsers.put(newUser.getEmail(), newUser);
-			} else
-				log.error("User is null.");
-		}
-		
-		/**
-		 * Słownik użytkowników.
-		 */
-		public static  Map<String, UserBean> mapUsers = new LinkedHashMap<>() {
-			private static final long serialVersionUID = 1L;
-			{			
-				
-				for(UserBean sb : getAllUsers()) {
-					put(sb.getEmail(), sb);
-				}
-				
-				//put("hp@griffindor.uk", new UserBean("Harry", "Potter", "hp@griffindor.uk",
-					//	"hogwart", mapRoles.get("Developer"), Arrays.asList("LEGO Star Wars")));
-				
-				/**
-				put("admin@admin.com", new UserBean((long)1, "Admin", "Administrator", "admin@admin.com", 
-						"admin", mapRoles.get("Administrator"), null, 
-						mapPermissions.get("Create"), mapPermissions.get("Create") ,mapPermissions.get("Create")));
-				put("donald@disney.com", new UserBean((long)3, "Donald", "Duck", "donald@disney.com", 
-						"disney123", mapRoles.get("Tester"), Arrays.asList(mapProjects.get("NBA2K 22"), mapProjects.get("FIFA 22")), 
-						mapPermissions.get("Create"), mapPermissions.get("Create") ,mapPermissions.get("Create"))); 
-				put("ryszard.ochodzki@mis.pl", new UserBean((long)4, "Ryszard", "Ochodzki", 
-						"ryszard.ochodzki@mis.pl", "mis123", mapRoles.get("Tester"), Arrays.asList(mapProjects.get("NBA2K 22")), 
-						mapPermissions.get("Create"), mapPermissions.get("Create") ,mapPermissions.get("Create")));
-				put("mickey@disney.com", new UserBean((long)5, "Mickey", "Mouse", "mickey@disney.com", 
-						"disney456", mapRoles.get("Tester"), Arrays.asList(mapProjects.get("FIFA 21")), 
-						mapPermissions.get("Create"), mapPermissions.get("Create") ,mapPermissions.get("Create")));
-				put("minnie@disney.com", new UserBean((long)6, "Minnie", "Mouse", "minnie@disney.com", 
-						"pluto", mapRoles.get("Tester Manager"), Arrays.asList(mapProjects.get("FIFA 21")), 
-						mapPermissions.get("Create"), mapPermissions.get("Create") ,mapPermissions.get("Create")));
-				 * 
-				 */
-				
+			for(UserBean sb : getAllUsers()) {
+				put(sb.getEmail(), sb);
 			}
-		};
-		
-		
-		public static  Map<Long, String> mapUsersId = new LinkedHashMap<>() {
-			private static final long serialVersionUID = 1L;
-			{
-				for(UserBean ub : getAllUsers()) {
-					put(ub.getId(), ub.getEmail());
-				}
-				/**
-				 * 
-				put((long)1, "admin@admin.com");
-				put((long)2, "hp@griffindor.uk");
-				put((long)3, "donald@disney.com");
-				put((long)4, "ryszard.ochodzki@mis.pl");
-				put((long)5, "mickey@disney.com");
-				put((long)6, "minnie@disney.com");
-				 */
-			} 
-		};
-		/**
-		 * Metoda zwracająca użytkownika po id.  
-		 * @param id
-		 * @return
-		 */
-		public static UserBean getUserById(int id) {
-			return mapUsers.get(mapUsersId.get((long)id));
 		}
+	};
+	
+	/**
+	 * Słownik użytkowników z id jako kluczem.
+	 */
+	public static  Map<Long, String> mapUsersId = new LinkedHashMap<>() {
+		private static final long serialVersionUID = 1L;
+		{
+			for(UserBean ub : getAllUsers()) {
+				put(ub.getId(), ub.getEmail());
+			}
+		} 
+	};
+	
+	/**
+	 * Metoda zwracająca użytkownika po id.  
+	 * @param id
+	 * @return
+	 */
+	public static UserBean getUserById(int id) {
+		return mapUsers.get(mapUsersId.get((long)id));
+	}
 	
 // ##################################################################################################################################################################################################
 // Test
 // ##################################################################################################################################################################################################
-		public static List<TestBean> getAllTests() {
-			List<TestBean> lstResult = TestRepository.findAll();
-			return lstResult;
-		}
+	
+	/**
+	 * Zwraca liste obiektów testów pobraną z bazy danych.
+	 * @return
+	 */
+	public static List<TestBean> getAllTests() {
+		List<TestBean> lstResult = TestRepository.findAll();
+		return lstResult;
+	}
 
-		public static TestBean getTestByID(Long id) throws GSException {
-			if (id != null && id.intValue() > 0) {
-				TestBean db = TestRepository.findById(id); 
-				return db;
-			} else
-				log.error(" Test id is null or out of range."); 
-			throw new GSException("Test id is null or out of range.");
-		} 
+	/**
+	 * Zwaraca obiekt testu o podanym id.
+	 * @param id
+	 * @return
+	 * @throws GSException
+	 */
+	public static TestBean getTestByID(Long id) throws GSException {
+		if (id != null && id.intValue() > 0) {
+			TestBean db = TestRepository.findById(id); 
+			return db;
+		} else
+			log.error(" Test id is null or out of range."); 
+		throw new GSException("Test id is null or out of range.");
+	} 
+	
+	/**
+	 * Zwraca obiekt testu o podanym tytule.
+	 * @param title
+	 * @return
+	 * @throws GSException
+	 */
+	public static TestBean getTestByTitle(String title) throws GSException {
+		if (title != null ) {
+			TestBean db = TestRepository.findByTitle(title); 
+			return db;
+		} else
+			log.error(" Test id is null."); 
 		
-		public static TestBean getTestByTitle(String title) throws GSException {
-			if (title != null ) {
-				TestBean db = TestRepository.findByTitle(title); 
-				return db;
-			} else
-				log.error(" Test id is null."); 
-			
-			throw new GSException("Test is null.");
+		throw new GSException("Test is null.");
+	}
+	
+	/**
+	 * Zapisuje test w bazie danych.
+	 * @param test
+	 */
+	public static void saveTest(TestBean test) {
+		if (test != null) {
+			TestRepository.save(test);
+			mapTests.put(test.getTitle(), test);
+			mapTestsId.put(test.getId(), test.getTitle());
+		} else
+			log.error("Test is null.");
+	} 
+	
+	/**
+	 * Usuwa test z bazy danych.
+	 * @param test
+	 */
+	public static void deleteTest(TestBean test) {
+		if (test != null) {
+			TestRepository.delete(test);
+			mapTests.remove(test.getTitle());
+			mapTestsId.remove(test.getId());
+		} else
+			log.error("Test is null.");
+	} 
+	
+	/**
+	 * Metoda aktualizuje test w bazie danych. W argumentach przyjmuje obiekt testu który ma być zaktualizowany,
+	 * i obiekt testu na który ma zostać podmieniony. 
+	 * @param old
+	 * @param newTest
+	 */
+	public static void updateTest(TestBean old, TestBean newTest) {
+		if (old != null && newTest != null) {
+			mapTestsId.replace(old.getId(), old.getTitle(), newTest.getTitle());
+			mapTests.remove(old.getTitle());
+			TestRepository.update(old, newTest);
+			mapTests.put(newTest.getTitle(), newTest);
+		} else
+			log.error("User is null.");
+	}
+	
+	/**
+	 * Słownik testów. 
+	 */
+	public static  Map<String, TestBean> mapTests = new LinkedHashMap<>() {
+		private static final long serialVersionUID = 1L;
+		{
+			for(TestBean tb : getAllTests()) {
+				put(tb.getTitle(), tb);
+			}
 		}
-		
-		public static void saveTest(TestBean test) {
-			if (test != null) {
-				TestRepository.save(test);
-				mapTests.put(test.getTitle(), test);
-				mapTestsId.put(test.getId(), test.getTitle());
-			} else
-				log.error("Test is null.");
+	};
+	
+	/**
+	 * Słownik testów z id jako kluczem.
+	 */
+	public static  Map<Long, String> mapTestsId = new LinkedHashMap<>() {
+		private static final long serialVersionUID = 1L;
+		{
+			for(TestBean tb : getAllTests()) {
+				put(tb.getId(), tb.getTitle());
+			}
 		} 
-		
-		public static void deleteTest(TestBean test) {
-			if (test != null) {
-				TestRepository.delete(test);
-				mapTests.remove(test.getTitle());
-				mapTestsId.remove(test.getId());
-			} else
-				log.error("Test is null.");
-		} 
-		
-		public static void updateTest(TestBean old, TestBean newTest) {
-			if (old != null && newTest != null) {
-				mapTestsId.replace(old.getId(), old.getTitle(), newTest.getTitle());
-				mapTests.remove(old.getTitle());
-				TestRepository.update(old, newTest);
-				mapTests.put(newTest.getTitle(), newTest);
-			} else
-				log.error("User is null.");
-		}
-		
-		
-		
-		public static  Map<String, TestBean> mapTests = new LinkedHashMap<>() {
-			private static final long serialVersionUID = 1L;
-			{
+	};
+	
+	/**
+	 * Metoda zwracająca obiekt Test po id.  
+	 * @param id
+	 * @return
+	 */
+	public static TestBean getTestById(int id) {
+		return mapTests.get(mapTestsId.get((long)id));
+	}  
 
-				for(TestBean tb : getAllTests()) {
-					put(tb.getTitle(), tb);
-				}
-				
-				/**
-				 * put("Stadiums - New - Radomiak - Model and Functionality", new TestBean((long)1, 
-						"Stadiums - New - Radomiak - Model and Functionality", 
-						mapUsers.get("hp@griffindor.uk"),
-						"Remamber to read all scenario before starting the test.....", 
-						mapAreas.get("Stadiums"), 
-						mapResults.get("Positive"), 6, "2021-10-01", "2021-10-01", 3, 0, 
-						getStates().get("New"), getPriorities().get("Important"), 
-						Arrays.asList(mapPlatforms.get("Xbox One"), 
-						mapPlatforms.get("Xbox One X")),
-						new VersionBean(1.23, mapBuilds.get("Alpha"))));
-				
-				put("Stadiums - New - Legia - Model and Functionality", new TestBean((long)2, 
-						"Stadiums - New - Legia - Model and Functionality", 
-						mapUsers.get("hp@griffindor.uk"),
-						"Remamber to read all scenario before starting the test.....", 
-						mapAreas.get("Stadiums"), 
-						mapResults.get("Positive"), 6, "2021-10-01", "2021-10-01", 3, 0, 
-						getStates().get("New"), getPriorities().get("Important"), 
-						Arrays.asList(mapPlatforms.get("Xbox One"), 
-						mapPlatforms.get("Xbox One X")), 
-						new VersionBean(1.23, mapBuilds.get("Alpha"))));
-				put("Players - New - Marcin Gortat", new TestBean((long)3, "Players - New - Marcin Gortat",
-						mapUsers.get("donald@disney.com"),
-						"Remamber to read all scenario before starting the test.....", 
-						mapAreas.get("Players"), 
-						mapResults.get("Positive"), 6, "2021-10-01", "2021-10-01", 3, 0, 
-						getStates().get("New"), getPriorities().get("Important"), 
-						Arrays.asList(mapPlatforms.get("Xbox One"), 
-						mapPlatforms.get("Xbox One X")), 
-						new VersionBean(1.23, mapBuilds.get("Alpha"))));
-				put("Teams - New - Toronto Raptors", new TestBean((long)4, "Teams - New - Toronto Raptors",
-						mapUsers.get("donald@disney.com"),
-						"Remamber to read all scenario before starting the test.....", 
-						mapAreas.get("Teams"), 
-						mapResults.get("Positive"), 6, "2021-10-01", "2021-10-01", 3, 0, 
-						getStates().get("New"), getPriorities().get("Important"), 
-						Arrays.asList(mapPlatforms.get("Xbox One"), 
-						mapPlatforms.get("Xbox One X")), 
-						new VersionBean(1.23, mapBuilds.get("Alpha"))));
-				put("Cinematics - New - Overall", new TestBean((long)5, "Cinematics - New - Overall",
-						mapUsers.get("donald@disney.com"),
-						"Remamber to read all scenario before starting the test.....", 
-						mapAreas.get("Cinematics"), 
-						mapResults.get("Positive"), 6, "2021-10-01", "2021-10-01", 3, 0, 
-						getStates().get("New"), getPriorities().get("Important"), 
-						Arrays.asList(mapPlatforms.get("Xbox One"), 
-						mapPlatforms.get("Xbox One X")), 
-						new VersionBean(1.23, mapBuilds.get("Alpha"))));
-				put("Gameplay Modes - New - Overall", new TestBean((long)6, "Gameplay Modes - New - Overall",
-						mapUsers.get("donald@disney.com"),
-						"Remamber to read all scenario before starting the test.....", 
-						mapAreas.get("Gameplay Modes"), 
-						mapResults.get("Positive"), 6, "2021-10-01", "2021-10-01", 3, 0, 
-						getStates().get("New"), getPriorities().get("Important"), 
-						Arrays.asList(mapPlatforms.get("Xbox One"), 
-								mapPlatforms.get("Xbox One X")), 
-						new VersionBean(1.23, mapBuilds.get("Alpha"))));
-				 */
-				
-			}
-		};
-		
-		
-		public static  Map<Long, String> mapTestsId = new LinkedHashMap<>() {
-			private static final long serialVersionUID = 1L;
-			{
-				for(TestBean tb : getAllTests()) {
-					put(tb.getId(), tb.getTitle());
-				}
-	
-				/**
-				put((long)1, "Stadiums - New - Radomiak - Model and Functionality");
-				put((long)2, "Stadiums - New - Legia - Model and Functionality");
-				put((long)3, "Players - New - Marcin Gortat");
-				put((long)4, "Teams - New - Toronto Raptors");
-				put((long)5, "Cinematics - New - Overall");
-				put((long)6, "Gameplay Modes - New - Overall");
-				 * 
-				 */
-			} 
-		};
-		
-		/**
-		 * Metoda zwracająca obiekt Test po id.  
-		 * @param id
-		 * @return
-		 */
-		public static TestBean getTestById(int id) {
-			return mapTests.get(mapTestsId.get((long)id));
-		}  
-	
-		public static void updateTestMaps() {
-			mapTestsId.clear();
-			mapTests.clear();
-			for(TestBean b : getAllTests()) {
-				mapTestsId.put(b.getId() , b.getTitle());
-				mapTests.put(b.getTitle(), b);
-			}
-			
+	/**
+	 * Aktualizuje słowniki testów.
+	 */
+	public static void updateTestMaps() {
+		mapTestsId.clear();
+		mapTests.clear();
+		for(TestBean b : getAllTests()) {
+			mapTestsId.put(b.getId() , b.getTitle());
+			mapTests.put(b.getTitle(), b);
 		}
-	
-	
-	
+		
+	}
 // ##################################################################################################################################################################################################
 // Bug 
 // ##################################################################################################################################################################################################
-		public static List<BugBean> getAllBugs() {
-			List<BugBean> lstResult = BugRepository.findAll();
-			return lstResult;
-		}
+	
+	/**
+	 * Zwraca listę obiektów błędów pobraną z bazy danych. 
+	 * @return
+	 */
+	public static List<BugBean> getAllBugs() {
+		List<BugBean> lstResult = BugRepository.findAll();
+		return lstResult;
+	}
 
-		public static BugBean getBugByID(Long id) throws GSException {
-			if (id != null && id.intValue() > 0) {
-				BugBean db = BugRepository.findById(id); 
-				return db;
-			} else
-				log.error(" Bug id is null or out of range."); 
-			throw new GSException("Bug id is null or out of range.");
-		} 
+	/**
+	 * Zwaraca błąd o podanym id.
+	 * @param id
+	 * @return
+	 * @throws GSException
+	 */
+	public static BugBean getBugByID(Long id) throws GSException {
+		if (id != null && id.intValue() > 0) {
+			BugBean db = BugRepository.findById(id); 
+			return db;
+		} else
+			log.error(" Bug id is null or out of range."); 
+		throw new GSException("Bug id is null or out of range.");
+	} 
+	
+	/**
+	 * Zwraca błąd o podanym tytule.
+	 * @param title
+	 * @return
+	 * @throws GSException
+	 */
+	public static BugBean getBugByTitle(String title) throws GSException {
+		if (title != null ) {
+			BugBean db =BugRepository.findByTitle(title); 
+			return db;
+		} else
+			log.error(" Bug id is null."); 
 		
-		public static BugBean getBugByTitle(String title) throws GSException {
-			if (title != null ) {
-				BugBean db =BugRepository.findByTitle(title); 
-				return db;
-			} else
-				log.error(" Bug id is null."); 
-			
-			throw new GSException("Bug is null.");
-		}
-		
-		
-		
-		public static void saveBug(BugBean bug) {
-			if (bug != null) {
-				BugRepository.save(bug);
-				mapBugs.put(bug.getTitle(), bug);
-				mapBugsId.put(bug.getId(), bug.getTitle());
-			} else
-				log.error("Bug is null.");
-		} 
-		
-		public static void deleteBug(BugBean bug) {
-			if (bug != null) {
-				BugRepository.delete(bug);
-				mapBugs.remove(bug.getTitle());
-				mapBugsId.remove(bug.getId());
-			} else
-				log.error("Bug is null.");
-		} 
-		
-		public static void updateBug(BugBean old, BugBean newBug) {
-			if (old != null && newBug != null) {
-				mapBugsId.replace(old.getId(), old.getTitle(), newBug.getTitle());
-				mapBugs.remove(old.getTitle());
-				BugRepository.update(old, newBug);
-				mapBugs.put(newBug.getTitle(), newBug);
-			} else
-				log.error("Bug is null.");
-		}
-		
-		public static Map<String, BugBean> mapBugs = new LinkedHashMap<>() {
-
+		throw new GSException("Bug is null.");
+	}
+	
+	/**
+	 * Zapisuje błąd w bazie danych oraz dodaje go do słowników.
+	 * @param bug
+	 */
+	public static void saveBug(BugBean bug) {
+		if (bug != null) {
+			BugRepository.save(bug);
+			mapBugs.put(bug.getTitle(), bug);
+			mapBugsId.put(bug.getId(), bug.getTitle());
+		} else
+			log.error("Bug is null.");
+	} 
+	
+	/**
+	 * Usuwa błąd z bazy danych oraz ze słowników. 
+	 * @param bug
+	 */
+	public static void deleteBug(BugBean bug) {
+		if (bug != null) {
+			BugRepository.delete(bug);
+			mapBugs.remove(bug.getTitle());
+			mapBugsId.remove(bug.getId());
+		} else
+			log.error("Bug is null.");
+	} 
+	
+	/**
+	 *  Metoda aktualizuje błąd w bazie danych. W argumentach przyjmuje obiekt błędu który ma być zaktualizowany,
+	 * i obiekt błędu na który ma zostać podmieniony. 
+	 * @param old
+	 * @param newBug
+	 */
+	public static void updateBug(BugBean old, BugBean newBug) {
+		if (old != null && newBug != null) {
+			mapBugsId.replace(old.getId(), old.getTitle(), newBug.getTitle());
+			mapBugs.remove(old.getTitle());
+			BugRepository.update(old, newBug);
+			mapBugs.put(newBug.getTitle(), newBug);
+		} else
+			log.error("Bug is null.");
+	}
+	
+	/**
+	 * Słownik błędów.
+	 */
+	public static Map<String, BugBean> mapBugs = new LinkedHashMap<>() {
 		private static final long serialVersionUID = 1L;
 		{
 			for(BugBean b : getAllBugs()) {
 				put(b.getTitle(), b);
-			}
-			
-			/**
-			 * put("Stadiums - Radomiak - Stadium is not available in Quick Match Mode", 
-					new BugBean((long)1, "Stadiums - Radomiak - Stadium is not available in Quick Match Mode", 
-								mapUsers.get("donald@disney.com"),
-								"Stadion im. Marszałka J.Piłsudskiego w Radomiu\" (Radomiak) is not available in Quick Match Mode. \r\n"
-								+ "    Stadium cannot be chosen becouse its not visible one the stadiums list. \r\n"
-								+ "    Video of the issue.'",
-								"1. Launch FIFA 22 - Developer Version. \r\n"
-								+ "    2. Go to Quick Match Mode. \r\n"
-								+ "    3. Choose any teams and go to match settings. \r\n"
-								+ "    4. Go to stadium settings. \r\n"
-								+ "    5. Observe lack of stadium: \"Stadion im. Marszałka J.Piłsudskiego w Radomiu.",
-								getStates().get("New") ,
-								getPriorities().get("Important"), Arrays.asList(mapPlatforms.get("PC"), mapPlatforms.get("PlayStation 4")), 
-								new VersionBean(1.23, mapBuilds.get("Alpha")), 1, 
-								getTestById(1)));
-			
-			put("Players - Marcin Gortat - Player is not available in Quick Match Mode", 
-					new BugBean((long)2, "Players - Marcin Gortat - Player is not available in Quick Match Mode", 
-								mapUsers.get("donald@disney.com"),
-								"Marcin Gortat - Player\" is not available in Quick Match Mode. \r\n"
-								+ "    Player cannot be chosen becouse its not visible one the players list. \r\n"
-								+ "    Video of the issue.'",
-								"1. Launch NBA 2K22 - Developer Version. \r\n"
-								+ "    2. Go to Quick Match Mode. \r\n"
-								+ "    3. Choose any teams and go to match settings. \r\n"
-								+ "    4. Go to players settings. \r\n"
-								+ "    5. Observe lack of player.",
-								getStates().get("New") ,
-								getPriorities().get("Important"), Arrays.asList(mapPlatforms.get("Xbox Series X"), 
-										mapPlatforms.get("Xbox Series S")),
-								new VersionBean(1.23, mapBuilds.get("Alpha")), 1,
-								getTestById(3)));
-			
-			put("Teams - Toronto Raptors - Team Logo is not implemented in the game", 
-					new BugBean((long)3, "Teams - Toronto Raptors - Team Logo is not implemented in the game", 
-								mapUsers.get("donald@disney.com"),
-								"Toronto Raptors - Team Logo\" is not implemented in game. \r\n"
-								+ "    Team logo is not visible in any game mode. \r\n"
-								+ "    Video of the issue.'",
-								"1. Launch NBA 2K22 - Developer Version. \r\n"
-								+ "    2. Go to Quick Match Mode. \r\n"
-								+ "    3. Choose any teams and go to match settings. \r\n"
-								+ "    4. Go to players settings. \r\n"
-								+ "    5. Observe lack of player.",
-								getStates().get("New") ,
-								getPriorities().get("Important"), 
-								Arrays.asList(mapPlatforms.get("Xbox One"), 
-										mapPlatforms.get("Xbox One X")), 
-								new VersionBean(1.23, mapBuilds.get("Alpha")), 1,
-								getTestById(4))); 
-			
-			put("Gameplay Modes - Quick Match - Quick Match Mode is not available", 
-					new BugBean((long)4, "Gameplay Modes - Quick Match - Quick Match Mode is not available", 
-								mapUsers.get("donald@disney.com"),
-								"Stadion im. Marszałka J.Piłsudskiego w Radomiu\" (Radomiak) is not available in Quick Match Mode. \r\n"
-								+ "    Stadium cannot be chosen becouse its not visible one the stadiums list. \r\n"
-								+ "    Video of the issue.'",
-								"1. Launch FIFA 22 - Developer Version. \r\n"
-								+ "    2. Go to Quick Match Mode. \r\n"
-								+ "    3. Choose any teams and go to match settings. \r\n"
-								+ "    4. Go to stadium settings. \r\n"
-								+ "    5. Observe lack of stadium: \"Stadion im. Marszałka J.Piłsudskiego w Radomiu.",
-								getStates().get("New") ,
-								getPriorities().get("Important"), Arrays.asList(mapPlatforms.get("PC"), mapPlatforms.get("PlayStation 4")), 
-								new VersionBean(1.23, mapBuilds.get("Alpha")), 1, 
-								getTestById(6)));
-			
-			put("Cinematics - Multiple Issues at Welcome Back Cinematic", 
-					new BugBean((long)5, "Cinematics - Multiple Issues at Welcome Back Cinematic", 
-								mapUsers.get("donald@disney.com"),
-								"Stadion im. Marszałka J.Piłsudskiego w Radomiu\" (Radomiak) is not available in Quick Match Mode. \r\n"
-								+ "    Stadium cannot be chosen becouse its not visible one the stadiums list. \r\n"
-								+ "    Video of the issue.'",
-								"1. Launch FIFA 22 - Developer Version. \r\n"
-								+ "    2. Go to Quick Match Mode. \r\n"
-								+ "    3. Choose any teams and go to match settings. \r\n"
-								+ "    4. Go to stadium settings. \r\n"
-								+ "    5. Observe lack of stadium: \"Stadion im. Marszałka J.Piłsudskiego w Radomiu.",
-								getStates().get("New") ,
-								getPriorities().get("Important"), Arrays.asList(mapPlatforms.get("PC"), mapPlatforms.get("PlayStation 4")), 
-								new VersionBean(1.23, mapBuilds.get("Alpha")), 1, 
-								getTestById(5))); 
-			
-			put("Gameplay Modes - Career Mode - Progres in Career Mode cannot be saved", 
-					new BugBean((long)6, "Gameplay Modes - Career Mode - Progres in Career Mode cannot be saved", 
-								mapUsers.get("donald@disney.com"),
-								"Stadion im. Marszałka J.Piłsudskiego w Radomiu\" (Radomiak) is not available in Quick Match Mode. \r\n"
-								+ "    Stadium cannot be chosen becouse its not visible one the stadiums list. \r\n"
-								+ "    Video of the issue.'",
-								"1. Launch FIFA 22 - Developer Version. \r\n"
-								+ "    2. Go to Quick Match Mode. \r\n"
-								+ "    3. Choose any teams and go to match settings. \r\n"
-								+ "    4. Go to stadium settings. \r\n"
-								+ "    5. Observe lack of stadium: \"Stadion im. Marszałka J.Piłsudskiego w Radomiu.",
-								getStates().get("New") ,
-								getPriorities().get("Important"), Arrays.asList(mapPlatforms.get("PC"), mapPlatforms.get("PlayStation 4")), 
-								new VersionBean(1.23, mapBuilds.get("Alpha")), 1, 
-								getTestById(6)));
-			 */
-			
-			
-			
+			}	
 		} 
 	};
 	
+	/**
+	 * Słownik błędów z id jako kluczem.
+	 */
 	public static  Map<Long, String> mapBugsId =new LinkedHashMap<>() {
-		
-		
 		private static final long serialVersionUID = 1L;
-		{
-			
+		{	
 			for(BugBean b : getAllBugs()) {
 				put(b.getId() , b.getTitle());
 			}
-			
-			/**
-			 * put((long)1, "Stadiums - Radomiak - Stadium is not available in Quick Match Mode");
-			put((long)2, "Players - Marcin Gortat - Player is not available in Quick Match Mode");
-			put((long)3, "Teams - Toronto Raptors - Team Logo is not implemented in the game");
-			put((long)4, "Gameplay Modes - Quick Match - Quick Match Mode is not available");
-			put((long)5, "Cinematics - Multiple Issues at Welcome Back Cinematic");
-			put((long)6, "Gameplay Modes - Career Mode - Progres in Career Mode cannot be saved");
-			 */
-			
 		} 
 	}; 
 	
+	/**
+	 * Aktualizuje słowniki błędów.
+	 */
 	public static void updateBugMaps() {
 		mapBugsId.clear();
 		mapBugs.clear();
@@ -1021,10 +939,9 @@ public class DataProvider {
 			mapBugsId.put(b.getId() , b.getTitle());
 			mapBugs.put(b.getTitle(), b);
 		}
-		
 	}
 	
-		/**
+	/**
 	 * Metoda zwracająca obiekt BugBean po id.  
 	 * @param id
 	 * @return
@@ -1032,6 +949,4 @@ public class DataProvider {
 	public static BugBean getBugById(int id) {
 		return mapBugs.get(mapBugsId.get((long)id));
 	} 
-	
-	
 }

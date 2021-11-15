@@ -66,12 +66,13 @@ public class ProjectAction  extends ActionSupport {
     
 	 @Override
 	    public String execute() throws NumberFormatException, GSException {
-		 user = DataProvider.getUserByID(Long.parseLong(session.getAttribute("userID").toString())); //TODO tu tez 
+		 user = DataProvider.getUserByID(Long.parseLong(session.getAttribute("userID").toString())); 
 		 
 		 
 		if (!user.getRole().getName().equals("Tester Manager")) {
 			addActionError("Your Account do not have permission to perform this action.");
 		}
+		
 		
 		setProject();
 		
@@ -87,7 +88,7 @@ public class ProjectAction  extends ActionSupport {
 		startDate = project.getStartDate();
 		endDate = project.getEndDate();
 		state = project.getState().getName();
- 
+		
 		setLists();  		
 		setTabs();
 		

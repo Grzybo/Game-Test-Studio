@@ -20,7 +20,6 @@ import com.bartosz.gameteststudio.beans.ProjectBean;
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
-import com.bartosz.gameteststudio.repositories.AttachmentRepository;
 import com.google.common.base.Strings;
 import com.opensymphony.xwork2.ActionSupport;
  
@@ -111,8 +110,10 @@ public class BugCreateAction  extends ActionSupport {
     	if(!Strings.isNullOrEmpty(title)) {
     		if(!Strings.isNullOrEmpty(this.description)) {
     			if(!Strings.isNullOrEmpty(this.reproSteps)) {
-    				createBug();
-    				ret = "created";
+    				if(!Strings.isNullOrEmpty(this.test)) {
+    						createBug();
+            				ret = "created";
+    				}else addActionError("Bug has to be assigned to test.");
             	}else addActionError("Repro Steps field cannot be empty.");
         	}else addActionError("Description field cannot be empty.");
     	}else addActionError("Title field cannot be empty.");

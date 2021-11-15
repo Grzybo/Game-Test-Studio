@@ -33,7 +33,6 @@ public class AccountEditAction  extends ActionSupport {
     private List<String> rolesList = new ArrayList<String>(DataProvider.mapRoles.keySet());
     private List<String>  projectsList = new ArrayList<String>(DataProvider.mapProjects.keySet());
     private List<ProjectBean> pL = new ArrayList<ProjectBean>();
-    private List<String> permissionsList = new ArrayList<String>(DataProvider.mapPermissions.keySet());
     
     @Override
     public String execute() {
@@ -57,15 +56,7 @@ public class AccountEditAction  extends ActionSupport {
 		return projects;
 	}
 
-	public List<String> getPermissionsList() {
-		return permissionsList;
-	}
-
-	public void setPermissionsList(List<String> permissionsList) {
-		this.permissionsList = permissionsList;
-	}
-
-
+	
 	public String getItemID() {
 		return itemID;
 	}

@@ -11,6 +11,7 @@
 		<jsp:include page="../_userMenu.jsp" />
 	 		<h2>New Test in ${userProject} </h2>
 	 	<div class = "content">
+	 		<s:actionerror />
 		 		<s:form id="editTest" action="/createTest" >
 		 		<table style="width:100%">
 		 			<tr>
@@ -48,7 +49,6 @@
 						<s:submit class= "button"  method="execute" key="Save" form = "editTest"/>
 	 			</table>
 	 			</s:form>	
-	 			<s:actionerror /> 
 	 	</div>
 	 	<div class="center">
 		<a class="button" href="${pageContext.request.contextPath}/projects"> Return</a>

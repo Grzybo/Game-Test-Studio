@@ -55,23 +55,29 @@ public class LoginAction extends ActionSupport {
             		user = DataProvider.getUserByEmail(this.email);
             		if(user.getConfirmed()) {
             			
-            		
             		if(password != "") {
             		
             			//System.out.println(Hashing.sha256().hashString(this.password, StandardCharsets.UTF_8).toString());
             			if(user.getPassword().equals(Hashing.sha256().hashString(this.password, StandardCharsets.UTF_8).toString())){
 	            		//if(user.getPassword().equals(this.password)) {
 	            			
-	            			session.setAttribute("loginedUsername", user.getDisplayName());
-	        	    		session.setAttribute("loginedEmail", this.getEmail());
-	        	    		session.setAttribute("userRole", user.getRole().getName());
-	        	    		session.setAttribute("userID", user.getId().toString());
-	        	    		
-	            			if(user.isAdmin()) {
-	        	    			session.setAttribute("admin", "admin");
-	        	    			ret = "admin";
-	        	        	}
-	        	        	else ret = "loginSuccess";
+	            				session.setAttribute("loginedUsername", user.getDisplayName());
+		        	    		session.setAttribute("loginedEmail", this.getEmail());
+		        	    		session.setAttribute("userRole", user.getRole().getName());
+		        	    		session.setAttribute("userID", user.getId().toString());
+		        	    		
+		        	    		if(user.isAdmin()) {
+		        	    			session.setAttribute("admin", "admin");
+		        	    			ret = "admin";
+		        	        	}
+		        	        	else if(user.getProjectsList().size() > 0) {	
+		        	        		ret = "loginSuccess";
+		        	        	}
+		        	        	else {
+			            			addActionError("User is not assigned to any project. Please contact system Administrator.");
+			        	        	ret = "loginError";
+			            		}
+	            			
 	            		}
 	            		else {
 	            			addActionError("Wrong password.");
