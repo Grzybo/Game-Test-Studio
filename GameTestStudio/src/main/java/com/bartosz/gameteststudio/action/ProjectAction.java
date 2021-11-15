@@ -19,6 +19,7 @@ import com.bartosz.gameteststudio.beans.TestBean;
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
+import com.bartosz.gameteststudio.utils.SessionUser;
 import com.bartosz.gameteststudio.utils.Utils;
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -43,6 +44,7 @@ public class ProjectAction  extends ActionSupport {
 	
 	private HttpServletRequest request = ServletActionContext.getRequest();
 	private HttpSession session = request.getSession();
+	private SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
 	
 	private String bugSort = request.getParameter((new ParamEncoder("bugTable")).encodeParameterName(TableTagParameters.PARAMETER_SORT));
 	private String testSort = request.getParameter((new ParamEncoder("testTable")).encodeParameterName(TableTagParameters.PARAMETER_SORT));
@@ -66,8 +68,8 @@ public class ProjectAction  extends ActionSupport {
     
 	 @Override
 	    public String execute() throws NumberFormatException, GSException {
-		 user = DataProvider.getUserByID(Long.parseLong(session.getAttribute("userID").toString())); 
-		 
+		//user = DataProvider.getUserByID(Long.parseLong(session.getAttribute("userID").toString())); 
+		 user = DataProvider.getUserByID(sessionUser.getId());
 		 
 		if (!user.getRole().getName().equals("Tester Manager")) {
 			addActionError("Your Account do not have permission to perform this action.");
@@ -104,11 +106,7 @@ public class ProjectAction  extends ActionSupport {
 			
 			if(selectedProject == null) {
 				if(session.getAttribute("userProject") != null) {
-					selectedProject = session.getAttribute("userProject").toString();
-				}
-				else if(projectsList.size() == 0) {
-					addActionError("Your Account is not added to any project yet. Contact system administrator.");
-								
+					selectedProject = session.getAttribute("userProject").toString();			
 				}else {
 					selectedProject = projectsList.get(0);
 					session.setAttribute("userProject", selectedProject);
@@ -131,6 +129,7 @@ public class ProjectAction  extends ActionSupport {
 		 else {
 			 {
  				if(bugSort != null && !Utils.bugTabState.equals(bugSort)) {
+ 					
  					session.setAttribute("selectedTab", "BugTab");
  					Utils.bugTabState = bugSort;
  					System.out.println("Test 2");
@@ -156,20 +155,7 @@ public class ProjectAction  extends ActionSupport {
 		 DataProvider.updateBugMaps();
 		 DataProvider.updateTestMaps();
 		 DataProvider.updateAreaMaps(); 
-		 
-		/**
-		 * System.out.println("AREAS");
-		 System.out.println(DataProvider.mapAreas.keySet());
-		 System.out.println("TESTS");
-		 System.out.println(DataProvider.mapTests.keySet());
-		 System.out.println("BUGS");
-		 System.out.println(DataProvider.mapBugs.keySet()); 
-		 
-		 System.out.println(DataProvider.mapAreasId.values());
-		 */
-		 
-		 
-		 
+		
 		 for (String el : DataProvider.mapAreas.keySet()) {
 			  if(DataProvider.mapAreas.get(el).getProject().getTitle().equals(selectedProject)) {
 				  areaObjList.add(DataProvider.mapAreas.get(el));	  

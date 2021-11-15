@@ -46,6 +46,11 @@ function deleteConfirm(itemType, itemID) {
 	    	if (confirm("Are you sure you want to delete this Account?")) var url = "/GameTestStudio/deleteAccount?itemID="+ itemID;  
 			else var url = "/GameTestStudio/adminPage";
 	    	break;
+		case "File":
+	    	if (confirm("Are you sure you want to delete file from this Bug?")) var url = "/GameTestStudio/deleteAtt?itemID="+ itemID;  
+			else var url = "/GameTestStudio/editBug?itemID="+ itemID;
+	    	break;
+
 	   }
 	document.forms[0].action = url;
 	document.forms[0].submit();

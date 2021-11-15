@@ -27,7 +27,11 @@ public class LogoutAction  extends ActionSupport {
     	session.setAttribute("selectedTab", null);  
     	session.setAttribute("loginedUsername", null);
     	session.setAttribute("userRole", null);
-    	session.setAttribute("admin", null);
+    	session.setAttribute("admin", null); 
+    	
+    	
+    	session.setAttribute("sessionUser", null);
+    	
     			
     	Utils.bugTabState = null;
     	Utils.testTabState = null;

@@ -10,8 +10,8 @@
 		|
 		<a class="button" href="${pageContext.request.contextPath}/logout">Logout</a>
 		| 
-		<a class ="user" >Logged as: ${loginedUsername} </a>
+		<a class ="user" >Logged as: ${sessionUser.username} </a>
 		| 
-		<a class="adminBtn">${userRole}</a>
+		<a class="adminBtn">${sessionUser.role}</a>
 	</div>
 	<hr> 

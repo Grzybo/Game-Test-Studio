@@ -14,6 +14,7 @@ C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\net\sourceforge\jsptabcontrol\JSPTabControlConstants.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\update\action\BugUpdateAction.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\repositories\IssueRepository.java
+C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\edit\action\OwnAccountEditAction.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\beans\AttachmentBean.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\action\ImageAction.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\repositories\PriorityRepository.java
@@ -21,7 +22,6 @@ C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\net
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\beans\RoleBean.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\action\SecureAction.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\beans\BuildBean.java
-C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\action\NewUserInfoAction.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\create\action\AreaCreateAction.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\repositories\TestRepository.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\edit\action\AreaEditAction.java
@@ -72,6 +72,6 @@ C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\beans\UserBean.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\repositories\AreaRepository.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\repositories\RoleRepository.java
+C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\utils\SessionUser.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\repositories\StateRepository.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\beans\PlatformBean.java
-C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\action\UserInfoAction.java

@@ -1,4 +1,4 @@
-package com.bartosz.gameteststudio.action;
+package com.bartosz.gameteststudio.edit.action;
  
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
@@ -24,7 +24,7 @@ import com.opensymphony.xwork2.ActionSupport;
         @Result(name = "logout", location = "/WEB-INF/pages/hello.jsp")
 } //
 )
-public class UserInfoAction  extends ActionSupport {
+public class OwnAccountEditAction  extends ActionSupport {
   
     private static final long serialVersionUID = 1L; 
     

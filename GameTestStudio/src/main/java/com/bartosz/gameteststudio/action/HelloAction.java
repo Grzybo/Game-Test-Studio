@@ -15,7 +15,6 @@ public class HelloAction  extends SecureAction {
     @Override
     public String execute() {
           
-    	System.out.print(" HELLO ");
     	return "helloPage";
     }
     

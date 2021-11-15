@@ -31,11 +31,8 @@ public class ImageAction extends ActionSupport {
 	
 	 @Override
 	    public String execute() throws IOException {
-		
-		/**
-		 * 
-		 */ 
-		 AttachmentBean att = AttachmentRepository.findById(Long.parseLong(fileID)); 
+
+		AttachmentBean att = AttachmentRepository.findById(Long.parseLong(fileID)); 
 		 
 		HttpServletResponse response = ServletActionContext.getResponse(); 
 		response.setContentType(att.getFileType());

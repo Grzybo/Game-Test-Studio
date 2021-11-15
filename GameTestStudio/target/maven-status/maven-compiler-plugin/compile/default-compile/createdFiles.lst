@@ -5,10 +5,8 @@ com\bartosz\decorators\AreaDecorator.class
 com\bartosz\decorators\ProjectDecorator.class
 com\bartosz\gameteststudio\dictionary\ProjectsDictionary$1.class
 com\bartosz\decorators\BugDecorator.class
-com\bartosz\gameteststudio\action\UserInfoAction.class
 com\bartosz\gameteststudio\action\HelloAction.class
 com\bartosz\gameteststudio\utils\Utils.class
-com\bartosz\gameteststudio\action\NewUserInfoAction.class
 com\bartosz\decorators\UserDecorator.class
 com\bartosz\gameteststudio\action\LoginAction.class
 com\bartosz\decorators\TestDecorator.class
