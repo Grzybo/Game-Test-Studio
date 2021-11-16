@@ -1,7 +1,9 @@
 package com.bartosz.gameteststudio.create.action;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -9,19 +11,21 @@ import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
+import com.bartosz.gameteststudio.action.SecureAction;
 import com.bartosz.gameteststudio.beans.AreaBean;
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
+import com.bartosz.gameteststudio.utils.EnRoles;
 import com.google.common.base.Strings;
-import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "createArea", //
 results = { //
         @Result(name = "createArea", location = "/WEB-INF/pages/create_pages/createArea.jsp"), 
-        @Result(name = "created", type="redirect", location = "/projects")
+        @Result(name = "created", type="redirect", location = "/projects"), 
+        @Result(name = "noPermissions",  type="redirect", location = "/noPermissions")
 } //
 )
-public class AreaCreateAction  extends ActionSupport {
+public class AreaCreateAction  extends SecureAction {
   
     private static final long serialVersionUID = 1L;
  
@@ -41,52 +45,7 @@ public class AreaCreateAction  extends ActionSupport {
 	private List<String> stateList = new ArrayList<String>(DataProvider.getStates().keySet());
 	
 	
-    @Override
-    public String execute() {
-        
-    	/**
-    	 * 
-    	 
-    	
-    	// Walidacja uprawnień ------------------------------------------------------------------------------------------------------
-    	
-    	
-    	
-    	
-    	// kto moze: Tester Manager 
-    	if (!user.getRole().getName().equals("Tester Manager")) {
-    		addActionError("Your Account do not have permission to perform this action.");
-    		return "createArea";
-    	}
-    	//------------------------------------------------------------------------------------------------------------------------------
-    	 * session.setAttribute("selectedTab", "AreaTab");
-    	 */
-    	
-    	HttpSession session = ServletActionContext.getRequest().getSession(); 
-    	session.setAttribute("selectedTab", "AreaTab");
-    	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());
-    	projectsList = user.getProjectsList(); 
-    	    	
-    	String ret = "createArea";
-    	
-    	if(!Strings.isNullOrEmpty(title)) {
-    		if(!Strings.isNullOrEmpty(this.description)) {
-    			project = session.getAttribute("userProject").toString();
-    	    	
-    	    		AreaBean area = new AreaBean(this.title, this.description, DataProvider.mapProjects.get(session.getAttribute("userProject").toString()), 
-    	    				this.estimatedTime, this.startDate, this.endDate, this.testersNumber, this.workTime, 
-    	    				DataProvider.getStates().get(state), DataProvider.getPriorities().get(priority));
-    	        	DataProvider.saveArea(area);
-    	        	addActionError("Area created!");
-    			
-        		ret = "created";
-        	
-    	}else addActionError("Description field cannot be empty.");
-    }else addActionError("Title field cannot be empty.");
-	
-		return ret;
-}
-
+   
 
 
 	public String getTitle() {
@@ -266,6 +225,64 @@ public class AreaCreateAction  extends ActionSupport {
 
 	public void setStateList(List<String> stateList) {
 		this.stateList = stateList;
+	}
+
+
+
+	@Override
+	public String executeSecured() {
+		/**
+    	 * 
+    	 
+    	
+    	// Walidacja uprawnień ------------------------------------------------------------------------------------------------------
+    	
+    	
+    	
+    	
+    	// kto moze: Tester Manager 
+    	if (!user.getRole().getName().equals("Tester Manager")) {
+    		addActionError("Your Account do not have permission to perform this action.");
+    		return "createArea";
+    	}
+    	//------------------------------------------------------------------------------------------------------------------------------
+    	 * session.setAttribute("selectedTab", "AreaTab");
+    	 */
+    	
+    	HttpSession session = ServletActionContext.getRequest().getSession(); 
+    	session.setAttribute("selectedTab", "AreaTab");
+    	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());
+    	projectsList = user.getProjectsList(); 
+    	    	
+    	String ret = "createArea";
+    	
+    	if(!Strings.isNullOrEmpty(title)) {
+    		if(!Strings.isNullOrEmpty(this.description)) {
+    			project = session.getAttribute("userProject").toString();
+    	    	
+    	    		AreaBean area = new AreaBean(this.title, this.description, DataProvider.mapProjects.get(session.getAttribute("userProject").toString()), 
+    	    				this.estimatedTime, this.startDate, this.endDate, this.testersNumber, this.workTime, 
+    	    				DataProvider.getStates().get(state), DataProvider.getPriorities().get(priority));
+    	        	DataProvider.saveArea(area);
+    	        	addActionError("Area created!");
+    			
+        		ret = "created";
+        	
+    	}else addActionError("Description field cannot be empty.");
+    }else addActionError("Title field cannot be empty.");
+	
+    	
+    	System.out.println("AREA CREATE");
+		return ret;
+	}
+
+
+
+	@Override
+	protected Set<EnRoles> allowedRoles() {
+		Set<EnRoles> roles = new HashSet<>(); 
+		roles.add(EnRoles.testerManager);
+		return roles;
 	}
     
 }

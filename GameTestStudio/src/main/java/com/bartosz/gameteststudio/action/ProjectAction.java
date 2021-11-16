@@ -19,12 +19,16 @@ import com.bartosz.gameteststudio.beans.TestBean;
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
-import com.bartosz.gameteststudio.utils.SessionUser;
 import com.bartosz.gameteststudio.utils.Utils;
 import com.opensymphony.xwork2.ActionSupport;
 
 import net.sourceforge.jsptabcontrol.util.JSPTabControlUtil;
  
+/**
+ * Klasa odpowiadająca wywołąniuakcji strony Projects dla użytkowników o rolach: Developer, Tester i Tester Manager. 
+ * @author Bartosz
+ *
+ */
 @Action(value = "projects", //
 results = { //
         @Result(name = "projects", location = "/WEB-INF/pages/projects.jsp"),
@@ -44,13 +48,12 @@ public class ProjectAction  extends ActionSupport {
 	
 	private HttpServletRequest request = ServletActionContext.getRequest();
 	private HttpSession session = request.getSession();
-	private SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
 	
 	private String bugSort = request.getParameter((new ParamEncoder("bugTable")).encodeParameterName(TableTagParameters.PARAMETER_SORT));
 	private String testSort = request.getParameter((new ParamEncoder("testTable")).encodeParameterName(TableTagParameters.PARAMETER_SORT));
 	private String areaSort = request.getParameter((new ParamEncoder("areaTable")).encodeParameterName(TableTagParameters.PARAMETER_SORT));
 
-	private  UserBean user; // = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString()); 
+	private  UserBean user;
 
 	private String itemID;
     private String title; 
@@ -68,16 +71,26 @@ public class ProjectAction  extends ActionSupport {
     
 	 @Override
 	    public String execute() throws NumberFormatException, GSException {
-		//user = DataProvider.getUserByID(Long.parseLong(session.getAttribute("userID").toString())); 
-		 user = DataProvider.getUserByID(sessionUser.getId());
+		
+		 user = DataProvider.getUserByID(Long.parseLong(session.getAttribute("userID").toString())); 
 		 
 		if (!user.getRole().getName().equals("Tester Manager")) {
 			addActionError("Your Account do not have permission to perform this action.");
 		}
 		
-		
 		setProject();
+		setProjectFields();
+		setLists();  		
+		setTabs();
 		
+		return "projects";
+	 }
+
+//---------------------------------------------------------------------------------------------------------------------------
+	/**
+	 * Metoda przekazue pola projektu do zmiennych akcji, aby były widoczne dla użytkownika.
+	 */
+	 private void setProjectFields() {
 		ProjectBean project = DataProvider.mapProjects.get(session.getAttribute("userProject")); 
 		
 		itemID = Long.toString(project.getId());
@@ -90,17 +103,11 @@ public class ProjectAction  extends ActionSupport {
 		startDate = project.getStartDate();
 		endDate = project.getEndDate();
 		state = project.getState().getName();
-		
-		setLists();  		
-		setTabs();
-		
-		return "projects";
-	 }
-
+	}
 	 
-	 
-	 
-//---------------------------------------------------------------------------------------------------------------------------
+	 /**
+	  * Ustawia projekt do zapamiętania w sesji. Dzięki temu po wykonaniu akcji i powrocie na stronę projects, użytkownik będzie widział itemy z projektu który wybrał poprzednio. 
+	  */
 	 private void setProject() {
 		 projectsList = user.getProjectsList();
 			
@@ -117,6 +124,9 @@ public class ProjectAction  extends ActionSupport {
 			} 
 	 }
 	 
+	 /**
+	  * Metoda ustawiająca odpowiednią zakładkę na stownie tak, aby użytkownik cały czas znajdował się w jednej zakładce po wykonaniu czynności np. sortowania.
+	  */
 	 private void setTabs() {
 		 if(session.getAttribute("selectedTab") == null) { // po zalogowaniu, ustawia domyślnie na Bug Tab
 				session.setAttribute("selectedTab", "BugTab"); 
@@ -129,27 +139,26 @@ public class ProjectAction  extends ActionSupport {
 		 else {
 			 {
  				if(bugSort != null && !Utils.bugTabState.equals(bugSort)) {
- 					
  					session.setAttribute("selectedTab", "BugTab");
  					Utils.bugTabState = bugSort;
- 					System.out.println("Test 2");
  				}
  				if(testSort != null && !Utils.testTabState.equals(testSort)) {
  					session.setAttribute("selectedTab", "TestTab");
  					Utils.testTabState = testSort;
- 					System.out.println("Test 3");
  				}
  				if(areaSort != null && !Utils.areaTabState.equals(areaSort)) {
  					session.setAttribute("selectedTab", "AreaTab");
  					Utils.areaTabState = areaSort;
- 					System.out.println("Test 4");
  				}
-			 	} 
+		 	} 
 		 }
 		 JSPTabControlUtil.setSelectedTabPageName(request, "ProjectsTabs", session.getAttribute("selectedTab").toString());	
 		 
 	 }
 	 
+	/**
+	 * Metoda wypełnia listy obiektami odpowiednimi dla danego projektu.
+	 */
 	 private void setLists() {
 		 
 		 DataProvider.updateBugMaps();
@@ -161,12 +170,6 @@ public class ProjectAction  extends ActionSupport {
 				  areaObjList.add(DataProvider.mapAreas.get(el));	  
 				}
 			}
-		  
-		// for (AreaBean area : DataProvider.getAllAreas()) {
-		//	  if(area.getProject().getTitle().equals(selectedProject)) {
-		//		  areaObjList.add(area);	  
-		//		}
-		//	}
 		 
 		  for (String el :DataProvider.mapTests.keySet()) {
 			  if(DataProvider.mapTests.get(el).getArea().getProject().getTitle().equals(selectedProject)) {

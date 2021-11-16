@@ -13,7 +13,7 @@ import org.apache.struts2.convention.annotation.Result;
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
-import com.bartosz.gameteststudio.utils.SessionUser;
+import com.bartosz.gameteststudio.utils.Constants;
 import com.bartosz.gameteststudio.utils.Utils;
 import com.google.common.hash.Hashing;
 import com.opensymphony.xwork2.ActionSupport;
@@ -58,18 +58,12 @@ public class LoginAction extends ActionSupport {
 	            		if(password != "") {
 	            			if(user.getPassword().equals(Hashing.sha256().hashString(this.password, StandardCharsets.UTF_8).toString())){
 		            		//if(user.getPassword().equals(this.password)) {
-	        					
-	            				SessionUser sessionUser = new SessionUser(user.getDisplayName(), user.getEmail(), user.getRole().getName(), user.getId());
-	            				
-	            				session.setAttribute("sessionUser", sessionUser);
-	            				
 	            				session.setAttribute("loginedUsername", user.getDisplayName());
 		        	    		session.setAttribute("loginedEmail", this.getEmail());
 		        	    		session.setAttribute("userRole", user.getRole().getName());
+		        	    		session.setAttribute(Constants.SESSION_ROLE_KEY, user.getRole().getId());
 		        	    		session.setAttribute("userID", user.getId().toString());
 	            				 
-	            				
-		        	    		
 		        	    		if(user.isAdmin()) {
 		        	    			session.setAttribute("admin", "admin");
 		        	    			ret = "admin";

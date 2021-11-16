@@ -82,10 +82,6 @@ public class AccountCreateAction  extends ActionSupport {
     
     public String getFirstName() {return firstName;}
     
-   
-
-
-
 	public void setFirstName(String firstName) {
         if(firstName == "") firstName = null;
         else this.firstName = firstName;

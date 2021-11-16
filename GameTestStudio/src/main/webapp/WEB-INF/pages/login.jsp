@@ -4,15 +4,7 @@
 <head>
 <title>Game Test Studio - Login</title>
 </head>
- 
-<body>
-    <jsp:include page="_userMenu.jsp" />
-    <jsp:include page="_login.jsp" />
-	 
-    	 
- 
- 
-    
-</body>
- 
+	<body>
+	    <jsp:include page="_login.jsp" />
+	</body> 
 </html>

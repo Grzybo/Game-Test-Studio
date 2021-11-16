@@ -1,7 +1,9 @@
 package com.bartosz.gameteststudio.action;
  
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -15,18 +17,18 @@ import org.displaytag.util.ParamEncoder;
 import com.bartosz.gameteststudio.beans.ProjectBean;
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
+import com.bartosz.gameteststudio.utils.EnRoles;
 import com.bartosz.gameteststudio.utils.Utils;
-import com.opensymphony.xwork2.ActionSupport;
 
 import net.sourceforge.jsptabcontrol.util.JSPTabControlUtil;
  
 @Action(value = "adminPage", 
 		results = { 
 		@Result(name = "admin", location = "/WEB-INF/pages/adminPage.jsp"),
-        @Result(name = "login", type="redirect", location = "/login")
+        @Result(name = "login", type="redirect", location = "/login"),
 } 
 )
-public class AdminPageAction  extends ActionSupport {
+public class AdminPageAction  extends SecureAction {
   
     private static final long serialVersionUID = 1L;
     
@@ -37,28 +39,6 @@ public class AdminPageAction  extends ActionSupport {
 	private String projectSort = request.getParameter((new ParamEncoder("projectsTable")).encodeParameterName(TableTagParameters.PARAMETER_SORT));
 	private String userSort = request.getParameter((new ParamEncoder("accountsTable")).encodeParameterName(TableTagParameters.PARAMETER_SORT));
     
-    @Override
-    public String execute() {
-          	
-    	HttpServletRequest request = ServletActionContext.getRequest();
-        HttpSession session = request.getSession();
-    	
-        DataProvider.updateProjectMaps();
-        projectObjList = new ArrayList<ProjectBean>(DataProvider.mapProjects.values());
-    	
-        setTabs();
-    	  
-    	  if(session.getAttribute("loginedUsername") == null ){
-    		  return "login";
-    	  }
-    	  
-    	  if(DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString()).isAdmin()){	
-    		  return "admin";
-    	  } 
-    	  
-    	  
-    	return "login";
-    }
     
     // ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
     
@@ -100,6 +80,38 @@ public class AdminPageAction  extends ActionSupport {
 
 	public void setUserObjList(List<UserBean> userObjList) {
 		this.userObjList = userObjList;
+	}
+
+	@Override
+	public String executeSecured() {
+		HttpServletRequest request = ServletActionContext.getRequest();
+        HttpSession session = request.getSession();
+    	
+        DataProvider.updateProjectMaps();
+        projectObjList = new ArrayList<ProjectBean>(DataProvider.mapProjects.values());
+    	
+        setTabs();
+    	  
+    	  if(session.getAttribute("loginedUsername") == null ){
+    		  return "login";
+    	  }
+    	  
+    	  System.out.println(" ADMIN PAGE  ");
+    	  
+    	 // if(DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString()).isAdmin()){	
+    	//	  return "admin";
+    	 // } 
+    	  
+    	  
+    	return "admin";
+	}
+
+	@Override
+	protected Set<EnRoles> allowedRoles() {
+		// zmienna set z rolami 
+		Set<EnRoles> roles = new HashSet<>(); 
+		roles.add(EnRoles.administrator);
+		return roles;
 	} 
     
     

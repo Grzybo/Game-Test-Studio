@@ -2,6 +2,7 @@
 
 <%@ page import="java.util.List"%>
 <%@ page import="com.bartosz.gameteststudio.dp.DataProvider"%>
+<%@ page import="com.bartosz.gameteststudio.beans.ProjectBean"%>
 <%@ page import="net.sourceforge.jsptabcontrol.util.JSPTabControlUtil"%>
 <%@ page import="org.displaytag.tags.TableTagParameters"%>
 <%@ page import="org.displaytag.util.ParamEncoder"%>
@@ -23,7 +24,22 @@
 	   	<link href="/css/my-jsptabcontrol.css" rel="stylesheet" type="text/css"/>
 	</head>
 	<body>
-		<% %>
+	
+		<%
+			ProjectBean project = DataProvider.mapProjects.get(session.getAttribute("userProject")); 
+			String itemID = Long.toString(project.getId());
+			String title = project.getTitle(); 
+			String description = project.getDescription();
+			Integer testers_numbers = project.getTestersNumber();
+			Double estimate_time = project.getEstimatedTime(); 
+			List<String> selectedPlatforms = project.getPlatformsStringList();
+			Double work_time = project.getWorkTime(); 
+			String startDate = project.getStartDate();
+			String endDate = project.getEndDate();
+			String state = project.getState().getName();
+		
+		%>
+		
 		<jsp:include page="_userMenu.jsp" />
 		<s:form id = "projectForm" action="/projects" method="post">
 			<s:select label="Project" name="selectedProject" list="projectsList"/>
