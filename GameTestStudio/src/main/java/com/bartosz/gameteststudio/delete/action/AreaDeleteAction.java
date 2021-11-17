@@ -1,7 +1,9 @@
 package com.bartosz.gameteststudio.delete.action;
  
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -9,19 +11,22 @@ import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
+import com.bartosz.gameteststudio.action.SecureAction;
 import com.bartosz.gameteststudio.beans.AreaBean;
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
-import com.opensymphony.xwork2.ActionSupport;
+import com.bartosz.gameteststudio.utils.Utils;
  
 @Action(value = "deleteArea", //
 results = { //
         @Result(name = "delete", location = "/WEB-INF/pages/edit_pages/editArea.jsp"),
-        @Result(name = "deleted", type="redirect", location = "/projects")
+        @Result(name = "deleted", type="redirect", location = "/projects"), 
+        @Result(name = "noPermissions",  type="redirect", location = "/noPermissions"), 
+        @Result(name = "sessionExpired",  type="redirect", location = "/sessionExpired")
 } //
 )
-public class AreaDeleteAction  extends ActionSupport {
+public class AreaDeleteAction  extends SecureAction {
   
     private static final long serialVersionUID = 1L;
     
@@ -41,37 +46,6 @@ public class AreaDeleteAction  extends ActionSupport {
 	private List<String> priorityList = new ArrayList<String>(DataProvider.getPriorities().keySet());
 	private List<String> stateList = new ArrayList<String>(DataProvider.getStates().keySet()); 
 	
-	
-	
-	
-    @Override
-    public String execute() throws NumberFormatException, GSException {
-          
-    	// Walidacja uprawnień -------------------------------------------------------------------------------------------------------
-    	/**
-    	 * 
-    	
-    	// kto moze: Tester Manager 
-    	if (!user.getRole().getName().equals("Tester Manager")) {
-    		addActionError("Your Account do not have permission to perform this action.");
-    		return "delete";
-    	}
-    	 */
-    	
-    	//------------------------------------------------------------------------------------------------------------------------------
-    	
-    	HttpSession session = ServletActionContext.getRequest().getSession();    	
-    	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());
-    	projectsList = user.getProjectsList(); 
-    	project = session.getAttribute("userProject").toString();
-    	
-    	AreaBean area = DataProvider.getAreaByID(Long.parseLong(itemID));
-    	DataProvider.deleteArea(area); 
-    	
-    	addActionError("Area Deleted!");
-    	return "deleted";
-    }
-
 
 	public String getTitle() {
 		return title;
@@ -210,6 +184,27 @@ public class AreaDeleteAction  extends ActionSupport {
 
 	public void setItemID(String itemID) {
 		this.itemID = itemID;
+	}
+
+
+	@Override
+	public String executeSecured() throws GSException, NumberFormatException, IOException {    	
+    	HttpSession session = ServletActionContext.getRequest().getSession();    	
+    	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());
+    	projectsList = user.getProjectsList(); 
+    	project = session.getAttribute("userProject").toString();
+    	
+    	AreaBean area = DataProvider.getAreaByID(Long.parseLong(itemID));
+    	DataProvider.deleteArea(area); 
+    	
+    	addActionError("Area Deleted!");
+    	return "deleted";
+	}
+
+
+	@Override
+	protected Set<Long> allowedRolesID() {
+		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
 	}
 
 

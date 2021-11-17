@@ -1,24 +1,29 @@
 package com.bartosz.gameteststudio.update.action;
  
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
+import com.bartosz.gameteststudio.action.SecureAction;
 import com.bartosz.gameteststudio.beans.ProjectBean;
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
+import com.bartosz.gameteststudio.utils.Utils;
 import com.google.common.base.Strings;
-import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "updateAccount", //
 results = { //
-        @Result(name = "editAccount", location = "/WEB-INF/pages/edit_pages/editAccount.jsp")
+        @Result(name = "editAccount", location = "/WEB-INF/pages/edit_pages/editAccount.jsp"), 
+        @Result(name = "noPermissions",  type="redirect", location = "/noPermissions"), 
+        @Result(name = "sessionExpired",  type="redirect", location = "/sessionExpired")
 } //
 )
-public class AccountUpdateAction  extends ActionSupport {
+public class AccountUpdateAction  extends SecureAction {
   
     private static final long serialVersionUID = 1L;
  
@@ -34,33 +39,7 @@ public class AccountUpdateAction  extends ActionSupport {
     private List<String>  projectsList = new ArrayList<String>(DataProvider.mapProjects.keySet());
     private List<ProjectBean> pL = new ArrayList<ProjectBean>();
     
-    @Override
-    public String execute() throws NumberFormatException, GSException {
-          
-		UserBean user = DataProvider.getUserByID(Long.parseLong(itemID));
-		UserBean newUser = new UserBean();    
-		
-		String ret = "editAccount";
-			
-		if(!Strings.isNullOrEmpty(firstName)) {
-			if(!Strings.isNullOrEmpty(this.lastName)) {        			
-				newUser.setFirstName(firstName);
-			 	newUser.setLastName(lastName);
-			 	newUser.setRole(DataProvider.mapRoles.get(role));
-			 	newUser.setProjectsList(projects);
-			 	newUser.setId(user.getId());
-			 	newUser.setEmail(user.getEmail());
-			 	newUser.setPassword(user.getPassword());
-			 	newUser.setConfirmed(user.getConfirmed());
-			 	
-			 	DataProvider.updateUser(user, newUser);
-					
-	    	}else addActionError("Last Name cannot be empty.");
-		}else addActionError("First Name cannot be empty.");
-		
-		return ret;	
-    }
-
+   
 
 	public String getFirstName() {
 		return firstName;
@@ -144,6 +123,39 @@ public class AccountUpdateAction  extends ActionSupport {
 
 	public void setpL(List<ProjectBean> pL) {
 		this.pL = pL;
+	}
+
+
+	@Override
+	public String executeSecured() throws GSException, NumberFormatException, IOException {
+		UserBean user = DataProvider.getUserByID(Long.parseLong(itemID));
+		UserBean newUser = new UserBean();    
+		
+		String ret = "editAccount";
+			
+		if(!Strings.isNullOrEmpty(firstName)) {
+			if(!Strings.isNullOrEmpty(this.lastName)) {        			
+				newUser.setFirstName(firstName);
+			 	newUser.setLastName(lastName);
+			 	newUser.setRole(DataProvider.mapRoles.get(role));
+			 	newUser.setProjectsList(projects);
+			 	newUser.setId(user.getId());
+			 	newUser.setEmail(user.getEmail());
+			 	newUser.setPassword(user.getPassword());
+			 	newUser.setConfirmed(user.getConfirmed());
+			 	
+			 	DataProvider.updateUser(user, newUser);
+					
+	    	}else addActionError("Last Name cannot be empty.");
+		}else addActionError("First Name cannot be empty.");
+		
+		return ret;	
+	}
+
+
+	@Override
+	protected Set<Long> allowedRolesID() {
+		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
 	}
 
 }

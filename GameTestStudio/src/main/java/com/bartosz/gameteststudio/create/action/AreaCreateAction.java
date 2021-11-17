@@ -1,7 +1,6 @@
 package com.bartosz.gameteststudio.create.action;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -15,14 +14,15 @@ import com.bartosz.gameteststudio.action.SecureAction;
 import com.bartosz.gameteststudio.beans.AreaBean;
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
-import com.bartosz.gameteststudio.utils.EnRoles;
+import com.bartosz.gameteststudio.utils.Utils;
 import com.google.common.base.Strings;
  
 @Action(value = "createArea", //
 results = { //
         @Result(name = "createArea", location = "/WEB-INF/pages/create_pages/createArea.jsp"), 
         @Result(name = "created", type="redirect", location = "/projects"), 
-        @Result(name = "noPermissions",  type="redirect", location = "/noPermissions")
+        @Result(name = "noPermissions",  type="redirect", location = "/noPermissions"), 
+        @Result(name = "sessionExpired",  type="redirect", location = "/sessionExpired")
 } //
 )
 public class AreaCreateAction  extends SecureAction {
@@ -44,9 +44,6 @@ public class AreaCreateAction  extends SecureAction {
 	private List<String> priorityList = new ArrayList<String>(DataProvider.getPriorities().keySet()); 
 	private List<String> stateList = new ArrayList<String>(DataProvider.getStates().keySet());
 	
-	
-   
-
 
 	public String getTitle() {
 		return title;
@@ -231,24 +228,7 @@ public class AreaCreateAction  extends SecureAction {
 
 	@Override
 	public String executeSecured() {
-		/**
-    	 * 
-    	 
-    	
-    	// Walidacja uprawnień ------------------------------------------------------------------------------------------------------
-    	
-    	
-    	
-    	
-    	// kto moze: Tester Manager 
-    	if (!user.getRole().getName().equals("Tester Manager")) {
-    		addActionError("Your Account do not have permission to perform this action.");
-    		return "createArea";
-    	}
-    	//------------------------------------------------------------------------------------------------------------------------------
-    	 * session.setAttribute("selectedTab", "AreaTab");
-    	 */
-    	
+		
     	HttpSession session = ServletActionContext.getRequest().getSession(); 
     	session.setAttribute("selectedTab", "AreaTab");
     	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());
@@ -276,13 +256,8 @@ public class AreaCreateAction  extends SecureAction {
 		return ret;
 	}
 
-
-
 	@Override
-	protected Set<EnRoles> allowedRoles() {
-		Set<EnRoles> roles = new HashSet<>(); 
-		roles.add(EnRoles.testerManager);
-		return roles;
+	protected Set<Long> allowedRolesID() {
+		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
 	}
-    
 }

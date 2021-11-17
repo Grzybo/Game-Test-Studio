@@ -1,24 +1,29 @@
 package com.bartosz.gameteststudio.delete.action;
  
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
+import com.bartosz.gameteststudio.action.SecureAction;
 import com.bartosz.gameteststudio.beans.ProjectBean;
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
-import com.opensymphony.xwork2.ActionSupport;
+import com.bartosz.gameteststudio.utils.Utils;
  
 @Action(value = "deleteAccount", //
 results = { //
         @Result(name = "editAccount", location = "/WEB-INF/pages/edit_pages/editAccount.jsp"), 
-        @Result(name = "deleted", type="redirect", location = "/adminPage")
+        @Result(name = "deleted", type="redirect", location = "/adminPage"), 
+        @Result(name = "noPermissions",  type="redirect", location = "/noPermissions"), 
+        @Result(name = "sessionExpired",  type="redirect", location = "/sessionExpired")
 } //
 )
-public class AccountDeleteAction  extends ActionSupport {
+public class AccountDeleteAction  extends SecureAction {
   
     private static final long serialVersionUID = 1L;
  
@@ -34,17 +39,7 @@ public class AccountDeleteAction  extends ActionSupport {
     private List<String> rolesList = new ArrayList<String>(DataProvider.mapRoles.keySet());
     private List<String>  projectsList = new ArrayList<String>(DataProvider.mapProjects.keySet());
     private List<ProjectBean> pL = new ArrayList<ProjectBean>();    
-    
-    @Override
-    public String execute() throws NumberFormatException, GSException {
-          
-    	UserBean user = DataProvider.getUserByID(Long.parseLong(itemID));
-    	DataProvider.deleteUser(user);
-    	
-    	addActionError("User Deleted!");
 
-    	return "deleted";
-    }
 
 	public String getSearchEmail() {
 		return searchEmail;
@@ -137,4 +132,19 @@ public class AccountDeleteAction  extends ActionSupport {
 	public void setpL(List<ProjectBean> pL) {
 		this.pL = pL;
 	}
+
+	@Override
+	public String executeSecured() throws GSException, NumberFormatException, IOException {
+		UserBean user = DataProvider.getUserByID(Long.parseLong(itemID));
+    	DataProvider.deleteUser(user);
+    	
+    	addActionError("User Deleted!");
+
+    	return "deleted";
+	}
+
+	@Override
+	protected Set<Long> allowedRolesID() {
+		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
+	} 
 }

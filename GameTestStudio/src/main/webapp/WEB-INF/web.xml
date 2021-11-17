@@ -37,4 +37,8 @@
         </session-timeout>
     </session-config>
     
+    <global-forwards>
+		<forward name="noPermissions"  path="/noPermissions"/>
+	</global-forwards>
+    
 </web-app>

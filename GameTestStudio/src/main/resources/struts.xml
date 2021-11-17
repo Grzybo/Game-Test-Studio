@@ -5,11 +5,12 @@
  
 <struts>
  
-   <constant name="struts.enable.DynamicMethodInvocation" value="false" />
-   <constant name="struts.devMode" value="false" />
-   <constant name="struts.custom.i18n.resources" value="ApplicationResources" />
-
+	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
+	<constant name="struts.devMode" value="false" />
+	<constant name="struts.custom.i18n.resources" value="ApplicationResources" />
+	
 
  
 </struts> 
+
 

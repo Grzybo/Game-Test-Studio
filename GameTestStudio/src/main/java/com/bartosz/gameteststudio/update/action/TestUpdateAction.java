@@ -1,7 +1,9 @@
 package com.bartosz.gameteststudio.update.action;
  
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -9,20 +11,23 @@ import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
+import com.bartosz.gameteststudio.action.SecureAction;
 import com.bartosz.gameteststudio.beans.AreaBean;
 import com.bartosz.gameteststudio.beans.TestBean;
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
+import com.bartosz.gameteststudio.utils.Utils;
 import com.google.common.base.Strings;
-import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "updateTest", //
 results = { //
-        @Result(name = "update", location = "/WEB-INF/pages/edit_pages/editTest.jsp")
+        @Result(name = "update", location = "/WEB-INF/pages/edit_pages/editTest.jsp"), 
+        @Result(name = "noPermissions",  type="redirect", location = "/noPermissions"), 
+        @Result(name = "sessionExpired",  type="redirect", location = "/sessionExpired")
 } //
 )
-public class TestUpdateAction  extends ActionSupport {
+public class TestUpdateAction  extends SecureAction {
   
     private static final long serialVersionUID = 1L;
  
@@ -51,75 +56,6 @@ public class TestUpdateAction  extends ActionSupport {
 	private List<String> accountList = new ArrayList<String>();
 	private List<String> resultList = new ArrayList<String>(DataProvider.mapResults.keySet());
 	private List<String> buildList = new ArrayList<String>(DataProvider.mapBuilds.keySet());
-	
-    
-    @Override
-    public String execute() throws GSException {
-          
-    	// Walidacja uprawnień ------------------------------------------------------------------------------------------------------
-    	HttpSession session = ServletActionContext.getRequest().getSession();    	
-    	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());
-    	System.out.println(user.getRole().getName());
-    	// kto moze: Tester, Tester Manager 
-    	if ((!user.getRole().getName().equals("Tester")) && (!user.getRole().getName().equals("Tester Manager"))) {
-    		addActionError("Your Account do not have permission to perform this action."); 
-    		
-    		return "update";
-    	}
-    	//------------------------------------------------------------------------------------------------------------------------------
-    	
-    	
-    	
-    	for (String el : DataProvider.mapUsers.keySet()) {
-    		if(DataProvider.mapUsers.get(el).getProjects() != null) {
-    			if(DataProvider.mapUsers.get(el).getProjectsList().
-    					contains(session.getAttribute("userProject"))) {
-    				accountList.add(el);
-    			}
-    		}	
-		} 
-    	    	
-    	for(AreaBean area : DataProvider.getAllAreas()) {
-    		if(area.getProject().getTitle().equals(session.getAttribute("userProject").toString())) {
-    			areaList.add(area.getTitle());
-    		}
-    	}
-    	
-
-    	TestBean test = DataProvider.getTestByID(Long.parseLong(itemID));
-    	TestBean newTest = new TestBean();
-    	platformList = test.getArea().getProject().getPlatformsStringList();
-    	
-    	if(!Strings.isNullOrEmpty(title)) {
-    		if(!Strings.isNullOrEmpty(this.description)) {
-    			newTest.setTitle(title);
-    	    	newTest.setUser(DataProvider.mapUsers.get(account));
-    	    	newTest.setPriority(DataProvider.getPriorities().get(priority));
-    	    	newTest.setState(DataProvider.getStates().get(state));
-    	    	newTest.setDescription(description);
-    	    	newTest.setArea(DataProvider.getAreaByTitle(area));
-    	    	newTest.setEstimatedTime(estimatedTime);
-    	    	newTest.setWorkTime(workTime);
-    	    	newTest.setTestersNumber(testersNumber);
-    	    	newTest.setStartDate(startDate);
-    	    	newTest.setEndDate(endDate);
-    	    	newTest.setId(test.getId());
-    	    	newTest.setBuild(DataProvider.mapBuilds.get(build));
-    	    	newTest.setResult(DataProvider.mapResults.get(result)); 
-    	    	newTest.setVersion(version);
-    	    	newTest.setPlatforms(selectedPlatforms);
-    	    	
-    	    	DataProvider.updateTest(test, newTest);
-    	    	
-    	    	addActionError("Test Updated!");
-        		
-        	}else addActionError("Description field cannot be empty.");
-    	}else addActionError("Title field cannot be empty.");
-    	
-    	return "update";
-    	
-    }
-
 
 	public String getTitle() {
 		return title;
@@ -352,5 +288,76 @@ public class TestUpdateAction  extends ActionSupport {
 		this.itemID = itemID;
 	}
 
+
+	@Override
+	public String executeSecured() throws GSException, NumberFormatException, IOException {
+		// Walidacja uprawnień ------------------------------------------------------------------------------------------------------
+    	HttpSession session = ServletActionContext.getRequest().getSession();    	
+    	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());
+    	System.out.println(user.getRole().getName());
+    	// kto moze: Tester, Tester Manager 
+    	if ((!user.getRole().getName().equals("Tester")) && (!user.getRole().getName().equals("Tester Manager"))) {
+    		addActionError("Your Account do not have permission to perform this action."); 
+    		
+    		return "update";
+    	}
+    	//------------------------------------------------------------------------------------------------------------------------------
+    	
+    	
+    	
+    	for (String el : DataProvider.mapUsers.keySet()) {
+    		if(DataProvider.mapUsers.get(el).getProjects() != null) {
+    			if(DataProvider.mapUsers.get(el).getProjectsList().
+    					contains(session.getAttribute("userProject"))) {
+    				accountList.add(el);
+    			}
+    		}	
+		} 
+    	    	
+    	for(AreaBean area : DataProvider.getAllAreas()) {
+    		if(area.getProject().getTitle().equals(session.getAttribute("userProject").toString())) {
+    			areaList.add(area.getTitle());
+    		}
+    	}
+    	
+
+    	TestBean test = DataProvider.getTestByID(Long.parseLong(itemID));
+    	TestBean newTest = new TestBean();
+    	platformList = test.getArea().getProject().getPlatformsStringList();
+    	
+    	if(!Strings.isNullOrEmpty(title)) {
+    		if(!Strings.isNullOrEmpty(this.description)) {
+    			newTest.setTitle(title);
+    	    	newTest.setUser(DataProvider.mapUsers.get(account));
+    	    	newTest.setPriority(DataProvider.getPriorities().get(priority));
+    	    	newTest.setState(DataProvider.getStates().get(state));
+    	    	newTest.setDescription(description);
+    	    	newTest.setArea(DataProvider.getAreaByTitle(area));
+    	    	newTest.setEstimatedTime(estimatedTime);
+    	    	newTest.setWorkTime(workTime);
+    	    	newTest.setTestersNumber(testersNumber);
+    	    	newTest.setStartDate(startDate);
+    	    	newTest.setEndDate(endDate);
+    	    	newTest.setId(test.getId());
+    	    	newTest.setBuild(DataProvider.mapBuilds.get(build));
+    	    	newTest.setResult(DataProvider.mapResults.get(result)); 
+    	    	newTest.setVersion(version);
+    	    	newTest.setPlatforms(selectedPlatforms);
+    	    	
+    	    	DataProvider.updateTest(test, newTest);
+    	    	
+    	    	addActionError("Test Updated!");
+        		
+        	}else addActionError("Description field cannot be empty.");
+    	}else addActionError("Title field cannot be empty.");
+    	
+    	return "update";
+	}
+
+
+	@Override
+	protected Set<Long> allowedRolesID() {
+		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
+	}
     
 }

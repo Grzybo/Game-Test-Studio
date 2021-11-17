@@ -1,7 +1,9 @@
 package com.bartosz.gameteststudio.edit.action;
  
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -9,18 +11,21 @@ import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
+import com.bartosz.gameteststudio.action.SecureAction;
 import com.bartosz.gameteststudio.beans.AreaBean;
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
-import com.opensymphony.xwork2.ActionSupport;
+import com.bartosz.gameteststudio.utils.Utils;
  
 @Action(value = "editArea", //
 results = { //
-        @Result(name = "editArea", location = "/WEB-INF/pages/edit_pages/editArea.jsp")
+        @Result(name = "editArea", location = "/WEB-INF/pages/edit_pages/editArea.jsp"), 
+        @Result(name = "noPermissions",  type="redirect", location = "/noPermissions"), 
+        @Result(name = "sessionExpired",  type="redirect", location = "/sessionExpired")
 } //
 )
-public class AreaEditAction  extends ActionSupport {
+public class AreaEditAction  extends SecureAction {
   
     private static final long serialVersionUID = 1L;
     
@@ -40,36 +45,6 @@ public class AreaEditAction  extends ActionSupport {
 	private List<String> priorityList = new ArrayList<String>(DataProvider.getPriorities().keySet());
 	private List<String> stateList = new ArrayList<String>(DataProvider.getStates().keySet());
 	
-	
-    @Override
-    public String execute() throws Exception, GSException {
-          
-    	HttpSession session = ServletActionContext.getRequest().getSession();
-    	session.setAttribute("selectedTab", "AreaTab");
-    	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString()); 
-    	
-    	projectsList = user.getProjectsList(); 
-    	project = session.getAttribute("userProject").toString();
-    	
-    	AreaBean area = DataProvider.getAreaByID(Long.parseLong(itemID));
-    	
-		this.title = area.getTitle();
-		this.project = area.getProject().getTitle();
-    	this.priority = area.getPriority().getName();
-    	this.state = area.getState().getName();
-    	this.description = area.getDescription();
-    	this.estimatedTime = area.getEstimatedTime(); 
-    	this.startDate = area.getStartDate();
-    	this.endDate = area.getEndDate(); 
-    	this.testersNumber = area.getTestersNumber(); 
-    	this.workTime = area.getWorkTime();	
-    	
-    	return "editArea";
-    }
-
-
-    
-    
     
     //##################################################################################################
 	
@@ -221,7 +196,45 @@ public class AreaEditAction  extends ActionSupport {
 
 	public void setStateList(List<String> stateList) {
 		this.stateList = stateList;
-	} 
+	}
+
+
+
+
+
+	@Override
+	public String executeSecured() throws GSException, NumberFormatException, IOException {
+		HttpSession session = ServletActionContext.getRequest().getSession();
+    	session.setAttribute("selectedTab", "AreaTab");
+    	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString()); 
+    	
+    	projectsList = user.getProjectsList(); 
+    	project = session.getAttribute("userProject").toString();
+    	
+    	AreaBean area = DataProvider.getAreaByID(Long.parseLong(itemID));
+    	
+		this.title = area.getTitle();
+		this.project = area.getProject().getTitle();
+    	this.priority = area.getPriority().getName();
+    	this.state = area.getState().getName();
+    	this.description = area.getDescription();
+    	this.estimatedTime = area.getEstimatedTime(); 
+    	this.startDate = area.getStartDate();
+    	this.endDate = area.getEndDate(); 
+    	this.testersNumber = area.getTestersNumber(); 
+    	this.workTime = area.getWorkTime();	
+    	
+    	return "editArea";
+	}
+
+
+
+
+
+	@Override
+	protected Set<Long> allowedRolesID() {
+		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
+	}
     
     
 }

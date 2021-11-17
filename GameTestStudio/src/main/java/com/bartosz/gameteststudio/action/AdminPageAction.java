@@ -1,7 +1,6 @@
 package com.bartosz.gameteststudio.action;
  
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -17,7 +16,6 @@ import org.displaytag.util.ParamEncoder;
 import com.bartosz.gameteststudio.beans.ProjectBean;
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
-import com.bartosz.gameteststudio.utils.EnRoles;
 import com.bartosz.gameteststudio.utils.Utils;
 
 import net.sourceforge.jsptabcontrol.util.JSPTabControlUtil;
@@ -26,13 +24,15 @@ import net.sourceforge.jsptabcontrol.util.JSPTabControlUtil;
 		results = { 
 		@Result(name = "admin", location = "/WEB-INF/pages/adminPage.jsp"),
         @Result(name = "login", type="redirect", location = "/login"),
+        @Result(name = "noPermissions",  type="redirect", location = "/noPermissions"), 
+        @Result(name = "sessionExpired",  type="redirect", location = "/sessionExpired")
 } 
 )
 public class AdminPageAction  extends SecureAction {
   
     private static final long serialVersionUID = 1L;
     
-    private List<ProjectBean> projectObjList; // = new ArrayList<ProjectBean>(DataProvider.mapProjects.values());
+    private List<ProjectBean> projectObjList;
     private List<UserBean> userObjList = new ArrayList<UserBean>(DataProvider.getAllUsers());
     private HttpServletRequest request = ServletActionContext.getRequest();
 	private HttpSession session = request.getSession(); 
@@ -84,34 +84,17 @@ public class AdminPageAction  extends SecureAction {
 
 	@Override
 	public String executeSecured() {
-		HttpServletRequest request = ServletActionContext.getRequest();
-        HttpSession session = request.getSession();
     	
         DataProvider.updateProjectMaps();
         projectObjList = new ArrayList<ProjectBean>(DataProvider.mapProjects.values());
     	
-        setTabs();
-    	  
-    	  if(session.getAttribute("loginedUsername") == null ){
-    		  return "login";
-    	  }
-    	  
-    	  System.out.println(" ADMIN PAGE  ");
-    	  
-    	 // if(DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString()).isAdmin()){	
-    	//	  return "admin";
-    	 // } 
-    	  
-    	  
+        setTabs();  
     	return "admin";
 	}
 
 	@Override
-	protected Set<EnRoles> allowedRoles() {
-		// zmienna set z rolami 
-		Set<EnRoles> roles = new HashSet<>(); 
-		roles.add(EnRoles.administrator);
-		return roles;
+	protected Set<Long> allowedRolesID() {
+		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
 	} 
     
     

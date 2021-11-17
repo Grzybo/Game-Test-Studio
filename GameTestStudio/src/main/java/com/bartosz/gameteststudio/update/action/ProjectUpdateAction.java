@@ -1,25 +1,30 @@
 package com.bartosz.gameteststudio.update.action;
  
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
+import com.bartosz.gameteststudio.action.SecureAction;
 import com.bartosz.gameteststudio.beans.ProjectBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
+import com.bartosz.gameteststudio.utils.Utils;
 import com.google.common.base.Strings;
-import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "updateProject", //
 results = { //
         @Result(name = "updateProject", location = "/WEB-INF/pages/edit_pages/editProject.jsp"),
-        @Result(name = "projects", type="redirect",  location = "/projects")
+        @Result(name = "projects", type="redirect",  location = "/projects"), 
+        @Result(name = "noPermissions",  type="redirect", location = "/noPermissions"), 
+        @Result(name = "sessionExpired",  type="redirect", location = "/sessionExpired")
 } //
 )
-public class ProjectUpdateAction  extends ActionSupport {
+public class ProjectUpdateAction  extends SecureAction {
   
     private static final long serialVersionUID = 1L;
  
@@ -36,44 +41,6 @@ public class ProjectUpdateAction  extends ActionSupport {
     private List<String> platformList = new ArrayList<String>(DataProvider.mapPlatforms.keySet()); 
     private List<String> selectedPlatforms = new ArrayList<String>();
     private List<String> stateList = new ArrayList<String>(DataProvider.getStates().keySet());
-    
-    @Override
-    public String execute() throws GSException {
-          
-    	ServletActionContext.getRequest().getSession().setAttribute("selectedTab", "ProjectTab");
-    	
-    	ProjectBean project = DataProvider.getProjectByID(Long.parseLong(itemID));
-		ProjectBean newProject = new ProjectBean();
-		
-    	String ret = "updateProject";
-    	
-    	if(!Strings.isNullOrEmpty(title)) {
-    		if(!Strings.isNullOrEmpty(this.description)) {        			
-    			 
-	    		newProject.setId(project.getId());
-	    		newProject.setTitle(title);
-	    		newProject.setDescription(description);
-	    		newProject.setEstimatedTime(estimate_time);
-	    		newProject.setWorkTime(work_time); 
-	    		newProject.setStartDate(startDate);
-	    		newProject.setEndDate(endDate);
-	    		newProject.setTestersNumber(testers_numbers);
-	    		newProject.setState(DataProvider.getStates().get(state));     
-	    		newProject.setUsers(project.getUsers());
-	    		newProject.setPlatforms(selectedPlatforms);
-	        	
-	        	DataProvider.updateProject(project, newProject);
-    			
-        	}else addActionError("Description field cannot be empty.");
-    	}else addActionError("Title field cannot be empty.");
-
-    
-    	if(!DataProvider.mapUsers.get(ServletActionContext.getRequest().getSession().getAttribute("loginedEmail").toString()).isAdmin()) {
-    		ret = "projects";
-    	}
-    	return ret;	
-    	
-    }
 
 	public String getSearchTitle() {
 		return searchTitle;
@@ -178,5 +145,47 @@ public class ProjectUpdateAction  extends ActionSupport {
 	public void setWork_time(Double work_time) {
 		this.work_time = work_time;
 	}
+
+	@Override
+	public String executeSecured() throws GSException, NumberFormatException, IOException {
+		   
+    	ServletActionContext.getRequest().getSession().setAttribute("selectedTab", "ProjectTab");
+    	
+    	ProjectBean project = DataProvider.getProjectByID(Long.parseLong(itemID));
+		ProjectBean newProject = new ProjectBean();
+		
+    	String ret = "updateProject";
+    	
+    	if(!Strings.isNullOrEmpty(title)) {
+    		if(!Strings.isNullOrEmpty(this.description)) {        			
+    			 
+	    		newProject.setId(project.getId());
+	    		newProject.setTitle(title);
+	    		newProject.setDescription(description);
+	    		newProject.setEstimatedTime(estimate_time);
+	    		newProject.setWorkTime(work_time); 
+	    		newProject.setStartDate(startDate);
+	    		newProject.setEndDate(endDate);
+	    		newProject.setTestersNumber(testers_numbers);
+	    		newProject.setState(DataProvider.getStates().get(state));     
+	    		newProject.setUsers(project.getUsers());
+	    		newProject.setPlatforms(selectedPlatforms);
+	        	
+	        	DataProvider.updateProject(project, newProject);
+    			
+        	}else addActionError("Description field cannot be empty.");
+    	}else addActionError("Title field cannot be empty.");
+
+    
+    	if(!DataProvider.mapUsers.get(ServletActionContext.getRequest().getSession().getAttribute("loginedEmail").toString()).isAdmin()) {
+    		ret = "projects";
+    	}
+    	return ret;	
+	}
+
+	@Override
+	protected Set<Long> allowedRolesID() {
+		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
+	} 
     
 }

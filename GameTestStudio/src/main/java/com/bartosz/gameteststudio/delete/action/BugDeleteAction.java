@@ -1,9 +1,11 @@
 package com.bartosz.gameteststudio.delete.action;
  
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -11,19 +13,22 @@ import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
+import com.bartosz.gameteststudio.action.SecureAction;
 import com.bartosz.gameteststudio.beans.BugBean;
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
-import com.opensymphony.xwork2.ActionSupport;
+import com.bartosz.gameteststudio.utils.Utils;
  
 @Action(value = "deleteBug", //
 results = { //
         @Result(name = "delete", location = "/WEB-INF/pages/edit_pages/editBug.jsp"), 
-        @Result(name = "deleted", type="redirect", location = "/projects")
+        @Result(name = "deleted", type="redirect", location = "/projects"), 
+        @Result(name = "noPermissions",  type="redirect", location = "/noPermissions"), 
+        @Result(name = "sessionExpired",  type="redirect", location = "/sessionExpired")
 } //
 )
-public class BugDeleteAction  extends ActionSupport {
+public class BugDeleteAction  extends SecureAction {
   
     private static final long serialVersionUID = 1L;
  
@@ -63,49 +68,6 @@ public class BugDeleteAction  extends ActionSupport {
 	private List<String> testList = new ArrayList<String>();
 	private List<String> issuesList = new ArrayList<String>(DataProvider.getIssues().keySet());
     
-    @Override
-    public String execute() throws NumberFormatException, GSException {
-          
-    	// Walidacja uprawnień ------------------------------------------------------------------------------------------------------
-    	HttpSession session = ServletActionContext.getRequest().getSession();    	
-    	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());
-    	
-    	// kto moze: Tester Manager 
-    	if (!user.getRole().getName().equals("Tester Manager")) {
-    		addActionError("Your Account do not have permission to perform this action.");
-    		return "delete";
-    	}
-    	//------------------------------------------------------------------------------------------------------------------------------
-    	
-    	for (String el : DataProvider.mapUsers.keySet()) {
-    		if(DataProvider.mapUsers.get(el).getProjects() != null) {
-    			if(DataProvider.mapUsers.get(el).getProjectsList().
-    					contains(session.getAttribute("userProject"))) {
-    				accountList.add(el);
-    			}
-    		}	
-		} 
-    	
-    	for (String el : DataProvider.mapTests.keySet()) {
-			if(DataProvider.mapTests.get(el).getArea().getProject().getTitle()
-					.equals(session.getAttribute("userProject").toString())){
-				testList.add(el);
-			}
-		}
-    	
-    	BugBean bug = DataProvider.getBugByID(Long.parseLong(itemID));
-    	
-    	platformList = bug.getTest().getArea().getProject().getPlatformsStringList();
-
-    	
-    	DataProvider.deleteAttachment(bug.getAttachment());
-    	DataProvider.deleteBug(bug); 
-    	
-    	addActionError("Bug Deleted!");
-    	
-    	return "deleted";
-    }
-
     public List<String> getPlatforms() {
 		return platforms;
 	}
@@ -364,6 +326,54 @@ public class BugDeleteAction  extends ActionSupport {
 
 	public void setBuildList(List<String> buildList) {
 		this.buildList = buildList;
+	}
+
+	@Override
+	public String executeSecured() throws GSException, NumberFormatException, IOException {
+	     
+	    	// Walidacja uprawnień ------------------------------------------------------------------------------------------------------
+	    	HttpSession session = ServletActionContext.getRequest().getSession();    	
+	    	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());
+	    	
+	    	// kto moze: Tester Manager 
+	    	if (!user.getRole().getName().equals("Tester Manager")) {
+	    		addActionError("Your Account do not have permission to perform this action.");
+	    		return "delete";
+	    	}
+	    	//------------------------------------------------------------------------------------------------------------------------------
+	    	
+	    	for (String el : DataProvider.mapUsers.keySet()) {
+	    		if(DataProvider.mapUsers.get(el).getProjects() != null) {
+	    			if(DataProvider.mapUsers.get(el).getProjectsList().
+	    					contains(session.getAttribute("userProject"))) {
+	    				accountList.add(el);
+	    			}
+	    		}	
+			} 
+	    	
+	    	for (String el : DataProvider.mapTests.keySet()) {
+				if(DataProvider.mapTests.get(el).getArea().getProject().getTitle()
+						.equals(session.getAttribute("userProject").toString())){
+					testList.add(el);
+				}
+			}
+	    	
+	    	BugBean bug = DataProvider.getBugByID(Long.parseLong(itemID));
+	    	
+	    	platformList = bug.getTest().getArea().getProject().getPlatformsStringList();
+
+	    	
+	    	DataProvider.deleteAttachment(bug.getAttachment());
+	    	DataProvider.deleteBug(bug); 
+	    	
+	    	addActionError("Bug Deleted!");
+	    	
+	    	return "deleted";
+	}
+
+	@Override
+	protected Set<Long> allowedRolesID() {
+		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
 	}
     
 }

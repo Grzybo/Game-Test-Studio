@@ -134,9 +134,21 @@ CREATE TABLE bugs (
     fk_tests_id BIGINT REFERENCES tests(id) ON DELETE CASCADE, 
     fk_attachments_id BIGINT REFERENCES attachments(id) ON DELETE CASCADE
 ); 
+
+CREATE TABLE actions (
+    id BIGSERIAL NOT NULL PRIMARY KEY,
+    name VARCHAR (250) NOT NULL UNIQUE
+);
 ---------------------------------------------------------------------------------------------------------------------
 -- tabele asocjacyjne
 ---------------------------------------------------------------------------------------------------------------------
+CREATE TABLE role_actions (
+    id BIGSERIAL NOT NULL PRIMARY KEY,
+    fk_roles_id BIGINT NOT NULL REFERENCES roles(id) ON DELETE CASCADE, 
+    fk_actions_id BIGINT NOT NULL REFERENCES actions(id) ON DELETE CASCADE, 
+    UNIQUE (fk_roles_id, fk_actions_id)
+);
+
 CREATE TABLE bug_dic_platforms ( 
     id BIGSERIAL NOT NULL PRIMARY KEY,
     fk_bugs_id BIGINT NOT NULL REFERENCES bugs(id) ON DELETE CASCADE, 

@@ -1,12 +1,14 @@
 package com.bartosz.gameteststudio.dp;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+import com.bartosz.gameteststudio.beans.ActionBean;
 import com.bartosz.gameteststudio.beans.AreaBean;
 import com.bartosz.gameteststudio.beans.AttachmentBean;
 import com.bartosz.gameteststudio.beans.BugBean;
@@ -21,6 +23,7 @@ import com.bartosz.gameteststudio.beans.StateBean;
 import com.bartosz.gameteststudio.beans.TestBean;
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.exceptions.GSException;
+import com.bartosz.gameteststudio.repositories.ActionRepository;
 import com.bartosz.gameteststudio.repositories.AreaRepository;
 import com.bartosz.gameteststudio.repositories.AttachmentRepository;
 import com.bartosz.gameteststudio.repositories.BugRepository;
@@ -92,7 +95,50 @@ public class DataProvider {
 				put(rb.getName(), rb);
 			}			
 		}
+	};
+	
+	
+// ##################################################################################################################################################################################################
+// Actions
+// ##################################################################################################################################################################################################
+	
+	/**
+	 * Metoda zwraca listę akc pobraną z bazy danych.
+	 * @return
+	 */
+	public static List<ActionBean> getAllAction() {
+		List<ActionBean> lstResult = ActionRepository.findAll();
+		return lstResult;
+	}
+	
+	/**
+	 *  Słownik ról.
+	 */
+	public static  Map<String, ActionBean> mapActions = new LinkedHashMap<>() {
+		private static final long serialVersionUID = 1L;
+		{
+			for(ActionBean ab : getAllAction()) {
+				put(ab.getName(), ab);
+			}			
+		}
 	}; 
+	
+	public static List<String> getAllowedRoles(String action) {
+		List<String> rolesList = new ArrayList<String>();
+		for(RoleBean role: mapActions.get(action).getRoles()) {
+			rolesList.add(role.getName());
+		}
+		return rolesList;
+	} 
+	
+	public static List<Long> getAllowedRolesID(String action) {
+		List<Long> rolesIdList = new ArrayList<Long>();
+		for(RoleBean role: mapActions.get(action).getRoles()) {
+			rolesIdList.add(role.getId());
+		}
+		return rolesIdList;
+	}
+
 // ##################################################################################################################################################################################################
 // Build
 // ##################################################################################################################################################################################################

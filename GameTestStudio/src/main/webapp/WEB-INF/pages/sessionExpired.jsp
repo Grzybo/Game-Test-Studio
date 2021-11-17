@@ -5,14 +5,16 @@
 <head>
 <meta charset="UTF-8">
 <title>Acces Denied</title>
-		<style><%@include file="/WEB-INF/index.css"%></style>
-	</head>
+<style><%@include file="/WEB-INF/index.css"%></style>
+</head>
 	<body>
     	
     	 <div class="center">
     	 	<div class = "projectContent">
-    	 		<h2> Acces Denied!</h2>
-    	 		Your account do not have perrmision to acces this page. 
+    	 		<h2>Session has expired or You are not logged in.</h2>
+    	 		Please log in.
+    	 		<br><br>
+    	 		<a class="button" href="${pageContext.request.contextPath}/login">Log in</a>
     	 	</div>
     	 </div> 
 	</body>

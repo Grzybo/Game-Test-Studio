@@ -3,25 +3,29 @@ package com.bartosz.gameteststudio.create.action;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
+import com.bartosz.gameteststudio.action.SecureAction;
 import com.bartosz.gameteststudio.beans.ProjectBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
 import com.bartosz.gameteststudio.repositories.StateRepository;
+import com.bartosz.gameteststudio.utils.Utils;
 import com.google.common.base.Strings;
-import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "createProject", //
 results = { //
         @Result(name = "project_create", location = "/WEB-INF/pages/create_pages/createProject.jsp"),
-        @Result(name = "project_created", type="redirect", location = "/adminPage")
+        @Result(name = "project_created", type="redirect", location = "/adminPage"), 
+        @Result(name = "noPermissions",  type="redirect", location = "/noPermissions"), 
+        @Result(name = "sessionExpired",  type="redirect", location = "/sessionExpired")
 } //
 )
-public class ProjectCreateAction extends ActionSupport {
+public class ProjectCreateAction extends SecureAction {
   
     private static final long serialVersionUID = 1L;
  
@@ -36,26 +40,6 @@ public class ProjectCreateAction extends ActionSupport {
     private List<String> selectedPlatforms = new ArrayList<String>();
     
     
-    @Override
-    public String execute() throws GSException {
-          
-    	ServletActionContext.getRequest().getSession().setAttribute("selectedTab", "ProjectsTab");
-    
-    		String ret = "project_create";
-        	
-        	if(!Strings.isNullOrEmpty(title)) {
-        		if(!Strings.isNullOrEmpty(this.description)) {        			
-        			ProjectBean newProject = new ProjectBean(title, description, estimate_time, work_time, startDate, 
-        					endDate, testers_numbers, StateRepository.findByName("New"), selectedPlatforms);
-        			DataProvider.saveProject(newProject);
-        			
-        			ret = "project_created";
-            	}else addActionError("Description field cannot be empty.");
-        	}else addActionError("Title field cannot be empty.");
-
-        	return ret;		
-    }
-
 	public String getTitle() {
 		return title;
 	}
@@ -142,5 +126,29 @@ public class ProjectCreateAction extends ActionSupport {
 
 	public void setWork_time(Double work_time) {
 		this.work_time = work_time;
+	}
+
+	@Override
+	public String executeSecured() throws GSException {
+		ServletActionContext.getRequest().getSession().setAttribute("selectedTab", "ProjectsTab");
+	    
+		String ret = "project_create";
+    	
+    	if(!Strings.isNullOrEmpty(title)) {
+    		if(!Strings.isNullOrEmpty(this.description)) {        			
+    			ProjectBean newProject = new ProjectBean(title, description, estimate_time, work_time, startDate, 
+    					endDate, testers_numbers, StateRepository.findByName("New"), selectedPlatforms);
+    			DataProvider.saveProject(newProject);
+    			
+    			ret = "project_created";
+        	}else addActionError("Description field cannot be empty.");
+    	}else addActionError("Title field cannot be empty.");
+
+    	return ret;	
+	}
+
+	@Override
+	protected Set<Long> allowedRolesID() {
+		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
 	}
 }

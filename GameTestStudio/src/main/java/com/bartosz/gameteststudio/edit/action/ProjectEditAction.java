@@ -1,7 +1,9 @@
 package com.bartosz.gameteststudio.edit.action;
  
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -9,16 +11,20 @@ import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
+import com.bartosz.gameteststudio.action.SecureAction;
 import com.bartosz.gameteststudio.beans.ProjectBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
-import com.opensymphony.xwork2.ActionSupport;
+import com.bartosz.gameteststudio.exceptions.GSException;
+import com.bartosz.gameteststudio.utils.Utils;
  
 @Action(value = "editProject", //
 results = { //
-        @Result(name = "editProject", location = "/WEB-INF/pages/edit_pages/editProject.jsp")
+        @Result(name = "editProject", location = "/WEB-INF/pages/edit_pages/editProject.jsp"), 
+        @Result(name = "noPermissions",  type="redirect", location = "/noPermissions"), 
+        @Result(name = "sessionExpired",  type="redirect", location = "/sessionExpired")
 } //
 )
-public class ProjectEditAction  extends ActionSupport {
+public class ProjectEditAction  extends SecureAction {
   
     private static final long serialVersionUID = 1L;
  
@@ -36,26 +42,7 @@ public class ProjectEditAction  extends ActionSupport {
     private List<String> stateList = new ArrayList<String>(DataProvider.getStates().keySet()); 
     
 	private HttpSession session = ServletActionContext.getRequest().getSession();
-  
-	@Override
-    public String execute() {
-        	
-		ProjectBean project = DataProvider.getProjectById(Integer.parseInt(itemID)); 
-		session.setAttribute("selectedTab", "ProjectsTab");
-		
-		title = project.getTitle(); 
-		description = project.getDescription();
-		testers_numbers = project.getTestersNumber();
-		estimate_time = project.getEstimatedTime(); 
-		selectedPlatforms = project.getPlatformsStringList();
-		work_time = project.getWorkTime(); 
-		startDate = project.getStartDate();
-		endDate = project.getEndDate();
-		state = project.getState().getName(); 
 
-
-    	return "editProject";
-    }
 
 	  public List<String> getSelectedPlatforms() {
 			return selectedPlatforms;
@@ -150,6 +137,30 @@ public class ProjectEditAction  extends ActionSupport {
 
 	public void setWork_time(Double work_time) {
 		this.work_time = work_time;
+	}
+
+	@Override
+	public String executeSecured() throws GSException, NumberFormatException, IOException {
+		ProjectBean project = DataProvider.getProjectById(Integer.parseInt(itemID)); 
+		session.setAttribute("selectedTab", "ProjectsTab");
+		
+		title = project.getTitle(); 
+		description = project.getDescription();
+		testers_numbers = project.getTestersNumber();
+		estimate_time = project.getEstimatedTime(); 
+		selectedPlatforms = project.getPlatformsStringList();
+		work_time = project.getWorkTime(); 
+		startDate = project.getStartDate();
+		endDate = project.getEndDate();
+		state = project.getState().getName(); 
+
+
+    	return "editProject";
+	}
+
+	@Override
+	protected Set<Long> allowedRolesID() {
+		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
 	}
     
 }

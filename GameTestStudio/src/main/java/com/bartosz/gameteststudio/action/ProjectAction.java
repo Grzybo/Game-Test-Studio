@@ -1,7 +1,9 @@
 package com.bartosz.gameteststudio.action;
  
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -20,7 +22,6 @@ import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
 import com.bartosz.gameteststudio.utils.Utils;
-import com.opensymphony.xwork2.ActionSupport;
 
 import net.sourceforge.jsptabcontrol.util.JSPTabControlUtil;
  
@@ -32,10 +33,12 @@ import net.sourceforge.jsptabcontrol.util.JSPTabControlUtil;
 @Action(value = "projects", //
 results = { //
         @Result(name = "projects", location = "/WEB-INF/pages/projects.jsp"),
-        @Result(name = "error", location = "/WEB-INF/pages/projectError.jsp")
+        @Result(name = "error", location = "/WEB-INF/pages/projectError.jsp"),
+        @Result(name = "noPermissions",  type="redirect", location = "/noPermissions"), 
+        @Result(name = "sessionExpired",  type="redirect", location = "/sessionExpired")
 } //
 )
-public class ProjectAction  extends ActionSupport {
+public class ProjectAction  extends SecureAction {
 
 	private static final long serialVersionUID = 1L;
 		
@@ -68,23 +71,7 @@ public class ProjectAction  extends ActionSupport {
     private List<String> selectedPlatforms = new ArrayList<String>();
     private List<String> stateList = new ArrayList<String>(DataProvider.getStates().keySet());
 	
-    
-	 @Override
-	    public String execute() throws NumberFormatException, GSException {
-		
-		 user = DataProvider.getUserByID(Long.parseLong(session.getAttribute("userID").toString())); 
-		 
-		if (!user.getRole().getName().equals("Tester Manager")) {
-			addActionError("Your Account do not have permission to perform this action.");
-		}
-		
-		setProject();
-		setProjectFields();
-		setLists();  		
-		setTabs();
-		
-		return "projects";
-	 }
+
 
 //---------------------------------------------------------------------------------------------------------------------------
 	/**
@@ -414,5 +401,26 @@ public class ProjectAction  extends ActionSupport {
 
 	public void setStateList(List<String> stateList) {
 		this.stateList = stateList;
+	}
+
+	@Override
+	public String executeSecured() throws GSException, NumberFormatException, IOException {
+		user = DataProvider.getUserByID(Long.parseLong(session.getAttribute("userID").toString())); 
+		 
+		if (!user.getRole().getName().equals("Tester Manager")) {
+			addActionError("Your Account do not have permission to perform this action.");
+		}
+		
+		setProject();
+		setProjectFields();
+		setLists();  		
+		setTabs();
+		
+		return "projects";
+	}
+
+	@Override
+	protected Set<Long> allowedRolesID() {
+		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
 	}
 }

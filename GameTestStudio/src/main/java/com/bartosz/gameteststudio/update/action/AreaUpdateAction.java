@@ -1,7 +1,9 @@
 package com.bartosz.gameteststudio.update.action;
  
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -9,19 +11,22 @@ import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
+import com.bartosz.gameteststudio.action.SecureAction;
 import com.bartosz.gameteststudio.beans.AreaBean;
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
+import com.bartosz.gameteststudio.utils.Utils;
 import com.google.common.base.Strings;
-import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "updateArea", //
 results = { //
-        @Result(name = "update", location = "/WEB-INF/pages/edit_pages/editArea.jsp")
+        @Result(name = "update", location = "/WEB-INF/pages/edit_pages/editArea.jsp"), 
+        @Result(name = "noPermissions",  type="redirect", location = "/noPermissions"), 
+        @Result(name = "sessionExpired",  type="redirect", location = "/sessionExpired")
 } //
 )
-public class AreaUpdateAction  extends ActionSupport {
+public class AreaUpdateAction  extends SecureAction {
   
     private static final long serialVersionUID = 1L;
     
@@ -41,54 +46,6 @@ public class AreaUpdateAction  extends ActionSupport {
 	private List<String> priorityList = new ArrayList<String>(DataProvider.getPriorities().keySet());
 	private List<String> stateList = new ArrayList<String>(DataProvider.getStates().keySet()); 
 	
-	
-	
-	
-    @Override
-    public String execute() throws NumberFormatException, GSException {
-          
-    	// Walidacja uprawnień ------------------------------------------------------------------------------------------------------
-    	
-    	
-    	// kto moze: Tester Manager 
-    //	if (!user.getRole().getName().equals("Tester Manager")) {
-    //		addActionError("Your Account do not have permission to perform this action.");
-    //		return "update";
-    //	}
-    	//------------------------------------------------------------------------------------------------------------------------------
-    	
-    	HttpSession session = ServletActionContext.getRequest().getSession();    	
-    	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());
-    	projectsList = user.getProjectsList(); 
-    	project = session.getAttribute("userProject").toString();
-    	
-    	AreaBean area = DataProvider.getAreaByID(Long.parseLong(itemID));
-    	AreaBean newArea = new AreaBean();
-    	
-    	
-    	if(!Strings.isNullOrEmpty(title)) {
-    		if(!Strings.isNullOrEmpty(this.description)) {
-    			newArea.setTitle(this.title);
-    	    	newArea.setPriority(DataProvider.getPriorities().get(priority));
-    	    	newArea.setState(DataProvider.getStates().get(state));
-    	    	newArea.setDescription(this.description);
-    	    	newArea.setEstimatedTime(this.estimatedTime);
-    	    	newArea.setStartDate(this.startDate);
-    	    	newArea.setEndDate(this.endDate);
-    	    	newArea.setTestersNumber(this.testersNumber);
-    	    	newArea.setWorkTime(this.workTime);
-    	    	newArea.setId(area.getId());
-    	    	newArea.setProject(area.getProject());
-    	    	
-    	    	DataProvider.updateArea(area, newArea); 
-    	    	addActionError("Area Updated!");
-        	
-    		}else addActionError("Description field cannot be empty.");
-    	}else addActionError("Title field cannot be empty.");
-
-    	return "update";
-    }
-
 
 	public String getTitle() {
 		return title;
@@ -229,6 +186,47 @@ public class AreaUpdateAction  extends ActionSupport {
 		this.itemID = itemID;
 	}
 
+
+	@Override
+	public String executeSecured() throws GSException, NumberFormatException, IOException {
+    	
+    	HttpSession session = ServletActionContext.getRequest().getSession();    	
+    	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());
+    	projectsList = user.getProjectsList(); 
+    	project = session.getAttribute("userProject").toString();
+    	
+    	AreaBean area = DataProvider.getAreaByID(Long.parseLong(itemID));
+    	AreaBean newArea = new AreaBean();
+    	
+    	
+    	if(!Strings.isNullOrEmpty(title)) {
+    		if(!Strings.isNullOrEmpty(this.description)) {
+    			newArea.setTitle(this.title);
+    	    	newArea.setPriority(DataProvider.getPriorities().get(priority));
+    	    	newArea.setState(DataProvider.getStates().get(state));
+    	    	newArea.setDescription(this.description);
+    	    	newArea.setEstimatedTime(this.estimatedTime);
+    	    	newArea.setStartDate(this.startDate);
+    	    	newArea.setEndDate(this.endDate);
+    	    	newArea.setTestersNumber(this.testersNumber);
+    	    	newArea.setWorkTime(this.workTime);
+    	    	newArea.setId(area.getId());
+    	    	newArea.setProject(area.getProject());
+    	    	
+    	    	DataProvider.updateArea(area, newArea); 
+    	    	addActionError("Area Updated!");
+        	
+    		}else addActionError("Description field cannot be empty.");
+    	}else addActionError("Title field cannot be empty.");
+
+    	return "update";
+	}
+
+
+	@Override
+	protected Set<Long> allowedRolesID() {
+		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
+	}
 
 	
     

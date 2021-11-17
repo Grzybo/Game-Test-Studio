@@ -1,7 +1,9 @@
 package com.bartosz.gameteststudio.edit.action;
  
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -9,17 +11,21 @@ import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
+import com.bartosz.gameteststudio.action.SecureAction;
 import com.bartosz.gameteststudio.beans.AreaBean;
 import com.bartosz.gameteststudio.beans.TestBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
-import com.opensymphony.xwork2.ActionSupport;
+import com.bartosz.gameteststudio.exceptions.GSException;
+import com.bartosz.gameteststudio.utils.Utils;
  
 @Action(value = "editTest", //
 results = { //
-        @Result(name = "editTest", location = "/WEB-INF/pages/edit_pages/editTest.jsp")
+        @Result(name = "editTest", location = "/WEB-INF/pages/edit_pages/editTest.jsp"), 
+        @Result(name = "noPermissions",  type="redirect", location = "/noPermissions"), 
+        @Result(name = "sessionExpired",  type="redirect", location = "/sessionExpired")
 } //
 )
-public class TestEditAction  extends ActionSupport {
+public class TestEditAction  extends SecureAction {
   
     private static final long serialVersionUID = 1L;
  
@@ -61,65 +67,6 @@ public class TestEditAction  extends ActionSupport {
 	private List<String> resultList = new ArrayList<String>(DataProvider.mapResults.keySet());
 	private List<String> buildList = new ArrayList<String>(DataProvider.mapBuilds.keySet());
 	
-    
-    @Override
-    public String execute() {
-          
-    	HttpSession session = ServletActionContext.getRequest().getSession();
-    	session.setAttribute("selectedTab", "TestTab");
-    	
-    	for (String el : DataProvider.mapUsers.keySet()) {
-    		if(DataProvider.mapUsers.get(el).getProjects() != null) {
-    			if(DataProvider.mapUsers.get(el).getProjectsList().
-    					contains(session.getAttribute("userProject"))) {
-    				accountList.add(el);
-    			}
-    		}	
-		} 
-    	
-    	/**
-    	 *for (String el :DataProvider.mapAreas.keySet()) {
-			if(DataProvider.mapAreas.get(el).getProject().getTitle()
-					.equals(session.getAttribute("userProject").toString())){
-				areaList.add(el);
-			}
-		} 
-    	 */
-    	
-    	
-    	for(AreaBean area : DataProvider.getAllAreas()) {
-    		if(area.getProject().getTitle().equals(session.getAttribute("userProject").toString())) {
-    			areaList.add(area.getTitle());
-    		}
-    	}
-    	
-    	
-    	TestBean test = DataProvider.getTestById(Integer.parseInt(itemID));
-    	platformList = test.getArea().getProject().getPlatformsStringList();
-    	
-    	title = test.getTitle();
-    	if(test.getUser() == null) {
-    		account = "None";
-    	}
-    	else account = test.getUser().getEmail();
-    	description = test.getDescription(); 
-    	area = test.getArea().getTitle(); 
-    	result = test.getResult().getName(); 
-    	estimatedTime = test.getEstimatedTime(); 
-    	startDate = test.getStartDate();
-    	endDate = test.getEndDate();
-    	testersNumber = test.getTestersNumber();
-    	workTime = test.getWorkTime();
-    	state = test.getState().getName(); 
-    	priority = test.getPriority().getName();
-    	selectedPlatforms = test.getPlatformList();
-    	version = test.getVersion();
-    	build = test.getBuild().getName();
-    	    	
-    	return "editTest";
-    }
-
-
 
 	public String getAccount() {
 		return account;
@@ -408,5 +355,59 @@ public class TestEditAction  extends ActionSupport {
 	public void setItemID(String itemID) {
 		this.itemID = itemID;
 	}
+
+
+
+	@Override
+	public String executeSecured() throws GSException, NumberFormatException, IOException {
+		HttpSession session = ServletActionContext.getRequest().getSession();
+    	session.setAttribute("selectedTab", "TestTab");
+    	
+    	for (String el : DataProvider.mapUsers.keySet()) {
+    		if(DataProvider.mapUsers.get(el).getProjects() != null) {
+    			if(DataProvider.mapUsers.get(el).getProjectsList().
+    					contains(session.getAttribute("userProject"))) {
+    				accountList.add(el);
+    			}
+    		}	
+		} 
+    	
+    	for(AreaBean area : DataProvider.getAllAreas()) {
+    		if(area.getProject().getTitle().equals(session.getAttribute("userProject").toString())) {
+    			areaList.add(area.getTitle());
+    		}
+    	}
+
+    	TestBean test = DataProvider.getTestById(Integer.parseInt(itemID));
+    	platformList = test.getArea().getProject().getPlatformsStringList();
+    	
+    	title = test.getTitle();
+    	if(test.getUser() == null) {
+    		account = "None";
+    	}
+    	else account = test.getUser().getEmail();
+    	description = test.getDescription(); 
+    	area = test.getArea().getTitle(); 
+    	result = test.getResult().getName(); 
+    	estimatedTime = test.getEstimatedTime(); 
+    	startDate = test.getStartDate();
+    	endDate = test.getEndDate();
+    	testersNumber = test.getTestersNumber();
+    	workTime = test.getWorkTime();
+    	state = test.getState().getName(); 
+    	priority = test.getPriority().getName();
+    	selectedPlatforms = test.getPlatformList();
+    	version = test.getVersion();
+    	build = test.getBuild().getName();
+    	    	
+    	return "editTest";
+	}
+
+
+
+	@Override
+	protected Set<Long> allowedRolesID() {
+		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
+	} 
     
 }

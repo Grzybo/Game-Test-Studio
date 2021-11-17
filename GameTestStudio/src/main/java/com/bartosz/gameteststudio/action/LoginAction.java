@@ -60,7 +60,8 @@ public class LoginAction extends ActionSupport {
 		            		//if(user.getPassword().equals(this.password)) {
 	            				session.setAttribute("loginedUsername", user.getDisplayName());
 		        	    		session.setAttribute("loginedEmail", this.getEmail());
-		        	    		session.setAttribute("userRole", user.getRole().getName());
+		        	    		session.setAttribute(Constants.SESSION_ROLE_STR, user.getRole().getName());
+		        	    		System.out.println(user.getRole().getName());
 		        	    		session.setAttribute(Constants.SESSION_ROLE_KEY, user.getRole().getId());
 		        	    		session.setAttribute("userID", user.getId().toString());
 	            				 

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -13,19 +14,22 @@ import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
+import com.bartosz.gameteststudio.action.SecureAction;
 import com.bartosz.gameteststudio.beans.AttachmentBean;
 import com.bartosz.gameteststudio.beans.BugBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
+import com.bartosz.gameteststudio.utils.Utils;
 import com.google.common.base.Strings;
-import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "updateBug", //
 results = { //
-        @Result(name = "update", location = "/WEB-INF/pages/edit_pages/editBug.jsp")
+        @Result(name = "update", location = "/WEB-INF/pages/edit_pages/editBug.jsp"), 
+        @Result(name = "noPermissions",  type="redirect", location = "/noPermissions"), 
+        @Result(name = "sessionExpired",  type="redirect", location = "/sessionExpired")
 } //
 )
-public class BugUpdateAction  extends ActionSupport {
+public class BugUpdateAction  extends SecureAction {
   
     private static final long serialVersionUID = 1L;
  
@@ -67,74 +71,6 @@ public class BugUpdateAction  extends ActionSupport {
 	private List<String> testList = new ArrayList<String>();
 	private List<String> issuesList = new ArrayList<String>(DataProvider.getIssues().keySet());
     
-    @Override
-    public String execute() throws IOException, GSException {
-          
-    	HttpSession session = ServletActionContext.getRequest().getSession();
-    	
-    	for (String el : DataProvider.mapUsers.keySet()) {
-    		if(DataProvider.mapUsers.get(el).getProjects() != null) {
-    			if(DataProvider.mapUsers.get(el).getProjectsList().
-    					contains(session.getAttribute("userProject"))) {
-    				accountList.add(el);
-    			}
-    		}	
-		} 
-    	
-    	for (String el : DataProvider.mapTests.keySet()) {
-			if(DataProvider.mapTests.get(el).getArea().getProject().getTitle()
-					.equals(session.getAttribute("userProject").toString())){
-				testList.add(el);
-			}
-		}  
-    	
-    	BugBean bug = DataProvider.getBugById(Integer.parseInt(itemID));
-    	newBug = new BugBean(); 
-    	
-    	platformList = bug.getTest().getArea().getProject().getPlatformsStringList();
-    	
-    	if(bug.getAttachment() != null) {
-    		att = bug.getAttachment();
-    		fileUploadFileName = bug.getAttachment().getFileName();
-        	fileUploadContentType = bug.getAttachment().getFileType();
-        	filePath = bug.getAttachment().getFilePath(); 
-        	fileID = bug.getAttachment().getId().toString();
-    	}
-    	
-    	if(!Strings.isNullOrEmpty(title)) {
-    		if(!Strings.isNullOrEmpty(this.description)) {
-    			if(!Strings.isNullOrEmpty(this.reproSteps)) {
-    				if(version != null) {
-    					newBug(bug);
-        				if(fileUpload != null) {	
-        		    		createAttachment();
-        		 			newBug.setAttachment(DataProvider.getAttchmentByID(att.getId())); 
-        		 			fileID = att.getId().toString();
-        		    	}
-        				DataProvider.updateBug(bug, newBug);
-        				addActionError("Bug Updated!"); 
-        				return "update";
-    				}else {
-                		addActionError("Repro Steps field cannot be empty.");
-                		return "update";
-                	}
-            	}else {
-            		addActionError("Repro Steps field cannot be empty.");
-            		return "update";
-            	}
-        		
-        	}else {
-        		addActionError("Description field cannot be empty.");
-        		return "update";
-        	}
-    		
-    	}else {
-    		addActionError("Title field cannot be empty.");
-    		return "update";
-    	}
-
-    
-    }
     
     private void newBug(BugBean oldBug) {
     	newBug.setTitle(this.title);
@@ -449,6 +385,79 @@ public class BugUpdateAction  extends ActionSupport {
 
 	public void setBuildList(List<String> buildList) {
 		this.buildList = buildList;
+	}
+
+	@Override
+	public String executeSecured() throws GSException, NumberFormatException, IOException {
+HttpSession session = ServletActionContext.getRequest().getSession();
+    	
+    	for (String el : DataProvider.mapUsers.keySet()) {
+    		if(DataProvider.mapUsers.get(el).getProjects() != null) {
+    			if(DataProvider.mapUsers.get(el).getProjectsList().
+    					contains(session.getAttribute("userProject"))) {
+    				accountList.add(el);
+    			}
+    		}	
+		} 
+    	
+    	for (String el : DataProvider.mapTests.keySet()) {
+			if(DataProvider.mapTests.get(el).getArea().getProject().getTitle()
+					.equals(session.getAttribute("userProject").toString())){
+				testList.add(el);
+			}
+		}  
+    	
+    	BugBean bug = DataProvider.getBugById(Integer.parseInt(itemID));
+    	newBug = new BugBean(); 
+    	
+    	platformList = bug.getTest().getArea().getProject().getPlatformsStringList();
+    	
+    	if(bug.getAttachment() != null) {
+    		att = bug.getAttachment();
+    		fileUploadFileName = bug.getAttachment().getFileName();
+        	fileUploadContentType = bug.getAttachment().getFileType();
+        	filePath = bug.getAttachment().getFilePath(); 
+        	fileID = bug.getAttachment().getId().toString();
+    	}
+    	
+    	if(!Strings.isNullOrEmpty(title)) {
+    		if(!Strings.isNullOrEmpty(this.description)) {
+    			if(!Strings.isNullOrEmpty(this.reproSteps)) {
+    				if(version != null) {
+    					newBug(bug);
+        				if(fileUpload != null) {	
+        		    		createAttachment();
+        		 			newBug.setAttachment(DataProvider.getAttchmentByID(att.getId())); 
+        		 			fileID = att.getId().toString();
+        		    	}
+        				DataProvider.updateBug(bug, newBug);
+        				addActionError("Bug Updated!"); 
+        				return "update";
+    				}else {
+                		addActionError("Repro Steps field cannot be empty.");
+                		return "update";
+                	}
+            	}else {
+            		addActionError("Repro Steps field cannot be empty.");
+            		return "update";
+            	}
+        		
+        	}else {
+        		addActionError("Description field cannot be empty.");
+        		return "update";
+        	}
+    		
+    	}else {
+    		addActionError("Title field cannot be empty.");
+    		return "update";
+    	}
+
+    
+	}
+
+	@Override
+	protected Set<Long> allowedRolesID() {
+		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
 	}
     
 }

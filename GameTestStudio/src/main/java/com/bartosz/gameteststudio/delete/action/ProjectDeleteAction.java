@@ -1,23 +1,28 @@
 package com.bartosz.gameteststudio.delete.action;
  
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
+import com.bartosz.gameteststudio.action.SecureAction;
 import com.bartosz.gameteststudio.beans.ProjectBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
-import com.opensymphony.xwork2.ActionSupport;
+import com.bartosz.gameteststudio.utils.Utils;
  
 @Action(value = "deleteProject", //
 results = { //
        @Result(name = "deleteProject", location = "/WEB-INF/pages/edit_pages/editProject.jsp"), 
-       @Result(name = "deleted", type="redirect", location = "/adminPage")
+       @Result(name = "deleted", type="redirect", location = "/adminPage"), 
+       @Result(name = "noPermissions",  type="redirect", location = "/noPermissions"), 
+       @Result(name = "sessionExpired",  type="redirect", location = "/sessionExpired")
 } //
 )
-public class ProjectDeleteAction  extends ActionSupport {
+public class ProjectDeleteAction  extends SecureAction {
   
     private static final long serialVersionUID = 1L;
  
@@ -35,17 +40,7 @@ public class ProjectDeleteAction  extends ActionSupport {
     private List<String> selectedPlatforms = new ArrayList<String>();
     private List<String> stateList = new ArrayList<String>(DataProvider.getStates().keySet());
     
-    @Override
-    public String execute() throws NumberFormatException, GSException {
-          
 
-		ProjectBean project = DataProvider.getProjectByID(Long.parseLong(itemID));
-    	DataProvider.deleteProject(project);
-    	
-    	addActionError("Project Deleted.");
-
-    	return "deleted";
-    }
 
 	public String getSearchTitle() {
 		return searchTitle;
@@ -149,6 +144,19 @@ public class ProjectDeleteAction  extends ActionSupport {
 
 	public void setWork_time(Integer work_time) {
 		this.work_time = work_time;
+	}
+
+	@Override
+	public String executeSecured() throws GSException, NumberFormatException, IOException {
+		ProjectBean project = DataProvider.getProjectByID(Long.parseLong(itemID));
+		DataProvider.deleteProject(project);
+		addActionError("Project Deleted.");
+		return "deleted";
+	}
+
+	@Override
+	protected Set<Long> allowedRolesID() {
+		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
 	}
     
 }

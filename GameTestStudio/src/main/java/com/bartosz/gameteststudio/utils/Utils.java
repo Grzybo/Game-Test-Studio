@@ -1,12 +1,16 @@
 package com.bartosz.gameteststudio.utils;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.struts2.ServletActionContext;
 import org.passay.CharacterRule;
 import org.passay.EnglishCharacterData;
 import org.passay.PasswordGenerator;
+
+import com.bartosz.gameteststudio.dp.DataProvider;
 
 public abstract class Utils {
 
@@ -32,6 +36,16 @@ public abstract class Utils {
 
 			PasswordGenerator generator = new PasswordGenerator();
 			return generator.generatePassword(8, rules);
+	} 
+	
+	public static Set<Long> setAllowedRolesID(String className) {
+		Set<Long> set = new HashSet<>();
+		List<Long> list = DataProvider.getAllowedRolesID(className);
+		for(Long role : list) {
+			set.add(role);
+			System.out.println(role);
+		}
+		return set;
 	} 
 
 }

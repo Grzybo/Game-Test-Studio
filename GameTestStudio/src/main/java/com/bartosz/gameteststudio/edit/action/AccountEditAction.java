@@ -1,23 +1,29 @@
 package com.bartosz.gameteststudio.edit.action;
  
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
+import com.bartosz.gameteststudio.action.SecureAction;
 import com.bartosz.gameteststudio.beans.ProjectBean;
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
-import com.opensymphony.xwork2.ActionSupport;
+import com.bartosz.gameteststudio.exceptions.GSException;
+import com.bartosz.gameteststudio.utils.Utils;
  
 @Action(value = "editAccount", //
 results = { //
-        @Result(name = "editAccount", location = "/WEB-INF/pages/edit_pages/editAccount.jsp")
+        @Result(name = "editAccount", location = "/WEB-INF/pages/edit_pages/editAccount.jsp"), 
+        @Result(name = "noPermissions",  type="redirect", location = "/noPermissions"), 
+        @Result(name = "sessionExpired",  type="redirect", location = "/sessionExpired")
 } //
 )
-public class AccountEditAction  extends ActionSupport {
+public class AccountEditAction  extends SecureAction {
   
     private static final long serialVersionUID = 1L;
 
@@ -34,23 +40,7 @@ public class AccountEditAction  extends ActionSupport {
     private List<String>  projectsList = new ArrayList<String>(DataProvider.mapProjects.keySet());
     private List<ProjectBean> pL = new ArrayList<ProjectBean>();
     
-    @Override
-    public String execute() {
-          
-    	ServletActionContext.getRequest().getSession().setAttribute("selectedTab", "AccountsTab");
-    	
-		UserBean user = DataProvider.getUserById(Integer.parseInt(itemID)); 
-		
-		projects = user.getProjectsList();
-		
-		firstName = user.getFirstName(); 
-		lastName = user.getLastName(); 
-		email = user.getEmail(); 
-		role = user.getRole().getName();
-		projects = user.getProjectsList(); 
-    		
-    	return "editAccount";
-    }
+
 
     public List<String> getProjects() {
 		return projects;
@@ -60,20 +50,10 @@ public class AccountEditAction  extends ActionSupport {
 	public String getItemID() {
 		return itemID;
 	}
-
-
-
-
-
-
+	
 	public void setItemID(String itemID) {
 		this.itemID = itemID;
 	}
-
-
-
-
-
 
 	public String getUserEmailParam() {
 		return userEmailParam;
@@ -162,6 +142,28 @@ public class AccountEditAction  extends ActionSupport {
 
 	public void setpL(List<ProjectBean> pL) {
 		this.pL = pL;
+	}
+
+	@Override
+	public String executeSecured() throws GSException, NumberFormatException, IOException {
+		ServletActionContext.getRequest().getSession().setAttribute("selectedTab", "AccountsTab");
+    	
+		UserBean user = DataProvider.getUserById(Integer.parseInt(itemID)); 
+		
+		projects = user.getProjectsList();
+		
+		firstName = user.getFirstName(); 
+		lastName = user.getLastName(); 
+		email = user.getEmail(); 
+		role = user.getRole().getName();
+		projects = user.getProjectsList(); 
+    		
+    	return "editAccount";
+	}
+
+	@Override
+	protected Set<Long> allowedRolesID() {
+		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
 	}
     
 }

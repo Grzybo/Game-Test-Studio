@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -12,16 +13,20 @@ import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
+import com.bartosz.gameteststudio.action.SecureAction;
 import com.bartosz.gameteststudio.beans.BugBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
-import com.opensymphony.xwork2.ActionSupport;
+import com.bartosz.gameteststudio.exceptions.GSException;
+import com.bartosz.gameteststudio.utils.Utils;
 
 @Action(value = "deleteAtt", //
 results = { //
-        @Result(name = "deleteAtt", location = "/WEB-INF/pages/edit_pages/editBug.jsp")
+        @Result(name = "deleteAtt", location = "/WEB-INF/pages/edit_pages/editBug.jsp"), 
+        @Result(name = "noPermissions",  type="redirect", location = "/noPermissions"), 
+        @Result(name = "sessionExpired",  type="redirect", location = "/sessionExpired")
 } //
 )
-public class AttachmentDeleteAction extends ActionSupport{
+public class AttachmentDeleteAction extends SecureAction{
 
 	private static final long serialVersionUID = 9115824571968193754L;
 
@@ -61,49 +66,6 @@ public class AttachmentDeleteAction extends ActionSupport{
 	private List<String> resultList = new ArrayList<String>(DataProvider.mapResults.keySet());
 	private List<String> buildList = new ArrayList<String>(DataProvider.mapBuilds.keySet());
 	private List<String> issuesList = new ArrayList<String>(DataProvider.getIssues().keySet());
-	
-	@Override
-	    public String execute() throws IOException { 
-		
-		BugBean bug =  DataProvider.getBugById(Integer.parseInt(itemID));
-		DataProvider.deleteAttachment(bug.getAttachment());
-		HttpSession session = ServletActionContext.getRequest().getSession();
-		
-		for (String el : DataProvider.mapUsers.keySet()) {
-    		if(DataProvider.mapUsers.get(el).getProjects() != null) {
-    			if(DataProvider.mapUsers.get(el).getProjectsList().
-    					contains(session.getAttribute("userProject"))) {
-    				accountList.add(el);
-    			}
-    		}	
-		} 
-    	
-    	for (String el : DataProvider.mapTests.keySet()) {
-			if(DataProvider.mapTests.get(el).getArea().getProject().getTitle()
-					.equals(session.getAttribute("userProject").toString())){
-				testList.add(el);
-			}
-		}
-		
-    	platformList = bug.getTest().getArea().getProject().getPlatformsStringList();
-    	
-    	title = bug.getTitle(); 
-    	account = bug.getUser().getEmail();
-    	description = bug.getDescription(); 
-    	reproSteps = bug.getReproSteps();
-    	state = bug.getState().getName(); 
-    	priority = bug.getPriority().getName();
-    	platforms = bug.getPlatformList();
-    	version = bug.getVersion();
-    	build = bug.getBuild().getName();
-    	test = bug.getTest().getTitle(); 
-    	minKitNumber = bug.getMinKitNumber(); 
-    	platforms = bug.getPlatformList();
-    	reproStr = String.valueOf(bug.getReproFrequency());
-    	issue = bug.getIssueType().getName();
-		
-		 return "deleteAtt";
-	 }
 
 	public String getFileID() {
 		return fileID;
@@ -343,7 +305,54 @@ public class AttachmentDeleteAction extends ActionSupport{
 
 	public void setIssuesList(List<String> issuesList) {
 		this.issuesList = issuesList;
-	} 
+	}
+
+	@Override
+	public String executeSecured() throws GSException, NumberFormatException, IOException {
+		BugBean bug =  DataProvider.getBugById(Integer.parseInt(itemID));
+		DataProvider.deleteAttachment(bug.getAttachment());
+		HttpSession session = ServletActionContext.getRequest().getSession();
+		
+		for (String el : DataProvider.mapUsers.keySet()) {
+    		if(DataProvider.mapUsers.get(el).getProjects() != null) {
+    			if(DataProvider.mapUsers.get(el).getProjectsList().
+    					contains(session.getAttribute("userProject"))) {
+    				accountList.add(el);
+    			}
+    		}	
+		} 
+    	
+    	for (String el : DataProvider.mapTests.keySet()) {
+			if(DataProvider.mapTests.get(el).getArea().getProject().getTitle()
+					.equals(session.getAttribute("userProject").toString())){
+				testList.add(el);
+			}
+		}
+		
+    	platformList = bug.getTest().getArea().getProject().getPlatformsStringList();
+    	
+    	title = bug.getTitle(); 
+    	account = bug.getUser().getEmail();
+    	description = bug.getDescription(); 
+    	reproSteps = bug.getReproSteps();
+    	state = bug.getState().getName(); 
+    	priority = bug.getPriority().getName();
+    	platforms = bug.getPlatformList();
+    	version = bug.getVersion();
+    	build = bug.getBuild().getName();
+    	test = bug.getTest().getTitle(); 
+    	minKitNumber = bug.getMinKitNumber(); 
+    	platforms = bug.getPlatformList();
+    	reproStr = String.valueOf(bug.getReproFrequency());
+    	issue = bug.getIssueType().getName();
+		
+		 return "deleteAtt";
+	}
+
+	@Override
+	protected Set<Long> allowedRolesID() {
+		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
+	}
 	
 	
 }

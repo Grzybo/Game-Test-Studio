@@ -1,3 +1,8 @@
+.inner {
+  width: 50%;
+  margin: 0 auto;
+}
+
 .button {
 	display: inline-block;
 	padding: 10px 20px;
@@ -17,7 +22,14 @@
 	border-radius: 6px;
 	outline: none;}     
 .center {
-	text-align: center;} 
+	text-align: center;
+	} 
+.center2 {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto;
+} 
 .user {
 	color: #33ccff;}
 body {
@@ -33,7 +45,8 @@ h2 {
 	background: white;
 	padding: 10px;
 	border-style: groove;
-	border-color: #33ccff;}
+	border-color: #33ccff;
+	justify-content: center;}
 .adminContent {
 	text-align: center;
 	width:40%;

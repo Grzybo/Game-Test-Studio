@@ -2,6 +2,7 @@ package com.bartosz.gameteststudio.create.action;
  
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -9,21 +10,24 @@ import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
+import com.bartosz.gameteststudio.action.SecureAction;
 import com.bartosz.gameteststudio.beans.PlatformBean;
 import com.bartosz.gameteststudio.beans.ProjectBean;
 import com.bartosz.gameteststudio.beans.TestBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
+import com.bartosz.gameteststudio.utils.Utils;
 import com.google.common.base.Strings;
-import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "createTest", //
 results = { //
         @Result(name = "createTest", location = "/WEB-INF/pages/create_pages/createTest.jsp"),
-        @Result(name = "created", type="redirect", location = "/projects")
+        @Result(name = "created", type="redirect", location = "/projects"), 
+        @Result(name = "noPermissions",  type="redirect", location = "/noPermissions"), 
+        @Result(name = "sessionExpired",  type="redirect", location = "/sessionExpired")
 } //
 )
-public class TestCreateAction  extends ActionSupport {
+public class TestCreateAction  extends SecureAction {
   
     private static final long serialVersionUID = 1L;
     
@@ -55,61 +59,7 @@ public class TestCreateAction  extends ActionSupport {
 	private List<String> buildList = new ArrayList<String>(DataProvider.mapBuilds.keySet());
 	
     
-    @Override
-    public String execute() throws GSException {
-          
-    	// Walidacja uprawnień ------------------------------------------------------------------------------------------------------
-    	
-    	// kto moze: Tester Manager 
-    	//if (!user.getRole().getName().equals("Tester Manager")) {
-    	//	addActionError("Your Account do not have permission to perform this action.");
-    	//	return "createTest";
-    	//}
-    	//------------------------------------------------------------------------------------------------------------------------------
-    	HttpSession session = ServletActionContext.getRequest().getSession();    	
-    	//UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());
-    	session.setAttribute("selectedTab", "TestTab");
-    	
-    	ProjectBean project = DataProvider.mapProjects.get(session.getAttribute("userProject").toString());
-    	platformList = project.getPlatformsStringList();
-    	//System.out.pr
-    	
-    	for (String el : DataProvider.mapUsers.keySet()) {
-    		if(DataProvider.mapUsers.get(el).getProjects() != null) {
-    			if(DataProvider.mapUsers.get(el).getProjectsList().
-    					contains(session.getAttribute("userProject"))) {
-    				accountList.add(el);
-    			}
-    		}	
-		} 
-    	
-    	for (String el : DataProvider.mapAreas.keySet()) {
-			if(DataProvider.mapAreas.get(el).getProject().getTitle()
-					.equals(session.getAttribute("userProject").toString())){
-				areaList.add(el);
-			}
-		}
-    	
-    	String ret = "createTest";
-    	
-    	
-    	if(!Strings.isNullOrEmpty(title)) {
-    		if(!Strings.isNullOrEmpty(this.description)) {
-    			if(!Strings.isNullOrEmpty(this.area)) {
-    				TestBean test = new TestBean(title, DataProvider.mapUsers.get(account), description,
-            				DataProvider.mapAreas.get(area), DataProvider.mapResults.get(result),
-            				estimatedTime, startDate, endDate, testersNumber, workTime, DataProvider.getStates().get(state),
-            				DataProvider.getPriorities().get(priority), selectedPlatforms, version , DataProvider.mapBuilds.get(build));
 
-                	DataProvider.saveTest(test);
-                	ret = "created";
-    			}else addActionError("Test has to be assigned to area.");
-        	}else addActionError("Description field cannot be empty.");
-    	}else addActionError("Title field cannot be empty.");
-
-    
-    	return ret;
-    }
 
 
 	public String getTitle() {
@@ -351,6 +301,61 @@ public class TestCreateAction  extends ActionSupport {
 
 	public void setBuildList(List<String> buildList) {
 		this.buildList = buildList;
+	}
+
+
+	@Override
+	public String executeSecured() throws GSException {
+
+    	HttpSession session = ServletActionContext.getRequest().getSession();    	
+    	//UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());
+    	session.setAttribute("selectedTab", "TestTab");
+    	
+    	ProjectBean project = DataProvider.mapProjects.get(session.getAttribute("userProject").toString());
+    	platformList = project.getPlatformsStringList();
+    	//System.out.pr
+    	
+    	for (String el : DataProvider.mapUsers.keySet()) {
+    		if(DataProvider.mapUsers.get(el).getProjects() != null) {
+    			if(DataProvider.mapUsers.get(el).getProjectsList().
+    					contains(session.getAttribute("userProject"))) {
+    				accountList.add(el);
+    			}
+    		}	
+		} 
+    	
+    	for (String el : DataProvider.mapAreas.keySet()) {
+			if(DataProvider.mapAreas.get(el).getProject().getTitle()
+					.equals(session.getAttribute("userProject").toString())){
+				areaList.add(el);
+			}
+		}
+    	
+    	String ret = "createTest";
+    	
+    	
+    	if(!Strings.isNullOrEmpty(title)) {
+    		if(!Strings.isNullOrEmpty(this.description)) {
+    			if(!Strings.isNullOrEmpty(this.area)) {
+    				TestBean test = new TestBean(title, DataProvider.mapUsers.get(account), description,
+            				DataProvider.mapAreas.get(area), DataProvider.mapResults.get(result),
+            				estimatedTime, startDate, endDate, testersNumber, workTime, DataProvider.getStates().get(state),
+            				DataProvider.getPriorities().get(priority), selectedPlatforms, version , DataProvider.mapBuilds.get(build));
+
+                	DataProvider.saveTest(test);
+                	ret = "created";
+    			}else addActionError("Test has to be assigned to area.");
+        	}else addActionError("Description field cannot be empty.");
+    	}else addActionError("Title field cannot be empty.");
+
+    
+    	return ret;
+	}
+
+
+	@Override
+	protected Set<Long> allowedRolesID() {
+		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
 	}
     
 }
