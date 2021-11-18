@@ -74,7 +74,52 @@ public class BugCreateAction  extends SecureAction {
 	private List<String> issuesList = new ArrayList<String>(DataProvider.getIssues().keySet());
 	List<AttachmentBean> listAtt = new ArrayList<AttachmentBean>();
     
+	@Override
+	public String executeSecured() throws GSException, NumberFormatException, IOException {
+		// Walidacja uprawnień ------------------------------------------------------------------------------------------------------
+    	HttpSession session = ServletActionContext.getRequest().getSession();    	
+    	session.setAttribute("selectedTab", "BugTab");
+    	
+    	ProjectBean project = DataProvider.mapProjects.get(session.getAttribute("userProject").toString());
+    	platformList = project.getPlatformsStringList();
+    	
+    	for (String el : DataProvider.mapUsers.keySet()) {
+    		if(DataProvider.mapUsers.get(el).getProjects() != null) {
+    			if(DataProvider.mapUsers.get(el).getProjectsList().
+    					contains(session.getAttribute("userProject"))) {
+    				accountList.add(el);
+    			}
+    		}	
+		} 
+    	
+    	for (String el : DataProvider.mapTests.keySet()) {
+			if(DataProvider.mapTests.get(el).getArea().getProject().getTitle()
+					.equals(session.getAttribute("userProject").toString())){
+				testList.add(el);
+			}
+		}
 
+    	String ret = "createBug";
+    	
+    	if(!Strings.isNullOrEmpty(title)) {
+    		if(!Strings.isNullOrEmpty(this.description)) {
+    			if(!Strings.isNullOrEmpty(this.reproSteps)) {
+    				if(!Strings.isNullOrEmpty(this.test)) {
+    						createBug();
+            				ret = "created";
+    				}else addActionError("Bug has to be assigned to test.");
+            	}else addActionError("Repro Steps field cannot be empty.");
+        	}else addActionError("Description field cannot be empty.");
+    	}else addActionError("Title field cannot be empty.");
+
+    	
+    	return ret;
+	}
+
+	@Override
+	protected Set<Long> allowedRolesID() {
+		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
+	}
     
     private void createAttachment() throws IOException {
     	String filePath = ServletActionContext.getServletContext().getRealPath("/").concat("userFiles");  
@@ -448,51 +493,6 @@ public class BugCreateAction  extends SecureAction {
 		this.buildList = buildList;
 	}
 
-	@Override
-	public String executeSecured() throws GSException, NumberFormatException, IOException {
-		// Walidacja uprawnień ------------------------------------------------------------------------------------------------------
-    	HttpSession session = ServletActionContext.getRequest().getSession();    	
-    	session.setAttribute("selectedTab", "BugTab");
-    	
-    	ProjectBean project = DataProvider.mapProjects.get(session.getAttribute("userProject").toString());
-    	platformList = project.getPlatformsStringList();
-    	
-    	for (String el : DataProvider.mapUsers.keySet()) {
-    		if(DataProvider.mapUsers.get(el).getProjects() != null) {
-    			if(DataProvider.mapUsers.get(el).getProjectsList().
-    					contains(session.getAttribute("userProject"))) {
-    				accountList.add(el);
-    			}
-    		}	
-		} 
-    	
-    	for (String el : DataProvider.mapTests.keySet()) {
-			if(DataProvider.mapTests.get(el).getArea().getProject().getTitle()
-					.equals(session.getAttribute("userProject").toString())){
-				testList.add(el);
-			}
-		}
-
-    	String ret = "createBug";
-    	
-    	if(!Strings.isNullOrEmpty(title)) {
-    		if(!Strings.isNullOrEmpty(this.description)) {
-    			if(!Strings.isNullOrEmpty(this.reproSteps)) {
-    				if(!Strings.isNullOrEmpty(this.test)) {
-    						createBug();
-            				ret = "created";
-    				}else addActionError("Bug has to be assigned to test.");
-            	}else addActionError("Repro Steps field cannot be empty.");
-        	}else addActionError("Description field cannot be empty.");
-    	}else addActionError("Title field cannot be empty.");
-
-    	
-    	return ret;
-	}
-
-	@Override
-	protected Set<Long> allowedRolesID() {
-		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
-	}
+	
     
 }

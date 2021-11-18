@@ -106,10 +106,17 @@ public class DataProvider {
 	 * Metoda zwraca listę akc pobraną z bazy danych.
 	 * @return
 	 */
-	public static List<ActionBean> getAllAction() {
+	public static List<ActionBean> getAllActions() {
 		List<ActionBean> lstResult = ActionRepository.findAll();
 		return lstResult;
+	} 
+	public static void updateAction(ActionBean action) {
+		if (action != null ) {
+			ActionRepository.update(action);
+		} else
+			log.error("Action is null.");
 	}
+	
 	
 	/**
 	 *  Słownik ról.
@@ -117,7 +124,7 @@ public class DataProvider {
 	public static  Map<String, ActionBean> mapActions = new LinkedHashMap<>() {
 		private static final long serialVersionUID = 1L;
 		{
-			for(ActionBean ab : getAllAction()) {
+			for(ActionBean ab : getAllActions()) {
 				put(ab.getName(), ab);
 			}			
 		}

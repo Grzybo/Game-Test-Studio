@@ -17,5 +17,14 @@ public class ActionRepository {
 		return list; 
 	} 
 	
+	public static void update(ActionBean action) {
+		final Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		session.update(action);
+		session.getTransaction().commit();
+		session.close(); 
+		
+	
+	} 
 	
 }

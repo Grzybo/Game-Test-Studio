@@ -26,18 +26,7 @@
 	<body>
 	
 		<%
-			ProjectBean project = DataProvider.mapProjects.get(session.getAttribute("userProject")); 
-			String itemID = Long.toString(project.getId());
-			String title = project.getTitle(); 
-			String description = project.getDescription();
-			Integer testers_numbers = project.getTestersNumber();
-			Double estimate_time = project.getEstimatedTime(); 
-			List<String> selectedPlatforms = project.getPlatformsStringList();
-			Double work_time = project.getWorkTime(); 
-			String startDate = project.getStartDate();
-			String endDate = project.getEndDate();
-			String state = project.getState().getName();
-		
+
 		%>
 		
 		<jsp:include page="_userMenu.jsp" />

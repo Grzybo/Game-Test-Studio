@@ -49,6 +49,8 @@ public class ProjectAction  extends SecureAction {
 	private List<TestBean> testObjList = new ArrayList<TestBean>();
 	private List<AreaBean> areaObjList  = new ArrayList<AreaBean>();  
 	
+	
+	
 	private HttpServletRequest request = ServletActionContext.getRequest();
 	private HttpSession session = request.getSession();
 	
@@ -203,6 +205,8 @@ public class ProjectAction  extends SecureAction {
 
 
 
+
+	
 
 	public void setAreaObjList(List<AreaBean> areaObjList) {
 		this.areaObjList = areaObjList;

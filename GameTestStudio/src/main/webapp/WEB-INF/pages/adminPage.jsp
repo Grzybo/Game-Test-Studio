@@ -13,7 +13,6 @@
 	</head>
 	<body>    	
     	<jsp:include page="_adminMenu.jsp" />
-    	<s:form id = "adminForm" action="/adminPage" method="post"></s:form>
 		 <div class="center">
 		 	<jsptabcontrol:tabControl name="AdminTabs" >
 			    <jsptabcontrol:tabPage name="ProjectsTab" title="Projects"  width="100%">
@@ -47,6 +46,17 @@
 							  <display:column property="role.name" title="Role" sortable="true"/>
 							  <display:column property="deleteLink" title="X" ></display:column>
 						</display:table>
+			    	</div>
+			    </jsptabcontrol:tabPage> 
+			     <jsptabcontrol:tabPage name="ActionsTab" title="Permissions" width="100%" >
+			    	<br>
+			    	<div class = "projectContent">
+				    	<h2>Assign roles to actions:</h2>
+				    	<s:form id="bug" action="/updateAction" enctype="multipart/form-data">
+				    		<s:select label="Action" name="selectedAction" list="actionList" onchange="refreshAdminPage()"/>
+				    		<s:checkboxlist label="Roles" list="rolesList" name="selectedRoles" />
+				    		<s:submit class= "button"  method="execute" key="Save" align="center" />
+				    	</s:form>				    	
 			    	</div>
 			    </jsptabcontrol:tabPage>
 	 		</jsptabcontrol:tabControl> 

@@ -1,5 +1,6 @@
 package com.bartosz.gameteststudio.beans;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -12,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import com.bartosz.gameteststudio.dp.DataProvider;
 
 @Entity
 @Table(name = "ACTIONS")
@@ -50,5 +53,18 @@ public class ActionBean {
 		return roles;
 	}
 	
+	public List<String> getRolesList(){
+		List<String> list = new ArrayList<String>();
+		for (RoleBean pl : roles) {
+			list.add(pl.getName());
+		}
+		return list;
+	}
+
+	public void setRoles(List<String> roles) {
+		List<RoleBean> rolesList = new ArrayList<RoleBean>();
+		for(String role : roles) {rolesList.add(DataProvider.mapRoles.get(role));}
+		this.roles = rolesList;
+	}
 	
 }

@@ -59,3 +59,8 @@ function deleteConfirm(itemType, itemID) {
 function test() {
 	alert("U MNIE DZIALA");
 }
+
+function refreshAdminPage() {
+	document.forms[0].action = "/GameTestStudio/adminPage";
+	document.forms[0].submit();
+}
