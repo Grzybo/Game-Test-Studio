@@ -42,7 +42,7 @@ public class ProjectAction  extends SecureAction {
 
 	private static final long serialVersionUID = 1L;
 		
-	private List<String> projectsList;
+	private List<String> projectsList = new ArrayList<String>();
 	private String selectedProject; 
 	
 	private List<BugBean> bugObjList = new ArrayList<BugBean>();
@@ -409,12 +409,8 @@ public class ProjectAction  extends SecureAction {
 
 	@Override
 	public String executeSecured() throws GSException, NumberFormatException, IOException {
-		user = DataProvider.getUserByID(Long.parseLong(session.getAttribute("userID").toString())); 
-		 
-		if (!user.getRole().getName().equals("Tester Manager")) {
-			addActionError("Your Account do not have permission to perform this action.");
-		}
 		
+		user = DataProvider.getUserByEmail(session.getAttribute("loginedEmail").toString());
 		setProject();
 		setProjectFields();
 		setLists();  		

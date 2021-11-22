@@ -14,7 +14,6 @@ import org.apache.struts2.convention.annotation.Result;
 import com.bartosz.gameteststudio.action.SecureAction;
 import com.bartosz.gameteststudio.beans.AreaBean;
 import com.bartosz.gameteststudio.beans.TestBean;
-import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
 import com.bartosz.gameteststudio.utils.Utils;
@@ -48,6 +47,7 @@ public class TestUpdateAction  extends SecureAction {
 	private String build;
 	private Double version;
 
+	HttpSession session = ServletActionContext.getRequest().getSession();    	
     
     private List<String> priorityList = new ArrayList<String>(DataProvider.getPriorities().keySet());
 	private List<String> stateList = new ArrayList<String>(DataProvider.getStates().keySet());
@@ -291,21 +291,50 @@ public class TestUpdateAction  extends SecureAction {
 
 	@Override
 	public String executeSecured() throws GSException, NumberFormatException, IOException {
-		// Walidacja uprawnień ------------------------------------------------------------------------------------------------------
-    	HttpSession session = ServletActionContext.getRequest().getSession();    	
-    	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());
-    	System.out.println(user.getRole().getName());
-    	// kto moze: Tester, Tester Manager 
-    	if ((!user.getRole().getName().equals("Tester")) && (!user.getRole().getName().equals("Tester Manager"))) {
-    		addActionError("Your Account do not have permission to perform this action."); 
-    		
-    		return "update";
-    	}
-    	//------------------------------------------------------------------------------------------------------------------------------
+
+    	fillLists();
+
+    	if(!Strings.isNullOrEmpty(title)) {
+    		if(!Strings.isNullOrEmpty(this.description)) {
+    			updateTest();
+        	}else addActionError("Description field cannot be empty.");
+    	}else addActionError("Title field cannot be empty.");
     	
+    	return "update";
+	}
+
+
+	@Override
+	protected Set<Long> allowedRolesID() {
+		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
+	}
+    
+	private void updateTest() throws NumberFormatException, GSException {
+		TestBean test = DataProvider.getTestByID(Long.parseLong(itemID));
+    	TestBean newTest = new TestBean();
+    	platformList = test.getArea().getProject().getPlatformsStringList();
+		newTest.setTitle(title);
+    	newTest.setUser(DataProvider.mapUsers.get(account));
+    	newTest.setPriority(DataProvider.getPriorities().get(priority));
+    	newTest.setState(DataProvider.getStates().get(state));
+    	newTest.setDescription(description);
+    	newTest.setArea(DataProvider.getAreaByTitle(area));
+    	newTest.setEstimatedTime(estimatedTime);
+    	newTest.setWorkTime(workTime);
+    	newTest.setTestersNumber(testersNumber);
+    	newTest.setStartDate(startDate);
+    	newTest.setEndDate(endDate);
+    	newTest.setId(test.getId());
+    	newTest.setBuild(DataProvider.mapBuilds.get(build));
+    	newTest.setResult(DataProvider.mapResults.get(result)); 
+    	newTest.setVersion(version);
+    	newTest.setPlatforms(selectedPlatforms);
     	
-    	
-    	for (String el : DataProvider.mapUsers.keySet()) {
+    	DataProvider.updateTest(test, newTest);
+	} 
+	
+	private void fillLists() {
+		for (String el : DataProvider.mapUsers.keySet()) {
     		if(DataProvider.mapUsers.get(el).getProjects() != null) {
     			if(DataProvider.mapUsers.get(el).getProjectsList().
     					contains(session.getAttribute("userProject"))) {
@@ -319,45 +348,5 @@ public class TestUpdateAction  extends SecureAction {
     			areaList.add(area.getTitle());
     		}
     	}
-    	
-
-    	TestBean test = DataProvider.getTestByID(Long.parseLong(itemID));
-    	TestBean newTest = new TestBean();
-    	platformList = test.getArea().getProject().getPlatformsStringList();
-    	
-    	if(!Strings.isNullOrEmpty(title)) {
-    		if(!Strings.isNullOrEmpty(this.description)) {
-    			newTest.setTitle(title);
-    	    	newTest.setUser(DataProvider.mapUsers.get(account));
-    	    	newTest.setPriority(DataProvider.getPriorities().get(priority));
-    	    	newTest.setState(DataProvider.getStates().get(state));
-    	    	newTest.setDescription(description);
-    	    	newTest.setArea(DataProvider.getAreaByTitle(area));
-    	    	newTest.setEstimatedTime(estimatedTime);
-    	    	newTest.setWorkTime(workTime);
-    	    	newTest.setTestersNumber(testersNumber);
-    	    	newTest.setStartDate(startDate);
-    	    	newTest.setEndDate(endDate);
-    	    	newTest.setId(test.getId());
-    	    	newTest.setBuild(DataProvider.mapBuilds.get(build));
-    	    	newTest.setResult(DataProvider.mapResults.get(result)); 
-    	    	newTest.setVersion(version);
-    	    	newTest.setPlatforms(selectedPlatforms);
-    	    	
-    	    	DataProvider.updateTest(test, newTest);
-    	    	
-    	    	addActionError("Test Updated!");
-        		
-        	}else addActionError("Description field cannot be empty.");
-    	}else addActionError("Title field cannot be empty.");
-    	
-    	return "update";
 	}
-
-
-	@Override
-	protected Set<Long> allowedRolesID() {
-		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
-	}
-    
 }

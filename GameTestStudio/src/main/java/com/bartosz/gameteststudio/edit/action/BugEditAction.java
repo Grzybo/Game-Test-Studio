@@ -31,6 +31,7 @@ public class BugEditAction  extends SecureAction {
   
     private static final long serialVersionUID = 1L;
  
+    HttpSession session = ServletActionContext.getRequest().getSession();
     
     private String itemID;
     
@@ -56,6 +57,7 @@ public class BugEditAction  extends SecureAction {
 	private String filePath; 
 	private String fileID;
 	AttachmentBean att;
+	private BugBean bug;
 	
 	private String reproStr;
     private List<String> reproList = Arrays.asList("100", "75", "50", "25");
@@ -348,11 +350,26 @@ public class BugEditAction  extends SecureAction {
 
 	@Override
 	public String executeSecured() throws GSException, NumberFormatException, IOException {
-		HttpSession session = ServletActionContext.getRequest().getSession();
-    	session.setAttribute("selectedTab", "BugTab");
+		
+    	Utils.setTab("BugTab");
+    	fillLists();
     	
+    	bug = DataProvider.getBugById(Integer.parseInt(itemID));
     	
-    	for (String el : DataProvider.mapUsers.keySet()) {
+    	fillBugFields();
+    	fillAttachmentFileds();
+
+    	return "editBug";
+	}
+
+
+	@Override
+	protected Set<Long> allowedRolesID() {
+		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
+	} 
+	
+	private void fillLists() {
+		for (String el : DataProvider.mapUsers.keySet()) {
     		if(DataProvider.mapUsers.get(el).getProjects() != null) {
     			if(DataProvider.mapUsers.get(el).getProjectsList().
     					contains(session.getAttribute("userProject"))) {
@@ -367,11 +384,10 @@ public class BugEditAction  extends SecureAction {
 				testList.add(el);
 			}
 		}
-    	
-    	BugBean bug = DataProvider.getBugById(Integer.parseInt(itemID));
-    	
-    	
-    	platformList = bug.getTest().getArea().getProject().getPlatformsStringList();
+	} 
+	
+	private void fillBugFields() {
+		platformList = bug.getTest().getArea().getProject().getPlatformsStringList();
     	
     	title = bug.getTitle();
     	if(bug.getUser() != null) account = bug.getUser().getEmail();
@@ -387,24 +403,16 @@ public class BugEditAction  extends SecureAction {
     	platforms = bug.getPlatformList();
     	reproStr = String.valueOf(bug.getReproFrequency());
     	issue = bug.getIssueType().getName();
-
-    	
-    	if(bug.getAttachment() != null) {
+	} 
+	
+	private void fillAttachmentFileds() {
+		if(bug.getAttachment() != null) {
     		att = bug.getAttachment();
     		fileUploadFileName = bug.getAttachment().getFileName();
         	fileUploadContentType = bug.getAttachment().getFileType();
         	filePath = bug.getAttachment().getFilePath(); 
         	fileID = bug.getAttachment().getId().toString();
     	}
-    	
-
-    	return "editBug";
-	}
-
-
-	@Override
-	protected Set<Long> allowedRolesID() {
-		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
 	}
     
 }

@@ -148,35 +148,15 @@ public class ProjectUpdateAction  extends SecureAction {
 
 	@Override
 	public String executeSecured() throws GSException, NumberFormatException, IOException {
-		   
-    	ServletActionContext.getRequest().getSession().setAttribute("selectedTab", "ProjectTab");
-    	
-    	ProjectBean project = DataProvider.getProjectByID(Long.parseLong(itemID));
-		ProjectBean newProject = new ProjectBean();
-		
+
     	String ret = "updateProject";
     	
     	if(!Strings.isNullOrEmpty(title)) {
     		if(!Strings.isNullOrEmpty(this.description)) {        			
-    			 
-	    		newProject.setId(project.getId());
-	    		newProject.setTitle(title);
-	    		newProject.setDescription(description);
-	    		newProject.setEstimatedTime(estimate_time);
-	    		newProject.setWorkTime(work_time); 
-	    		newProject.setStartDate(startDate);
-	    		newProject.setEndDate(endDate);
-	    		newProject.setTestersNumber(testers_numbers);
-	    		newProject.setState(DataProvider.getStates().get(state));     
-	    		newProject.setUsers(project.getUsers());
-	    		newProject.setPlatforms(selectedPlatforms);
-	        	
-	        	DataProvider.updateProject(project, newProject);
-    			
+    			updateProject();
         	}else addActionError("Description field cannot be empty.");
     	}else addActionError("Title field cannot be empty.");
 
-    
     	if(!DataProvider.mapUsers.get(ServletActionContext.getRequest().getSession().getAttribute("loginedEmail").toString()).isAdmin()) {
     		ret = "projects";
     	}
@@ -188,4 +168,20 @@ public class ProjectUpdateAction  extends SecureAction {
 		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
 	} 
     
+	private void updateProject() throws NumberFormatException, GSException {
+		ProjectBean project = DataProvider.getProjectByID(Long.parseLong(itemID));
+		ProjectBean newProject = new ProjectBean();
+		newProject.setId(project.getId());
+		newProject.setTitle(title);
+		newProject.setDescription(description);
+		newProject.setEstimatedTime(estimate_time);
+		newProject.setWorkTime(work_time); 
+		newProject.setStartDate(startDate);
+		newProject.setEndDate(endDate);
+		newProject.setTestersNumber(testers_numbers);
+		newProject.setState(DataProvider.getStates().get(state));     
+		newProject.setUsers(project.getUsers());
+		newProject.setPlatforms(selectedPlatforms);
+    	DataProvider.updateProject(project, newProject);
+	}
 }

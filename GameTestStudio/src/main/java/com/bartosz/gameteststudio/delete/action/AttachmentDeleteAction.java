@@ -39,12 +39,12 @@ public class AttachmentDeleteAction extends SecureAction{
     private String state;
     private String description;
     private String reproSteps;
-    //private String area;
+
     private String test; 
     private String platform;
     private String issue;
     private List<String> platforms;
-    //file
+    
     private String build;
 	private Double version;
 	private int minKitNumber;
@@ -56,6 +56,8 @@ public class AttachmentDeleteAction extends SecureAction{
 	
 	private String reproStr;
     private List<String> reproList = Arrays.asList("100", "75", "50", "25");
+    
+    private BugBean bug;
     
     private List<String> priorityList = new ArrayList<String>(DataProvider.getPriorities().keySet()); 
 	private List<String> stateList = new ArrayList<String>(DataProvider.getStates().keySet());
@@ -309,8 +311,23 @@ public class AttachmentDeleteAction extends SecureAction{
 
 	@Override
 	public String executeSecured() throws GSException, NumberFormatException, IOException {
-		BugBean bug =  DataProvider.getBugById(Integer.parseInt(itemID));
+		
+		bug =  DataProvider.getBugById(Integer.parseInt(itemID));
 		DataProvider.deleteAttachment(bug.getAttachment());
+		
+		fillLists();
+		fillBugfields();
+		
+		 return "deleteAtt";
+	}
+
+	@Override
+	protected Set<Long> allowedRolesID() {
+		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
+	} 
+	
+	
+	private void fillLists() {
 		HttpSession session = ServletActionContext.getRequest().getSession();
 		
 		for (String el : DataProvider.mapUsers.keySet()) {
@@ -328,8 +345,10 @@ public class AttachmentDeleteAction extends SecureAction{
 				testList.add(el);
 			}
 		}
-		
-    	platformList = bug.getTest().getArea().getProject().getPlatformsStringList();
+	} 
+	
+	private void fillBugfields() {
+		platformList = bug.getTest().getArea().getProject().getPlatformsStringList();
     	
     	title = bug.getTitle(); 
     	account = bug.getUser().getEmail();
@@ -345,14 +364,6 @@ public class AttachmentDeleteAction extends SecureAction{
     	platforms = bug.getPlatformList();
     	reproStr = String.valueOf(bug.getReproFrequency());
     	issue = bug.getIssueType().getName();
-		
-		 return "deleteAtt";
 	}
-
-	@Override
-	protected Set<Long> allowedRolesID() {
-		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
-	}
-	
 	
 }

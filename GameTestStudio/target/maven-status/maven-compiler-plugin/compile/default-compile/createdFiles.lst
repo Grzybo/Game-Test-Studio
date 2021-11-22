@@ -3,11 +3,8 @@ com\bartosz\gameteststudio\action\AdminPageAction.class
 com\bartosz\gameteststudio\action\LogoutAction.class
 com\bartosz\decorators\AreaDecorator.class
 com\bartosz\decorators\ProjectDecorator.class
-com\bartosz\gameteststudio\dictionary\ProjectsDictionary$1.class
 com\bartosz\decorators\BugDecorator.class
-com\bartosz\gameteststudio\action\HelloAction.class
 com\bartosz\gameteststudio\utils\Utils.class
 com\bartosz\decorators\UserDecorator.class
 com\bartosz\gameteststudio\action\LoginAction.class
 com\bartosz\decorators\TestDecorator.class
-com\bartosz\gameteststudio\dictionary\ProjectsDictionary.class

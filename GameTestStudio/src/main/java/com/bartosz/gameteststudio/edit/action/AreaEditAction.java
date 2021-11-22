@@ -205,13 +205,22 @@ public class AreaEditAction  extends SecureAction {
 	@Override
 	public String executeSecured() throws GSException, NumberFormatException, IOException {
 		HttpSession session = ServletActionContext.getRequest().getSession();
-    	session.setAttribute("selectedTab", "AreaTab");
+    	Utils.setTab("AreaTab");
     	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString()); 
-    	
     	projectsList = user.getProjectsList(); 
     	project = session.getAttribute("userProject").toString();
+    	fillAreaFields();
     	
-    	AreaBean area = DataProvider.getAreaByID(Long.parseLong(itemID));
+    	return "editArea";
+	}
+
+	@Override
+	protected Set<Long> allowedRolesID() {
+		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
+	} 
+	
+	private void fillAreaFields() throws NumberFormatException, GSException {
+		AreaBean area = DataProvider.getAreaByID(Long.parseLong(itemID));
     	
 		this.title = area.getTitle();
 		this.project = area.getProject().getTitle();
@@ -223,17 +232,6 @@ public class AreaEditAction  extends SecureAction {
     	this.endDate = area.getEndDate(); 
     	this.testersNumber = area.getTestersNumber(); 
     	this.workTime = area.getWorkTime();	
-    	
-    	return "editArea";
-	}
-
-
-
-
-
-	@Override
-	protected Set<Long> allowedRolesID() {
-		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
 	}
     
     

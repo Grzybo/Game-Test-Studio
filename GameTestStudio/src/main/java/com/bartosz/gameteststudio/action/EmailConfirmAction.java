@@ -26,8 +26,6 @@ public class EmailConfirmAction extends ActionSupport {
 		user.setConfirmed(true);
 		System.out.println(user.toString());
 		DataProvider.updateUser(user, user);
-
-		///System.out.println(" EMAIL CONFIRMED ");
 		
         return "confirm";
     }

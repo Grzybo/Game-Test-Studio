@@ -1,27 +1,20 @@
 package com.bartosz.gameteststudio.edit.action;
  
-import com.bartosz.gameteststudio.beans.UserBean;
-import com.bartosz.gameteststudio.dp.DataProvider;
-import com.bartosz.gameteststudio.exceptions.GSException;
-import com.bartosz.gameteststudio.utils.Utils;
-import com.google.common.hash.Hashing;
-
 import java.nio.charset.StandardCharsets;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
- 
+
+import com.bartosz.gameteststudio.beans.UserBean;
+import com.bartosz.gameteststudio.dp.DataProvider;
+import com.bartosz.gameteststudio.exceptions.GSException;
+import com.google.common.hash.Hashing;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "userInfo", //
 		results = { //
-        @Result(name = "userInfoPage", location = "/WEB-INF/pages/userInfo.jsp"), 
-        @Result(name = "adminInfoPage", location = "/WEB-INF/pages/adminInfo.jsp"),
-        @Result(name = "logout", location = "/WEB-INF/pages/hello.jsp")
+        @Result(name = "userInfoPage", location = "/WEB-INF/pages/userInfo.jsp")
 } //
 )
 public class OwnAccountEditAction  extends ActionSupport {
@@ -38,17 +31,10 @@ public class OwnAccountEditAction  extends ActionSupport {
  
     @Override
     public String execute() throws NumberFormatException, GSException {
-    	
-	if(Utils.isNotLogged()) {System.out.print(" NOT LOGGED ");  return "logout"; }
-    	
+    			
+	UserBean user = DataProvider.getUserByID(Long.parseLong(ServletActionContext.getRequest().getSession().getAttribute("userID").toString()));
 	
-	HttpServletRequest request = ServletActionContext.getRequest();
-	HttpSession session = request.getSession();  
-	
-	//UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());
-	UserBean user = DataProvider.getUserByID(Long.parseLong(session.getAttribute("userID").toString()));
-	
-	
+	//TODO pomyslec co zrobic z secure tutaj
 	if(this.firstName != null) {
 		user.setFirstName(firstName); 
 		DataProvider.updateUser(user, user); 
@@ -78,14 +64,13 @@ public class OwnAccountEditAction  extends ActionSupport {
         else addActionError("Current Password is not correct.");
 	 }
          
-	if(user.isAdmin()) {
-		return "adminInfoPage";
-	}
-	
-	
-	else return "userInfoPage";
-    }
+		return "userInfoPage";
+    } 
+    
 
+    
+    
+    
 	public String getProject() {
 		return project;
 	}

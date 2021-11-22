@@ -7,10 +7,6 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
-import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
@@ -157,9 +153,8 @@ public class AccountCreateAction  extends SecureAction {
 
 	@Override
 	public String executeSecured() throws GSException {
-		HttpServletRequest request = ServletActionContext.getRequest();
-        HttpSession session = request.getSession();  
-    	session.setAttribute("selectedTab", "AccountsTab");
+
+    	Utils.setTab("AccountsTab");
     	
     	String ret = "account_create";
     	
@@ -169,16 +164,8 @@ public class AccountCreateAction  extends SecureAction {
     				Pattern pattern = Pattern.compile(Utils.emailPattern);
     			    Matcher match = pattern.matcher(email);
     				if(match.matches()) {
-    					
-    					//String sha256hex = Hashing.sha256().hashString(Utils.generateRandomPassword(), StandardCharsets.UTF_8).toString();
-    					String psw = Utils.generateRandomPassword();
-    					System.out.println(psw); // aby wiedziec haslo 
     					if(!DataProvider.mapUsers.keySet().contains(email)) {
-        					UserBean user = new UserBean(firstName, lastName, email, 
-        							Hashing.sha256().hashString(psw, StandardCharsets.UTF_8).toString(), // hashowanie hasla 
-        							DataProvider.mapRoles.get(role), projects); 
-        	        		DataProvider.saveUser(user);
-        	        		Mailer.sendNewAccountMail(DataProvider.getUserByEmail(email), psw);
+    						createAccount();
         	        		ret = "created";
         				}
         	    		addActionError("Acccount with this email already exists.");
@@ -195,6 +182,16 @@ public class AccountCreateAction  extends SecureAction {
 		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
 	}
 
+	private void createAccount() throws GSException {
+		//String sha256hex = Hashing.sha256().hashString(Utils.generateRandomPassword(), StandardCharsets.UTF_8).toString();
+		String psw = Utils.generateRandomPassword();
+		System.out.println(psw); // aby wiedziec haslo 
+		UserBean user = new UserBean(firstName, lastName, email, 
+				Hashing.sha256().hashString(psw, StandardCharsets.UTF_8).toString(), // hashowanie hasla 
+				DataProvider.mapRoles.get(role), projects); 
+		DataProvider.saveUser(user);
+		Mailer.sendNewAccountMail(DataProvider.getUserByEmail(email), psw);
+	}
 } 
 
 

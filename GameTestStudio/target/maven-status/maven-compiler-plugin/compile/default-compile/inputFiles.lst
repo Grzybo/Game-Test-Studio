@@ -30,7 +30,6 @@ C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\action\EmailConfirmAction.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\update\action\AreaUpdateAction.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\update\action\ProjectUpdateAction.java
-C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\dictionary\ProjectsDictionary.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\repositories\PlatformRepository.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\update\action\AccountUpdateAction.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\action\LoginAction.java
@@ -50,10 +49,8 @@ C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\net
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\delete\action\TestDeleteAction.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\repositories\BuildRepository.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\beans\TestBean.java
-C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\action\HelloAction.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\delete\action\AttachmentDeleteAction.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\action\NoPermissionsAction.java
-C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\beans\PermissionBean.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\dp\DataProvider.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\create\action\ProjectCreateAction.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\utils\Constants.java

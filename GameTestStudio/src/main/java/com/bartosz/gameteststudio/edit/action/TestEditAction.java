@@ -49,7 +49,7 @@ public class TestEditAction  extends SecureAction {
 	private List<String> selectedPlatforms;
 	
     
-   
+	HttpSession session = ServletActionContext.getRequest().getSession();
 
 
 
@@ -360,10 +360,24 @@ public class TestEditAction  extends SecureAction {
 
 	@Override
 	public String executeSecured() throws GSException, NumberFormatException, IOException {
-		HttpSession session = ServletActionContext.getRequest().getSession();
-    	session.setAttribute("selectedTab", "TestTab");
+	
+    	Utils.setTab("TestTab");
     	
-    	for (String el : DataProvider.mapUsers.keySet()) {
+    	fillLists();
+    	fillTestFields();
+    	    	
+    	return "editTest";
+	}
+
+
+
+	@Override
+	protected Set<Long> allowedRolesID() {
+		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
+	}  
+	
+	private void fillLists() {
+		for (String el : DataProvider.mapUsers.keySet()) {
     		if(DataProvider.mapUsers.get(el).getProjects() != null) {
     			if(DataProvider.mapUsers.get(el).getProjectsList().
     					contains(session.getAttribute("userProject"))) {
@@ -377,8 +391,10 @@ public class TestEditAction  extends SecureAction {
     			areaList.add(area.getTitle());
     		}
     	}
-
-    	TestBean test = DataProvider.getTestById(Integer.parseInt(itemID));
+	} 
+	
+	private void fillTestFields() {
+		TestBean test = DataProvider.getTestById(Integer.parseInt(itemID));
     	platformList = test.getArea().getProject().getPlatformsStringList();
     	
     	title = test.getTitle();
@@ -399,15 +415,6 @@ public class TestEditAction  extends SecureAction {
     	selectedPlatforms = test.getPlatformList();
     	version = test.getVersion();
     	build = test.getBuild().getName();
-    	    	
-    	return "editTest";
-	}
-
-
-
-	@Override
-	protected Set<Long> allowedRolesID() {
-		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
 	} 
     
 }

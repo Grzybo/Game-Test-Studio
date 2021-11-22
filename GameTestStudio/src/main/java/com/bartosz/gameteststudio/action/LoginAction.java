@@ -1,11 +1,10 @@
 package com.bartosz.gameteststudio.action;
  
 import java.nio.charset.StandardCharsets;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpSession;
- 
+
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
@@ -15,14 +14,13 @@ import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
 import com.bartosz.gameteststudio.utils.Constants;
 import com.bartosz.gameteststudio.utils.Utils;
+import com.google.common.base.Strings;
 import com.google.common.hash.Hashing;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "login", //
         results = { //
                 @Result(name = "showForm", location = "/WEB-INF/pages/login.jsp"), //
-                @Result(name = "loginError", location = "/WEB-INF/pages/hello.jsp"), //
-                // loginSuccess: Redirect to /userInfo
                 @Result(name = "loginSuccess", type="redirect", location= "/projects"), 
                 @Result(name = "admin", type="redirect", location= "/adminPage") //
         } //
@@ -30,41 +28,27 @@ import com.opensymphony.xwork2.ActionSupport;
 public class LoginAction extends ActionSupport {
  
     private static final long serialVersionUID = 7299264265184515893L;
+    
+    HttpSession session = ServletActionContext.getRequest().getSession();
+    
     private String email;
     private String password;
     private String ret;
- 
+    UserBean user;    
 
     public String execute() throws GSException {
+
+        ret = "showForm";
         
-    	if (this.email == null && this.password == null) {
-            return "showForm";
-        }
-    	
-        HttpSession session = ServletActionContext.getRequest().getSession();
-        UserBean user = new UserBean();
-        
-        String email = this.email;
-        Pattern pattern = Pattern.compile(Utils.emailPattern);
-        Matcher match = pattern.matcher(email);
-        
-        ret = "loginError";
-        
-        if(this.email != "") {
-    		if(match.matches()) {
-            	if(DataProvider.mapUsers.containsKey(email)) {
+        if(!Strings.isNullOrEmpty(this.email)) {
+    		if(Pattern.compile(Utils.emailPattern).matcher(this.email).matches()) {
+            	if(DataProvider.mapUsers.containsKey(this.email)) {
             		user = DataProvider.getUserByEmail(this.email);
             		if(user.getConfirmed()) {
 	            		if(password != "") {
 	            			if(user.getPassword().equals(Hashing.sha256().hashString(this.password, StandardCharsets.UTF_8).toString())){
 		            		//if(user.getPassword().equals(this.password)) {
-	            				session.setAttribute("loginedUsername", user.getDisplayName());
-		        	    		session.setAttribute("loginedEmail", this.getEmail());
-		        	    		session.setAttribute(Constants.SESSION_ROLE_STR, user.getRole().getName());
-		        	    		System.out.println(user.getRole().getName());
-		        	    		session.setAttribute(Constants.SESSION_ROLE_KEY, user.getRole().getId());
-		        	    		session.setAttribute("userID", user.getId().toString());
-	            				 
+	            				setSessionAttributes();
 		        	    		if(user.isAdmin()) {
 		        	    			session.setAttribute("admin", "admin");
 		        	    			ret = "admin";
@@ -81,7 +65,15 @@ public class LoginAction extends ActionSupport {
 
         return ret;
         
-    } 
+    }
+    
+    private void setSessionAttributes() {
+    	session.setAttribute("loginedUsername", user.getDisplayName());
+		session.setAttribute("loginedEmail", this.getEmail());
+		session.setAttribute(Constants.SESSION_ROLE_STR, user.getRole().getName());
+		session.setAttribute(Constants.SESSION_ROLE_KEY, user.getRole().getId());
+		session.setAttribute("userID", user.getId().toString());
+    }
     
  
     public String getEmail() {

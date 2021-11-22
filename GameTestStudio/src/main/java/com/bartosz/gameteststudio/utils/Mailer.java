@@ -27,12 +27,15 @@ public abstract class Mailer {
     	}
     }; 
     
+    private static String newAccountMailBody(UserBean user, String password) {
+    	return "Hello " + user.getFirstName() + " " + user.getLastName() + 
+     			", your password to Game Test Studio is: " + password + " \nYour Role is: " + user.getRole().getName() + 
+     			"\nTo confim Your email addres, please click at this link: http://localhost:8080/GameTestStudio/confirmEmail?itemID=" + user.getId(); 
+    }
 
     public static void sendNewAccountMail(UserBean user,String password) { 	
         
-		String body = "Hello " + user.getFirstName() + " " + user.getLastName() + 
- 			", your password to Game Test Studio is: " + password + " \nYour Role is: " + user.getRole().getName() + 
- 			"\nTo confim Your email addres, please click at this link: http://localhost:8080/GameTestStudio/confirmEmail?itemID=" + user.getId(); 
+		String body = newAccountMailBody(user, password);
 	
 		try {
            Session emailSession = Session.getDefaultInstance(properties, new javax.mail.Authenticator() {

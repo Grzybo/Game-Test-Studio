@@ -5,9 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import javax.servlet.http.HttpSession;
-
-import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
@@ -41,8 +38,6 @@ public class ProjectEditAction  extends SecureAction {
     private List<String> selectedPlatforms = new ArrayList<String>();
     private List<String> stateList = new ArrayList<String>(DataProvider.getStates().keySet()); 
     
-	private HttpSession session = ServletActionContext.getRequest().getSession();
-
 
 	  public List<String> getSelectedPlatforms() {
 			return selectedPlatforms;
@@ -141,8 +136,18 @@ public class ProjectEditAction  extends SecureAction {
 
 	@Override
 	public String executeSecured() throws GSException, NumberFormatException, IOException {
+		Utils.setTab("ProjectsTab");
+		fillProjectFields();
+    	return "editProject";
+	}
+
+	@Override
+	protected Set<Long> allowedRolesID() {
+		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
+	} 
+	
+	private void fillProjectFields() {
 		ProjectBean project = DataProvider.getProjectById(Integer.parseInt(itemID)); 
-		session.setAttribute("selectedTab", "ProjectsTab");
 		
 		title = project.getTitle(); 
 		description = project.getDescription();
@@ -153,14 +158,6 @@ public class ProjectEditAction  extends SecureAction {
 		startDate = project.getStartDate();
 		endDate = project.getEndDate();
 		state = project.getState().getName(); 
-
-
-    	return "editProject";
-	}
-
-	@Override
-	protected Set<Long> allowedRolesID() {
-		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
 	}
     
 }

@@ -31,32 +31,23 @@ public abstract class SecureAction extends ActionSupport {
     
     @Override
     public String execute() throws GSException, NumberFormatException, IOException {
- 
-    	//Set<EnRoles> setAllowedRoles = null;
-    	//Set<String> setAllowedRolesStr = null;
+
     	Set<Long> setAllowedRolesID = null;
     	
         Long roleID = null;
-        //String role = null;
     	HttpSession session = ServletActionContext.getRequest().getSession();
-    	
-    	//String roleStr;
-    	//if(StringUtils.isNotBlank(roleStr)
-    	
+
     	if(session.getAttribute(Constants.SESSION_ROLE_KEY) != null) {
     		
     		roleID = Long.parseLong(session.getAttribute(Constants.SESSION_ROLE_KEY).toString());
     		//role = session.getAttribute("userRole").toString();
     		setAllowedRolesID = allowedRolesID();
     		if(setAllowedRolesID != null && setAllowedRolesID.contains(roleID)) {
-    			System.out.println(" UPR OK");
     			return executeSecured();
     		}else {
-    			System.out.println(" BRAK UPR");
     			return "noPermissions";
     		}
     	}else {
-    		System.out.println(" BRAK SESi / nie zalogowany ");
     		return "sessionExpired";
     		// global forward
     	} 

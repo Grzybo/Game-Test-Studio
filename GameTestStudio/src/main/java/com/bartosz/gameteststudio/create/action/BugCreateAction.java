@@ -36,6 +36,8 @@ public class BugCreateAction  extends SecureAction {
   
     private static final long serialVersionUID = 1L;
  
+    HttpSession session = ServletActionContext.getRequest().getSession();
+    
     private String title;
     private String account;
     private String priority; 
@@ -62,12 +64,12 @@ public class BugCreateAction  extends SecureAction {
 	private String fileUploadFileName;
 	private String filePath = ServletActionContext.getServletContext().getRealPath("/").concat("userFiles");
 	
-	//private Version ver; 
+	ProjectBean project = DataProvider.mapProjects.get(session.getAttribute("userProject").toString());
     
     private List<String> priorityList = new ArrayList<String>(DataProvider.getPriorities().keySet());
 	private List<String> stateList = new ArrayList<String>(DataProvider.getStates().keySet());
 	private List<String> testList = new ArrayList<String>();
-	private List<String> platformList = new ArrayList<String>();//DataProvider.mapPlatforms.keySet());
+	private List<String> platformList = project.getPlatformsStringList();
 	private List<String> accountList = new ArrayList<String>();
 	private List<String> resultList = new ArrayList<String>(DataProvider.mapResults.keySet());
 	private List<String> buildList = new ArrayList<String>(DataProvider.mapBuilds.keySet());
@@ -76,28 +78,10 @@ public class BugCreateAction  extends SecureAction {
     
 	@Override
 	public String executeSecured() throws GSException, NumberFormatException, IOException {
-		// Walidacja uprawnień ------------------------------------------------------------------------------------------------------
-    	HttpSession session = ServletActionContext.getRequest().getSession();    	
-    	session.setAttribute("selectedTab", "BugTab");
-    	
-    	ProjectBean project = DataProvider.mapProjects.get(session.getAttribute("userProject").toString());
-    	platformList = project.getPlatformsStringList();
-    	
-    	for (String el : DataProvider.mapUsers.keySet()) {
-    		if(DataProvider.mapUsers.get(el).getProjects() != null) {
-    			if(DataProvider.mapUsers.get(el).getProjectsList().
-    					contains(session.getAttribute("userProject"))) {
-    				accountList.add(el);
-    			}
-    		}	
-		} 
-    	
-    	for (String el : DataProvider.mapTests.keySet()) {
-			if(DataProvider.mapTests.get(el).getArea().getProject().getTitle()
-					.equals(session.getAttribute("userProject").toString())){
-				testList.add(el);
-			}
-		}
+
+    	Utils.setTab("BugTab");
+
+    	fillLists();
 
     	String ret = "createBug";
     	
@@ -147,6 +131,24 @@ public class BugCreateAction  extends SecureAction {
     				version, minKitNumber, DataProvider.mapTests.get(test), DataProvider.getIssues().get(issue),
     				Integer.parseInt(reproStr), DataProvider.mapBuilds.get(build)));
     	}
+    }
+    
+    private void fillLists() {
+    	for (String el : DataProvider.mapUsers.keySet()) {
+    		if(DataProvider.mapUsers.get(el).getProjects() != null) {
+    			if(DataProvider.mapUsers.get(el).getProjectsList().
+    					contains(session.getAttribute("userProject"))) {
+    				accountList.add(el);
+    			}
+    		}	
+		} 
+    	
+    	for (String el : DataProvider.mapTests.keySet()) {
+			if(DataProvider.mapTests.get(el).getArea().getProject().getTitle()
+					.equals(session.getAttribute("userProject").toString())){
+				testList.add(el);
+			}
+		}
     }
     
     

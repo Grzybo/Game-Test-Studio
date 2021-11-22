@@ -12,7 +12,6 @@ import org.apache.struts2.convention.annotation.Result;
 
 import com.bartosz.gameteststudio.action.SecureAction;
 import com.bartosz.gameteststudio.beans.PlatformBean;
-import com.bartosz.gameteststudio.beans.ProjectBean;
 import com.bartosz.gameteststudio.beans.TestBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
@@ -28,8 +27,10 @@ results = { //
 } //
 )
 public class TestCreateAction  extends SecureAction {
-  
-    private static final long serialVersionUID = 1L;
+
+	private static final long serialVersionUID = -5514293178039634808L;
+
+	HttpSession session = ServletActionContext.getRequest().getSession();    	
     
     private String title;
     private String account;
@@ -53,7 +54,7 @@ public class TestCreateAction  extends SecureAction {
     private List<String> priorityList = new ArrayList<String>(DataProvider.getPriorities().keySet());
 	private List<String> stateList = new ArrayList<String>(DataProvider.getStates().keySet());
 	private List<String> areaList = new ArrayList<String>();
-	private List<String> platformList = new ArrayList<String>(DataProvider.mapPlatforms.keySet()); // TYMCZASOWO
+	private List<String> platformList = DataProvider.mapProjects.get(session.getAttribute("userProject").toString()).getPlatformsStringList();
 	private List<String> accountList = new ArrayList<String>();
 	private List<String> resultList = new ArrayList<String>(DataProvider.mapResults.keySet());
 	private List<String> buildList = new ArrayList<String>(DataProvider.mapBuilds.keySet());
@@ -307,15 +308,40 @@ public class TestCreateAction  extends SecureAction {
 	@Override
 	public String executeSecured() throws GSException {
 
-    	HttpSession session = ServletActionContext.getRequest().getSession();    	
-    	//UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());
-    	session.setAttribute("selectedTab", "TestTab");
+    	Utils.setTab("TestTab");
+
+    	fillLists();
     	
-    	ProjectBean project = DataProvider.mapProjects.get(session.getAttribute("userProject").toString());
-    	platformList = project.getPlatformsStringList();
-    	//System.out.pr
-    	
-    	for (String el : DataProvider.mapUsers.keySet()) {
+    	String ret = "createTest";
+    	    	
+    	if(!Strings.isNullOrEmpty(title)) {
+    		if(!Strings.isNullOrEmpty(this.description)) {
+    			if(!Strings.isNullOrEmpty(this.area)) {
+    				createTest();
+                	ret = "created";
+    			}else addActionError("Test has to be assigned to area.");
+        	}else addActionError("Description field cannot be empty.");
+    	}else addActionError("Title field cannot be empty.");
+
+    	return ret;
+	}
+
+
+	@Override
+	protected Set<Long> allowedRolesID() {
+		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
+	} 
+	
+	private void createTest() throws GSException {
+		TestBean test = new TestBean(title, DataProvider.mapUsers.get(account), description,
+				DataProvider.mapAreas.get(area), DataProvider.mapResults.get(result),
+				estimatedTime, startDate, endDate, testersNumber, workTime, DataProvider.getStates().get(state),
+				DataProvider.getPriorities().get(priority), selectedPlatforms, version , DataProvider.mapBuilds.get(build));
+		DataProvider.saveTest(test);
+	} 
+	
+	private void fillLists() {
+		for (String el : DataProvider.mapUsers.keySet()) {
     		if(DataProvider.mapUsers.get(el).getProjects() != null) {
     			if(DataProvider.mapUsers.get(el).getProjectsList().
     					contains(session.getAttribute("userProject"))) {
@@ -330,32 +356,6 @@ public class TestCreateAction  extends SecureAction {
 				areaList.add(el);
 			}
 		}
-    	
-    	String ret = "createTest";
-    	
-    	
-    	if(!Strings.isNullOrEmpty(title)) {
-    		if(!Strings.isNullOrEmpty(this.description)) {
-    			if(!Strings.isNullOrEmpty(this.area)) {
-    				TestBean test = new TestBean(title, DataProvider.mapUsers.get(account), description,
-            				DataProvider.mapAreas.get(area), DataProvider.mapResults.get(result),
-            				estimatedTime, startDate, endDate, testersNumber, workTime, DataProvider.getStates().get(state),
-            				DataProvider.getPriorities().get(priority), selectedPlatforms, version , DataProvider.mapBuilds.get(build));
-
-                	DataProvider.saveTest(test);
-                	ret = "created";
-    			}else addActionError("Test has to be assigned to area.");
-        	}else addActionError("Description field cannot be empty.");
-    	}else addActionError("Title field cannot be empty.");
-
-    
-    	return ret;
-	}
-
-
-	@Override
-	protected Set<Long> allowedRolesID() {
-		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
 	}
     
 }

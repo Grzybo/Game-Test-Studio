@@ -45,9 +45,6 @@ public class ActionUpdateAction  extends SecureAction {
 		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
 	}
 
-	
-	
-	
 	public List<String> getRolesList() {
 		return rolesList;
 	}

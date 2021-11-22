@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
@@ -146,24 +145,24 @@ public class AccountEditAction  extends SecureAction {
 
 	@Override
 	public String executeSecured() throws GSException, NumberFormatException, IOException {
-		ServletActionContext.getRequest().getSession().setAttribute("selectedTab", "AccountsTab");
-    	
-		UserBean user = DataProvider.getUserById(Integer.parseInt(itemID)); 
-		
-		projects = user.getProjectsList();
-		
-		firstName = user.getFirstName(); 
-		lastName = user.getLastName(); 
-		email = user.getEmail(); 
-		role = user.getRole().getName();
-		projects = user.getProjectsList(); 
-    		
+		Utils.setTab("AccountsTab");
+		fillAccountFileds();	
     	return "editAccount";
 	}
 
 	@Override
 	protected Set<Long> allowedRolesID() {
 		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
+	} 
+	
+	private void fillAccountFileds() {
+		UserBean user = DataProvider.getUserById(Integer.parseInt(itemID)); 
+		projects = user.getProjectsList();
+		firstName = user.getFirstName(); 
+		lastName = user.getLastName(); 
+		email = user.getEmail(); 
+		role = user.getRole().getName();
+		projects = user.getProjectsList(); 
 	}
     
 }

@@ -24,10 +24,9 @@ results = { //
 } //
 )
 public class AccountUpdateAction  extends SecureAction {
-  
-    private static final long serialVersionUID = 1L;
- 
-    private String firstName;
+
+	private static final long serialVersionUID = -6501869712177187588L;
+	private String firstName;
     private String lastName;
     private String email;
     private String password;
@@ -128,34 +127,34 @@ public class AccountUpdateAction  extends SecureAction {
 
 	@Override
 	public String executeSecured() throws GSException, NumberFormatException, IOException {
-		UserBean user = DataProvider.getUserByID(Long.parseLong(itemID));
-		UserBean newUser = new UserBean();    
-		
 		String ret = "editAccount";
-			
+
 		if(!Strings.isNullOrEmpty(firstName)) {
 			if(!Strings.isNullOrEmpty(this.lastName)) {        			
-				newUser.setFirstName(firstName);
-			 	newUser.setLastName(lastName);
-			 	newUser.setRole(DataProvider.mapRoles.get(role));
-			 	newUser.setProjectsList(projects);
-			 	newUser.setId(user.getId());
-			 	newUser.setEmail(user.getEmail());
-			 	newUser.setPassword(user.getPassword());
-			 	newUser.setConfirmed(user.getConfirmed());
-			 	
-			 	DataProvider.updateUser(user, newUser);
-					
+				updateAccount();
 	    	}else addActionError("Last Name cannot be empty.");
 		}else addActionError("First Name cannot be empty.");
 		
 		return ret;	
 	}
 
-
 	@Override
 	protected Set<Long> allowedRolesID() {
 		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
+	} 
+	
+	private void updateAccount() throws NumberFormatException, GSException {
+		UserBean user = DataProvider.getUserByID(Long.parseLong(itemID));
+		UserBean newUser = new UserBean();    
+		newUser.setFirstName(firstName);
+	 	newUser.setLastName(lastName);
+	 	newUser.setRole(DataProvider.mapRoles.get(role));
+	 	newUser.setProjectsList(projects);
+	 	newUser.setId(user.getId());
+	 	newUser.setEmail(user.getEmail());
+	 	newUser.setPassword(user.getPassword());
+	 	newUser.setConfirmed(user.getConfirmed());
+	 	DataProvider.updateUser(user, newUser);
 	}
 
 }

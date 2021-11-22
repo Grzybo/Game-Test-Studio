@@ -13,7 +13,6 @@ import org.apache.struts2.convention.annotation.Result;
 
 import com.bartosz.gameteststudio.action.SecureAction;
 import com.bartosz.gameteststudio.beans.AreaBean;
-import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
 import com.bartosz.gameteststudio.utils.Utils;
@@ -191,31 +190,12 @@ public class AreaUpdateAction  extends SecureAction {
 	public String executeSecured() throws GSException, NumberFormatException, IOException {
     	
     	HttpSession session = ServletActionContext.getRequest().getSession();    	
-    	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString());
-    	projectsList = user.getProjectsList(); 
+    	projectsList =  DataProvider.mapUsers.get(session.getAttribute("loginedEmail")).getProjectsList(); 
     	project = session.getAttribute("userProject").toString();
-    	
-    	AreaBean area = DataProvider.getAreaByID(Long.parseLong(itemID));
-    	AreaBean newArea = new AreaBean();
-    	
     	
     	if(!Strings.isNullOrEmpty(title)) {
     		if(!Strings.isNullOrEmpty(this.description)) {
-    			newArea.setTitle(this.title);
-    	    	newArea.setPriority(DataProvider.getPriorities().get(priority));
-    	    	newArea.setState(DataProvider.getStates().get(state));
-    	    	newArea.setDescription(this.description);
-    	    	newArea.setEstimatedTime(this.estimatedTime);
-    	    	newArea.setStartDate(this.startDate);
-    	    	newArea.setEndDate(this.endDate);
-    	    	newArea.setTestersNumber(this.testersNumber);
-    	    	newArea.setWorkTime(this.workTime);
-    	    	newArea.setId(area.getId());
-    	    	newArea.setProject(area.getProject());
-    	    	
-    	    	DataProvider.updateArea(area, newArea); 
-    	    	addActionError("Area Updated!");
-        	
+    			updateArea();
     		}else addActionError("Description field cannot be empty.");
     	}else addActionError("Title field cannot be empty.");
 
@@ -229,6 +209,22 @@ public class AreaUpdateAction  extends SecureAction {
 	}
 
 	
-    
+    private void updateArea() throws NumberFormatException, GSException {
+    	AreaBean area = DataProvider.getAreaByID(Long.parseLong(itemID));
+    	AreaBean newArea = new AreaBean();
+		newArea.setTitle(this.title);
+    	newArea.setPriority(DataProvider.getPriorities().get(priority));
+    	newArea.setState(DataProvider.getStates().get(state));
+    	newArea.setDescription(this.description);
+    	newArea.setEstimatedTime(this.estimatedTime);
+    	newArea.setStartDate(this.startDate);
+    	newArea.setEndDate(this.endDate);
+    	newArea.setTestersNumber(this.testersNumber);
+    	newArea.setWorkTime(this.workTime);
+    	newArea.setId(area.getId());
+    	newArea.setProject(area.getProject());
+    	DataProvider.updateArea(area, newArea); 
+    	addActionError("Area Updated!");
+    }
     
 }

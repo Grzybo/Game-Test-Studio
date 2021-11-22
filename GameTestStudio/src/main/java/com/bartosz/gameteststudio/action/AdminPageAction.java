@@ -13,7 +13,6 @@ import org.apache.struts2.convention.annotation.Result;
 import org.displaytag.tags.TableTagParameters;
 import org.displaytag.util.ParamEncoder;
 
-import com.bartosz.gameteststudio.beans.ActionBean;
 import com.bartosz.gameteststudio.beans.ProjectBean;
 import com.bartosz.gameteststudio.beans.RoleBean;
 import com.bartosz.gameteststudio.beans.UserBean;
@@ -25,7 +24,6 @@ import net.sourceforge.jsptabcontrol.util.JSPTabControlUtil;
 @Action(value = "adminPage", 
 		results = { 
 		@Result(name = "admin", location = "/WEB-INF/pages/adminPage.jsp"),
-        @Result(name = "login", type="redirect", location = "/login"),
         @Result(name = "noPermissions",  type="redirect", location = "/noPermissions"), 
         @Result(name = "sessionExpired",  type="redirect", location = "/sessionExpired")
 } 
@@ -53,8 +51,7 @@ public class AdminPageAction  extends SecureAction {
 		if(selectedAction == null) {selectedAction = actionList.get(0);} 
         DataProvider.updateProjectMaps();
         projectObjList = new ArrayList<ProjectBean>(DataProvider.mapProjects.values());
-        ActionBean action = DataProvider.mapActions.get(selectedAction); 
-        selectedRoles = action.getRolesList();
+        selectedRoles = DataProvider.mapActions.get(selectedAction).getRolesList();
 
         setTabs();  
     	return "admin";

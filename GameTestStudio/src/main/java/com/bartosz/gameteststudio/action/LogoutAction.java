@@ -11,7 +11,7 @@ import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "logout", //
 results = { //
-        @Result(name = "logout", location = "/WEB-INF/pages/hello.jsp")
+        @Result(name = "logout", location = "/WEB-INF/pages/login.jsp")
 }
 )
 public class LogoutAction  extends ActionSupport {

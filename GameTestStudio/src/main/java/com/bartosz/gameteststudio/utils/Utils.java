@@ -38,14 +38,19 @@ public abstract class Utils {
 			return generator.generatePassword(8, rules);
 	} 
 	
+	
 	public static Set<Long> setAllowedRolesID(String className) {
 		Set<Long> set = new HashSet<>();
 		List<Long> list = DataProvider.getAllowedRolesID(className);
 		for(Long role : list) {
 			set.add(role);
-			System.out.println(role);
 		}
 		return set;
 	} 
-
+	
+	public static void setTab(String tabName) {
+        ServletActionContext.getRequest().setAttribute("selectedTab", tabName);
+	}
+	
+	
 }
