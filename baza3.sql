@@ -224,9 +224,9 @@ insert into  roles (name) values ('Developer');
 insert into  roles (name) values ('Developer Manager'); 
 insert into  roles (name) values ('Administrator');
 
-insert into  users (fk_roles_id, first_name, last_name, password, email) values (1, 'Donald', 'Duck', 'disney123', 'donald@disney.com');
-insert into  users (fk_roles_id, first_name, last_name, password, email) values (2, 'Mickey', 'Mouse', 'disney456', 'mickey@disney.com'); 
-insert into  users (fk_roles_id, first_name, last_name, password, email) values (3, 'Admin', 'Administrator', 'admin', 'admin@admin.com'); 
+insert into  users (fk_roles_id, first_name, last_name, password, email) values (1, 'Donald', 'Duck', 'a7a8e59a40f58c58251097d6bf857b01db290337f3c33a7c910b8e00bec7871b', 'donald@disney.com');
+insert into  users (fk_roles_id, first_name, last_name, password, email) values (2, 'Mickey', 'Mouse', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', 'mickey@disney.com'); 
+insert into  users (fk_roles_id, first_name, last_name, password, email) values (3, 'Admin', 'Administrator', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 'admin@admin.com'); 
 
 insert into  projects (title, description,  fk_dic_states_id)
 values ('FIFA 22', 

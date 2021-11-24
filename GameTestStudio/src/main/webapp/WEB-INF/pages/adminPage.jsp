@@ -29,7 +29,7 @@
 						  	<display:column property="startDate" title="Start Date" sortable="true"/>
 						  	<display:column property="endDate" title="End Date" sortable="true"/>
 						  	<display:column property="testersNumber" title="Testers" sortable="true"/>	  	
-							<display:column property="deleteLink" title="X" ></display:column>
+							<display:column property="deleteLink" title=" " ></display:column>
 						</display:table>	
 					</div>
 			    </jsptabcontrol:tabPage>
@@ -44,7 +44,7 @@
 							  <display:column property="firstName" title="First Name" sortable="true"/>
 							  <display:column property="lastName" title="Last Name" sortable="true"/>
 							  <display:column property="role.name" title="Role" sortable="true"/>
-							  <display:column property="deleteLink" title="X" ></display:column>
+							  <display:column property="deleteLink" title=" " ></display:column>
 						</display:table>
 			    	</div>
 			    </jsptabcontrol:tabPage> 
@@ -56,7 +56,7 @@
 				    		<s:select label="Action" name="selectedAction" list="actionList" onchange="refreshAdminPage()"/>
 				    		<s:checkboxlist label="Roles" list="rolesList" name="selectedRoles" />
 				    		<s:submit class= "button"  method="execute" key="Save" align="center" />
-				    	</s:form>				    	
+				    	</s:form>			    	
 			    	</div>
 			    </jsptabcontrol:tabPage>
 	 		</jsptabcontrol:tabControl> 

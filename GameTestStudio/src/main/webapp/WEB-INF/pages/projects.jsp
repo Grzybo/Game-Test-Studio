@@ -56,7 +56,7 @@
 						  	<display:column property="reproFrequency" title="Repro Frequency[%]" sortable="true"/>
 						  	<display:column property="issueType.name" title="Issue Type" sortable="true"/>
 						  	<s:if test="%{#session.userRole == 'Tester Manager' || #session.userRole == 'Tester'}">
-						  		<display:column property="deleteLink" title="X" ></display:column>
+						  		<display:column property="deleteLink" title=" " ></display:column>
 						  	</s:if>
 						</display:table> 
 					</div>  

@@ -18,6 +18,7 @@ import com.bartosz.gameteststudio.beans.RoleBean;
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.utils.Utils;
+import com.google.common.base.Strings;
 
 import net.sourceforge.jsptabcontrol.util.JSPTabControlUtil;
  
@@ -53,7 +54,8 @@ public class AdminPageAction  extends SecureAction {
         projectObjList = new ArrayList<ProjectBean>(DataProvider.mapProjects.values());
         selectedRoles = DataProvider.mapActions.get(selectedAction).getRolesList();
 
-        setTabs();  
+        setTabs();   
+
     	return "admin";
 	}
 
@@ -82,6 +84,15 @@ public class AdminPageAction  extends SecureAction {
 					session.setAttribute("selectedTab", "AccountsTab");
 					Utils.userTabState = userSort;
 				}
+				 if(Strings.isNullOrEmpty(Utils.selectedAction)) {
+			        	Utils.selectedAction = selectedAction;
+			        } 
+			        else if(!Utils.selectedAction.equals(this.selectedAction)){
+			        	session.setAttribute("selectedTab", "ActionsTab");
+			        	Utils.selectedAction = selectedAction;
+			        }
+				
+				
 		 	} 
 		 }
 		 JSPTabControlUtil.setSelectedTabPageName(request, "AdminTabs", session.getAttribute("selectedTab").toString());	

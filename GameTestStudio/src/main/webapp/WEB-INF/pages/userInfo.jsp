@@ -20,14 +20,14 @@
         <s:label>Change Profile Data:</s:label>
 		<tr>
 			<s:textfield class="text" name="firstName" key="First Name" 
-				placeholder="Leave empty, if not changing" size="100%" />
+				 size="100%" />
 			<s:textfield class="text" name="lastName" key="Last Name" 
-       			 placeholder="Leave empty, if not changing" size="100%" /> 						
+       			 size="100%" /> 						
 		</tr>
 		<tr>
 			<s:password class="text" name="oldPassword" key="Current Password" size="100%" />
 	        <s:password class="text" name="newPassword1" key="New Password" size="100%" />
-	        <s:password class="text" name="newPassword2" key="New Password"  size="100%"/>    
+	        <s:password class="text" name="newPassword2" key="Repeat New Password"  size="100%"/>    
 		</tr>
 		
 		<tr>

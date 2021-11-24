@@ -25,9 +25,7 @@ public abstract class SecureAction extends ActionSupport {
 	private String action;
     
     public abstract String executeSecured() throws GSException, NumberFormatException, IOException; // Zastepuje execute akcji. 
-    //protected abstract Set<EnRoles> allowedRoles(); // Metoda zwaracająca id rol z uprawineiniem od akcji.
-    //protected abstract Set<String> allowedRolesStr();
-    protected abstract Set<Long> allowedRolesID();
+    protected abstract Set<Long> allowedRolesID(); // Metoda zwaracająca id rol z uprawineiniem od akcji.
     
     @Override
     public String execute() throws GSException, NumberFormatException, IOException {
