@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
@@ -145,7 +146,7 @@ public class AccountEditAction  extends SecureAction {
 
 	@Override
 	public String executeSecured() throws GSException, NumberFormatException, IOException {
-		Utils.setTab("AccountsTab");
+		Utils.setTab("AccountsTab", ServletActionContext.getRequest().getSession());
 		fillAccountFileds();	
     	return "editAccount";
 	}

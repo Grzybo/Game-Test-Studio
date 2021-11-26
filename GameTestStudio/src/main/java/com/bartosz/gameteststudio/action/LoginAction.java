@@ -45,7 +45,7 @@ public class LoginAction extends ActionSupport {
             	if(DataProvider.mapUsers.containsKey(this.email)) {
             		user = DataProvider.getUserByEmail(this.email);
             		if(user.getConfirmed()) {
-	            		if(password != "") {
+	            		if(!Strings.isNullOrEmpty(password)) {
 	            			if(user.getPassword().equals(Hashing.sha256().hashString(this.password, StandardCharsets.UTF_8).toString())){
 		            		//if(user.getPassword().equals(this.password)) {
 	            				setSessionAttributes();

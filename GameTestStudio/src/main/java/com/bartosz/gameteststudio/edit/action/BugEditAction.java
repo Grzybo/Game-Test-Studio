@@ -351,7 +351,7 @@ public class BugEditAction  extends SecureAction {
 	@Override
 	public String executeSecured() throws GSException, NumberFormatException, IOException {
 		
-    	Utils.setTab("BugTab");
+    	Utils.setTab("BugTab", session);
     	fillLists();
     	
     	bug = DataProvider.getBugById(Integer.parseInt(itemID));

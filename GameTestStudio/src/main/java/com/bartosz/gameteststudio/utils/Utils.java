@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.struts2.ServletActionContext;
 import org.passay.CharacterRule;
 import org.passay.EnglishCharacterData;
@@ -49,10 +51,11 @@ public abstract class Utils {
 		}
 		return set;
 	} 
-	
-	public static void setTab(String tabName) {
-        ServletActionContext.getRequest().setAttribute("selectedTab", tabName);
+
+	public static void setTab(String tabName, HttpSession session) {
+		session.setAttribute("selectedTab", tabName);
 	}
+	
 	
 	
 }

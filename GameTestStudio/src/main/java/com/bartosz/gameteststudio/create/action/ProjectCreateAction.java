@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
@@ -130,7 +131,7 @@ public class ProjectCreateAction extends SecureAction {
 	@Override
 	public String executeSecured() throws GSException {
 
-		Utils.setTab("ProjectsTab");
+		Utils.setTab("ProjectsTab", ServletActionContext.getRequest().getSession());
 		
 		String ret = "project_create";
     	

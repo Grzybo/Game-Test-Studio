@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
@@ -157,7 +159,10 @@ public class ProjectUpdateAction  extends SecureAction {
         	}else addActionError("Description field cannot be empty.");
     	}else addActionError("Title field cannot be empty.");
 
-    	if(!DataProvider.mapUsers.get(ServletActionContext.getRequest().getSession().getAttribute("loginedEmail").toString()).isAdmin()) {
+    	HttpSession session = ServletActionContext.getRequest().getSession();
+    	
+    	if(!DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString()).isAdmin()) {
+    		Utils.setTab("ProjectTab", session);
     		ret = "projects";
     	}
     	return ret;	

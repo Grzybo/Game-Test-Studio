@@ -67,7 +67,9 @@
     		<s:set var="id" value="fileID"/>
 			<s:if test="%{#id!=null}">
 				<a class= "button" href="${pageContext.request.contextPath}/image?fileID=<s:property value="fileID"/>">View attached file</a>
-				<a class= "deleteBtn" onclick="deleteConfirm('File', <s:property value="fileID"/>)">Delete attached file</a>
+					<s:if test="%{#session.userRole == 'Tester Manager' || #session.userRole == 'Tester'}">	
+						<a class= "deleteBtn" onclick="deleteConfirm('File', <s:property value="fileID"/>)">Delete attached file</a>
+						</s:if>
 			</s:if>
 			 
 			</div>		

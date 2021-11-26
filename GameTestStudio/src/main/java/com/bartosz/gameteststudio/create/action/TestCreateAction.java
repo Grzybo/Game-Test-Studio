@@ -308,7 +308,7 @@ public class TestCreateAction  extends SecureAction {
 	@Override
 	public String executeSecured() throws GSException {
 
-    	Utils.setTab("TestTab");
+    	Utils.setTab("TestTab", session);
 
     	fillLists();
     	

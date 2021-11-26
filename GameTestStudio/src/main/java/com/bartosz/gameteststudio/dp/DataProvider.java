@@ -2,9 +2,11 @@ package com.bartosz.gameteststudio.dp;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 
@@ -141,6 +143,14 @@ public class DataProvider {
 	public static List<Long> getAllowedRolesID(String action) {
 		List<Long> rolesIdList = new ArrayList<Long>();
 		for(RoleBean role: mapActions.get(action).getRoles()) {
+			rolesIdList.add(role.getId());
+		}
+		return rolesIdList;
+	}
+	
+	public static Set<Long> getAllRolesID() {
+		Set<Long> rolesIdList = new HashSet<>();
+		for(RoleBean role: mapRoles.values()) {
 			rolesIdList.add(role.getId());
 		}
 		return rolesIdList;

@@ -11,7 +11,8 @@ import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "logout", //
 results = { //
-        @Result(name = "logout", location = "/WEB-INF/pages/login.jsp")
+        @Result(name = "logout", location = "/WEB-INF/pages/login.jsp"),
+        
 }
 )
 public class LogoutAction  extends ActionSupport {
@@ -27,8 +28,8 @@ public class LogoutAction  extends ActionSupport {
     	session.setAttribute("selectedTab", null);  
     	session.setAttribute("loginedUsername", null);
     	session.setAttribute("userRole", null);
+    	session.setAttribute("userID", null);
     	session.setAttribute("admin", null); 
-    	
     	
     	session.setAttribute("sessionUser", null);
     	

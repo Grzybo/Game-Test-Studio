@@ -79,7 +79,7 @@ public class BugCreateAction  extends SecureAction {
 	@Override
 	public String executeSecured() throws GSException, NumberFormatException, IOException {
 
-    	Utils.setTab("BugTab");
+    	Utils.setTab("BugTab", session);
 
     	fillLists();
 

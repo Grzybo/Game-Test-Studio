@@ -49,6 +49,7 @@ public class AdminPageAction  extends SecureAction {
 	@Override
 	public String executeSecured() {
     	
+		
 		if(selectedAction == null) {selectedAction = actionList.get(0);} 
         DataProvider.updateProjectMaps();
         projectObjList = new ArrayList<ProjectBean>(DataProvider.mapProjects.values());
@@ -67,32 +68,31 @@ public class AdminPageAction  extends SecureAction {
     // ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
     
     private void setTabs() {
-		 if(session.getAttribute("selectedTab") == null) {
+		 if(Strings.isNullOrEmpty((String) session.getAttribute("selectedTab"))) {
 				session.setAttribute("selectedTab", "ProjectsTab"); 
 			}
-		 else if(Utils.projectTabState == null && Utils.userTabState == null) {
+		 else if(Strings.isNullOrEmpty(Utils.projectTabState) && Strings.isNullOrEmpty(Utils.userTabState)) {
 			 	Utils.projectTabState = "0";
 				Utils.userTabState = "0";
 		 }
 		 else {
 			 {	
-				if(projectSort != null && !Utils.projectTabState.equals(projectSort)) {
+				if(!Strings.isNullOrEmpty(projectSort) && !Utils.projectTabState.equals(projectSort)) {
 					session.setAttribute("selectedTab", "ProjectsTab");
 					Utils.projectTabState = projectSort;
 				}
-				if(userSort != null && !Utils.userTabState.equals(userSort)) {
+				if(!Strings.isNullOrEmpty(userSort) && !Utils.userTabState.equals(userSort)) {
 					session.setAttribute("selectedTab", "AccountsTab");
 					Utils.userTabState = userSort;
 				}
-				 if(Strings.isNullOrEmpty(Utils.selectedAction)) {
+				
+				   if(Strings.isNullOrEmpty(Utils.selectedAction)) {
 			        	Utils.selectedAction = selectedAction;
 			        } 
 			        else if(!Utils.selectedAction.equals(this.selectedAction)){
 			        	session.setAttribute("selectedTab", "ActionsTab");
 			        	Utils.selectedAction = selectedAction;
 			        }
-				
-				
 		 	} 
 		 }
 		 JSPTabControlUtil.setSelectedTabPageName(request, "AdminTabs", session.getAttribute("selectedTab").toString());	

@@ -22,6 +22,7 @@ import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
 import com.bartosz.gameteststudio.utils.Utils;
+import com.google.common.base.Strings;
 
 import net.sourceforge.jsptabcontrol.util.JSPTabControlUtil;
  
@@ -117,25 +118,25 @@ public class ProjectAction  extends SecureAction {
 	  * Metoda ustawiająca odpowiednią zakładkę na stownie tak, aby użytkownik cały czas znajdował się w jednej zakładce po wykonaniu czynności np. sortowania.
 	  */
 	 private void setTabs() {
-		 if(session.getAttribute("selectedTab") == null) { // po zalogowaniu, ustawia domyślnie na Bug Tab
+		 if(Strings.isNullOrEmpty((String) session.getAttribute("selectedTab"))) { // po zalogowaniu, ustawia domyślnie na Bug Tab
 				session.setAttribute("selectedTab", "BugTab"); 
 			}
-		 else if(Utils.bugTabState == null && Utils.testTabState == null && Utils.areaTabState == null) { // ustwiawia pomocnicze zmianne na 1 czyli na sortowanie drugą kolumną
+		 else if(Strings.isNullOrEmpty(Utils.bugTabState) && Strings.isNullOrEmpty(Utils.testTabState) && Strings.isNullOrEmpty(Utils.areaTabState)) { // ustwiawia pomocnicze zmianne na 1 czyli na sortowanie drugą kolumną
 			 Utils.bugTabState = "0"; 																		//(pierwsza jest ID po ktorej nie da sie sortowac )
 				Utils.testTabState = "0";
 				Utils.areaTabState = "0";
 		 }
 		 else {
 			 {
- 				if(bugSort != null && !Utils.bugTabState.equals(bugSort)) {
+ 				if(!Strings.isNullOrEmpty(bugSort) && !Utils.bugTabState.equals(bugSort)) {
  					session.setAttribute("selectedTab", "BugTab");
  					Utils.bugTabState = bugSort;
  				}
- 				if(testSort != null && !Utils.testTabState.equals(testSort)) {
+ 				if(!Strings.isNullOrEmpty(testSort) && !Utils.testTabState.equals(testSort)) {
  					session.setAttribute("selectedTab", "TestTab");
  					Utils.testTabState = testSort;
  				}
- 				if(areaSort != null && !Utils.areaTabState.equals(areaSort)) {
+ 				if(!Strings.isNullOrEmpty(areaSort) && !Utils.areaTabState.equals(areaSort)) {
  					session.setAttribute("selectedTab", "AreaTab");
  					Utils.areaTabState = areaSort;
  				}

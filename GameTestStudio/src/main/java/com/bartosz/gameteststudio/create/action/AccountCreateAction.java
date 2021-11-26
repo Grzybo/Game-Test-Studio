@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
@@ -154,7 +155,7 @@ public class AccountCreateAction  extends SecureAction {
 	@Override
 	public String executeSecured() throws GSException {
 
-    	Utils.setTab("AccountsTab");
+    	Utils.setTab("AccountsTab", ServletActionContext.getRequest().getSession());
     	
     	String ret = "account_create";
     	

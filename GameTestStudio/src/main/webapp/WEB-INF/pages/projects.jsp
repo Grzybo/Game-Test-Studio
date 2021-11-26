@@ -82,7 +82,7 @@
 								<display:column property="build.name" title="Build" sortable="true"/>
 								<display:column property="result.name" title="Result" sortable="true"/>
 								<s:if test="%{#session.userRole == 'Tester Manager'}">
-						  			<display:column property="deleteLink" title="X" ></display:column>
+						  			<display:column property="deleteLink" title=" " ></display:column>
 						  		</s:if>
 							</display:table>	
 						</div>  
@@ -105,7 +105,7 @@
 					  	<display:column property="workTime" title="Time Spent [h]" sortable="true"/>
 					  	<display:column property="testersNumber" title="Testers" sortable="true"/>		
 					  	<s:if test="%{#session.userRole == 'Tester Manager'}">
-				  			<display:column property="deleteLink" title="X" ></display:column>
+				  			<display:column property="deleteLink" title=" " ></display:column>
 				  		</s:if>				
 					</display:table>	
 				</div> 						      

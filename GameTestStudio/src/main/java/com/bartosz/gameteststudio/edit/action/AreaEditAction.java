@@ -205,7 +205,7 @@ public class AreaEditAction  extends SecureAction {
 	@Override
 	public String executeSecured() throws GSException, NumberFormatException, IOException {
 		HttpSession session = ServletActionContext.getRequest().getSession();
-    	Utils.setTab("AreaTab");
+    	Utils.setTab("AreaTab", session);
     	UserBean user = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString()); 
     	projectsList = user.getProjectsList(); 
     	project = session.getAttribute("userProject").toString();

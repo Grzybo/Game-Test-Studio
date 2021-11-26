@@ -232,7 +232,7 @@ public class AreaCreateAction  extends SecureAction {
 	@Override
 	public String executeSecured() {
 		
-    	Utils.setTab("AreaTab");
+    	Utils.setTab("AreaTab", session);
     	 project = session.getAttribute("userProject").toString(); 
     	 projectsList = DataProvider.mapUsers.get(session.getAttribute("loginedEmail").toString()).getProjectsList();
     	String ret = "createArea";

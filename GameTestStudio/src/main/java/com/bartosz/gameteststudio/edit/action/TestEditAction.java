@@ -361,7 +361,7 @@ public class TestEditAction  extends SecureAction {
 	@Override
 	public String executeSecured() throws GSException, NumberFormatException, IOException {
 	
-    	Utils.setTab("TestTab");
+    	Utils.setTab("TestTab", session);
     	
     	fillLists();
     	fillTestFields();
