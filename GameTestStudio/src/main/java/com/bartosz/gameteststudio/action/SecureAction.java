@@ -24,11 +24,11 @@ public abstract class SecureAction extends ActionSupport {
 	private static final long serialVersionUID = 1812356272496984591L;
 	private String action;
     
-    public abstract String executeSecured() throws GSException, NumberFormatException, IOException; // Zastepuje execute akcji. 
+    public abstract String executeSecured() throws GSException, NumberFormatException, IOException, InterruptedException; // Zastepuje execute akcji. 
     protected abstract Set<Long> allowedRolesID(); // Metoda zwaracająca id rol z uprawineiniem od akcji.
     
     @Override
-    public String execute() throws GSException, NumberFormatException, IOException {
+    public String execute() throws GSException, NumberFormatException, IOException, InterruptedException {
 
     	Set<Long> setAllowedRolesID = null;
     	

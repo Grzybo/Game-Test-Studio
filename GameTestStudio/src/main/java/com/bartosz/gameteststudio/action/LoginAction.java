@@ -1,6 +1,5 @@
 package com.bartosz.gameteststudio.action;
  
-import java.nio.charset.StandardCharsets;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpSession;
@@ -15,7 +14,6 @@ import com.bartosz.gameteststudio.exceptions.GSException;
 import com.bartosz.gameteststudio.utils.Constants;
 import com.bartosz.gameteststudio.utils.Utils;
 import com.google.common.base.Strings;
-import com.google.common.hash.Hashing;
 import com.opensymphony.xwork2.ActionSupport;
  
 @Action(value = "login", //
@@ -39,14 +37,14 @@ public class LoginAction extends ActionSupport {
     public String execute() throws GSException {
 
         ret = "showForm";
-        
+
         if(!Strings.isNullOrEmpty(this.email)) {
     		if(Pattern.compile(Utils.emailPattern).matcher(this.email).matches()) {
             	if(DataProvider.mapUsers.containsKey(this.email)) {
             		user = DataProvider.getUserByEmail(this.email);
             		if(user.getConfirmed()) {
 	            		if(!Strings.isNullOrEmpty(password)) {
-	            			if(user.getPassword().equals(Hashing.sha256().hashString(this.password, StandardCharsets.UTF_8).toString())){
+	            			if(user.getPassword().equals(Utils.HashSHA256(this.password))){
 		            		//if(user.getPassword().equals(this.password)) {
 	            				setSessionAttributes();
 		        	    		if(user.isAdmin()) {
@@ -56,11 +54,11 @@ public class LoginAction extends ActionSupport {
 		        	        	else if(user.getProjectsList().size() > 0) {	
 		        	        		ret = "loginSuccess";
 		        	        	}else addActionError("User is not assigned to any project. Please contact system Administrator.");
-		            		}else addActionError("Wrong password.");
+		            		}else addActionError("Wrong email or password.");
 	            		}else addActionError("Password cannot be empty.");
             		}else addActionError("Your email adress is not confirmed. Please check your email.");
-            	}else addActionError("Account with this email not exist.");
-            }else addActionError("Email not valid.");
+            	}else addActionError("Wrong email or password.");
+            }else addActionError("Wrong email or password.");
         }else addActionError("Email cannot be empty.");
 
         return ret;

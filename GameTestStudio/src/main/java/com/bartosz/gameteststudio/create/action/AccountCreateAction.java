@@ -1,6 +1,5 @@
 package com.bartosz.gameteststudio.create.action;
  
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -18,7 +17,6 @@ import com.bartosz.gameteststudio.exceptions.GSException;
 import com.bartosz.gameteststudio.utils.Mailer;
 import com.bartosz.gameteststudio.utils.Utils;
 import com.google.common.base.Strings;
-import com.google.common.hash.Hashing;
  
 @Action(value = "createAccount", //
 results = { //
@@ -188,7 +186,7 @@ public class AccountCreateAction  extends SecureAction {
 		String psw = Utils.generateRandomPassword();
 		System.out.println(psw); // aby wiedziec haslo 
 		UserBean user = new UserBean(firstName, lastName, email, 
-				Hashing.sha256().hashString(psw, StandardCharsets.UTF_8).toString(), // hashowanie hasla 
+				Utils.HashSHA256(psw), // hashowanie hasla 
 				DataProvider.mapRoles.get(role), projects); 
 		DataProvider.saveUser(user);
 		Mailer.sendNewAccountMail(DataProvider.getUserByEmail(email), psw);

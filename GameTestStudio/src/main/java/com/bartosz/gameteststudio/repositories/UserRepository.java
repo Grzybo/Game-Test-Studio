@@ -46,6 +46,16 @@ public class UserRepository {
 		return project;
 	}
 	
+	public static UserBean findByHash(String hash) {
+		final Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction(); 
+		final Query<UserBean> query = session.createQuery("from UserBean where hash_key =: hash_key", UserBean.class);
+		query.setParameter("hash_key", hash);
+		UserBean project = query.uniqueResult();
+		session.close();
+		return project;
+	}
+	
 	public static void update(UserBean oldUser, UserBean newUser) {
 		final Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();

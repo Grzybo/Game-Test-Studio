@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.bartosz.gameteststudio.dp.DataProvider;
+import com.bartosz.gameteststudio.utils.Utils;
 
 @Entity
 @Table(name = "USERS")
@@ -50,7 +51,10 @@ public class UserBean {
 	private List<ProjectBean> projects;  
 	
 	@Column(name = "confirmed") // do sprawdzenia emaila 
-	private Boolean confirmed;
+	private Boolean confirmed; 
+	
+	@Column(name = "hash_key") // hash emailia + imeinia + nazwiska 
+	private String hashKey;
 	
 	
 	public UserBean(String firstName, String lastName, String email, 
@@ -62,7 +66,6 @@ public class UserBean {
 		this.role = role;
 		setProjectsList(projects);
 		this.confirmed = false;
-		
 	} 
 	
 	
@@ -95,6 +98,10 @@ public class UserBean {
 		return this.firstName + " " + this.lastName;
 	} 
 	
+	public String getHashData() {
+		return this.email + this.firstName + this.lastName;
+	}
+	
 	public List<String> getProjectsList(){
 		
 		List<String> list = new ArrayList<String>();
@@ -108,9 +115,28 @@ public class UserBean {
 	
 //---------------------------------------------------------------------------------------------------------------------------
 
+	
+	public void updateHashKey() {
+		hashKey = Utils.HashSHA256(getHashData());
+	}
+	
 	public Long getId() {
 		return id;
 	}
+
+	public String getHashKey() {
+		return hashKey;
+	}
+
+
+
+
+	public void setHashKey(String hashKey) {
+		this.hashKey = hashKey;
+	}
+
+
+
 
 	public void setAllFields(UserBean user) {
 		this.id = user.id;
@@ -121,6 +147,7 @@ public class UserBean {
 		this.role = user.role;
 		this.projects = user.projects;
 		this.confirmed = user.confirmed; 
+		this.hashKey = user.hashKey;
 	}
 
 	public void setId(Long id) {

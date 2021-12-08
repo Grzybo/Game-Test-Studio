@@ -39,6 +39,7 @@ import com.bartosz.gameteststudio.repositories.RoleRepository;
 import com.bartosz.gameteststudio.repositories.StateRepository;
 import com.bartosz.gameteststudio.repositories.TestRepository;
 import com.bartosz.gameteststudio.repositories.UserRepository;
+import com.google.common.base.Strings;
 
 /**
  * klasa zarzadzajaca danymi
@@ -656,7 +657,15 @@ public class DataProvider {
 			return db;
 		} else
 			log.error(" User id is null or out of range."); 
-		throw new GSException("Project id is null or out of range.");
+		throw new GSException("User id is null or out of range.");
+	}
+	
+	public static UserBean getUserByHash(String hash) throws GSException {
+		if (!Strings.isNullOrEmpty(hash)) {
+			UserBean db = UserRepository.findByHash(hash); 
+			return db;
+		} else {log.error(" User hash is null."); }
+		throw new GSException("User hash is null dupa.");
 	} 
 	
 	/**
@@ -681,6 +690,7 @@ public class DataProvider {
 	 */
 	public static void saveUser(UserBean user) {
 		if (user != null) {
+			user.updateHashKey();
 			UserRepository.save(user);
 			mapUsers.put(user.getEmail(), user);
 			mapUsersId.put(user.getId(), user.getEmail());
@@ -711,6 +721,7 @@ public class DataProvider {
 		if (old != null && newUser != null) {
 			mapUsersId.replace(old.getId(), old.getEmail(), newUser.getEmail());
 			mapUsers.remove(old.getEmail());
+			newUser.updateHashKey();
 			UserRepository.update(old, newUser);
 			mapUsers.put(newUser.getEmail(), newUser);
 		} else

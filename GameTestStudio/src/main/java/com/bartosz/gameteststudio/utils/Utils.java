@@ -1,6 +1,8 @@
 package com.bartosz.gameteststudio.utils;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -13,6 +15,7 @@ import org.passay.EnglishCharacterData;
 import org.passay.PasswordGenerator;
 
 import com.bartosz.gameteststudio.dp.DataProvider;
+import com.google.common.hash.Hashing;
 
 public abstract class Utils {
 
@@ -54,7 +57,21 @@ public abstract class Utils {
 
 	public static void setTab(String tabName, HttpSession session) {
 		session.setAttribute("selectedTab", tabName);
-	}
+	} 
+	
+	public static String HashSHA256(String str) { // metoda hashująca
+		return Hashing.sha256().hashString(str, StandardCharsets.UTF_8).toString();
+	} 
+	
+	
+	public static String Encode64(String input) {
+		return  Base64.getEncoder().encodeToString(input.getBytes());
+	} 
+	
+	public static String Decode64(String input) {
+		byte[] decodedBytes = Base64.getDecoder().decode(input);
+		return  new String(decodedBytes);
+	} 
 	
 	
 	

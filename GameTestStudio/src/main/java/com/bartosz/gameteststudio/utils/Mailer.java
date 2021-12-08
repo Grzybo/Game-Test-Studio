@@ -1,5 +1,6 @@
 package com.bartosz.gameteststudio.utils;
 
+import java.time.LocalDate;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -30,30 +31,45 @@ public abstract class Mailer {
     private static String newAccountMailBody(UserBean user, String password) {
     	return "Hello " + user.getFirstName() + " " + user.getLastName() + 
      			", your password to Game Test Studio is: " + password + " \nYour Role is: " + user.getRole().getName() + 
-     			"\nTo confim Your email addres, please click at this link: http://localhost:8080/GameTestStudio/confirmEmail?itemID=" + user.getId(); 
+     			"\nTo confim Your email addres, please click at this link: http://localhost:8080/GameTestStudio/confirmEmail?hash=" + user.getHashKey() + "&date=" + Utils.Encode64(LocalDate.now().toString()); 
     }
-
-    public static void sendNewAccountMail(UserBean user,String password) { 	
-        
-		String body = newAccountMailBody(user, password);
-	
-		try {
-           Session emailSession = Session.getDefaultInstance(properties, new javax.mail.Authenticator() {
-                 protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication(from, emailPassword);
-                 }
-              }
-           );
-
-           Message message = new MimeMessage(emailSession);
-           message.setFrom(new InternetAddress(from));
-           message.setRecipients(Message.RecipientType.TO, 
-              InternetAddress.parse(user.getEmail()));
-           message.setSubject("Game Test Studio Password!");
-           message.setText(body);
-           Transport.send(message);
-        } catch(Exception e) {
-           e.printStackTrace();
-        }
+    
+    private static String resetPasswordMailBody(String userHash) {
+    	return "Hello, " +
+     			"To reset your password, please click at this link: http://localhost:8080/GameTestStudio/resetPassword?hash=" +  userHash + "&date=" + Utils.Encode64(LocalDate.now().toString()); 
     } 
+    
+    
+    public static void sendNewAccountMail(UserBean user,String password) { 	
+		String body = newAccountMailBody(user, password);
+		sendMail(body, user.getEmail(), "Game Test Studio - Confirm email adress.");
+    } 
+    
+    public static void sendResetPasswordEmail(UserBean user) {
+    	String body = resetPasswordMailBody(user.getHashKey());
+    	sendMail(body,user.getEmail(), "Game Test Studio - Verify email adress.");
+    } 
+    
+    
+    
+    private static void sendMail(String body, String adress, String subject) {
+    	try {
+            Session emailSession = Session.getDefaultInstance(properties, new javax.mail.Authenticator() {
+                  protected PasswordAuthentication getPasswordAuthentication() {
+                     return new PasswordAuthentication(from, emailPassword);
+                  }
+               }
+            );
+
+            Message message = new MimeMessage(emailSession);
+            message.setFrom(new InternetAddress(from));
+            message.setRecipients(Message.RecipientType.TO, 
+               InternetAddress.parse(adress));
+            message.setSubject(subject);
+            message.setText(body);
+            Transport.send(message);
+         } catch(Exception e) {
+            e.printStackTrace();
+         }
+    }
 }
