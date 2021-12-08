@@ -189,7 +189,7 @@ public class AccountCreateAction  extends SecureAction {
 				Utils.HashSHA256(psw), // hashowanie hasla 
 				DataProvider.mapRoles.get(role), projects); 
 		DataProvider.saveUser(user);
-		Mailer.sendNewAccountMail(DataProvider.getUserByEmail(email), psw);
+		Mailer.sendNewAccountMail(DataProvider.getUserByEmail(email));
 	}
 } 
 

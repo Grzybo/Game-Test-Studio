@@ -102,7 +102,7 @@ public class OwnAccountEditAction  extends SecureAction {
 					
 		UserBean user = DataProvider.getUserByID(Long.parseLong(ServletActionContext.getRequest().getSession().getAttribute("userID").toString()));
 		
-		//TODO pomyslec co zrobic z secure tutaj
+		
 		if(this.firstName != null) {
 			user.setFirstName(firstName); 
 			DataProvider.updateUser(user, user); 

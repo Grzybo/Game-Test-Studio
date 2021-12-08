@@ -28,20 +28,21 @@ public abstract class Mailer {
     	}
     }; 
     
-    private static String newAccountMailBody(UserBean user, String password) {
+    private static String newAccountMailBody(UserBean user) {
     	return "Hello " + user.getFirstName() + " " + user.getLastName() + 
-     			", your password to Game Test Studio is: " + password + " \nYour Role is: " + user.getRole().getName() + 
-     			"\nTo confim Your email addres, please click at this link: http://localhost:8080/GameTestStudio/confirmEmail?hash=" + user.getHashKey() + "&date=" + Utils.Encode64(LocalDate.now().toString()); 
+     			" \nYour Role is: " + user.getRole().getName() + 
+     			"\nTo set your password to Game Test Studio and activate your account" +
+     			" please click at this link:\n http://localhost:8080/GameTestStudio/confirmEmail?hash=" + user.getHashKey() + "&date=" + Utils.Encode64(LocalDate.now().toString()); 
     }
     
     private static String resetPasswordMailBody(String userHash) {
     	return "Hello, " +
-     			"To reset your password, please click at this link: http://localhost:8080/GameTestStudio/resetPassword?hash=" +  userHash + "&date=" + Utils.Encode64(LocalDate.now().toString()); 
+     			"to reset your password, please click at this link: http://localhost:8080/GameTestStudio/resetPassword?hash=" +  userHash + "&date=" + Utils.Encode64(LocalDate.now().toString()); 
     } 
     
     
-    public static void sendNewAccountMail(UserBean user,String password) { 	
-		String body = newAccountMailBody(user, password);
+    public static void sendNewAccountMail(UserBean user) { 	
+		String body = newAccountMailBody(user);
 		sendMail(body, user.getEmail(), "Game Test Studio - Confirm email adress.");
     } 
     

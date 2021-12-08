@@ -1,6 +1,7 @@
 package com.bartosz.gameteststudio.action;
  
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -17,7 +18,7 @@ import com.google.common.base.Strings;
 @Action(value = "changePassword", //
 results = { //
         @Result(name = "changePassword", location = "/WEB-INF/pages/changePassword.jsp"),
-        @Result(name = "login", type="redirect", location = "/login"),
+        @Result(name = "logout", type="redirect", location = "/logout"),
         @Result(name = "noPermissions",  type="redirect", location = "/noPermissions"), 
         @Result(name = "sessionExpired",  type="redirect", location = "/sessionExpired")
 } //
@@ -39,7 +40,7 @@ public class ChangePasswordAction  extends SecureAction {
 				DataProvider.updateUser(user, user);
 				addActionError("Password changed! Redirecting to login page.");
 				TimeUnit.SECONDS.sleep(5);
-				return "login";
+				return "logout";
 			} addActionError("Passwords must match.");
 		} addActionError("Password cannot be empty.");
 		
@@ -50,7 +51,9 @@ public class ChangePasswordAction  extends SecureAction {
 
 	@Override
 	protected Set<Long> allowedRolesID() {
-		return DataProvider.getAllRolesID();
+		Set<Long> set = new HashSet<>();
+		set.add((long)7); // charakterystyczny dla tej akcji
+		return set;
 	}
 
 

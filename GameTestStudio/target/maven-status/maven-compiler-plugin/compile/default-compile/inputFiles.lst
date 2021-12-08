@@ -21,7 +21,6 @@ C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\net\sourceforge\jsptabcontrol\config\InsertJavascript.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\action\ChangePasswordAction.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\beans\RoleBean.java
-C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\action\ResetPasswordAction.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\action\SessionExpiredAction.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\action\SecureAction.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\beans\BuildBean.java
@@ -47,6 +46,7 @@ C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\net
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\decorators\UserDecorator.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\edit\action\AccountEditAction.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\repositories\ProjectRepository.java
+C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\action\EmailVerifyAction.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\decorators\ProjectDecorator.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\net\sourceforge\jsptabcontrol\config\TabPageStateConfig.java
 C:\Users\Bartosz\Documents\Git\Game-Test-Studio\GameTestStudio\src\main\java\com\bartosz\gameteststudio\delete\action\TestDeleteAction.java

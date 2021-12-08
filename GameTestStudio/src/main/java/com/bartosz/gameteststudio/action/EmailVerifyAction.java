@@ -34,12 +34,8 @@ public class EmailVerifyAction extends ActionSupport {
 	    public String execute() throws GSException {
 		
 		if(LocalDate.now().isBefore(LocalDate.parse(Utils.Decode64(date)).plusDays(4)) ){
-			System.out.println(" JESZCZE JEST CZAS");
 			UserBean user = DataProvider.getUserByHash(this.hash);
-			session.setAttribute("loginedUsername", user.getDisplayName());
-			session.setAttribute("loginedEmail", user.getEmail());
-			session.setAttribute(Constants.SESSION_ROLE_STR, user.getRole().getName());
-			session.setAttribute(Constants.SESSION_ROLE_KEY, user.getRole().getId());
+			session.setAttribute(Constants.SESSION_ROLE_KEY, (long)7);
 			session.setAttribute("userID", user.getId().toString());
 
 			return "changePassword";
