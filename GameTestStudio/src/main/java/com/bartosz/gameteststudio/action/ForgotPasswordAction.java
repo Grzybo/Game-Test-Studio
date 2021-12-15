@@ -1,5 +1,7 @@
 package com.bartosz.gameteststudio.action;
 
+import java.time.LocalDate;
+
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
@@ -27,12 +29,14 @@ public class ForgotPasswordAction extends ActionSupport {
 		if(!Strings.isNullOrEmpty(email)) {
 			if(DataProvider.mapUsers.keySet().contains(email)) {
 				UserBean user = DataProvider.getUserByEmail(email);
-				Mailer.sendResetPasswordEmail(user); 
-				
-				return "login";
+				if(user.getConfirmed()) {
+					user.setMailType("Verify");
+					user.setMailDate(LocalDate.now().toString());
+					DataProvider.updateUser(user, user);
+					Mailer.sendResetPasswordEmail(user);	
+				} 
 			}
-			addActionError("Wrong email adress.");
-			
+			addActionError("If email adress is valid, check your email box for further actions.");
 			
 		}else addActionError("Email adress cannot be empty.");
 		

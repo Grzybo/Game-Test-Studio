@@ -24,7 +24,7 @@ public class UserRepository {
 		final Query<UserBean> query = session.createQuery("from UserBean where email =: email", UserBean.class);
 		query.setParameter("email", email);
 		UserBean user = query.uniqueResult();
-		//session.close();
+		session.close();
 		return user;
 	}  
 	

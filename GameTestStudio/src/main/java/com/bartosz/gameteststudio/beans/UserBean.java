@@ -54,7 +54,17 @@ public class UserBean {
 	private Boolean confirmed; 
 	
 	@Column(name = "hash_key") // hash emailia + imeinia + nazwiska 
-	private String hashKey;
+	private String hashKey; 
+	
+	@Column(name = "mail_date") 
+	private String mailDate;
+	
+	@Column(name = "mail_type") 
+	private String mailType; 
+	
+	@Column(name = "mail_used") 
+	private Boolean mailUsed;
+	
 	
 	
 	public UserBean(String firstName, String lastName, String email, 
@@ -66,6 +76,7 @@ public class UserBean {
 		this.role = role;
 		setProjectsList(projects);
 		this.confirmed = false;
+		this.mailUsed = false;
 	} 
 	
 	
@@ -116,10 +127,55 @@ public class UserBean {
 //---------------------------------------------------------------------------------------------------------------------------
 
 	
+	
 	public void updateHashKey() {
 		hashKey = Utils.HashSHA256(getHashData());
 	}
 	
+	public Boolean getMailUsed() {
+		return mailUsed;
+	}
+
+
+
+
+	public void setMailUsed(Boolean mailUsed) {
+		this.mailUsed = mailUsed;
+	}
+
+
+
+
+	public String getMailDate() {
+		return mailDate;
+	}
+
+
+
+
+	public void setMailDate(String mailDate) {
+		setMailUsed(false);
+		this.mailDate = mailDate;
+	}
+
+
+
+
+	public String getMailType() {
+		return mailType;
+	}
+
+
+
+
+	public void setMailType(String mailType) {
+		setMailUsed(false);
+		this.mailType = mailType;
+	}
+
+
+
+
 	public Long getId() {
 		return id;
 	}

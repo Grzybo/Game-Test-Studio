@@ -12,7 +12,6 @@ import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
 import com.bartosz.gameteststudio.utils.Constants;
-import com.bartosz.gameteststudio.utils.Utils;
 import com.opensymphony.xwork2.ActionSupport;
 
 @Action(value = "resetPassword", //
@@ -33,17 +32,20 @@ public class EmailVerifyAction extends ActionSupport {
 	@Override
 	    public String execute() throws GSException {
 		
-		if(LocalDate.now().isBefore(LocalDate.parse(Utils.Decode64(date)).plusDays(4)) ){
+		if(DataProvider.userHashList.contains(hash)) {
 			UserBean user = DataProvider.getUserByHash(this.hash);
-			session.setAttribute(Constants.SESSION_ROLE_KEY, (long)7);
-			session.setAttribute("userID", user.getId().toString());
-
-			return "changePassword";
-			
+			if(!user.getMailUsed()) {
+				if(LocalDate.now().isBefore(LocalDate.parse(user.getMailDate()).plusDays(4))){
+					session.setAttribute(Constants.SESSION_ROLE_KEY, (long)7);
+					session.setAttribute("userID", user.getId().toString()); 
+					user.setMailUsed(true);
+					DataProvider.updateUser(user, user);
+					return "changePassword";
+				}
+			}
 		}
-		
 		return "expired";
-	 }
+}
 
 	public String getHash() {
 		return hash;

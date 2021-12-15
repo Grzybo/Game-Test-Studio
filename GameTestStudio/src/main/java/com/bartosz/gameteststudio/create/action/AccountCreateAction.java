@@ -1,5 +1,6 @@
 package com.bartosz.gameteststudio.create.action;
  
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -188,7 +189,10 @@ public class AccountCreateAction  extends SecureAction {
 		UserBean user = new UserBean(firstName, lastName, email, 
 				Utils.HashSHA256(psw), // hashowanie hasla 
 				DataProvider.mapRoles.get(role), projects); 
+		user.setMailType("Confirm");
+		user.setMailDate(LocalDate.now().toString());
 		DataProvider.saveUser(user);
+		DataProvider.userHashList.add(user.getHashKey());
 		Mailer.sendNewAccountMail(DataProvider.getUserByEmail(email));
 	}
 } 

@@ -11,6 +11,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import com.bartosz.gameteststudio.beans.UserBean;
+import com.bartosz.gameteststudio.dp.DataProvider;
 
 public abstract class Mailer {
 
@@ -32,22 +33,35 @@ public abstract class Mailer {
     	return "Hello " + user.getFirstName() + " " + user.getLastName() + 
      			" \nYour Role is: " + user.getRole().getName() + 
      			"\nTo set your password to Game Test Studio and activate your account" +
-     			" please click at this link:\n http://localhost:8080/GameTestStudio/confirmEmail?hash=" + user.getHashKey() + "&date=" + Utils.Encode64(LocalDate.now().toString()); 
+     			" please click at this link:\n http://localhost:8080/GameTestStudio/confirmEmail?hash=" + user.getHashKey() + 
+     			"\n\nSincerely,\nGame Test Studio";
     }
     
     private static String resetPasswordMailBody(String userHash) {
     	return "Hello, " +
-     			"to reset your password, please click at this link: http://localhost:8080/GameTestStudio/resetPassword?hash=" +  userHash + "&date=" + Utils.Encode64(LocalDate.now().toString()); 
-    } 
+     			"to reset your password, please click at this link: http://localhost:8080/GameTestStudio/resetPassword?hash=" +  userHash + 
+     			"\n\nSincerely,\nGame Test Studio";
+    }
     
+    private static String passwordChangeMailBody(UserBean user) {
+    	return "Hello " + user.getFirstName() + " " + user.getLastName() + " \nYour password has been changed." + 
+    			"\n If it was your action, please ignore this email.\nIf it was not Your action, plase contact system administrator.\n\nSincerely,\nGame Test Studio";
+    }
+    
+    public static void sendPasswordChangeMail(UserBean user) { 	
+		String body = passwordChangeMailBody(user);
+		sendMail(body, user.getEmail(), "Game Test Studio - Password change.");
+    } 
     
     public static void sendNewAccountMail(UserBean user) { 	
 		String body = newAccountMailBody(user);
+		
 		sendMail(body, user.getEmail(), "Game Test Studio - Confirm email adress.");
     } 
     
     public static void sendResetPasswordEmail(UserBean user) {
     	String body = resetPasswordMailBody(user.getHashKey());
+    	
     	sendMail(body,user.getEmail(), "Game Test Studio - Verify email adress.");
     } 
     

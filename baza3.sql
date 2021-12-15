@@ -64,7 +64,12 @@ CREATE TABLE users (
     first_name VARCHAR(150) NOT NULL,
     last_name VARCHAR(150) NOT NULL,
     password VARCHAR(150) NOT NULL, 
-    email VARCHAR(200) NOT NULL UNIQUE
+    email VARCHAR(200) NOT NULL UNIQUE, 
+    confirmed BOOLEAN, 
+    hash_key VARCHAR(255), 
+    mail_type VARCHAR(100),
+    mail_date VARCHAR(10),
+    mail_used BOOLEAN
 );
 
 CREATE TABLE projects (

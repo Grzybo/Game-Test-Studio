@@ -3,7 +3,6 @@ package com.bartosz.gameteststudio.action;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
@@ -12,6 +11,7 @@ import org.apache.struts2.convention.annotation.Result;
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
+import com.bartosz.gameteststudio.utils.Mailer;
 import com.bartosz.gameteststudio.utils.Utils;
 import com.google.common.base.Strings;
  
@@ -30,7 +30,7 @@ public class ChangePasswordAction  extends SecureAction {
 	private String passwordRepeat;
 
 	@Override
-	public String executeSecured() throws GSException, NumberFormatException, IOException, InterruptedException {
+	public String executeSecured() throws GSException, NumberFormatException, IOException {
 
 		UserBean user = DataProvider.getUserByID(Long.parseLong(ServletActionContext.getRequest().getSession().getAttribute("userID").toString())); 
 		
@@ -38,8 +38,9 @@ public class ChangePasswordAction  extends SecureAction {
 			if(password.equals(passwordRepeat)) {
 				user.setPassword(Utils.HashSHA256(password));
 				DataProvider.updateUser(user, user);
-				addActionError("Password changed! Redirecting to login page.");
-				TimeUnit.SECONDS.sleep(5);
+				addActionError("Password changed! Redirecting to login page."); 
+				Mailer.sendPasswordChangeMail(user);
+				
 				return "logout";
 			} addActionError("Passwords must match.");
 		} addActionError("Password cannot be empty.");

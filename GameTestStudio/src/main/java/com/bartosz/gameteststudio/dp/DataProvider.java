@@ -636,6 +636,9 @@ public class DataProvider {
 // User 
 // ##################################################################################################################################################################################################
 	
+	
+	
+	
 	/**
 	 * Zwraca listę obiektów użytkowników pobraną z bazy danych.
 	 * @return
@@ -738,6 +741,17 @@ public class DataProvider {
 			for(UserBean sb : getAllUsers()) {
 				put(sb.getEmail(), sb);
 			}
+		}
+	};
+	
+	
+	public static  List<String> userHashList = new ArrayList<String>(){
+		private static final long serialVersionUID = 1L;
+		{			
+			for (UserBean b : mapUsers.values()) {
+				add(b.getHashKey());
+			}
+			
 		}
 	};
 	
