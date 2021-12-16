@@ -37,6 +37,8 @@ public class ChangePasswordAction  extends SecureAction {
 		if(!Strings.isNullOrEmpty(password) && !Strings.isNullOrEmpty(passwordRepeat)) {
 			if(password.equals(passwordRepeat)) {
 				user.setPassword(Utils.HashSHA256(password));
+				user.updateHashKey();
+				DataProvider.userHashList.add(user.getHashKey());
 				DataProvider.updateUser(user, user);
 				addActionError("Password changed! Redirecting to login page."); 
 				Mailer.sendPasswordChangeMail(user);

@@ -1,6 +1,5 @@
 package com.bartosz.gameteststudio.utils;
 
-import java.time.LocalDate;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -11,7 +10,6 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import com.bartosz.gameteststudio.beans.UserBean;
-import com.bartosz.gameteststudio.dp.DataProvider;
 
 public abstract class Mailer {
 
@@ -39,7 +37,7 @@ public abstract class Mailer {
     
     private static String resetPasswordMailBody(String userHash) {
     	return "Hello, " +
-     			"to reset your password, please click at this link: http://localhost:8080/GameTestStudio/resetPassword?hash=" +  userHash + 
+     			"to reset your password, please click at this link: http://localhost:8080/GameTestStudio/confirmEmail?hash=" +  userHash + 
      			"\n\nSincerely,\nGame Test Studio";
     }
     

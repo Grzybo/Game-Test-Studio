@@ -30,24 +30,18 @@ public abstract class SecureAction extends ActionSupport {
     @Override
     public String execute() throws GSException, NumberFormatException, IOException, InterruptedException {
 
-    	Set<Long> setAllowedRolesID = null;
-    	
         Long roleID = null;
     	HttpSession session = ServletActionContext.getRequest().getSession();
 
     	if(session.getAttribute(Constants.SESSION_ROLE_KEY) != null) {
-    		
     		roleID = Long.parseLong(session.getAttribute(Constants.SESSION_ROLE_KEY).toString());
-    		//role = session.getAttribute("userRole").toString();
-    		setAllowedRolesID = allowedRolesID();
-    		if(setAllowedRolesID != null && setAllowedRolesID.contains(roleID)) {
+    		if(allowedRolesID() != null && allowedRolesID().contains(roleID)) {
     			return executeSecured();
     		}else {
     			return "noPermissions";
     		}
     	}else {
     		return "sessionExpired";
-    		// global forward
     	} 
     }
 

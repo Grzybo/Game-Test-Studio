@@ -191,6 +191,7 @@ public class AccountCreateAction  extends SecureAction {
 				DataProvider.mapRoles.get(role), projects); 
 		user.setMailType("Confirm");
 		user.setMailDate(LocalDate.now().toString());
+		user.updateHashKey();
 		DataProvider.saveUser(user);
 		DataProvider.userHashList.add(user.getHashKey());
 		Mailer.sendNewAccountMail(DataProvider.getUserByEmail(email));

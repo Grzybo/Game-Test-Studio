@@ -26,7 +26,6 @@ public class EmailConfirmAction extends ActionSupport {
   
 	private static final long serialVersionUID = -7282173756012263259L;
 	private String hash;
-	private String date;
 	HttpSession session = ServletActionContext.getRequest().getSession();
 	
 	@Override
@@ -36,23 +35,19 @@ public class EmailConfirmAction extends ActionSupport {
 			UserBean user = DataProvider.getUserByHash(this.hash);
 			if(!user.getMailUsed()) {
 				if(LocalDate.now().isBefore(LocalDate.parse(user.getMailDate()).plusDays(4))){
-					if(!user.getConfirmed()) {
-						user.setConfirmed(true);
-						user.setMailUsed(true);
-						DataProvider.updateUser(user, user);
-						session.setAttribute(Constants.SESSION_ROLE_KEY, (long)7);
-						session.setAttribute("userID", user.getId().toString());
-						
-						return "changePassword";
+					if(user.getMailType().equals("Confirm")) {
+						if(!user.getConfirmed()) {user.setConfirmed(true);}
+						else return "active";
 					}
-					return "active";
-				}
-			}
-			
-		}
+					user.setMailUsed(true);
+					DataProvider.updateUser(user, user);
+					session.setAttribute(Constants.SESSION_ROLE_KEY, (long)7);
+					session.setAttribute("userID", user.getId().toString());
+					return "changePassword";
+				} System.out.println("dni");
+			}System.out.println("used");
+		}System.out.println("hash");
 		return "expired";
-		
-		
     }
 
 	public String getHash() {
@@ -61,14 +56,6 @@ public class EmailConfirmAction extends ActionSupport {
 
 	public void setHash(String hash) {
 		this.hash = hash;
-	}
-
-	public String getDate() {
-		return date;
-	}
-
-	public void setDate(String date) {
-		this.date = date;
 	}
 
 	

@@ -110,7 +110,7 @@ public class UserBean {
 	} 
 	
 	public String getHashData() {
-		return this.email + this.firstName + this.lastName;
+		return this.email + this.firstName + this.lastName + this.password;
 	}
 	
 	public List<String> getProjectsList(){

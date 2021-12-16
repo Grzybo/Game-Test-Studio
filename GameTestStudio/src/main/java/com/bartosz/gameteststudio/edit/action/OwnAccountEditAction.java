@@ -105,6 +105,7 @@ public class OwnAccountEditAction  extends SecureAction {
 		
 		if(this.firstName != null) {
 			user.setFirstName(firstName); 
+			user.updateHashKey();
 			DataProvider.updateUser(user, user); 
 			addActionError("First Name updated.");
 		}
@@ -112,6 +113,7 @@ public class OwnAccountEditAction  extends SecureAction {
 		
 		if(this.lastName != null) {
 			user.setLastName(lastName); 
+			user.updateHashKey();
 			DataProvider.updateUser(user, user); 
 			addActionError("Last Name updated.");
 		} 
@@ -123,6 +125,7 @@ public class OwnAccountEditAction  extends SecureAction {
 			//if(user.getPassword().equals(oldPassword)) {	
 			if(newPassword1.equals(newPassword2)) {
 				user.setPassword(Hashing.sha256().hashString(newPassword2, StandardCharsets.UTF_8).toString());
+				user.updateHashKey();
 				DataProvider.updateUser(user, user);
 				
 				addActionError("Password changed successfully.");	
