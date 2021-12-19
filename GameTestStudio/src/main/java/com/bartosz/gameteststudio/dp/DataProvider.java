@@ -673,13 +673,13 @@ public class DataProvider {
 	
 	/**
 	 * Zwraca obiekt użytkownika o podanym emailu.
-	 * @param title
+	 * @param email
 	 * @return
 	 * @throws GSException
 	 */
-	public static UserBean getUserByEmail(String title) throws GSException {
-		if (title != null ) {
-			UserBean db = UserRepository.findByEmail(title); 
+	public static UserBean getUserByEmail(String email) throws GSException {
+		if (email != null ) {
+			UserBean db = UserRepository.findByEmail(email); 
 			return db;
 		} else
 			log.error(" User id is null."); 

@@ -15,7 +15,8 @@ import com.opensymphony.xwork2.ActionSupport;
 
 @Action(value = "secure", //
 		results = { //
-		@Result(name = "showForm", location = "/WEB-INF/pages/login.jsp")
+		@Result(name = "showForm", location = "/WEB-INF/pages/login.jsp"), 
+		@Result(name = "sessionExpired", location = "/WEB-INF/pages/sessionExpired.jsp")
 } //
 )
 

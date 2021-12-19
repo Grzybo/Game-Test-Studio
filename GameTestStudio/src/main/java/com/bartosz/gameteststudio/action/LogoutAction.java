@@ -23,6 +23,12 @@ public class LogoutAction  extends ActionSupport {
     @Override
     public String execute() {
         
+    	clearSessionAtributes();
+    	
+    	return "logout"; 
+    } 
+    
+    private void clearSessionAtributes() {
     	session.setAttribute("loginedEmail", null); 
     	session.setAttribute("userProject", null); 
     	session.setAttribute("selectedTab", null);  
@@ -39,7 +45,5 @@ public class LogoutAction  extends ActionSupport {
     	Utils.areaTabState = null;
     	Utils.projectTabState = null;
     	Utils.userTabState = null;
-    	
-    	return "logout"; 
     }
 }
