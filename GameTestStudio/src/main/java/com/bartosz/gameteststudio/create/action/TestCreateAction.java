@@ -17,7 +17,12 @@ import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
 import com.bartosz.gameteststudio.utils.Utils;
 import com.google.common.base.Strings;
- 
+
+/**
+ * Akcja obsługuje tworzenie nowego testu.
+ * @author Bartosz
+ *
+ */
 @Action(value = "createTest", //
 results = { //
         @Result(name = "createTest", location = "/WEB-INF/pages/create_pages/createTest.jsp"),
@@ -304,7 +309,9 @@ public class TestCreateAction  extends SecureAction {
 		this.buildList = buildList;
 	}
 
-
+	/**
+	 * Główna logika akcji.
+	 */
 	@Override
 	public String executeSecured() throws GSException {
 
@@ -326,12 +333,18 @@ public class TestCreateAction  extends SecureAction {
     	return ret;
 	}
 
-
+	/**
+	 * Lista ról z dostępem do akcji.
+	 */ 
 	@Override
 	protected Set<Long> allowedRolesID() {
 		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
 	} 
 	
+	/**
+	 * Metoda tworzy test oraz zapisuje go w bazie danych.
+	 * @throws GSException
+	 */
 	private void createTest() throws GSException {
 		TestBean test = new TestBean(title, DataProvider.mapUsers.get(account), description,
 				DataProvider.mapAreas.get(area), DataProvider.mapResults.get(result),
@@ -340,6 +353,9 @@ public class TestCreateAction  extends SecureAction {
 		DataProvider.saveTest(test);
 	} 
 	
+	/**
+	 * Pomocnicza metoda wypełniająca atrybuty przekazywane z widoku.
+	 */
 	private void fillLists() {
 		for (String el : DataProvider.mapUsers.keySet()) {
     		if(DataProvider.mapUsers.get(el).getProjects() != null) {

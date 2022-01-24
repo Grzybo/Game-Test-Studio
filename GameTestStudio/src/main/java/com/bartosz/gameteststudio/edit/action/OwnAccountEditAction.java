@@ -13,7 +13,13 @@ import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
 import com.google.common.hash.Hashing;
- 
+
+/**
+ * Akcja obsługująca przeglądanie danych konta użytkownika oraz ich modyfikację z poziomu użytkownika.
+ * Możliwość zmiany hasła.
+ * @author Bartosz
+ *
+ */ 
 @Action(value = "userInfo", //
 		results = { //
         @Result(name = "userInfoPage", location = "/WEB-INF/pages/userInfo.jsp"), 
@@ -31,7 +37,9 @@ public class OwnAccountEditAction  extends SecureAction {
     private String email;
     private String oldPassword;
     private String newPassword1;
-    private String newPassword2;
+    private String newPassword2; 
+    
+    private UserBean user;
 
 
     
@@ -96,13 +104,33 @@ public class OwnAccountEditAction  extends SecureAction {
 
 
 
-
+	/**
+	 * Główna logika akcji.
+	 */
 	@Override
 	public String executeSecured() throws GSException, NumberFormatException, IOException {
 					
-		UserBean user = DataProvider.getUserByID(Long.parseLong(ServletActionContext.getRequest().getSession().getAttribute("userID").toString()));
+		this.user = DataProvider.getUserByID(Long.parseLong(ServletActionContext.getRequest().getSession().getAttribute("userID").toString()));
 		
-		
+		changeFirstName();
+		changeLastName();
+		changePassword();
+		     
+		return "userInfoPage";
+	}
+
+	/**
+	 * Lista ról z dostępem do akcji.
+	 */ 
+	@Override
+	protected Set<Long> allowedRolesID() {
+		return DataProvider.getAllRolesID();
+	} 
+	
+	/**
+	 * Metoda opowidzialna za zmianę imienia w koncie użytkownika.
+	 */
+	private void changeFirstName() {
 		if(this.firstName != null) {
 			user.setFirstName(firstName); 
 			user.updateHashKey();
@@ -110,7 +138,12 @@ public class OwnAccountEditAction  extends SecureAction {
 			addActionError("First Name updated.");
 		}
 		else firstName = user.getFirstName();
-		
+	}
+	
+	/**
+	 * Metoda odpowiedzialna za zmianę nazwiska w koncie użytkownika.
+	 */
+	private void changeLastName() {
 		if(this.lastName != null) {
 			user.setLastName(lastName); 
 			user.updateHashKey();
@@ -118,8 +151,12 @@ public class OwnAccountEditAction  extends SecureAction {
 			addActionError("Last Name updated.");
 		} 
 		else lastName = user.getLastName();
-		
-		
+	} 
+	
+	/**
+	 * Metoda odpoiwdzialna za zmianę hasła.
+	 */
+	private void changePassword() {
 		if(oldPassword != null && newPassword1 != null && newPassword2 != null) { 
 		    if(user.getPassword().equals(Hashing.sha256().hashString(oldPassword, StandardCharsets.UTF_8).toString())) {
 			//if(user.getPassword().equals(oldPassword)) {	
@@ -134,13 +171,6 @@ public class OwnAccountEditAction  extends SecureAction {
 		}
 		else addActionError("Current Password is not correct.");
 		 }
-		     
-			return "userInfoPage";
-	}
-
-	@Override
-	protected Set<Long> allowedRolesID() {
-		return DataProvider.getAllRolesID();
 	}
     
 }

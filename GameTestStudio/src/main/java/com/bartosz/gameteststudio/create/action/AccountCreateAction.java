@@ -18,7 +18,12 @@ import com.bartosz.gameteststudio.exceptions.GSException;
 import com.bartosz.gameteststudio.utils.Mailer;
 import com.bartosz.gameteststudio.utils.Utils;
 import com.google.common.base.Strings;
- 
+
+/**
+ * Akcja odpowiada tworzeniu nowego konta użytkowanika.
+ * @author Bartosz
+ *
+ */
 @Action(value = "createAccount", //
 results = { //
         @Result(name = "account_create", location = "/WEB-INF/pages/create_pages/createAccount.jsp"),
@@ -151,6 +156,9 @@ public class AccountCreateAction  extends SecureAction {
 		this.role = role;
 	}
 
+	/**
+	 * Główna logika akcji.
+	 */
 	@Override
 	public String executeSecured() throws GSException {
 
@@ -177,11 +185,20 @@ public class AccountCreateAction  extends SecureAction {
     	return ret;		
 	}
 
+	/**
+	 * Lista ról z dostępem do akcji.
+	 */ 
 	@Override
 	protected Set<Long> allowedRolesID() {
 		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
 	}
 
+	/**
+	 * Metoda odpowiada za stworzenie obeiktu użytkownika. 
+	 * Generuje hasło które jest zapisywane w bazie danych jako funkcja skrótu.
+	 * Wysyła link aktywacyjny na e-mail użytkownika.
+	 * @throws GSException
+	 */
 	private void createAccount() throws GSException {
 		//String sha256hex = Hashing.sha256().hashString(Utils.generateRandomPassword(), StandardCharsets.UTF_8).toString();
 		String psw = Utils.generateRandomPassword();

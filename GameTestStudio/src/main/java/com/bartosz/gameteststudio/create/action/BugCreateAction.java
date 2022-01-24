@@ -23,7 +23,12 @@ import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
 import com.bartosz.gameteststudio.utils.Utils;
 import com.google.common.base.Strings;
- 
+
+/**
+ * Akcja odpowiada za tworzenie nowego błędu.
+ * @author Bartosz
+ *
+ */
 @Action(value = "createBug", //
 results = { //
         @Result(name = "createBug", location = "/WEB-INF/pages/create_pages/createBug.jsp"),
@@ -32,6 +37,7 @@ results = { //
         @Result(name = "sessionExpired",  type="redirect", location = "/sessionExpired")
 } //
 )
+
 public class BugCreateAction  extends SecureAction {
   
     private static final long serialVersionUID = 1L;
@@ -57,7 +63,7 @@ public class BugCreateAction  extends SecureAction {
     private String build;
 	private Double version = 0.0;
 	private int minKitNumber;
-	AttachmentBean att;
+	AttachmentBean attachment;
 	
 	private File fileUpload;
 	private String fileUploadContentType;
@@ -76,13 +82,14 @@ public class BugCreateAction  extends SecureAction {
 	private List<String> issuesList = new ArrayList<String>(DataProvider.getIssues().keySet());
 	List<AttachmentBean> listAtt = new ArrayList<AttachmentBean>();
     
+	/**
+	 * Główna logika akcji.
+	 */
 	@Override
 	public String executeSecured() throws GSException, NumberFormatException, IOException {
 
     	Utils.setTab("BugTab", session);
-
     	fillLists();
-
     	String ret = "createBug";
     	
     	if(!Strings.isNullOrEmpty(title)) {
@@ -96,25 +103,35 @@ public class BugCreateAction  extends SecureAction {
         	}else addActionError("Description field cannot be empty.");
     	}else addActionError("Title field cannot be empty.");
 
-    	
     	return ret;
 	}
 
+	/**
+	 * Lista ról z dostępem do akcji.
+	 */ 
 	@Override
 	protected Set<Long> allowedRolesID() {
 		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
 	}
     
+	/**
+	 * Metoda tworzy załącznik i zapisuje go w bazie danych.
+	 * @throws IOException
+	 */
     private void createAttachment() throws IOException {
     	String filePath = ServletActionContext.getServletContext().getRealPath("/").concat("userFiles");  
-		att = new AttachmentBean(fileUploadFileName ,fileUploadContentType, filePath);
-		DataProvider.saveAttachment(att);
-		String name = att.getId() + "." + att.getFileType().split("/")[1];
+		attachment = new AttachmentBean(fileUploadFileName ,fileUploadContentType, filePath);
+		DataProvider.saveAttachment(attachment);
+		String name = attachment.getId() + "." + attachment.getFileType().split("/")[1];
 		File file = new File(filePath + "/" +  name);
-		DataProvider.updateAttachmentName(att, name);
+		DataProvider.updateAttachmentName(attachment, name);
     	FileUtils.copyFile(fileUpload, file);
     }
     
+    /**
+	 * Metoda tworzy błąd i zapisuje go w bazie danych.
+	 * @throws IOException
+	 */
     private void createBug() throws IOException, NumberFormatException, GSException {
     	if(this.fileUpload != null) {
     		createAttachment();
@@ -123,7 +140,7 @@ public class BugCreateAction  extends SecureAction {
     				DataProvider.getStates().get(state), DataProvider.getPriorities().get(priority), selectedPlatforms,  
     				version, minKitNumber, DataProvider.mapTests.get(test), DataProvider.getIssues().get(issue),
     				Integer.parseInt(reproStr), DataProvider.mapBuilds.get(build),
-    				DataProvider.getAttchmentByID(this.att.getId())));
+    				DataProvider.getAttchmentByID(this.attachment.getId())));
     	}
     	else {    		
     		DataProvider.saveBug(new BugBean(title, DataProvider.mapUsers.get(account), description, reproSteps,
@@ -133,6 +150,31 @@ public class BugCreateAction  extends SecureAction {
     	}
     }
     
+    /**
+     * 
+    private void createBug() throws IOException, NumberFormatException, GSException {
+    	
+    	BugBean bug = new BugBean(title, DataProvider.mapUsers.get(account),
+    			description, reproSteps,DataProvider.getStates().get(state), 
+    			DataProvider.getPriorities().get(priority), selectedPlatforms,  
+				version, minKitNumber, DataProvider.mapTests.get(test), 
+				DataProvider.getIssues().get(issue), Integer.parseInt(reproStr),
+				DataProvider.mapBuilds.get(build));
+    	
+    	if(this.fileUpload != null) {
+    		createAttachment();
+        	bug.setAttachment(DataProvider.getAttchmentByID(this.attachment.getId()));
+    	}
+    	DataProvider.saveBug(bug);
+    } 
+     * 
+     * 
+     * 
+     */
+    
+    /**
+     * Pomocnicza metoda wypełniająca atrubuty przekazywane z widoku.
+     */
     private void fillLists() {
     	for (String el : DataProvider.mapUsers.keySet()) {
     		if(DataProvider.mapUsers.get(el).getProjects() != null) {

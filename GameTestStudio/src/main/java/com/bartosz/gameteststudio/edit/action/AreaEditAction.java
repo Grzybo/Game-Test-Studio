@@ -17,7 +17,12 @@ import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
 import com.bartosz.gameteststudio.utils.Utils;
- 
+
+/**
+ * Akcja obsługująca przeglądanie danych obszaru oraz ich modyfikację.
+ * @author Bartosz
+ *
+ */ 
 @Action(value = "editArea", //
 results = { //
         @Result(name = "editArea", location = "/WEB-INF/pages/edit_pages/editArea.jsp"), 
@@ -25,6 +30,7 @@ results = { //
         @Result(name = "sessionExpired",  type="redirect", location = "/sessionExpired")
 } //
 )
+
 public class AreaEditAction  extends SecureAction {
   
     private static final long serialVersionUID = 1L;
@@ -46,10 +52,8 @@ public class AreaEditAction  extends SecureAction {
 	private List<String> stateList = new ArrayList<String>(DataProvider.getStates().keySet());
 	
     
-    //##################################################################################################
-	
     
-    
+
     public List<String> getProjectsList() {
 		return projectsList;
 	}
@@ -201,7 +205,9 @@ public class AreaEditAction  extends SecureAction {
 
 
 
-
+	/**
+	 * Główna logika akcji.
+	 */
 	@Override
 	public String executeSecured() throws GSException, NumberFormatException, IOException {
 		HttpSession session = ServletActionContext.getRequest().getSession();
@@ -214,11 +220,18 @@ public class AreaEditAction  extends SecureAction {
     	return "editArea";
 	}
 
+
+	/**
+	 * Lista ról z dostępem do akcji.
+	 */ 
 	@Override
 	protected Set<Long> allowedRolesID() {
 		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
 	} 
 	
+	/**
+	 * Akcja pobiera obiekt obszaru z bazy danych i przekazuje go na widok.
+	 */
 	private void fillAreaFields() throws NumberFormatException, GSException {
 		AreaBean area = DataProvider.getAreaByID(Long.parseLong(itemID));
     	

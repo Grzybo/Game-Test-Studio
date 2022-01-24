@@ -15,7 +15,12 @@ import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
 import com.bartosz.gameteststudio.utils.Utils;
 import com.google.common.base.Strings;
- 
+
+/**
+ * Akcja odpowiada za aktualizację konta użytkownika.
+ * @author Bartosz
+ *
+ */
 @Action(value = "updateAccount", //
 results = { //
         @Result(name = "editAccount", location = "/WEB-INF/pages/edit_pages/editAccount.jsp"), 
@@ -23,6 +28,7 @@ results = { //
         @Result(name = "sessionExpired",  type="redirect", location = "/sessionExpired")
 } //
 )
+
 public class AccountUpdateAction  extends SecureAction {
 
 	private static final long serialVersionUID = -6501869712177187588L;
@@ -124,7 +130,9 @@ public class AccountUpdateAction  extends SecureAction {
 		this.pL = pL;
 	}
 
-
+	/**
+	 * Główna logika akcji.
+	 */
 	@Override
 	public String executeSecured() throws GSException, NumberFormatException, IOException {
 		String ret = "editAccount";
@@ -138,11 +146,19 @@ public class AccountUpdateAction  extends SecureAction {
 		return ret;	
 	}
 
+	/**
+	 * Lista ról z dostępem do akcji.
+	 */ 
 	@Override
 	protected Set<Long> allowedRolesID() {
 		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
 	} 
 	
+	/**
+	 * Metoda aktualizuje obiekt użytkownika zapisując obiekt zawierający zmiany.
+	 * @throws NumberFormatException
+	 * @throws GSException
+	 */
 	private void updateAccount() throws NumberFormatException, GSException {
 		UserBean user = DataProvider.getUserByID(Long.parseLong(itemID));
 		UserBean newUser = new UserBean();    

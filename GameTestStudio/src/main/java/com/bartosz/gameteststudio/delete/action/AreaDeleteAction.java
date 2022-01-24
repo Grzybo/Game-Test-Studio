@@ -10,7 +10,12 @@ import com.bartosz.gameteststudio.action.SecureAction;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
 import com.bartosz.gameteststudio.utils.Utils;
- 
+
+/**
+ * Akcja odpowiada za usuwanie obszaru z systemu.
+ * @author Bartosz
+ *
+ */
 @Action(value = "deleteArea", //
 results = { //
         @Result(name = "deleted", type="redirect", location = "/projects"), 
@@ -33,7 +38,9 @@ public class AreaDeleteAction  extends SecureAction {
 		this.itemID = itemID;
 	}
 
-
+	/**
+	 * Główna logika akcji.
+	 */
 	@Override
 	public String executeSecured() throws GSException, NumberFormatException, IOException {    	
 
@@ -41,7 +48,9 @@ public class AreaDeleteAction  extends SecureAction {
     	return "deleted";
 	}
 
-
+	/**
+	 * Lista ról z dostępem do akcji.
+	 */ 
 	@Override
 	protected Set<Long> allowedRolesID() {
 		return Utils.setAllowedRolesID(this.getClass().getSimpleName());

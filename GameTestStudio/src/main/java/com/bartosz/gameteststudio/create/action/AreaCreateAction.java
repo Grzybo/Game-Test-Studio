@@ -15,7 +15,12 @@ import com.bartosz.gameteststudio.beans.AreaBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.utils.Utils;
 import com.google.common.base.Strings;
- 
+
+/**
+ * Akcja odpowida za tworznie nowego obszaru.
+ * @author Bartosz
+ *
+ */
 @Action(value = "createArea", //
 results = { //
         @Result(name = "createArea", location = "/WEB-INF/pages/create_pages/createArea.jsp"), 
@@ -228,7 +233,9 @@ public class AreaCreateAction  extends SecureAction {
 	}
 
 
-
+	/**
+	 * Główna logika akcji.
+	 */
 	@Override
 	public String executeSecured() {
 		
@@ -246,12 +253,18 @@ public class AreaCreateAction  extends SecureAction {
 	
 		return ret;
 	}
-
+	
+	/**
+	 * Lista ról z dostępem do akcji.
+	 */ 
 	@Override
 	protected Set<Long> allowedRolesID() {
 		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
 	} 
 	
+	/**
+	 * Metoda tworzy nowy obiekt obszaru i zapisuje go w bazie danych.
+	 */
 	private void createArea() {
 		
 		AreaBean area = new AreaBean(this.title, this.description, DataProvider.mapProjects.get(session.getAttribute("userProject").toString()), 

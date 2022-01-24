@@ -14,7 +14,12 @@ import com.bartosz.gameteststudio.beans.ProjectBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
 import com.bartosz.gameteststudio.utils.Utils;
- 
+
+/**
+ * Akcja obsługująca przeglądanie danych projektu oraz ich modyfikację.
+ * @author Bartosz
+ *
+ */
 @Action(value = "editProject", //
 results = { //
         @Result(name = "editProject", location = "/WEB-INF/pages/edit_pages/editProject.jsp"), 
@@ -22,6 +27,7 @@ results = { //
         @Result(name = "sessionExpired",  type="redirect", location = "/sessionExpired")
 } //
 )
+ 
 public class ProjectEditAction  extends SecureAction {
   
     private static final long serialVersionUID = 1L;
@@ -135,6 +141,9 @@ public class ProjectEditAction  extends SecureAction {
 		this.work_time = work_time;
 	}
 
+	/**
+	 * Główna logika akcji.
+	 */
 	@Override
 	public String executeSecured() throws GSException, NumberFormatException, IOException {
 		Utils.setTab("ProjectsTab", ServletActionContext.getRequest().getSession());
@@ -142,11 +151,17 @@ public class ProjectEditAction  extends SecureAction {
     	return "editProject";
 	}
 
+	/**
+	 * Lista ról z dostępem do akcji.
+	 */ 
 	@Override
 	protected Set<Long> allowedRolesID() {
 		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
 	} 
 	
+	/**
+	 * Akcja pobiera obiekt projektu z bazy danych i przekazuje go do widoku.
+	 */	
 	private void fillProjectFields() {
 		ProjectBean project = DataProvider.getProjectById(Integer.parseInt(itemID)); 
 		

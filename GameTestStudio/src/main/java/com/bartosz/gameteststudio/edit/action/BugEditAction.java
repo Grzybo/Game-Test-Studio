@@ -19,7 +19,12 @@ import com.bartosz.gameteststudio.beans.BugBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
 import com.bartosz.gameteststudio.utils.Utils;
- 
+
+/**
+ * Akcja obsługująca przeglądanie danych błędu oraz ich modyfikację.
+ * @author Bartosz
+ *
+ */ 
 @Action(value = "editBug", //
 results = { //
         @Result(name = "editBug", location = "/WEB-INF/pages/edit_pages/editBug.jsp"), 
@@ -27,6 +32,7 @@ results = { //
         @Result(name = "sessionExpired",  type="redirect", location = "/sessionExpired")
 } //
 )
+
 public class BugEditAction  extends SecureAction {
   
     private static final long serialVersionUID = 1L;
@@ -347,7 +353,9 @@ public class BugEditAction  extends SecureAction {
 		this.buildList = buildList;
 	}
 
-
+	/**
+	 * Główna logika akcji.
+	 */
 	@Override
 	public String executeSecured() throws GSException, NumberFormatException, IOException {
 		
@@ -355,19 +363,24 @@ public class BugEditAction  extends SecureAction {
     	fillLists();
     	
     	bug = DataProvider.getBugById(Integer.parseInt(itemID));
-    	
+
     	fillBugFields();
     	fillAttachmentFileds();
 
     	return "editBug";
 	}
 
-
+	/**
+	 * Lista ról z dostępem do akcji.
+	 */ 
 	@Override
 	protected Set<Long> allowedRolesID() {
 		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
 	} 
 	
+	/**
+	 * Metoda wypełnia listy użytkoników oraz testów do wyboru.
+	 */
 	private void fillLists() {
 		for (String el : DataProvider.mapUsers.keySet()) {
     		if(DataProvider.mapUsers.get(el).getProjects() != null) {
@@ -386,6 +399,9 @@ public class BugEditAction  extends SecureAction {
 		}
 	} 
 	
+	/**
+	 * Akcja pobiera obiekt błędu z bazy danych i przekazuje go na widok.
+	 */	
 	private void fillBugFields() {
 		platformList = bug.getTest().getArea().getProject().getPlatformsStringList();
     	
@@ -405,6 +421,9 @@ public class BugEditAction  extends SecureAction {
     	issue = bug.getIssueType().getName();
 	} 
 	
+	/**
+	 * Akcja pobiera obiekt załącznika z bazy danych i przekazuje go na widok.
+	 */	
 	private void fillAttachmentFileds() {
 		if(bug.getAttachment() != null) {
     		att = bug.getAttachment();

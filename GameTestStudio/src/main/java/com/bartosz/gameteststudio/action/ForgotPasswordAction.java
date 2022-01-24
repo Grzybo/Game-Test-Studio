@@ -12,6 +12,11 @@ import com.bartosz.gameteststudio.utils.Mailer;
 import com.google.common.base.Strings;
 import com.opensymphony.xwork2.ActionSupport;
 
+/**
+ * Akcja obsługuje zgłoszenie odzystania hasła przez niezalogowanego użytkownika. 
+ * @author Bartosz
+ *
+ */
 @Action(value = "forgotPassword", //
 results = { //
         @Result(name = "forgotPassword", location = "/WEB-INF/pages/forgotPassword.jsp"), 
@@ -23,6 +28,9 @@ public class ForgotPasswordAction extends ActionSupport {
 	private static final long serialVersionUID = 1438377035288316675L;
 	private String email;
 	
+	/**
+	 * Główna logika akcji.
+	 */
 	@Override
 	    public String execute() throws GSException {
 		
@@ -36,7 +44,8 @@ public class ForgotPasswordAction extends ActionSupport {
 					Mailer.sendResetPasswordEmail(user);	
 				} 
 			}
-			addActionError("If email adress is valid, check your email box for further actions.");
+			addActionError("If email adress is valid, check your "
+					+ "email box for further actions.");
 			
 		}else addActionError("Email adress cannot be empty.");
 		

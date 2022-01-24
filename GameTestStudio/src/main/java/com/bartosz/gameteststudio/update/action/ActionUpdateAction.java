@@ -14,6 +14,11 @@ import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
 import com.bartosz.gameteststudio.utils.Utils;
 
+/**
+ * Akcja odpowiada za aktualizację obiektu akcji.
+ * @author Bartosz
+ *
+ */
 @Action(value = "updateAction", //
 results = { //
         @Result(name = "updateAction",  type="redirect", location = "/adminPage"), 
@@ -21,6 +26,7 @@ results = { //
         @Result(name = "sessionExpired",  type="redirect", location = "/sessionExpired")
 } //
 )
+
 public class ActionUpdateAction  extends SecureAction {
 
 	private List<String> rolesList = new ArrayList<String>(DataProvider.mapRoles.keySet());
@@ -31,7 +37,9 @@ public class ActionUpdateAction  extends SecureAction {
 	private static final long serialVersionUID = -8884553460159631776L;
 
 	
-	
+	/**
+	 * Główna logika akcji.
+	 */
 	@Override
 	public String executeSecured() throws GSException, NumberFormatException, IOException {
 		ActionBean action = DataProvider.mapActions.get(selectedAction); 
@@ -40,6 +48,9 @@ public class ActionUpdateAction  extends SecureAction {
 		return "updateAction";
 	}
 
+	/**
+	 * Lista ról z dostępem do akcji.
+	 */ 
 	@Override
 	protected Set<Long> allowedRolesID() {
 		return Utils.setAllowedRolesID(this.getClass().getSimpleName());

@@ -16,12 +16,14 @@
 		    </s:form> 
 		    <div class="center">
 		    	<a class="button" href="${pageContext.request.contextPath}/forgotPassword">Forgot password?</a>
-			    <br>
+			    
+			
+			<!-- <br>
 			    Admin: admin@admin.com, admin
 			    <br>
 			 	Tester Manager: donald@disney.com, disney123 
 			 	<br>
-			 	Tester: mickey@disney.com, 123
+			Tester: mickey@disney.com, 123  --> 	
 		    </div>
  		</div>
 	</body> 

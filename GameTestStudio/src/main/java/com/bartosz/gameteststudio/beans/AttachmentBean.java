@@ -10,6 +10,11 @@ import javax.persistence.Id;
 
 import javax.persistence.Table;
 
+/**
+ * Klasa odzwierciedla tabelę "attachments" z bazy danych.
+ * @author Bartosz
+ *
+ */
 @Entity
 @Table(name = "ATTACHMENTS")
 public class AttachmentBean {

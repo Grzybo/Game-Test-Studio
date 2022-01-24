@@ -21,7 +21,12 @@ import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
 import com.bartosz.gameteststudio.utils.Utils;
 import com.google.common.base.Strings;
- 
+
+/**
+ * Akcja odpowiada za aktualizację obiektu błędu.
+ * @author Bartosz
+ *
+ */
 @Action(value = "updateBug", //
 results = { //
         @Result(name = "update", location = "/WEB-INF/pages/edit_pages/editBug.jsp"), 
@@ -29,6 +34,8 @@ results = { //
         @Result(name = "sessionExpired",  type="redirect", location = "/sessionExpired")
 } //
 )
+
+
 public class BugUpdateAction  extends SecureAction {
   
     private static final long serialVersionUID = 1L;
@@ -75,7 +82,10 @@ public class BugUpdateAction  extends SecureAction {
 	private List<String> testList = new ArrayList<String>();
 	private List<String> issuesList = new ArrayList<String>(DataProvider.getIssues().keySet());
     
-    
+    /**
+     * Metoda wypełnia pola nowego obiektu błędu.
+     * @param oldBug
+     */
     private void newBug(BugBean oldBug) {
     	newBug.setTitle(this.title);
     	newBug.setUser(DataProvider.mapUsers.get(account));
@@ -96,7 +106,10 @@ public class BugUpdateAction  extends SecureAction {
     }
     
     
-    
+    /**
+     * Metoda tworzy obiekt załącznika.
+     * @throws IOException
+     */
     private void createAttachment() throws IOException {
     	String filePath = ServletActionContext.getServletContext().getRealPath("/").concat("userFiles");  
 		att = new AttachmentBean(fileUploadFileName ,fileUploadContentType, filePath);
@@ -391,10 +404,13 @@ public class BugUpdateAction  extends SecureAction {
 		this.buildList = buildList;
 	}
 
+	
+	/**
+	 * Główna logika akcji.
+	 */
 	@Override
 	public String executeSecured() throws GSException, NumberFormatException, IOException {
 
-    	
 		fillLists();
     	
     	bug = DataProvider.getBugById(Integer.parseInt(itemID));
@@ -403,7 +419,6 @@ public class BugUpdateAction  extends SecureAction {
     	fillAttachmentFileds();
     	
     	platformList = bug.getTest().getArea().getProject().getPlatformsStringList();
-    	
     	
     	if(!Strings.isNullOrEmpty(title)) {
     		if(!Strings.isNullOrEmpty(this.description)) {
@@ -425,12 +440,17 @@ public class BugUpdateAction  extends SecureAction {
     	return "update";
 	}
 
+	/**
+	 * Lista ról z dostępem do akcji.
+	 */ 
 	@Override
 	protected Set<Long> allowedRolesID() {
 		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
 	} 
 	
-	
+	/**
+	 * Metoda wypełnia listy użytkowników i testów do wyboru.
+	 */
 	private void fillLists() {
 		for (String el : DataProvider.mapUsers.keySet()) {
     		if(DataProvider.mapUsers.get(el).getProjects() != null) {
@@ -449,6 +469,9 @@ public class BugUpdateAction  extends SecureAction {
 		}  
 	} 
 	
+	/**
+	 * Metoda wypełnia dane załącznika.
+	 */
 	private void fillAttachmentFileds() {
 		if(bug.getAttachment() != null) {
     		att = bug.getAttachment();

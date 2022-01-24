@@ -8,8 +8,17 @@ import org.hibernate.query.Query;
 import com.bartosz.gameteststudio.beans.AreaBean;
 import com.bartosz.gameteststudio.dp.HibernateUtil;
 
+/**
+ * Klasa odpowiedzialna za komunuikację z bazą danych pod względem tabeli "areas".
+ * @author Bartosz
+ *
+ */
 public class AreaRepository {
 
+	/**
+	 * Zapis obszaru w bazie danych.
+	 * @param area
+	 */
 	public static void save(AreaBean area) {
 		final Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
@@ -18,6 +27,12 @@ public class AreaRepository {
 		session.close();
 	}  
 	
+	
+	/**
+	 * Aktualizacja obszaru w bazie danych.
+	 * @param oldArea
+	 * @param newArea
+	 */
 	public static void update(AreaBean oldArea, AreaBean newArea) {
 		final Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
@@ -25,10 +40,12 @@ public class AreaRepository {
 		session.update(oldArea);
 		session.getTransaction().commit();
 		//session.close(); 
-		
-	
 	} 
 	
+	/**
+	 * Pobiera wszytskie obszary z bazy danych.
+	 * @return
+	 */
 	public static List<AreaBean> findAll(){
 		final Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
@@ -37,6 +54,11 @@ public class AreaRepository {
 		return list; 
 	}
 
+	/**
+	 * Pobiera obszar o wzkazanym tytule.
+	 * @param title
+	 * @return
+	 */
 	public static AreaBean findByTitle(String title) {
 		final Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction(); 
@@ -47,6 +69,11 @@ public class AreaRepository {
 		return project;
 	}
 	
+	/**
+	 * Pobiera obszar o podanym id.
+	 * @param id
+	 * @return
+	 */
 	public static AreaBean findById(Long id) {
 		final Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction(); 
@@ -58,6 +85,10 @@ public class AreaRepository {
 	} 
 	// delete 
 
+	/**
+	 * Metoda usuwa wskazany obszar.
+	 * @param area
+	 */
 	public static void delete(AreaBean area) {
 		final Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();

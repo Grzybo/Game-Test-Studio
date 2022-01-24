@@ -10,7 +10,12 @@ import com.bartosz.gameteststudio.action.SecureAction;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
 import com.bartosz.gameteststudio.utils.Utils;
- 
+
+/**
+ * Akcja odpowiada za usuwanie projektu z systemu.
+ * @author Bartosz
+ *
+ */
 @Action(value = "deleteProject", //
 results = { //
        @Result(name = "deleted", type="redirect", location = "/adminPage"), 
@@ -23,12 +28,18 @@ public class ProjectDeleteAction  extends SecureAction {
 	private static final long serialVersionUID = -5395159485825349657L;
 	private String itemID;
 
+	/**
+	 * Główna logika akcji.
+	 */
 	@Override
 	public String executeSecured() throws GSException, NumberFormatException, IOException {
 		DataProvider.deleteProject(DataProvider.getProjectByID(Long.parseLong(itemID)));
 		return "deleted";
 	}
 
+	/**
+	 * Lista ról z dostępem do akcji.
+	 */
 	@Override
 	protected Set<Long> allowedRolesID() {
 		return Utils.setAllowedRolesID(this.getClass().getSimpleName());

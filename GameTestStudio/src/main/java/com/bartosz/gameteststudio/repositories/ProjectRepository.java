@@ -8,9 +8,17 @@ import org.hibernate.query.Query;
 import com.bartosz.gameteststudio.beans.ProjectBean;
 import com.bartosz.gameteststudio.dp.HibernateUtil;
 
+/**
+ * Klasa odpowiedzialna za komunuikację z bazą danych pod względem tabeli "projects".
+ * @author Bartosz
+ *
+ */ 
 public abstract class ProjectRepository {
 
-	
+	/**
+	 * Zapisuje projekt w bazie danych.
+	 * @param project
+	 */
 	public static void save(ProjectBean project) {
 		final Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
@@ -19,6 +27,11 @@ public abstract class ProjectRepository {
 		session.close();
 	}  
 	
+	/**
+	 * Aktualizuje obiekt projektu w bazie danych.
+	 * @param oldProject
+	 * @param newProject
+	 */
 	public static void update(ProjectBean oldProject, ProjectBean newProject) {
 		final Session session = HibernateUtil.getSessionFactory().openSession();
 		//final Session session = HibernateUtil.getSessionFactory().getCurrentSession().merge(newProject);
@@ -29,6 +42,10 @@ public abstract class ProjectRepository {
 		//session.close(); 
 	}
 	
+	/**
+	 * Metoda pobiera listę wszytskich projektów z bazy danych. 
+	 * @return
+	 */
 	public static List<ProjectBean> findAll(){
 		final Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
@@ -37,6 +54,11 @@ public abstract class ProjectRepository {
 		return list; 
 	}
 
+	/**
+	 * Pobiera obiekt projektu o podanym tytule z bazy danych.
+	 * @param title
+	 * @return
+	 */
 	public static ProjectBean findByTitle(String title) {
 		final Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction(); 
@@ -47,6 +69,11 @@ public abstract class ProjectRepository {
 		return project;
 	}
 	
+	/**
+	 * Pobiera obiekt projektu o podanym id z bazy danych.
+	 * @param id
+	 * @return
+	 */
 	public static ProjectBean findById(Long id) {
 		final Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction(); 
@@ -58,6 +85,10 @@ public abstract class ProjectRepository {
 		return project;
 	}
 	
+	/**
+	 * Usuwa projekt z bazy danych. 
+	 * @param project
+	 */
 	public static void delete(ProjectBean project) {
 		final Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();

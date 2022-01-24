@@ -15,7 +15,13 @@ import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
 import com.bartosz.gameteststudio.utils.Utils;
- 
+
+
+/**
+ * Akcja obsługująca przeglądanie danych konta oraz ich modyfikację.
+ * @author Bartosz
+ *
+ */
 @Action(value = "editAccount", //
 results = { //
         @Result(name = "editAccount", location = "/WEB-INF/pages/edit_pages/editAccount.jsp"), 
@@ -23,6 +29,7 @@ results = { //
         @Result(name = "sessionExpired",  type="redirect", location = "/sessionExpired")
 } //
 )
+
 public class AccountEditAction  extends SecureAction {
   
     private static final long serialVersionUID = 1L;
@@ -143,7 +150,10 @@ public class AccountEditAction  extends SecureAction {
 	public void setpL(List<ProjectBean> pL) {
 		this.pL = pL;
 	}
-
+	
+	/**
+	 * Główna logika akcji.
+	 */
 	@Override
 	public String executeSecured() throws GSException, NumberFormatException, IOException {
 		Utils.setTab("AccountsTab", ServletActionContext.getRequest().getSession());
@@ -151,11 +161,17 @@ public class AccountEditAction  extends SecureAction {
     	return "editAccount";
 	}
 
+	/**
+	 * Lista ról z dostępem do akcji.
+	 */ 
 	@Override
 	protected Set<Long> allowedRolesID() {
 		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
 	} 
 	
+	/**
+	 * Akcja pobiera obiekt użytkownika z bazy danych i przekazuje go na widok.
+	 */
 	private void fillAccountFileds() {
 		UserBean user = DataProvider.getUserById(Integer.parseInt(itemID)); 
 		projects = user.getProjectsList();

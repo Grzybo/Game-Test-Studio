@@ -8,8 +8,17 @@ import org.hibernate.query.Query;
 import com.bartosz.gameteststudio.beans.TestBean;
 import com.bartosz.gameteststudio.dp.HibernateUtil;
 
+/**
+ * Klasa odpowiedzialna za komunuikację z bazą danych pod względem tabeli "tests".
+ * @author Bartosz
+ *
+ */ 
 public class TestRepository {
 
+	/**
+	 * Zapisuje obiekt testu w bazie danych.
+	 * @param test
+	 */
 	public static void save(TestBean test) {
 		final Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
@@ -18,6 +27,11 @@ public class TestRepository {
 		session.close();
 	}  
 	
+	/**
+	 * Metoda aktualizje test w bazie danych.
+	 * @param oldTest
+	 * @param newTest
+	 */
 	public static void update(TestBean oldTest, TestBean newTest) {
 		final Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
@@ -29,6 +43,10 @@ public class TestRepository {
 	
 	} 
 	
+	/**
+	 * Pobiera wszytskie testy z bazy danych.
+	 * @return
+	 */
 	public static List<TestBean> findAll(){
 		final Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
@@ -37,6 +55,11 @@ public class TestRepository {
 		return list; 
 	}
 
+	/**
+	 * Pobiera obiekt testu o podanym tytule z bazy danych.
+	 * @param title
+	 * @return
+	 */
 	public static TestBean findByTitle(String title) {
 		final Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction(); 
@@ -47,6 +70,11 @@ public class TestRepository {
 		return test;
 	}
 	
+	/**
+	 * Pobiera obiekt testu o podanym id z bazy danych.
+	 * @param id
+	 * @return
+	 */
 	public static TestBean findById(Long id) {
 		final Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction(); 
@@ -57,13 +85,15 @@ public class TestRepository {
 		return test;
 	}
 	
-	// delete 
-	
-		public static void delete(TestBean test) {
-			final Session session = HibernateUtil.getSessionFactory().openSession();
-			session.beginTransaction();
-			session.delete(test); 
-			session.getTransaction().commit();
-			session.close();
-		}
+	/**
+	 * Metoda usuwa obiekt testu z bazy danych.
+	 * @param test
+	 */
+	public static void delete(TestBean test) {
+		final Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		session.delete(test); 
+		session.getTransaction().commit();
+		session.close();
+	}
 }

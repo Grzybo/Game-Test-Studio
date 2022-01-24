@@ -19,6 +19,11 @@ import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
 import com.bartosz.gameteststudio.utils.Utils;
 
+/**
+ * Akcja odpowiada za usuwanie załącznika z systemu.
+ * @author Bartosz
+ *
+ */
 @Action(value = "deleteAtt", //
 results = { //
         @Result(name = "deleteAtt", location = "/WEB-INF/pages/edit_pages/editBug.jsp"), 
@@ -309,6 +314,9 @@ public class AttachmentDeleteAction extends SecureAction{
 		this.issuesList = issuesList;
 	}
 
+	/**
+	 * Główna logika akcji.
+	 */
 	@Override
 	public String executeSecured() throws GSException, NumberFormatException, IOException {
 		
@@ -321,6 +329,9 @@ public class AttachmentDeleteAction extends SecureAction{
 		 return "deleteAtt";
 	}
 
+	/**
+	 * Lista ról z dostępem do akcji.
+	 */ 
 	@Override
 	protected Set<Long> allowedRolesID() {
 		return Utils.setAllowedRolesID(this.getClass().getSimpleName());

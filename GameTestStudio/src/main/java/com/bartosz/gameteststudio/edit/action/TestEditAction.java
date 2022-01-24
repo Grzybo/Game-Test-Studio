@@ -17,7 +17,12 @@ import com.bartosz.gameteststudio.beans.TestBean;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
 import com.bartosz.gameteststudio.utils.Utils;
- 
+
+/**
+ * Akcja obsługująca przeglądanie danych konta oraz ich modyfikację.
+ * @author Bartosz
+ *
+ */
 @Action(value = "editTest", //
 results = { //
         @Result(name = "editTest", location = "/WEB-INF/pages/edit_pages/editTest.jsp"), 
@@ -25,6 +30,8 @@ results = { //
         @Result(name = "sessionExpired",  type="redirect", location = "/sessionExpired")
 } //
 )
+
+ 
 public class TestEditAction  extends SecureAction {
   
     private static final long serialVersionUID = 1L;
@@ -357,7 +364,9 @@ public class TestEditAction  extends SecureAction {
 	}
 
 
-
+	/**
+	 * Główna logika akcji.
+	 */
 	@Override
 	public String executeSecured() throws GSException, NumberFormatException, IOException {
 	
@@ -370,12 +379,17 @@ public class TestEditAction  extends SecureAction {
 	}
 
 
-
+	/**
+	 * Lista ról z dostępem do akcji.
+	 */ 
 	@Override
 	protected Set<Long> allowedRolesID() {
 		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
 	}  
 	
+	/**
+	 * Metoda wypełniająca listę użytkowników oraz obszarów do wyboru.
+	 */
 	private void fillLists() {
 		for (String el : DataProvider.mapUsers.keySet()) {
     		if(DataProvider.mapUsers.get(el).getProjects() != null) {
@@ -393,6 +407,9 @@ public class TestEditAction  extends SecureAction {
     	}
 	} 
 	
+	/**
+	 * Akcja pobiera obiekt projektu z bazy danych i przekazuje go do widoku.
+	 */
 	private void fillTestFields() {
 		TestBean test = DataProvider.getTestById(Integer.parseInt(itemID));
     	platformList = test.getArea().getProject().getPlatformsStringList();

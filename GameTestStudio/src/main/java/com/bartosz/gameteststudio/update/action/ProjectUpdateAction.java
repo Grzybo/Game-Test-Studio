@@ -17,7 +17,12 @@ import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
 import com.bartosz.gameteststudio.utils.Utils;
 import com.google.common.base.Strings;
- 
+
+/**
+ * Akcja odpowiada za aktualizację obiektu projektu.
+ * @author Bartosz
+ *
+ */
 @Action(value = "updateProject", //
 results = { //
         @Result(name = "updateProject", location = "/WEB-INF/pages/edit_pages/editProject.jsp"),
@@ -26,6 +31,7 @@ results = { //
         @Result(name = "sessionExpired",  type="redirect", location = "/sessionExpired")
 } //
 )
+
 public class ProjectUpdateAction  extends SecureAction {
   
     private static final long serialVersionUID = 1L;
@@ -148,6 +154,9 @@ public class ProjectUpdateAction  extends SecureAction {
 		this.work_time = work_time;
 	}
 
+	/**
+	 * Główna logika akcji.
+	 */
 	@Override
 	public String executeSecured() throws GSException, NumberFormatException, IOException {
 
@@ -168,11 +177,19 @@ public class ProjectUpdateAction  extends SecureAction {
     	return ret;	
 	}
 
+	/**
+	 * Lista ról z dostępem do akcji.
+	 */ 
 	@Override
 	protected Set<Long> allowedRolesID() {
 		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
 	} 
     
+	/**
+	 * Metoda aktualizuje obiekt projektu zapisując obiekt zawierający zmiany.
+	 * @throws NumberFormatException
+	 * @throws GSException
+	 */
 	private void updateProject() throws NumberFormatException, GSException {
 		ProjectBean project = DataProvider.getProjectByID(Long.parseLong(itemID));
 		ProjectBean newProject = new ProjectBean();

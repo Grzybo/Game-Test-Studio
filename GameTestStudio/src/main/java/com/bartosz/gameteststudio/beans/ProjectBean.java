@@ -19,6 +19,11 @@ import javax.persistence.Table;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
 
+/**
+ * Klasa odzwierciedla tabelę "projects" z bazy danych.
+ * @author Bartosz
+ *
+ */
 @Entity
 @Table(name = "PROJECTS")
 public class ProjectBean {

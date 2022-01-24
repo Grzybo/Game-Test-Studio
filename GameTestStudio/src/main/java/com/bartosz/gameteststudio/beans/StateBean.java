@@ -7,6 +7,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * Klasa odzwierciedla tabelę "dic_states" z bazy danych.
+ * @author Bartosz
+ *
+ */
 @Entity
 @Table(name = "DIC_STATES")
 public class StateBean {

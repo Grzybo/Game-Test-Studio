@@ -1,0 +1,15 @@
+com.bartosz.decorators
+com.bartosz.gameteststudio.action
+com.bartosz.gameteststudio.beans
+com.bartosz.gameteststudio.create.action
+com.bartosz.gameteststudio.delete.action
+com.bartosz.gameteststudio.dp
+com.bartosz.gameteststudio.edit.action
+com.bartosz.gameteststudio.exceptions
+com.bartosz.gameteststudio.repositories
+com.bartosz.gameteststudio.update.action
+com.bartosz.gameteststudio.utils
+net.sourceforge.jsptabcontrol
+net.sourceforge.jsptabcontrol.characteristics
+net.sourceforge.jsptabcontrol.config
+net.sourceforge.jsptabcontrol.util

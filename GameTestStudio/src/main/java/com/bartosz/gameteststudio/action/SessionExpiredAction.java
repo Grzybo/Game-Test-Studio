@@ -5,6 +5,11 @@ import org.apache.struts2.convention.annotation.Result;
 
 import com.opensymphony.xwork2.ActionSupport;
 
+/**
+ * Akcja odpowiada za ekran informujący użytkownika o wygaśnięciu sesji.
+ * @author Bartosz
+ *
+ */
 @Action(value = "sessionExpired", //
 results = { //
         @Result(name = "sessionExpired", location = "/WEB-INF/pages/sessionExpired.jsp")

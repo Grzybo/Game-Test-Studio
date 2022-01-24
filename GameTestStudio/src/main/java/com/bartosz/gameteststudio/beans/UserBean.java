@@ -18,6 +18,11 @@ import javax.persistence.Table;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.utils.Utils;
 
+/**
+ * Klasa odzwierciedla tabelę "users" z bazy danych.
+ * @author Bartosz
+ *
+ */
 @Entity
 @Table(name = "USERS")
 public class UserBean { 

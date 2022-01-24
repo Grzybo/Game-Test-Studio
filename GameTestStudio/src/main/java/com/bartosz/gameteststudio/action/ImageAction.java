@@ -16,6 +16,12 @@ import com.bartosz.gameteststudio.beans.AttachmentBean;
 import com.bartosz.gameteststudio.repositories.AttachmentRepository;
 import com.opensymphony.xwork2.ActionSupport;
 
+/**
+ * Akcja obsługuje wyświetlanie pliku obrazu lub filmu załączonego do błędu.
+ * Jako parametr przyjmuje id załącznika z bazy.
+ * @author Bartosz
+ *
+ */
 @Action(value = "image", //
 results = { //
         @Result(name = "image", location = "/WEB-INF/pages/image.jsp")
@@ -29,6 +35,9 @@ public class ImageAction extends ActionSupport {
 	private String filePath;
 	private String fileID;
 	
+	/**
+	 * Główna logika akcji.
+	 */
 	 @Override
 	    public String execute() throws IOException {
 

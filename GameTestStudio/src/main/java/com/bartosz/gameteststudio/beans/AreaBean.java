@@ -9,6 +9,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+/**
+ * Klasa odzwierciedla tabelę "areas" z bazy danych.
+ * @author Bartosz
+ *
+ */
+
 @Entity
 @Table(name = "AREAS")
 public class AreaBean {

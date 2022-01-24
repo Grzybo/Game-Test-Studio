@@ -17,6 +17,12 @@ import javax.persistence.Table;
 
 import com.bartosz.gameteststudio.dp.DataProvider;
 
+
+/**
+ * Klasa odzwierciedla tabelę "bugs" z bazy danych.
+ * @author Bartosz
+ *
+ */
 @Entity
 @Table(name = "BUGS")
 public class BugBean {
@@ -29,8 +35,8 @@ public class BugBean {
 	@Column(name = "title", nullable = false)
 	private String title;
 	
-	@ManyToOne //(cascade = CascadeType.ALL) 
-	@JoinColumn(name="fk_users_id") //, nullable = false ) 
+	@ManyToOne 
+	@JoinColumn(name="fk_users_id") 
 	private UserBean user; 
 	
 	@Column(name = "description", nullable = false)
@@ -51,7 +57,7 @@ public class BugBean {
 	@JoinColumn(name="fk_dic_builds_id") 
 	private BuildBean build;
 	
-	@ManyToMany //  (cascade = { CascadeType.ALL }) // (fetch = FetchType.EAGER)
+	@ManyToMany 
     @JoinTable(
         name = "BUG_DIC_PLATFORMS", 
         joinColumns = { @JoinColumn(name = "FK_BUGS_ID") }, 
@@ -61,7 +67,7 @@ public class BugBean {
 	@Column(name = "version")
 	private double version; 
 	
-	@ManyToOne //(cascade = CascadeType.ALL) 
+	@ManyToOne
 	@JoinColumn(name="fk_tests_id" ) 
 	private TestBean test;
 
@@ -75,7 +81,7 @@ public class BugBean {
 	@JoinColumn(name="fk_dic_issues_id", nullable = false ) 
 	private IssueTypeBean issueType;
 	
-	@OneToOne //(cascade = CascadeType.ALL)
+	@OneToOne 
     @JoinColumn(name = "fk_attachments_id")
 	private AttachmentBean attachment;   
 		
@@ -101,7 +107,6 @@ public class BugBean {
 			this.reproFrequency = reproFrequency;
 			this.build = build;
 		}  
-		//  z att 
 		public BugBean(String title, UserBean user, String description, String reproSteps,
 				StateBean state, PriorityBean priority, List<String> platforms,  
 				double version, int minKitNumber, TestBean test, IssueTypeBean issueType, 
@@ -302,19 +307,4 @@ public class BugBean {
 			this.attachment = newBug.getAttachment();
 		}
 
-		/**
-		 * public AttachmentBean getAttachment() {
-			return attachment;
-		}
-
-		public void setAttachment(AttachmentBean attachment) {
-			this.attachment = attachment;
-		}  
-		 * @return
-		 */
-		
-		
-		
-		
-		
 }

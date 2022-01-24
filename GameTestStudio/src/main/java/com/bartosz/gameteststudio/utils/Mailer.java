@@ -11,6 +11,11 @@ import javax.mail.internet.MimeMessage;
 
 import com.bartosz.gameteststudio.beans.UserBean;
 
+/**
+ * Klasa obsługująca wysyłkę e-mail.
+ * @author Bartosz
+ *
+ */
 public abstract class Mailer {
 
 	private static String from = "gameteststudiomail@gmail.com";
@@ -27,44 +32,78 @@ public abstract class Mailer {
     	}
     }; 
     
+    /**
+     * Metoda zwraca treść wiadomości dla nowego użytkownika.
+     * @param user
+     * @return
+     */
     private static String newAccountMailBody(UserBean user) {
     	return "Hello " + user.getFirstName() + " " + user.getLastName() + 
      			" \nYour Role is: " + user.getRole().getName() + 
      			"\nTo set your password to Game Test Studio and activate your account" +
-     			" please click at this link:\n http://localhost:8080/GameTestStudio/confirmEmail?hash=" + user.getHashKey() + 
+     			" please click at this link:\n http://localhost:8080/GameTestStudio/confirmEmail?hash="
+     			+ user.getHashKey() + 
      			"\n\nSincerely,\nGame Test Studio";
     }
     
+    /**
+     * Metoda zwraca treść wiadomości dla odzyskiwania hasła.
+     * @param userHash
+     * @return
+     */
     private static String resetPasswordMailBody(String userHash) {
     	return "Hello, " +
-     			"to reset your password, please click at this link: http://localhost:8080/GameTestStudio/confirmEmail?hash=" +  userHash + 
+     			"to reset your password, please click at this link: "
+     			+ "http://localhost:8080/GameTestStudio/confirmEmail?hash=" +  userHash + 
      			"\n\nSincerely,\nGame Test Studio";
     }
     
+    /**
+     * Metoda zwraca treść wiadomości informującej o zmianie hasła. 
+     * @param user
+     * @return
+     */
     private static String passwordChangeMailBody(UserBean user) {
     	return "Hello " + user.getFirstName() + " " + user.getLastName() + " \nYour password has been changed." + 
-    			"\n If it was your action, please ignore this email.\nIf it was not Your action, plase contact system administrator.\n\nSincerely,\nGame Test Studio";
+    			"\n If it was your action, please ignore this email.\nIf it was not Your action, plase contact "
+    			+ "system administrator.\n\nSincerely,\nGame Test Studio";
     }
-    
+   
+    /**
+     * Metoda odpowida za wysłanie e-maila informującego o zmianie hasła. 
+     * @param user
+     */
     public static void sendPasswordChangeMail(UserBean user) { 	
 		String body = passwordChangeMailBody(user);
 		sendMail(body, user.getEmail(), "Game Test Studio - Password change.");
     } 
     
+    /**
+     * Metoda odpowida za wysłanie e-maila potwierdzenia i aktywacji konta. 
+     * @param user
+     */
     public static void sendNewAccountMail(UserBean user) { 	
 		String body = newAccountMailBody(user);
 		
 		sendMail(body, user.getEmail(), "Game Test Studio - Confirm email adress.");
     } 
     
+    /**
+     * Metoda odpowida za wysłanie e-maila w celu odzyskania hasła. 
+     * @param user
+     */
     public static void sendResetPasswordEmail(UserBean user) {
     	String body = resetPasswordMailBody(user.getHashKey());
     	
     	sendMail(body,user.getEmail(), "Game Test Studio - Verify email adress.");
     } 
     
-    
-    
+    /**
+     * Metoda wysyła e-mail o podanej treści i tytule na podany adres.
+     * @param body
+     * @param adress
+     * @param subject
+     */
     private static void sendMail(String body, String adress, String subject) {
     	try {
             Session emailSession = Session.getDefaultInstance(properties, new javax.mail.Authenticator() {

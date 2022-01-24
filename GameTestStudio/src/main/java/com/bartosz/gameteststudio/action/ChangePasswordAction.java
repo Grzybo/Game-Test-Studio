@@ -1,6 +1,7 @@
 package com.bartosz.gameteststudio.action;
  
 import java.io.IOException;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,7 +15,12 @@ import com.bartosz.gameteststudio.exceptions.GSException;
 import com.bartosz.gameteststudio.utils.Mailer;
 import com.bartosz.gameteststudio.utils.Utils;
 import com.google.common.base.Strings;
- 
+
+/**
+ * Klasa odpowiedzialna za akcję zmiany hasła po użytciu linku veryfikacyjnego/aktywacyjnego.
+ * @author Bartosz
+ *
+ */
 @Action(value = "changePassword", //
 results = { //
         @Result(name = "changePassword", location = "/WEB-INF/pages/changePassword.jsp"),
@@ -29,6 +35,9 @@ public class ChangePasswordAction  extends SecureAction {
 	private String password;
 	private String passwordRepeat;
 
+	/**
+	 * Główna logika akcji.
+	 */
 	@Override
 	public String executeSecured() throws GSException, NumberFormatException, IOException {
 
@@ -50,8 +59,9 @@ public class ChangePasswordAction  extends SecureAction {
 		return "changePassword";
 	} 
 	
-	
-
+	/**
+	 * Lista ról z dostępem do akcji.
+	 */
 	@Override
 	protected Set<Long> allowedRolesID() {
 		Set<Long> set = new HashSet<>();

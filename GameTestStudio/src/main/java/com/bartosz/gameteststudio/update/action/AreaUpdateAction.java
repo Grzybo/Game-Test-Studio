@@ -17,7 +17,12 @@ import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
 import com.bartosz.gameteststudio.utils.Utils;
 import com.google.common.base.Strings;
- 
+
+/**
+ * Akcja odpowiada za aktualizację obszaru.
+ * @author Bartosz
+ *
+ */
 @Action(value = "updateArea", //
 results = { //
         @Result(name = "update", location = "/WEB-INF/pages/edit_pages/editArea.jsp"), 
@@ -25,6 +30,7 @@ results = { //
         @Result(name = "sessionExpired",  type="redirect", location = "/sessionExpired")
 } //
 )
+
 public class AreaUpdateAction  extends SecureAction {
   
     private static final long serialVersionUID = 1L;
@@ -185,7 +191,9 @@ public class AreaUpdateAction  extends SecureAction {
 		this.itemID = itemID;
 	}
 
-
+	/**
+	 * Główna logika akcji.
+	 */
 	@Override
 	public String executeSecured() throws GSException, NumberFormatException, IOException {
     	
@@ -202,13 +210,19 @@ public class AreaUpdateAction  extends SecureAction {
     	return "update";
 	}
 
-
+	/**
+	 * Lista ról z dostępem do akcji.
+	 */ 
 	@Override
 	protected Set<Long> allowedRolesID() {
 		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
 	}
 
-	
+	/**
+	 * Metoda aktualizuje obiekt obszaru zapisując obiekt zawierający zmiany.
+	 * @throws NumberFormatException
+	 * @throws GSException
+	 */
     private void updateArea() throws NumberFormatException, GSException {
     	AreaBean area = DataProvider.getAreaByID(Long.parseLong(itemID));
     	AreaBean newArea = new AreaBean();

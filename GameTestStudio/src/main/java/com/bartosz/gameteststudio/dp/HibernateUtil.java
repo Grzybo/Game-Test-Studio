@@ -4,6 +4,11 @@ import org.hibernate.SessionFactory;
 import java.io.File;
 import org.hibernate.cfg.Configuration;
 
+/**
+ * Klasa potrzebna do użycia Hibrnate.
+ * @author Bartosz
+ *
+ */
 public class HibernateUtil {
 	 private static final SessionFactory sessionFactory = buildSessionFactory();
 

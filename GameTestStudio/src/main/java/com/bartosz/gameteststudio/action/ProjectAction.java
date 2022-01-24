@@ -27,7 +27,7 @@ import com.google.common.base.Strings;
 import net.sourceforge.jsptabcontrol.util.JSPTabControlUtil;
  
 /**
- * Klasa odpowiadająca wywołąniuakcji strony Projects dla użytkowników o rolach: Developer, Tester i Tester Manager. 
+ * Klasa odpowiadająca wywołąniu akcji strony Projects dla użytkowników o rolach: Developer, Tester i Tester Manager. 
  * @author Bartosz
  *
  */
@@ -78,7 +78,7 @@ public class ProjectAction  extends SecureAction {
 
 //---------------------------------------------------------------------------------------------------------------------------
 	/**
-	 * Metoda przekazue pola projektu do zmiennych akcji, aby były widoczne dla użytkownika.
+	 * Metoda przekazuje pola projektu do zmiennych akcji, aby były widoczne dla użytkownika.
 	 */
 	 private void setProjectFields() {
 		ProjectBean project = DataProvider.mapProjects.get(session.getAttribute("userProject")); 
@@ -96,7 +96,8 @@ public class ProjectAction  extends SecureAction {
 	}
 	 
 	 /**
-	  * Ustawia projekt do zapamiętania w sesji. Dzięki temu po wykonaniu akcji i powrocie na stronę projects, użytkownik będzie widział itemy z projektu który wybrał poprzednio. 
+	  * Ustawia projekt do zapamiętania w sesji. Dzięki temu po wykonaniu akcji i 
+	  * powrocie na stronę projects, użytkownik będzie widział itemy z projektu który wybrał poprzednio. 
 	  */
 	 private void setProject() {
 		 projectsList = user.getProjectsList();
@@ -408,6 +409,9 @@ public class ProjectAction  extends SecureAction {
 		this.stateList = stateList;
 	}
 
+	/**
+	 * Główna logika akcji.
+	 */
 	@Override
 	public String executeSecured() throws GSException, NumberFormatException, IOException {
 		
@@ -420,6 +424,9 @@ public class ProjectAction  extends SecureAction {
 		return "projects";
 	}
 
+	/**
+	 * Lista ról z dostępem do akcji.
+	 */
 	@Override
 	protected Set<Long> allowedRolesID() {
 		return Utils.setAllowedRolesID(this.getClass().getSimpleName());

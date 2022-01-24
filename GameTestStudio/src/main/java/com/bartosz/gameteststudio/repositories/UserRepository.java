@@ -8,8 +8,17 @@ import org.hibernate.Session;
 import com.bartosz.gameteststudio.beans.UserBean;
 import com.bartosz.gameteststudio.dp.HibernateUtil;
 
+/**
+ * Klasa odpowiedzialna za komunuikację z bazą danych pod względem tabeli "users".
+ * @author Bartosz
+ *
+ */
 public class UserRepository {
 
+	/**
+	 * Metoda zapisuje obiekt uzytkownika w bazie danych.
+	 * @param user
+	 */
 	public static void save(UserBean user) {
 		final Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
@@ -18,6 +27,11 @@ public class UserRepository {
 		session.close();
 	}
 	
+	/**
+	 * Metoda pobiera obiekt użytkownika o podanym e-mailu.
+	 * @param email
+	 * @return
+	 */
 	public static UserBean findByEmail(String email) {
 		final Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction(); 
@@ -28,6 +42,10 @@ public class UserRepository {
 		return user;
 	}  
 	
+	/**
+	 * Metoda pobiera listę wszytskich użytkowników z bazy danych. 
+	 * @return
+	 */
 	public static List<UserBean> findAll(){
 		final Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
@@ -36,6 +54,11 @@ public class UserRepository {
 		return list; 
 	} 
 	
+	/**
+	 * Metoda pobiera obiekt użytkownika z bazy danych o podanym id.
+	 * @param id
+	 * @return
+	 */
 	public static UserBean findById(Long id) {
 		final Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction(); 
@@ -46,6 +69,11 @@ public class UserRepository {
 		return project;
 	}
 	
+	/**
+	 * Metoda pobiera obiekt użytkownika z bazy danych o podanej funkcji skrótu.
+	 * @param hash
+	 * @return
+	 */
 	public static UserBean findByHash(String hash) {
 		final Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction(); 
@@ -56,6 +84,11 @@ public class UserRepository {
 		return project;
 	}
 	
+	/**
+	 * Metoda aktualizuje obiekt użytkownika w bazie danych.
+	 * @param oldUser
+	 * @param newUser
+	 */
 	public static void update(UserBean oldUser, UserBean newUser) {
 		final Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
@@ -65,8 +98,10 @@ public class UserRepository {
 		session.close();
 	} 
 	
-	// delete 
-	
+	/**
+	 * Metoda usuwa obiekt użytkownika z bazy danych.
+	 * @param user
+	 */
 	public static void delete(UserBean user) {
 		final Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();

@@ -11,6 +11,11 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+/**
+ * Klasa odzwierciedla tabelę "roles" z bazy danych.
+ * @author Bartosz
+ *
+ */
 @Entity
 @Table(name = "ROLES")
 public class RoleBean {

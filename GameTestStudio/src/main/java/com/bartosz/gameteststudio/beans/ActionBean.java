@@ -16,6 +16,12 @@ import javax.persistence.Table;
 
 import com.bartosz.gameteststudio.dp.DataProvider;
 
+/**
+ * Klasa odzwierciedla tabelę "actions" z bazy danych.
+ * @author Bartosz
+ *
+ */
+
 @Entity
 @Table(name = "ACTIONS")
 public class ActionBean {

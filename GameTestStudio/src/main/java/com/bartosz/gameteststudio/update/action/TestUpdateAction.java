@@ -18,7 +18,12 @@ import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
 import com.bartosz.gameteststudio.utils.Utils;
 import com.google.common.base.Strings;
- 
+
+/**
+ * Akcja odpowiada za aktualizację obiektu testu.
+ * @author Bartosz
+ *
+ */
 @Action(value = "updateTest", //
 results = { //
         @Result(name = "update", location = "/WEB-INF/pages/edit_pages/editTest.jsp"), 
@@ -26,6 +31,8 @@ results = { //
         @Result(name = "sessionExpired",  type="redirect", location = "/sessionExpired")
 } //
 )
+
+
 public class TestUpdateAction  extends SecureAction {
   
     private static final long serialVersionUID = 1L;
@@ -288,7 +295,9 @@ public class TestUpdateAction  extends SecureAction {
 		this.itemID = itemID;
 	}
 
-
+	/**
+	 * Główna logika akcji.
+	 */
 	@Override
 	public String executeSecured() throws GSException, NumberFormatException, IOException {
 
@@ -304,11 +313,19 @@ public class TestUpdateAction  extends SecureAction {
 	}
 
 
+	/**
+	 * Lista ról z dostępem do akcji.
+	 */ 
 	@Override
 	protected Set<Long> allowedRolesID() {
 		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
 	}
     
+	/**
+	 * Metoda aktualizuje obiekt testu zapisując obiekt zawierający zmiany.
+	 * @throws NumberFormatException
+	 * @throws GSException
+	 */
 	private void updateTest() throws NumberFormatException, GSException {
 		TestBean test = DataProvider.getTestByID(Long.parseLong(itemID));
     	TestBean newTest = new TestBean();
@@ -333,6 +350,9 @@ public class TestUpdateAction  extends SecureAction {
     	DataProvider.updateTest(test, newTest);
 	} 
 	
+	/**
+	 * Metoda wypełnia listy użytkowników i obszarów do wyboru.
+	 */
 	private void fillLists() {
 		for (String el : DataProvider.mapUsers.keySet()) {
     		if(DataProvider.mapUsers.get(el).getProjects() != null) {

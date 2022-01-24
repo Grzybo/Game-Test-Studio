@@ -10,6 +10,11 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+/**
+ * Klasa odzwierciedla tabelę "dic_platforms" z bazy danych.
+ * @author Bartosz
+ *
+ */
 @Entity
 @Table(name = "DIC_PLATFORMS")
 public class PlatformBean {

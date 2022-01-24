@@ -21,7 +21,13 @@ import com.bartosz.gameteststudio.utils.Utils;
 import com.google.common.base.Strings;
 
 import net.sourceforge.jsptabcontrol.util.JSPTabControlUtil;
- 
+
+
+/**
+ * Klasa odpowiada za obsługę głownego ekranu administratora.
+ * @author Bartosz
+ *
+ */
 @Action(value = "adminPage", 
 		results = { 
 		@Result(name = "admin", location = "/WEB-INF/pages/adminPage.jsp"),
@@ -46,6 +52,9 @@ public class AdminPageAction  extends SecureAction {
 	private List<String> actionList = new ArrayList<String>(DataProvider.mapActions.keySet());
     private String selectedAction;
 	
+    /**
+     * Główna logika akcji.
+     */
 	@Override
 	public String executeSecured() {
     	
@@ -60,6 +69,9 @@ public class AdminPageAction  extends SecureAction {
     	return "admin";
 	}
 
+	/**
+	 * Role z dostępem do akcji.
+	 */
 	@Override
 	protected Set<Long> allowedRolesID() {
 		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
@@ -67,6 +79,9 @@ public class AdminPageAction  extends SecureAction {
 	
     // ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
     
+	/**
+	 * Pomocnicza metoda obsługująca logikę zakładewk na stronie.
+	 */
     private void setTabs() {
 		 if(Strings.isNullOrEmpty((String) session.getAttribute("selectedTab"))) {
 				session.setAttribute("selectedTab", "ProjectsTab"); 

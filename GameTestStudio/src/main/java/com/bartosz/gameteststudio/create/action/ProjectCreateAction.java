@@ -16,7 +16,12 @@ import com.bartosz.gameteststudio.exceptions.GSException;
 import com.bartosz.gameteststudio.repositories.StateRepository;
 import com.bartosz.gameteststudio.utils.Utils;
 import com.google.common.base.Strings;
- 
+
+/**
+ * Akcja obsługuje tworzenie nowego projektu.
+ * @author Bartosz
+ *
+ */
 @Action(value = "createProject", //
 results = { //
         @Result(name = "project_create", location = "/WEB-INF/pages/create_pages/createProject.jsp"),
@@ -128,6 +133,9 @@ public class ProjectCreateAction extends SecureAction {
 		this.work_time = work_time;
 	}
 
+	/**
+	 * Główna logika akcji.
+	 */
 	@Override
 	public String executeSecured() throws GSException {
 
@@ -137,10 +145,8 @@ public class ProjectCreateAction extends SecureAction {
     	
     	if(!Strings.isNullOrEmpty(title)) {
     		if(!Strings.isNullOrEmpty(this.description)) {        			
-    			ProjectBean newProject = new ProjectBean(title, description, estimate_time, work_time, startDate, 
-    					endDate, testers_numbers, StateRepository.findByName("New"), selectedPlatforms);
-    			DataProvider.saveProject(newProject);
     			
+    			createProject();
     			ret = "project_created";
         	}else addActionError("Description field cannot be empty.");
     	}else addActionError("Title field cannot be empty.");
@@ -148,8 +154,21 @@ public class ProjectCreateAction extends SecureAction {
     	return ret;	
 	}
 
+	/**
+	 * Lista ról z dostępem do akcji.
+	 */ 
 	@Override
 	protected Set<Long> allowedRolesID() {
 		return Utils.setAllowedRolesID(this.getClass().getSimpleName());
+	} 
+	
+	/**
+	 * Metoda odpowiada za tworzenie projektu i zapis w bazie danych.
+	 * @throws GSException
+	 */
+	private void createProject() throws GSException {
+		ProjectBean newProject = new ProjectBean(title, description, estimate_time, work_time, startDate, 
+				endDate, testers_numbers, StateRepository.findByName("New"), selectedPlatforms);
+		DataProvider.saveProject(newProject);
 	}
 }

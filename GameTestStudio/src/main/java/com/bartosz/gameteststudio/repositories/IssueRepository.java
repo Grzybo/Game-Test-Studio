@@ -8,8 +8,17 @@ import org.hibernate.query.Query;
 import com.bartosz.gameteststudio.beans.IssueTypeBean;
 import com.bartosz.gameteststudio.dp.HibernateUtil;
 
+/**
+ * Klasa odpowiedzialna za komunuikację z bazą danych pod względem tabeli "dic_issues".
+ * @author Bartosz
+ *
+ */ 
 public class IssueRepository {
 
+	/**
+	 * Metoda pobiera listę wszytskich obiektów z bazy danych. 
+	 * @return
+	 */ 	
 	public static List<IssueTypeBean> findAll(){
 		final Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
@@ -18,6 +27,11 @@ public class IssueRepository {
 		return list; 
 	} 
 	
+	/**
+	 * Metoda pobiera obiekt o wskazanej nazwie.
+	 * @param name
+	 * @return
+	 */
 	public static IssueTypeBean findByName(String name) {
 		final Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction(); 
@@ -28,9 +42,11 @@ public class IssueRepository {
 		return i;
 	} 
 	
-	// TEST of DELETE 
-	
-	public static void delate(IssueTypeBean issue) {
+	/**
+	 * Metoda usuwa obiekt z bazy danych.
+	 * @param issue
+	 */
+	public static void delete(IssueTypeBean issue) {
 		final Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		session.delete(issue);

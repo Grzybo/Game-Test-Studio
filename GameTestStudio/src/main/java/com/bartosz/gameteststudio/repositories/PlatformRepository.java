@@ -8,8 +8,18 @@ import org.hibernate.query.Query;
 import com.bartosz.gameteststudio.beans.PlatformBean;
 import com.bartosz.gameteststudio.dp.HibernateUtil;
 
+/**
+ * Klasa odpowiedzialna za komunuikację z bazą danych pod względem tabeli "dic_platforms".
+ * @author Bartosz
+ *
+ */ 
 public class PlatformRepository {
 	
+
+	/**
+	 * Metoda pobiera listę wszytskich platform z bazy danych. 
+	 * @return
+	 */ 
 	public static List<PlatformBean> findAll(){
 		final Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
@@ -18,6 +28,11 @@ public class PlatformRepository {
 		return list; 
 	} 
 	
+	/**
+	 * Metoda pobiera platformę o wskazanej nazwie.
+	 * @param name
+	 * @return
+	 */ 	
 	public static PlatformBean findByName(String name) {
 		final Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction(); 

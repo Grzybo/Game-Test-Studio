@@ -10,7 +10,12 @@ import com.bartosz.gameteststudio.action.SecureAction;
 import com.bartosz.gameteststudio.dp.DataProvider;
 import com.bartosz.gameteststudio.exceptions.GSException;
 import com.bartosz.gameteststudio.utils.Utils;
- 
+
+/**
+ * Akcja odpowiada za usuwanie testu z systemu.
+ * @author Bartosz
+ *
+ */
 @Action(value = "deleteTest", //
 results = { //
         @Result(name = "deleted", type="redirect", location = "/projects"), 
@@ -18,6 +23,8 @@ results = { //
         @Result(name = "sessionExpired",  type="redirect", location = "/sessionExpired")
 } //
 )
+
+
 public class TestDeleteAction  extends SecureAction {
 
 	private static final long serialVersionUID = 5090347409341281809L;
@@ -31,12 +38,18 @@ public class TestDeleteAction  extends SecureAction {
 		this.itemID = itemID;
 	}
 
+	/**
+	 * Główna logika akcji.
+	 */
 	@Override
 	public String executeSecured() throws GSException, NumberFormatException, IOException {   	
     	DataProvider.deleteTest(DataProvider.getTestByID(Long.parseLong(itemID)));
     	return "deleted";
 	}
 
+	/**
+	 * Lista ról z dostępem do akcji.
+	 */ 
 	@Override
 	protected Set<Long> allowedRolesID() {
 		return Utils.setAllowedRolesID(this.getClass().getSimpleName());

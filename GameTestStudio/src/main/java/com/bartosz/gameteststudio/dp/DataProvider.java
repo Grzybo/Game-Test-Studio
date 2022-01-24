@@ -42,7 +42,7 @@ import com.bartosz.gameteststudio.repositories.UserRepository;
 import com.google.common.base.Strings;
 
 /**
- * klasa zarzadzajaca danymi
+ * Klasa zarzadzajaca danymi. Stanowi kanał komunikacyjny między innymi akcjami oraz klasami Repositories.
  * @author Bartosz
  *
  */

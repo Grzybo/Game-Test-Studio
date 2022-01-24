@@ -5,6 +5,11 @@ import org.apache.struts2.convention.annotation.Result;
 
 import com.opensymphony.xwork2.ActionSupport;
 
+/**
+ * Akcja odpowiada za ekran informujący o braku dostępu do danej akcji.
+ * @author Bartosz
+ *
+ */
 @Action(value = "noPermissions", //
 results = { //
         @Result(name = "noPermissions", location = "/WEB-INF/pages/secureError.jsp")
@@ -16,8 +21,6 @@ public class NoPermissionsAction extends ActionSupport {
 
 	@Override
 	    public String execute() {
-
-		
 		 return "noPermissions";
 	 }
 
