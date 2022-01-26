@@ -41,7 +41,8 @@ public class ForgotPasswordAction extends ActionSupport {
 					user.setMailType("Verify");
 					user.setMailDate(LocalDate.now().toString());
 					DataProvider.updateUser(user, user);
-					Mailer.sendResetPasswordEmail(user);	
+					Mailer.sendResetPasswordEmail(user);
+					System.out.print("EMAIL");
 				} 
 			}
 			addActionError("If email adress is valid, check your "
