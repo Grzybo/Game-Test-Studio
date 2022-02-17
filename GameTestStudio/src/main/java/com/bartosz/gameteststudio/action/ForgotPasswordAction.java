@@ -28,8 +28,9 @@ public class ForgotPasswordAction extends ActionSupport {
 	private static final long serialVersionUID = 1438377035288316675L;
 	private String email;
 	
+	
 	/**
-	 * Główna logika akcji.
+	 * Główna logika akcji. Weryfikuje podany e-mail i wysyła weryfikacyją wiadomość.
 	 */
 	@Override
 	    public String execute() throws GSException {
@@ -42,13 +43,11 @@ public class ForgotPasswordAction extends ActionSupport {
 					user.setMailDate(LocalDate.now().toString());
 					DataProvider.updateUser(user, user);
 					Mailer.sendResetPasswordEmail(user);
-					System.out.print("EMAIL");
 				} 
 			}
-			addActionError("If email adress is valid, check your "
-					+ "email box for further actions.");
+			addActionError(getText("forgotPassword.message"));
 			
-		}else addActionError("Email adress cannot be empty.");
+		}else addActionError(getText("email.empty"));
 		
 		return "forgotPassword";
 	 }

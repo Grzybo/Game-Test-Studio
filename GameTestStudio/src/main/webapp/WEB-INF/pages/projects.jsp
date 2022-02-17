@@ -28,13 +28,13 @@
 		<%
 
 		%>
-		
+		<div class="center">
 		<jsp:include page="_userMenu.jsp" />
 		<s:form id = "projectForm" action="/projects" method="post">
 			<s:select label="Project" name="selectedProject" list="projectsList"/>
 			<s:submit class= "button"  method="execute" key="Switch Project" align="center" />
 		</s:form>
-		<div class="center">
+		
 			<jsptabcontrol:tabControl name="ProjectsTabs" > 
 				<jsptabcontrol:tabPage name="BugTab" title="Bug" width="100%" >
 		    		<div class="center">

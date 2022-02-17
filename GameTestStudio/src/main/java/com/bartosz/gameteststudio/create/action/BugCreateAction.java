@@ -129,10 +129,38 @@ public class BugCreateAction  extends SecureAction {
     }
     
     /**
-	 * Metoda tworzy błąd i zapisuje go w bazie danych.
+	 * Metoda tworzy obiekt błędu i zapisuje go w bazie danych.
 	 * @throws IOException
 	 */
-    private void createBug() throws IOException, NumberFormatException, GSException {
+    
+    /**
+     * Metoda tworzy obiekt błędu i zapisuje go w bazie danych.
+     * @throws IOException
+     * @throws NumberFormatException
+     * @throws GSException
+     */
+	private void createBug() throws IOException, NumberFormatException, GSException {
+	    	
+	    	BugBean bug = new BugBean(title, DataProvider.mapUsers.get(account),
+	    			description, reproSteps,DataProvider.getStates().get(state), 
+	    			DataProvider.getPriorities().get(priority), selectedPlatforms,  
+					version, minKitNumber, DataProvider.mapTests.get(test), 
+					DataProvider.getIssues().get(issue), Integer.parseInt(reproStr),
+					DataProvider.mapBuilds.get(build));
+	    	
+	    	if(this.fileUpload != null) {
+	    		createAttachment();
+	        	bug.setAttachment(DataProvider.getAttchmentByID(this.attachment.getId()));
+	    	}
+	    	DataProvider.saveBug(bug);
+	    }
+    
+    
+    
+    
+    /**
+     * 
+      private void createBug() throws IOException, NumberFormatException, GSException {
     	if(this.fileUpload != null) {
     		createAttachment();
         	
@@ -148,25 +176,10 @@ public class BugCreateAction  extends SecureAction {
     				version, minKitNumber, DataProvider.mapTests.get(test), DataProvider.getIssues().get(issue),
     				Integer.parseInt(reproStr), DataProvider.mapBuilds.get(build)));
     	}
-    }
-    
-    /**
-     * 
-    private void createBug() throws IOException, NumberFormatException, GSException {
-    	
-    	BugBean bug = new BugBean(title, DataProvider.mapUsers.get(account),
-    			description, reproSteps,DataProvider.getStates().get(state), 
-    			DataProvider.getPriorities().get(priority), selectedPlatforms,  
-				version, minKitNumber, DataProvider.mapTests.get(test), 
-				DataProvider.getIssues().get(issue), Integer.parseInt(reproStr),
-				DataProvider.mapBuilds.get(build));
-    	
-    	if(this.fileUpload != null) {
-    		createAttachment();
-        	bug.setAttachment(DataProvider.getAttchmentByID(this.attachment.getId()));
-    	}
-    	DataProvider.saveBug(bug);
     } 
+    
+    
+   
      * 
      * 
      * 

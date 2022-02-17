@@ -12,7 +12,7 @@
 		    <s:form action="/changePassword" method="post"> 
 		        <s:password class="text" name="password" key="New Password" size="100%"/>
 		        <s:password class="text" name="passwordRepeat" key="Repeat Password" size="100%"/>
-		        <s:submit class= "button"  method="execute" key="Sumbit" align="center" />
+		        <s:submit class= "button"  method="execute" key="Submit" align="center" />
 		    </s:form> 
  		</div>
 	</body> 
